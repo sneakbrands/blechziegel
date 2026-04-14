@@ -586,6 +586,23 @@
     .bz-collection-faq summary { font-size: 14px; }
   }
 
+  /* Card-Trust "Passend für <Hersteller>" */
+  .bz-card-trust {
+    display: inline-block;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--bz-orange);
+    background: rgba(245, 166, 35, 0.10);
+    border: 1px solid rgba(245, 166, 35, 0.22);
+    padding: 3px 8px;
+    border-radius: 999px;
+    margin: 4px 0 2px;
+    line-height: 1.2;
+  }
+
+  /* Above-the-fold: kompakterer Abstand Hero auf Hersteller-Seiten */
+  .bz-col-hero--hersteller { padding-bottom: 32px; }
+
   /* Hersteller-Hero-Intro (minimal, unter H1) */
   .bz-manufacturer-intro {
     margin-top: 12px;
@@ -733,7 +750,7 @@
 -%}
 
 {%- comment -%}══ 1. HERO ══{%- endcomment -%}
-<section class="bz-col-hero">
+<section class="bz-col-hero{% if is_hersteller %} bz-col-hero--hersteller{% endif %}">
   <div class="bz-col-hero-inner">
     <div class="bz-col-hero-tag">
       <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor"><circle cx="4" cy="4" r="4"/></svg>
@@ -980,6 +997,10 @@
 
             <div class="bz-prod-name">{{ product.title }}</div>
 
+            {%- if is_hersteller -%}
+              <div class="bz-card-trust">Passend für {{ hersteller_name }}</div>
+            {%- endif -%}
+
             <div class="bz-prod-nutzen">
               {%- if product.metafields.custom.kurzbeschreibung != blank -%}
                 {{ product.metafields.custom.kurzbeschreibung }}
@@ -1017,7 +1038,7 @@
               <div class="bz-prod-price-note">inkl. MwSt.</div>
             </div>
             <span class="bz-prod-cta">
-              Details
+              Zum Produkt
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </span>
           </div>
