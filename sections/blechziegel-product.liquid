@@ -494,40 +494,112 @@
   .bz-review-author { font-size: 12px; font-weight: 600; color: var(--bz-navy); }
   .bz-review-role { font-size: 11px; color: #aaa; }
 
-  /* Sticky ATC Mobile */
+  /* Sticky ATC Mobile — Ultra Premium */
   .bz-sticky-atc {
-    display: none;
     position: fixed;
-    bottom: 0;
     left: 0;
     right: 0;
-    background: #fff;
-    border-top: 1px solid var(--bz-border);
-    padding: 12px 20px;
-    z-index: 50;
-    box-shadow: 0 -4px 20px rgba(0,0,0,.08);
+    bottom: 0;
+    z-index: 70;
+    display: none;
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-top: 1px solid rgba(13,30,53,0.08);
+    box-shadow: 0 -10px 30px rgba(13,30,53,0.10);
   }
   .bz-sticky-atc-inner {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    max-width: 640px;
+    max-width: 1160px;
     margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: center;
   }
-  .bz-sticky-atc-info { flex: 1; }
-  .bz-sticky-atc-name { font-size: 13px; font-weight: 600; color: var(--bz-navy); }
-  .bz-sticky-atc-price { font-size: 15px; font-weight: 700; color: var(--bz-navy); }
-  .bz-sticky-atc-btn {
-    background: var(--bz-navy);
-    color: #fff;
-    border: none;
-    border-radius: var(--bz-r);
-    padding: 12px 24px;
-    font-size: 14px;
+  .bz-sticky-meta {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .bz-sticky-variant-context {
+    color: var(--bz-navy);
+    font-size: 12px;
     font-weight: 700;
-    cursor: pointer;
+    line-height: 1.25;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .bz-sticky-price-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    line-height: 1;
+  }
+  .bz-sticky-price-label {
+    color: #5a5955;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .bz-sticky-price {
+    color: var(--bz-navy);
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .bz-sticky-trustline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+    min-width: 0;
+  }
+  .bz-sticky-trustitem {
+    color: var(--bz-navy);
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+  .bz-sticky-trustdot {
+    color: rgba(245,166,35,0.95);
+    font-weight: 700;
+    line-height: 1;
+  }
+  .bz-sticky-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 160px;
+    min-height: 50px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(180deg, #f5a623 0%, #eb9d1e 100%);
+    color: var(--bz-navy);
     font-family: var(--font-body-family, inherit);
+    font-size: 0.98rem;
+    font-weight: 700;
+    white-space: nowrap;
+    box-shadow: 0 10px 20px rgba(245,166,35,0.20);
+    transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease, background .18s ease;
+    cursor: pointer;
+  }
+  .bz-sticky-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 24px rgba(245,166,35,0.24);
+    background: linear-gradient(180deg, #f7ad34 0%, #eea225 100%);
+  }
+  .bz-sticky-btn:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  @media (min-width: 901px) {
+    .bz-sticky-atc { display: none !important; }
   }
 
   /* ── RESPONSIVE ── */
@@ -537,7 +609,6 @@
     .bz-below-grid { grid-template-columns: 1fr; gap: 40px; }
     .bz-review-cards { grid-template-columns: 1fr; }
     .bz-usp-cards { grid-template-columns: 1fr 1fr; }
-    .bz-sticky-atc { display: block; }
   }
   @media (max-width: 580px) {
     .bz-trust-grid { grid-template-columns: 1fr 1fr; }
@@ -546,6 +617,13 @@
     .bz-tab-btn { padding: 10px 14px; font-size: 13px; }
     .bz-price-current { font-size: 1.7rem; }
     .bz-product-grid { padding: 16px 0 32px; }
+    .bz-sticky-atc { padding: 10px 10px calc(10px + env(safe-area-inset-bottom)); }
+    .bz-sticky-atc-inner { grid-template-columns: 1fr; gap: 10px; }
+    .bz-sticky-meta { gap: 5px; }
+    .bz-sticky-variant-context { font-size: 11.5px; }
+    .bz-sticky-trustline { gap: 4px; }
+    .bz-sticky-trustitem { font-size: 11px; }
+    .bz-sticky-btn { width: 100%; min-height: 52px; }
   }
 {% endstyle %}
 
@@ -927,11 +1005,24 @@
 {%- comment -%}══ STICKY ATC MOBILE ══{%- endcomment -%}
 <div class="bz-sticky-atc" id="bz-sticky">
   <div class="bz-sticky-atc-inner">
-    <div class="bz-sticky-atc-info">
-      <div class="bz-sticky-atc-name">{{ product.title | truncate: 30 }}</div>
-      <div class="bz-sticky-atc-price" id="bz-sticky-price">{{ product.price_min | money }}</div>
+    <div class="bz-sticky-meta">
+      <div class="bz-sticky-variant-context" id="bz-sticky-context">{{ product.title | truncate: 32 }}</div>
+
+      <div class="bz-sticky-price-wrap">
+        <span class="bz-sticky-price-label">ab</span>
+        <span class="bz-sticky-price" id="bz-sticky-price">{{ product.price_min | money }}</span>
+      </div>
+
+      <div class="bz-sticky-trustline" aria-label="Produktvorteile">
+        <span class="bz-sticky-trustitem">Passgenau</span>
+        <span class="bz-sticky-trustdot">&bull;</span>
+        <span class="bz-sticky-trustitem">Made in Germany</span>
+        <span class="bz-sticky-trustdot">&bull;</span>
+        <span class="bz-sticky-trustitem">1–3 Werktage</span>
+      </div>
     </div>
-    <button class="bz-sticky-atc-btn" onclick="document.getElementById('bz-atc').click()">
+
+    <button class="bz-sticky-atc-btn bz-sticky-btn" id="bz-sticky-btn" type="button" onclick="document.getElementById('bz-atc').click()">
       In den Warenkorb
     </button>
   </div>
@@ -961,6 +1052,48 @@
     bzUpdateVariant();
   }
 
+  // Sticky-Kontext bauen — kurz, hochwertig, B2B-tauglich
+  var BZ_PRODUCT_TITLE = {{ product.title | json }};
+  var BZ_DACHTYPEN = ['Frankfurter Pfanne','Biberschwanz','Hohlfalzziegel','Flachdachziegel','Krempziegel'];
+
+  function bzNormalizeOption(value) {
+    if (!value) return '';
+    var v = String(value).trim();
+    var lower = v.toLowerCase();
+    // Kundengruppe ausblenden
+    if (lower.indexOf('privatkunde') !== -1 || lower.indexOf('gewerbekunde') !== -1) return '';
+    // Ausführung kurz halten
+    if (lower === 'mit haken') return 'Mit Haken';
+    if (lower === 'ohne haken') return 'Ohne Haken';
+    if (lower.indexOf('mit integriertem dachhaken') !== -1) return 'Mit Haken';
+    if (lower.indexOf('ohne haken') !== -1) return 'Ohne Haken';
+    return v;
+  }
+
+  function bzBuildStickyContext(opts) {
+    // Dachtyp aus Titel ableiten
+    var dachtyp = '';
+    for (var i = 0; i < BZ_DACHTYPEN.length; i++) {
+      if (BZ_PRODUCT_TITLE.indexOf(BZ_DACHTYPEN[i]) !== -1) { dachtyp = BZ_DACHTYPEN[i]; break; }
+    }
+    if (!dachtyp) {
+      dachtyp = BZ_PRODUCT_TITLE.length > 32 ? BZ_PRODUCT_TITLE.substring(0, 32) + '…' : BZ_PRODUCT_TITLE;
+    }
+
+    var parts = [];
+    Object.keys(opts).sort(function(a,b){return a-b;}).forEach(function(pos) {
+      var clean = bzNormalizeOption(opts[pos]);
+      if (clean) parts.push(clean);
+    });
+
+    var ctx = dachtyp;
+    if (parts.length) ctx += ' • ' + parts.slice(0, 2).join(' • ');
+    // Wenn zu lang, auf 1 Zusatz reduzieren; immer noch zu lang → nur Dachtyp
+    if (ctx.length > 42 && parts.length > 1) ctx = dachtyp + ' • ' + parts[0];
+    if (ctx.length > 42) ctx = dachtyp;
+    return ctx;
+  }
+
   // Variante aktualisieren
   function bzUpdateVariant() {
     var opts = {};
@@ -979,6 +1112,10 @@
       });
     });
 
+    // Sticky-Kontext immer aktualisieren (auch wenn keine Variante matcht)
+    var ctxEl = document.getElementById('bz-sticky-context');
+    if (ctxEl) ctxEl.textContent = bzBuildStickyContext(opts);
+
     if (matched) {
       document.getElementById('bz-variant-id').value = matched.id;
       var price = (matched.price / 100).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
@@ -991,16 +1128,19 @@
         document.getElementById('bz-main-img-tag').src = 'https:' + matched.featured_image.src + '&width=800';
       }
 
-      // ATC Status
+      // ATC Status (Haupt + Sticky synchron)
       var btn = document.getElementById('bz-atc');
+      var stickyBtn = document.getElementById('bz-sticky-btn');
       if (matched.available) {
         btn.disabled = false;
         btn.style.opacity = '1';
         btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg> In den Warenkorb';
+        if (stickyBtn) { stickyBtn.disabled = false; stickyBtn.textContent = 'In den Warenkorb'; }
       } else {
         btn.disabled = true;
         btn.style.opacity = '.5';
         btn.innerHTML = 'Nicht verfügbar';
+        if (stickyBtn) { stickyBtn.disabled = true; stickyBtn.textContent = 'Nicht verfügbar'; }
       }
     }
   }
