@@ -474,6 +474,118 @@
   .bz-col-seo p { font-size: 14px; color: var(--bz-gray-text); line-height: 1.75; margin-bottom: 10px; }
   .bz-col-seo p:last-child { margin-bottom: 0; }
 
+  /* Hersteller-Intro + Hint */
+  .bz-hersteller-intro { padding: 20px 0 12px; background: transparent; }
+  .bz-hersteller-intro .bz-col-wrap { max-width: 1160px; margin: 0 auto; padding: 0 20px; }
+  .bz-hersteller-blurb { color: var(--bz-gray-text); font-size: 15px; line-height: 1.6; margin: 0 0 14px; }
+  .bz-benefits {
+    list-style: none;
+    margin: 0 0 14px;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+  }
+  .bz-benefits li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--bz-navy);
+  }
+  .bz-benefits li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 3px;
+    width: 15px; height: 15px;
+    background: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f5a623' stroke-width='3'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");
+  }
+  .bz-collection-hint {
+    margin: 0;
+    padding: 12px 16px;
+    background: #f8f7f4;
+    border-left: 4px solid var(--bz-orange);
+    border-radius: 0 10px 10px 0;
+    font-size: 14px;
+    color: var(--bz-navy);
+    line-height: 1.5;
+  }
+  .bz-collection-hint strong { color: var(--bz-navy); }
+
+  /* FAQ */
+  .bz-collection-faq { padding: 36px 0 12px; background: transparent; }
+  .bz-collection-faq .bz-col-seo-inner { max-width: 1160px; margin: 0 auto; padding: 0 20px; }
+  .bz-collection-faq h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--bz-navy);
+    margin-bottom: 16px;
+    font-family: var(--font-heading-family, inherit);
+  }
+  .bz-collection-faq details {
+    margin-bottom: 8px;
+    padding: 12px 16px;
+    background: #fff;
+    border: 1px solid rgba(13, 30, 53, 0.08);
+    border-radius: 10px;
+    transition: border-color .18s ease;
+  }
+  .bz-collection-faq details[open] { border-color: rgba(245, 166, 35, 0.4); }
+  .bz-collection-faq summary {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14.5px;
+    color: var(--bz-navy);
+    list-style: none;
+    position: relative;
+    padding-right: 28px;
+  }
+  .bz-collection-faq summary::-webkit-details-marker { display: none; }
+  .bz-collection-faq summary::after {
+    content: "+";
+    position: absolute;
+    right: 4px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--bz-orange);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+    transition: transform .2s;
+  }
+  .bz-collection-faq details[open] summary::after { transform: translateY(-50%) rotate(45deg); }
+  .bz-collection-faq details p {
+    margin: 10px 0 0;
+    font-size: 14px;
+    color: var(--bz-gray-text);
+    line-height: 1.65;
+  }
+
+  /* Internal Links */
+  .bz-internal-links {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(13, 30, 53, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .bz-internal-links a {
+    color: var(--bz-navy);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color .18s ease;
+  }
+  .bz-internal-links a:hover { color: var(--bz-orange); }
+
+  @media (max-width: 640px) {
+    .bz-benefits { gap: 8px 16px; }
+    .bz-benefits li { font-size: 13.5px; }
+    .bz-collection-hint { font-size: 13px; padding: 10px 14px; }
+    .bz-collection-faq { padding: 24px 0 8px; }
+    .bz-collection-faq summary { font-size: 14px; }
+  }
+
   /* ══ RESPONSIVE ══ */
   @media (max-width: 900px) {
     .bz-dachtyp-grid { grid-template-columns: repeat(3, 1fr); }
@@ -510,6 +622,40 @@
 {%- liquid
   assign products_per_page = section.settings.products_per_page | default: 12
   assign current_sort = collection.sort_by | default: collection.default_sort_by
+
+  # Hersteller-Erkennung (dynamisch über Handle)
+  assign hersteller_handles = 'creaton,braas,wienerberger,nelskamp,erlus,roeben,walther,jacobi-walther,bramac,meyer-holsen' | split: ','
+  assign is_hersteller = false
+  if hersteller_handles contains collection.handle
+    assign is_hersteller = true
+    assign hersteller_name = collection.title
+  endif
+
+  # Kurze Hersteller-Intro je Hersteller (leichte Variation — kein Duplicate Content)
+  case collection.handle
+    when 'braas'
+      assign hersteller_blurb = 'Braas zählt zu den größten Dachziegelherstellern Deutschlands. Frankfurter Pfanne und Harzer Pfanne sind seit Jahrzehnten Standard auf Millionen Dächern.'
+    when 'bramac'
+      assign hersteller_blurb = 'Bramac ist auf Betondachsteine spezialisiert. Die Modelle Montero und Classic finden sich auf zahlreichen Ein- und Mehrfamilienhäusern.'
+    when 'creaton'
+      assign hersteller_blurb = 'Creaton fertigt Tondachziegel mit hoher Maßhaltigkeit. Modelle wie Heidelberger, Futura und Balance sind weit verbreitet.'
+    when 'nelskamp'
+      assign hersteller_blurb = 'Nelskamp produziert Dachziegel und Dachsteine für Wohn- und Gewerbebau. Sigma Pfanne und Finkenberger sind bekannte Modelle.'
+    when 'wienerberger'
+      assign hersteller_blurb = 'Wienerberger betreibt mit der Koramic-Linie eines der größten Dachziegel-Portfolios in Europa.'
+    when 'erlus'
+      assign hersteller_blurb = 'Erlus steht für hochwertige Keramik-Dachziegel. Modelle wie Ergoldsbacher E58 und Forma sind weit verbreitet.'
+    when 'roeben'
+      assign hersteller_blurb = 'Röben fertigt Tonziegel mit charakteristischen Oberflächen. Monza plus, Bornholm und Piemont gehören zu den gefragten Modellen.'
+    when 'walther'
+      assign hersteller_blurb = 'Die Walther-Dachziegelwerke fertigen traditionelle und moderne Dachziegel für den Wohnbau.'
+    when 'jacobi-walther'
+      assign hersteller_blurb = 'Jacobi Walther bietet Flach- und Falzziegel in hoher Maßhaltigkeit — J11V, J13V und Z10 sind weit verbreitet.'
+    when 'meyer-holsen'
+      assign hersteller_blurb = 'Meyer-Holsen fertigt klassische Modelle wie Vertikal und Rheinland-Pfanne mit hoher Oberflächenqualität.'
+    else
+      assign hersteller_blurb = ''
+  endcase
 -%}
 
 {%- comment -%}══ 1. HERO ══{%- endcomment -%}
@@ -522,12 +668,18 @@
     <h1>
       {%- if collection.handle == 'all' -%}
         PV-Dachziegel &amp; Blechziegel –<br><em>passend für Ihren Dachtyp</em>
+      {%- elsif is_hersteller -%}
+        PV-Dachziegel für <em>{{ hersteller_name }}</em>
       {%- else -%}
         {{ collection.title }}
       {%- endif -%}
     </h1>
     <p class="bz-col-hero-sub">
-      Aluminium-Ersatzziegel für die sichere PV-Montage – passgenau für alle gängigen Dachziegeltypen. Kein Ziegelbruch, kein Bohren, keine Nacharbeit. Made in Germany.
+      {%- if is_hersteller -%}
+        Passgenaue Aluminium-Ersatzziegel für {{ hersteller_name }}-Dachziegel. Optimiert für die Photovoltaik-Montage ohne Beschädigung der bestehenden Dacheindeckung.
+      {%- else -%}
+        Aluminium-Ersatzziegel für die sichere PV-Montage – passgenau für alle gängigen Dachziegeltypen. Kein Ziegelbruch, kein Bohren, keine Nacharbeit. Made in Germany.
+      {%- endif -%}
     </p>
     <div class="bz-col-hero-trust">
       <span class="bz-col-hero-trust-item">
@@ -549,6 +701,27 @@
     </div>
   </div>
 </section>
+
+{%- if is_hersteller -%}
+{%- comment -%}══ 1b. HERSTELLER-INTRO + HINWEIS ══{%- endcomment -%}
+<section class="bz-hersteller-intro">
+  <div class="bz-col-wrap">
+    {%- if hersteller_blurb != '' -%}
+      <p class="bz-hersteller-blurb">{{ hersteller_blurb }}</p>
+    {%- endif -%}
+    <ul class="bz-benefits">
+      <li>Passgenau für {{ hersteller_name }}-Modelle</li>
+      <li>Made in Germany</li>
+      <li>Lieferzeit 1–3 Werktage</li>
+      <li>Optimiert für PV-Montage (kein Bohren, kein Ziegelbruch)</li>
+    </ul>
+    <div class="bz-collection-hint">
+      <strong>Hinweis:</strong>
+      Wähle im Produkt die passende Variante (Farbe, Ausführung), um den Blechziegel für dein Dach zu finden.
+    </div>
+  </div>
+</section>
+{%- endif -%}
 
 {%- comment -%}══ 2. DACHTYP SCHNELLFILTER ══{%- endcomment -%}
 <section class="bz-dachtyp-section">
@@ -794,7 +967,67 @@
 
 </div>
 
-{%- comment -%}══ 5. SEO TEXT ══{%- endcomment -%}
+{%- if is_hersteller -%}
+{%- comment -%}══ 5a. HERSTELLER FAQ ══{%- endcomment -%}
+<section class="bz-collection-faq">
+  <div class="bz-col-seo-inner">
+    <h2>Häufige Fragen zu {{ hersteller_name }}-Blechziegeln</h2>
+    <details>
+      <summary>Passen die Blechziegel auf alle {{ hersteller_name }}-Modelle?</summary>
+      <p>Die Aluminium-Blechziegel sind für die gängigsten {{ hersteller_name }}-Modelle ausgelegt. Das konkrete Dachziegel-Modell steht im Produkt unter "Passende Hersteller". Wenn dein Modell nicht gelistet ist, fertigen wir es auf Anfrage — schicke uns Foto oder Maße über <a href="/pages/contact">die Kontaktseite</a>.</p>
+    </details>
+    <details>
+      <summary>Kann ich die Blechziegel selbst montieren?</summary>
+      <p>Ja. Die Montage erfolgt ohne Bohren oder Sägen — einfach den passenden Tonziegel entnehmen und den Blechziegel einsetzen. Für größere Projekte empfehlen wir einen Dachdecker-Fachbetrieb; dafür bieten wir unter <a href="/pages/gewerbe">Gewerbekonditionen</a> Mengenpreise.</p>
+    </details>
+    <details>
+      <summary>Wie schnell erfolgt die Lieferung?</summary>
+      <p>Bestellungen sind in der Regel in 1–3 Werktagen bei dir — Lagerware, Versand ab Deutschland.</p>
+    </details>
+    <details>
+      <summary>In welchen Farben sind die Blechziegel erhältlich?</summary>
+      <p>Aluminium blank, Anthrazit (RAL 7016) und Ziegelrot (RAL 8004) — für eine optisch einwandfreie Integration ins Dachbild.</p>
+    </details>
+  </div>
+</section>
+
+{%- comment -%}══ 5b. HERSTELLER-SEO-TEXT ══{%- endcomment -%}
+<section class="bz-col-seo">
+  <div class="bz-col-seo-inner">
+    <h2>{{ hersteller_name }}-Dachziegel für Photovoltaik optimal nutzen</h2>
+    <p>Bei der Installation von Photovoltaikanlagen auf {{ hersteller_name }}-Dächern ist eine saubere Integration entscheidend. Unsere Aluminium-Blechziegel ermöglichen eine sichere und optisch unauffällige Durchführung der PV-Montage — passgenau zum {{ hersteller_name }}-Profil.</p>
+    <p>Durch die exakte Form wird die bestehende Dachstruktur nicht beschädigt. Gleichzeitig bleibt die Funktionalität des Dachs vollständig erhalten: Der Blechziegel ersetzt den originalen {{ hersteller_name }}-Tonziegel an der Montagestelle und trägt den Dachhaken oder die PV-Durchführung sicher.</p>
+    <p>Aluminium als Material hat hier drei Vorteile: es ist korrosionsbeständig (25+ Jahre Haltbarkeit), bruchsicher (kein Ziegelsplittern beim Bohren) und optisch unauffällig durch pulverbeschichtete Oberflächen.</p>
+    <nav class="bz-internal-links" aria-label="Weiterführende Seiten">
+      <a href="/collections/pv-dachziegel">→ Alle PV-Dachziegel ansehen</a>
+      <a href="/pages/hersteller">→ Alle Hersteller im Überblick</a>
+      <a href="/pages/gewerbe">→ Angebote für Dachdecker &amp; Gewerbe</a>
+    </nav>
+  </div>
+</section>
+
+{%- comment -%}══ 5c. JSON-LD · CollectionPage ══{%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": {{ 'PV-Dachziegel ' | append: hersteller_name | json }},
+  "description": {{ collection.description | default: 'Aluminium-Blechziegel für die PV-Montage auf Dächern mit ' | append: hersteller_name | append: '-Dachziegeln.' | json }},
+  "url": {{ shop.url | append: collection.url | json }},
+  "about": {
+    "@type": "Brand",
+    "name": {{ hersteller_name | json }}
+  },
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": {{ shop.name | json }},
+    "url": {{ shop.url | json }}
+  }
+}
+</script>
+
+{%- else -%}
+{%- comment -%}══ 5. SEO TEXT (Standard, Nicht-Hersteller) ══{%- endcomment -%}
 <section class="bz-col-seo">
   <div class="bz-col-seo-inner">
     <h2>PV-Dachziegel aus Aluminium – für alle gängigen Dachziegeltypen</h2>
@@ -803,6 +1036,7 @@
     <p>Alle <strong>Dachziegel Solar</strong>-Produkte sind in drei Farben erhältlich: Aluminium blank, Anthrazit RAL 7016 und Ziegelrot RAL 8004 – für eine optisch einwandfreie Integration in Ihr Dachbild.</p>
   </div>
 </section>
+{%- endif -%}
 
 <script>
   function bzSort(val) {
