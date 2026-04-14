@@ -702,8 +702,12 @@
   </div>
 </section>
 
+{%- comment -%}
+  ══ 1b. HERSTELLER-INTRO + HINWEIS (deaktiviert) ══
+  Block auskommentiert — nicht gerendert.
+  Ursprüngliches Markup bleibt als Referenz erhalten.
+
 {%- if is_hersteller -%}
-{%- comment -%}══ 1b. HERSTELLER-INTRO + HINWEIS ══{%- endcomment -%}
 <section class="bz-hersteller-intro">
   <div class="bz-col-wrap">
     {%- if hersteller_blurb != '' -%}
@@ -722,6 +726,7 @@
   </div>
 </section>
 {%- endif -%}
+{%- endcomment -%}
 
 {%- comment -%}══ 2. DACHTYP SCHNELLFILTER ══{%- endcomment -%}
 <section class="bz-dachtyp-section">
