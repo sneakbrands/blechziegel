@@ -1133,14 +1133,16 @@
       var stickyBtn = document.getElementById('bz-sticky-btn');
       if (matched.available) {
         btn.disabled = false;
+        btn.removeAttribute('aria-disabled');
         btn.style.opacity = '1';
         btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg> In den Warenkorb';
-        if (stickyBtn) { stickyBtn.disabled = false; stickyBtn.textContent = 'In den Warenkorb'; }
+        if (stickyBtn) { stickyBtn.disabled = false; stickyBtn.removeAttribute('aria-disabled'); stickyBtn.textContent = 'In den Warenkorb'; }
       } else {
         btn.disabled = true;
+        btn.setAttribute('aria-disabled', 'true');
         btn.style.opacity = '.5';
         btn.innerHTML = 'Nicht verfügbar';
-        if (stickyBtn) { stickyBtn.disabled = true; stickyBtn.textContent = 'Nicht verfügbar'; }
+        if (stickyBtn) { stickyBtn.disabled = true; stickyBtn.setAttribute('aria-disabled', 'true'); stickyBtn.textContent = 'Nicht verfügbar'; }
       }
     } else {
       // Kombi nicht verfügbar (z.B. ausverkauft oder ungültige Optionsmischung)
@@ -1148,11 +1150,13 @@
       var stickyBtnFb = document.getElementById('bz-sticky-btn');
       if (atc) {
         atc.disabled = true;
+        atc.setAttribute('aria-disabled', 'true');
         atc.style.opacity = '.5';
         atc.innerHTML = 'Nicht verfügbar';
       }
       if (stickyBtnFb) {
         stickyBtnFb.disabled = true;
+        stickyBtnFb.setAttribute('aria-disabled', 'true');
         stickyBtnFb.textContent = 'Nicht verfügbar';
       }
       var stickyPriceEl = document.getElementById('bz-sticky-price');
