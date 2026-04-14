@@ -708,6 +708,250 @@
     .bz-prod-grid { grid-template-columns: 1fr; }
     .bz-dachtyp-grid { grid-template-columns: repeat(2, 1fr); }
   }
+
+  /* ══ PREMIUM FILTER SIDEBAR (desktop) + MOBILE DRAWER ══ */
+  .bz-col-layout {
+    display: grid;
+    grid-template-columns: 288px 1fr;
+    gap: 28px;
+    align-items: start;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .bz-filter-drawer-cb { display: none; }
+  .bz-filter-mobile-toggle { display: none; }
+
+  .bz-filter-sidebar {
+    background: #fff;
+    border: 1px solid var(--bz-border);
+    border-radius: 14px;
+    position: sticky;
+    top: 20px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+  }
+  .bz-filter-sidebar-inner { padding: 16px; }
+
+  .bz-filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--bz-border);
+  }
+  .bz-filter-title {
+    font-family: var(--font-heading-family, inherit);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bz-gray-text);
+  }
+  .bz-filter-reset {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--bz-orange);
+    text-decoration: none;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: background .15s ease;
+  }
+  .bz-filter-reset:hover { background: var(--bz-orange-light); }
+
+  .bz-filter-sidebar .bz-active-filters {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--bz-border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .bz-filter-sidebar .bz-active-filters:empty { display: none; }
+
+  .bz-filter-group {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--bz-border);
+  }
+  .bz-filter-group:last-of-type { border-bottom: none; }
+  .bz-filter-group-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    list-style: none;
+    padding: 4px 0;
+    font-family: var(--font-heading-family, inherit);
+    font-weight: 700;
+    font-size: 13.5px;
+    color: var(--bz-navy);
+  }
+  .bz-filter-group-summary::-webkit-details-marker { display: none; }
+  .bz-filter-group-summary::after {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid var(--bz-navy);
+    border-bottom: 2px solid var(--bz-navy);
+    transform: rotate(45deg);
+    transition: transform .2s ease;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .bz-filter-group[open] .bz-filter-group-summary::after { transform: rotate(-135deg); }
+  .bz-filter-group-title { flex: 1; }
+  .bz-filter-meta {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--bz-gray-text);
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  .bz-filter-group-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bz-orange);
+    color: var(--bz-navy);
+    font-size: 10.5px;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 999px;
+  }
+
+  .bz-filter-options {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .bz-filter-option {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 6px 6px 6px 0;
+    margin: 0 -6px 0 0;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13.5px;
+    color: var(--bz-navy);
+    transition: background .12s ease;
+  }
+  .bz-filter-option:hover { background: var(--bz-gray-50); }
+  .bz-filter-option input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid rgba(13, 30, 53, 0.3);
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+    flex-shrink: 0;
+    position: relative;
+    margin: 0;
+    transition: background .15s ease, border-color .15s ease;
+  }
+  .bz-filter-option input[type="checkbox"]:checked {
+    background: var(--bz-orange);
+    border-color: var(--bz-orange);
+  }
+  .bz-filter-option input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 1px;
+    width: 4px;
+    height: 8px;
+    border-right: 2px solid var(--bz-navy);
+    border-bottom: 2px solid var(--bz-navy);
+    transform: rotate(45deg);
+  }
+  .bz-filter-option:has(input:checked) { font-weight: 600; }
+  .bz-filter-option-label { flex: 1; line-height: 1.3; }
+  .bz-filter-option-count {
+    color: var(--bz-gray-text);
+    font-size: 11.5px;
+    font-weight: 500;
+    margin-left: auto;
+  }
+
+  .bz-filter-price { padding-top: 4px; }
+  .bz-filter-price .bz-price-values {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12.5px;
+    color: var(--bz-gray-text);
+  }
+  .bz-filter-price .bz-price-values strong {
+    display: block;
+    color: var(--bz-navy);
+    font-family: var(--font-heading-family, inherit);
+    font-weight: 700;
+    font-size: 14px;
+    margin-top: 2px;
+  }
+
+  /* Results header (Product count + Sort) */
+  .bz-results-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    background: #fff;
+    border: 1px solid var(--bz-border);
+    border-radius: 12px;
+    flex-wrap: wrap;
+  }
+  .bz-results-count { font-size: 13px; color: var(--bz-gray-text); }
+  .bz-results-count strong { color: var(--bz-navy); font-weight: 700; }
+  .bz-results-sort { display: flex; align-items: center; gap: 8px; }
+
+  .bz-col-results { min-width: 0; }
+  .bz-col-results .bz-col-main { padding: 0; }
+
+  /* Mobile: Drawer-Toggle per Checkbox-Hack (kein JS) */
+  @media (max-width: 900px) {
+    .bz-col-layout {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      padding: 12px;
+    }
+    .bz-filter-mobile-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 16px;
+      background: #fff;
+      border: 1px solid var(--bz-border);
+      border-radius: 12px;
+      font-family: var(--font-heading-family, inherit);
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--bz-navy);
+      cursor: pointer;
+      user-select: none;
+    }
+    .bz-filter-mobile-toggle::before {
+      content: "▾ Filter";
+      transition: transform .2s ease;
+    }
+    .bz-filter-drawer-cb:checked ~ .bz-filter-mobile-toggle::before { content: "▴ Filter schließen"; }
+    .bz-filter-sidebar {
+      position: static;
+      max-height: none;
+      overflow: visible;
+      display: none;
+      margin-top: 10px;
+    }
+    .bz-filter-drawer-cb:checked ~ .bz-filter-sidebar { display: block; }
+  }
 {% endstyle %}
 
 {%- liquid
@@ -879,65 +1123,108 @@
 </section>
 {%- endunless -%}
 
-{%- comment -%}══ 3. FILTER + SORT BAR ══{%- endcomment -%}
-<div class="bz-filter-bar">
-  <div class="bz-filter-bar-left">
-    <span class="bz-filter-count">
-      <strong>{{ collection.products_count }}</strong> {{ collection.products_count | pluralize: 'Produkt', 'Produkte' }}
-    </span>
+{%- comment -%}══ 3. FILTER SIDEBAR + RESULTS ══{%- endcomment -%}
+{%- assign bz_has_active_filters = false -%}
+{%- for filter in collection.filters -%}
+  {%- if filter.active_values.size > 0 -%}
+    {%- assign bz_has_active_filters = true -%}
+  {%- endif -%}
+{%- endfor -%}
 
-    {%- comment -%} Shopify Facets / Metafield Filter {%- endcomment -%}
-    {%- if collection.filters.size > 0 -%}
-      {%- for filter in collection.filters -%}
-        {%- unless filter.label == 'Verfügbarkeit' or filter.label == 'Preis' -%}
-          <details>
-            <summary>
-              {{ filter.label }}
-              {%- if filter.active_values.size > 0 -%}
-                <span style="background:var(--bz-orange);color:var(--bz-navy);border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">{{ filter.active_values.size }}</span>
-              {%- endif -%}
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-            </summary>
-            <div style="position:absolute;background:#fff;border:1.5px solid var(--bz-border);border-radius:var(--bz-r-lg);padding:16px;min-width:200px;z-index:100;box-shadow:0 8px 32px rgba(0,0,0,.1);margin-top:4px;">
-              {%- for value in filter.values -%}
-                <label style="display:flex;align-items:center;gap:8px;padding:6px 0;cursor:pointer;font-size:14px;color:var(--bz-navy);">
-                  <input
-                    type="checkbox"
-                    name="{{ filter.param_name }}"
-                    value="{{ value.value }}"
-                    {% if value.active %}checked{% endif %}
-                    onchange="bzApplyFilter(this)"
-                    style="accent-color:var(--bz-orange);width:16px;height:16px;"
-                  >
-                  {{ value.label }}
-                  <span style="color:#aaa;font-size:12px;">({{ value.count }})</span>
-                </label>
-              {%- endfor -%}
-            </div>
-          </details>
-        {%- endunless -%}
-      {%- endfor -%}
-    {%- endif -%}
+<div class="bz-col-layout">
+  <input type="checkbox" id="bz-filter-drawer" class="bz-filter-drawer-cb">
+  <label for="bz-filter-drawer" class="bz-filter-mobile-toggle" aria-controls="bz-filter-drawer"></label>
 
-    {%- comment -%} Aktive Filter Pills {%- endcomment -%}
-    {%- for filter in collection.filters -%}
-      {%- for value in filter.active_values -%}
-        <a href="{{ value.url_to_remove }}" class="bz-filter-pill">
-          {{ value.label }}
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </a>
-      {%- endfor -%}
-    {%- endfor -%}
-  </div>
+  <aside class="bz-filter-sidebar" aria-label="Filter">
+    <div class="bz-filter-sidebar-inner">
 
-  <select class="bz-sort-select" onchange="bzSort(this.value)">
-    <option value="manual" {% if current_sort == 'manual' %}selected{% endif %}>Sortieren: Beliebtheit</option>
-    <option value="price-ascending" {% if current_sort == 'price-ascending' %}selected{% endif %}>Preis: aufsteigend</option>
-    <option value="price-descending" {% if current_sort == 'price-descending' %}selected{% endif %}>Preis: absteigend</option>
-    <option value="title-ascending" {% if current_sort == 'title-ascending' %}selected{% endif %}>Name: A–Z</option>
-    <option value="created-descending" {% if current_sort == 'created-descending' %}selected{% endif %}>Neueste zuerst</option>
-  </select>
-</div>
+      <div class="bz-filter-header">
+        <span class="bz-filter-title">Filter</span>
+        {%- if bz_has_active_filters -%}
+          <a href="{{ collection.url }}" class="bz-filter-reset">Alle zurücksetzen</a>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Aktive Filter Pills {%- endcomment -%}
+      {%- if bz_has_active_filters -%}
+        <div class="bz-active-filters">
+          {%- for filter in collection.filters -%}
+            {%- for value in filter.active_values -%}
+              <a href="{{ value.url_to_remove }}" class="bz-filter-pill">
+                {{ value.label }}
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </a>
+            {%- endfor -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Shopify Facets / Metafield Filter {%- endcomment -%}
+      {%- if collection.filters.size > 0 -%}
+        {%- for filter in collection.filters -%}
+          {%- unless filter.label == 'Verfügbarkeit' -%}
+            {%- if filter.type == 'price_range' -%}
+              <details class="bz-filter-group" {% if filter.min_value.value != nil or filter.max_value.value != nil %}open{% endif %}>
+                <summary class="bz-filter-group-summary">
+                  <span class="bz-filter-group-title">{{ filter.label }}</span>
+                  <span class="bz-filter-meta">€</span>
+                </summary>
+                <div class="bz-filter-options bz-filter-price">
+                  <div class="bz-price-values">
+                    <span>von<strong>{{ filter.min_value.value | default: filter.range_min | money }}</strong></span>
+                    <span>bis<strong>{{ filter.max_value.value | default: filter.range_max | money }}</strong></span>
+                  </div>
+                </div>
+              </details>
+            {%- else -%}
+              <details class="bz-filter-group" {% if filter.active_values.size > 0 %}open{% endif %}>
+                <summary class="bz-filter-group-summary">
+                  <span class="bz-filter-group-title">{{ filter.label }}</span>
+                  {%- if filter.active_values.size > 0 -%}
+                    <span class="bz-filter-group-count">{{ filter.active_values.size }}</span>
+                  {%- else -%}
+                    <span class="bz-filter-meta">{{ filter.type }}</span>
+                  {%- endif -%}
+                </summary>
+                <div class="bz-filter-options">
+                  {%- for value in filter.values -%}
+                    <label class="bz-filter-option">
+                      <input
+                        type="checkbox"
+                        name="{{ filter.param_name }}"
+                        value="{{ value.value }}"
+                        {% if value.active %}checked{% endif %}
+                        onchange="bzApplyFilter(this)"
+                      >
+                      <span class="bz-filter-option-label">{{ value.label }}</span>
+                      <span class="bz-filter-option-count">{{ value.count }}</span>
+                    </label>
+                  {%- endfor -%}
+                </div>
+              </details>
+            {%- endif -%}
+          {%- endunless -%}
+        {%- endfor -%}
+      {%- endif -%}
+
+    </div>
+  </aside>
+
+  <div class="bz-col-results">
+    <div class="bz-results-head">
+      <div class="bz-results-count">
+        <strong>{{ collection.products_count }}</strong> {{ collection.products_count | pluralize: 'Produkt', 'Produkte' }}
+      </div>
+      <div class="bz-results-sort">
+        <select class="bz-sort-select" onchange="bzSort(this.value)">
+          <option value="manual" {% if current_sort == 'manual' %}selected{% endif %}>Sortieren: Beliebtheit</option>
+          <option value="price-ascending" {% if current_sort == 'price-ascending' %}selected{% endif %}>Preis: aufsteigend</option>
+          <option value="price-descending" {% if current_sort == 'price-descending' %}selected{% endif %}>Preis: absteigend</option>
+          <option value="title-ascending" {% if current_sort == 'title-ascending' %}selected{% endif %}>Name: A–Z</option>
+          <option value="created-descending" {% if current_sort == 'created-descending' %}selected{% endif %}>Neueste zuerst</option>
+        </select>
+      </div>
+    </div>
 
 {%- comment -%}══ 4. PRODUKT-GRID ══{%- endcomment -%}
 <div class="bz-col-main">
@@ -1077,6 +1364,8 @@
   {%- endif -%}
   {%- endpaginate -%}
 
+</div>
+  </div>
 </div>
 
 {%- if is_hersteller -%}
