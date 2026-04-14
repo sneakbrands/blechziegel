@@ -736,7 +736,7 @@
     background: #fff;
     border: 1px solid var(--bz-border);
     border-radius: 16px;
-    box-shadow: 0 1px 2px rgba(13, 30, 53, 0.03), 0 8px 22px rgba(13, 30, 53, 0.05);
+    box-shadow: 0 1px 2px rgba(13, 30, 53, 0.03), 0 12px 28px rgba(13, 30, 53, 0.06);
     position: sticky;
     top: 24px;
     max-height: calc(100vh - 48px);
@@ -745,7 +745,7 @@
   }
   .bz-filter-sidebar::-webkit-scrollbar { width: 6px; }
   .bz-filter-sidebar::-webkit-scrollbar-thumb { background: rgba(13,30,53,0.18); border-radius: 999px; }
-  .bz-filter-sidebar-inner { padding: 18px 18px 8px; }
+  .bz-filter-sidebar-inner { padding: 20px 20px 10px; }
 
   /* ── Header ── */
   .bz-filter-header {
@@ -753,17 +753,27 @@
     justify-content: space-between;
     align-items: center;
     gap: 10px;
-    padding-bottom: 14px;
-    margin-bottom: 4px;
+    padding-bottom: 16px;
+    margin-bottom: 2px;
     border-bottom: 1px solid var(--bz-border);
   }
   .bz-filter-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     font-family: var(--font-heading-family, inherit);
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--bz-navy);
+  }
+  .bz-filter-title::before {
+    content: "";
+    width: 14px;
+    height: 14px;
+    background: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230d1e35' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolygon points='22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3'/%3E%3C/svg%3E");
+    flex-shrink: 0;
   }
   .bz-filter-reset {
     font-size: 12px;
@@ -805,10 +815,27 @@
 
   /* ── Filter Groups ── */
   .bz-filter-group {
-    padding: 10px 0 12px;
+    position: relative;
+    padding: 8px 0 10px;
     border-bottom: 1px solid var(--bz-border);
+    transition: padding .15s ease;
   }
   .bz-filter-group:last-of-type { border-bottom: none; padding-bottom: 4px; }
+  .bz-filter-group[open] {
+    padding-top: 10px;
+    padding-bottom: 14px;
+  }
+  .bz-filter-group[open]::before {
+    content: "";
+    position: absolute;
+    left: -18px;
+    top: 14px;
+    bottom: 18px;
+    width: 2px;
+    background: var(--bz-orange);
+    border-radius: 999px;
+    opacity: .55;
+  }
   .bz-filter-group-summary {
     display: flex;
     justify-content: space-between;
@@ -816,15 +843,22 @@
     gap: 10px;
     cursor: pointer;
     list-style: none;
-    padding: 6px 0;
+    padding: 8px 8px 8px 0;
+    margin: 0 -8px 0 0;
+    border-radius: 8px;
     font-family: var(--font-heading-family, inherit);
     font-weight: 700;
     font-size: 13px;
     letter-spacing: -0.005em;
     color: var(--bz-navy);
     user-select: none;
+    transition: background .12s ease, color .12s ease;
   }
-  .bz-filter-group-summary:hover { color: var(--bz-orange-dark, var(--bz-orange)); }
+  .bz-filter-group-summary:hover {
+    color: var(--bz-orange-dark, var(--bz-orange));
+    background: rgba(245, 166, 35, 0.04);
+  }
+  .bz-filter-group[open] > .bz-filter-group-summary { color: var(--bz-navy); }
   .bz-filter-group-summary::-webkit-details-marker { display: none; }
   .bz-filter-group-summary::after {
     content: "";
@@ -833,24 +867,16 @@
     border-right: 1.5px solid currentColor;
     border-bottom: 1.5px solid currentColor;
     transform: rotate(45deg) translate(-1px, -1px);
-    transition: transform .2s ease;
+    transition: transform .22s cubic-bezier(.4,0,.2,1);
     margin-left: 6px;
     flex-shrink: 0;
-    opacity: .6;
+    opacity: .5;
   }
   .bz-filter-group[open] .bz-filter-group-summary::after {
     transform: rotate(-135deg) translate(-1px, -1px);
     opacity: .9;
   }
   .bz-filter-group-title { flex: 1; }
-  .bz-filter-meta {
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--bz-gray-text);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-left: auto;
-  }
   .bz-filter-group-count {
     display: inline-flex;
     align-items: center;
@@ -1308,7 +1334,6 @@
               <details class="bz-filter-group" {% if filter.min_value.value != nil or filter.max_value.value != nil %}open{% endif %}>
                 <summary class="bz-filter-group-summary">
                   <span class="bz-filter-group-title">{{ filter.label }}</span>
-                  <span class="bz-filter-meta">€</span>
                 </summary>
                 <div class="bz-filter-options bz-filter-price">
                   <div class="bz-price-values">
@@ -1323,8 +1348,6 @@
                   <span class="bz-filter-group-title">{{ filter.label }}</span>
                   {%- if filter.active_values.size > 0 -%}
                     <span class="bz-filter-group-count">{{ filter.active_values.size }}</span>
-                  {%- else -%}
-                    <span class="bz-filter-meta">{{ filter.type }}</span>
                   {%- endif -%}
                 </summary>
                 <div class="bz-filter-options">
