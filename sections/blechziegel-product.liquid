@@ -146,12 +146,11 @@
     text-decoration: line-through;
   }
   .bz-price-save {
-    background: #E24B4A;
-    color: #fff;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 4px;
+    color: #2e7d32;
+    font-weight: 600;
+    font-size: 0.9rem;
+    line-height: 1.3;
+    margin-top: 4px;
   }
   .bz-price-note {
     font-size: 12px;
@@ -728,7 +727,8 @@
         {%- if product.compare_at_price_min > product.price_min -%}
           <span class="bz-price-compare">{{ product.compare_at_price_min | money }}</span>
           {%- assign savings = product.compare_at_price_min | minus: product.price_min -%}
-          <span class="bz-price-save">{{ savings | money }} sparen</span>
+          {%- assign savings_percent = savings | times: 100.0 | divided_by: product.compare_at_price_min | round -%}
+          <span class="bz-price-save">Spare {{ savings | money }} · {{ savings_percent }}%</span>
         {%- endif -%}
       </div>
       <p class="bz-price-note">inkl. MwSt. &middot; zzgl. <a href="{{ routes.root_url }}policies/shipping-policy" style="color:var(--bz-orange);">Versandkosten</a></p>
