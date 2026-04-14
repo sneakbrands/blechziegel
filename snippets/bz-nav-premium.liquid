@@ -5,15 +5,22 @@
 {%- endcomment -%}
 
 {% style %}
-  /* ══ MEGA-MENU CONTAINER (Dropdown) ══ */
+  /* ══ MEGA-MENU CONTAINER (als kompaktes Kategorien-Popover statt Full-Width-Panel) ══ */
   .mega-menu {
-    background: #ffffff;
-    border-radius: 14px;
-    box-shadow: 0 20px 50px rgba(13, 30, 53, 0.12);
+    background: #ffffff !important;
+    border-radius: 14px !important;
+    box-shadow: 0 20px 50px rgba(13, 30, 53, 0.12) !important;
     border: 1px solid rgba(13, 30, 53, 0.06);
-    padding: 10px 8px;
-    margin-top: 8px;
+    padding: 10px 8px !important;
+    margin-top: 8px !important;
     animation: bzFadeInMenu 0.18s ease;
+    /* Kompakte Breite statt Horizon-Full-Width */
+    max-width: 320px !important;
+    width: max-content !important;
+    min-width: 240px;
+    /* Section-Wrapper-Spacing neutralisieren */
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
 
   @keyframes bzFadeInMenu {
@@ -21,19 +28,44 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* Wenn einzelne Spalte (einfaches Dropdown), kompakter machen */
-  .mega-menu__grid {
-    gap: 2px;
+  /* Grid auf 1 Spalte zwingen — überschreibt --menu-columns-desktop */
+  .mega-menu__grid,
+  [data-menu-grid-id] {
+    display: block !important;
+    gap: 2px !important;
+    grid-template-columns: 1fr !important;
   }
 
-  .mega-menu__list {
-    margin: 0;
-    padding: 0;
+  .mega-menu__list,
+  [data-menu-list-id] {
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px;
+    grid-template-columns: 1fr !important;
   }
 
   .mega-menu__column {
     padding: 0 !important;
     margin: 0 !important;
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  /* ══ CONTENT-BEREICH (rechte Spalte mit Featured Products/Collections) ══ */
+  /* Wenn leer oder nur mit leerer Liste gefüllt — komplett ausblenden */
+  .mega-menu__content {
+    display: none !important;
+  }
+  .mega-menu__content:has(.mega-menu__content-list > li),
+  .mega-menu__content:has(.mega-menu__content-list--products > li),
+  .mega-menu__content:has(.mega-menu__content-list--collections > li) {
+    display: block !important;
+  }
+  .mega-menu__content-list:empty {
+    display: none !important;
   }
 
   /* ══ MENU ITEMS (Dachtypen-Einträge) ══ */
