@@ -895,6 +895,29 @@
     margin-top: 2px;
   }
 
+  /* Fallback-Box wenn keine weiteren Filter verfügbar */
+  .bz-filter-empty {
+    margin-top: 12px;
+    padding: 14px 16px;
+    background: var(--bz-orange-light);
+    border: 1px solid rgba(245, 166, 35, 0.35);
+    border-radius: 12px;
+    color: var(--bz-navy);
+  }
+  .bz-filter-empty strong {
+    display: block;
+    font-family: var(--font-heading-family, inherit);
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .bz-filter-empty p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--bz-gray-text);
+  }
+
   /* Results header (Product count + Sort) */
   .bz-results-head {
     display: flex;
@@ -1125,10 +1148,14 @@
 
 {%- comment -%}══ 3. FILTER SIDEBAR + RESULTS ══{%- endcomment -%}
 {%- assign bz_has_active_filters = false -%}
+{%- assign bz_meaningful_filter_count = 0 -%}
 {%- for filter in collection.filters -%}
   {%- if filter.active_values.size > 0 -%}
     {%- assign bz_has_active_filters = true -%}
   {%- endif -%}
+  {%- unless filter.label == 'Verfügbarkeit' or filter.type == 'price_range' -%}
+    {%- assign bz_meaningful_filter_count = bz_meaningful_filter_count | plus: 1 -%}
+  {%- endunless -%}
 {%- endfor -%}
 
 <div class="bz-col-layout">
@@ -1205,6 +1232,13 @@
             {%- endif -%}
           {%- endunless -%}
         {%- endfor -%}
+      {%- endif -%}
+
+      {%- if bz_meaningful_filter_count == 0 -%}
+        <div class="bz-filter-empty" role="note">
+          <strong>Aktuell keine weiteren Filter verfügbar</strong>
+          <p>Für diese Herstellerseite stehen derzeit nur eingeschränkte Filteroptionen zur Verfügung. Sobald weitere passende Produkte und Metadaten verfügbar sind, erscheinen hier zusätzliche Filter.</p>
+        </div>
       {%- endif -%}
 
     </div>
