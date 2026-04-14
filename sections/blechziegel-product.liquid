@@ -1142,6 +1142,21 @@
         btn.innerHTML = 'Nicht verfügbar';
         if (stickyBtn) { stickyBtn.disabled = true; stickyBtn.textContent = 'Nicht verfügbar'; }
       }
+    } else {
+      // Kombi nicht verfügbar (z.B. ausverkauft oder ungültige Optionsmischung)
+      var atc = document.getElementById('bz-atc');
+      var stickyBtnFb = document.getElementById('bz-sticky-btn');
+      if (atc) {
+        atc.disabled = true;
+        atc.style.opacity = '.5';
+        atc.innerHTML = 'Nicht verfügbar';
+      }
+      if (stickyBtnFb) {
+        stickyBtnFb.disabled = true;
+        stickyBtnFb.textContent = 'Nicht verfügbar';
+      }
+      var stickyPriceEl = document.getElementById('bz-sticky-price');
+      if (stickyPriceEl) stickyPriceEl.textContent = '–';
     }
   }
 
