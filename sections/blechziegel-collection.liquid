@@ -710,6 +710,16 @@
   }
 
   /* ══ PREMIUM FILTER SIDEBAR (desktop) + MOBILE DRAWER ══ */
+  .bz-col-top {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 24px 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .bz-col-top .bz-orient-banner { margin-bottom: 0; }
+  .bz-col-top .bz-results-head { margin-bottom: 0; }
   .bz-col-layout {
     display: grid;
     grid-template-columns: 296px 1fr;
@@ -717,7 +727,7 @@
     align-items: start;
     max-width: 1280px;
     margin: 0 auto;
-    padding: 24px 20px 40px;
+    padding: 14px 20px 40px;
   }
   .bz-filter-drawer-cb { display: none; }
   .bz-filter-mobile-toggle { display: none; }
@@ -1231,6 +1241,37 @@
   {%- endunless -%}
 {%- endfor -%}
 
+{%- comment -%}══ 3a. ORIENT-BANNER + RESULTS-HEAD (full width, vor Sidebar-Layout) ══{%- endcomment -%}
+<div class="bz-col-top">
+  <div class="bz-orient-banner">
+    <div class="bz-orient-icon">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    </div>
+    <div class="bz-orient-text">
+      <strong>So findest du den richtigen Blechziegel</strong>
+      <span>Wähle oben deinen Dachziegeltyp – dann siehst du sofort die passenden Ersatzziegel für deine PV-Montage.</span>
+    </div>
+    <a href="{{ routes.root_url }}pages/contact" class="bz-orient-link">
+      Beratung anfordern &rarr;
+    </a>
+  </div>
+
+  <div class="bz-results-head">
+    <div class="bz-results-count">
+      <strong>{{ collection.products_count }}</strong> {{ collection.products_count | pluralize: 'Produkt', 'Produkte' }}
+    </div>
+    <div class="bz-results-sort">
+      <select class="bz-sort-select" onchange="bzSort(this.value)">
+        <option value="manual" {% if current_sort == 'manual' %}selected{% endif %}>Sortieren: Beliebtheit</option>
+        <option value="price-ascending" {% if current_sort == 'price-ascending' %}selected{% endif %}>Preis: aufsteigend</option>
+        <option value="price-descending" {% if current_sort == 'price-descending' %}selected{% endif %}>Preis: absteigend</option>
+        <option value="title-ascending" {% if current_sort == 'title-ascending' %}selected{% endif %}>Name: A–Z</option>
+        <option value="created-descending" {% if current_sort == 'created-descending' %}selected{% endif %}>Neueste zuerst</option>
+      </select>
+    </div>
+  </div>
+</div>
+
 <div class="bz-col-layout">
   <input type="checkbox" id="bz-filter-drawer" class="bz-filter-drawer-cb">
   <label for="bz-filter-drawer" class="bz-filter-mobile-toggle" aria-controls="bz-filter-drawer"></label>
@@ -1318,37 +1359,9 @@
   </aside>
 
   <div class="bz-col-results">
-    <div class="bz-results-head">
-      <div class="bz-results-count">
-        <strong>{{ collection.products_count }}</strong> {{ collection.products_count | pluralize: 'Produkt', 'Produkte' }}
-      </div>
-      <div class="bz-results-sort">
-        <select class="bz-sort-select" onchange="bzSort(this.value)">
-          <option value="manual" {% if current_sort == 'manual' %}selected{% endif %}>Sortieren: Beliebtheit</option>
-          <option value="price-ascending" {% if current_sort == 'price-ascending' %}selected{% endif %}>Preis: aufsteigend</option>
-          <option value="price-descending" {% if current_sort == 'price-descending' %}selected{% endif %}>Preis: absteigend</option>
-          <option value="title-ascending" {% if current_sort == 'title-ascending' %}selected{% endif %}>Name: A–Z</option>
-          <option value="created-descending" {% if current_sort == 'created-descending' %}selected{% endif %}>Neueste zuerst</option>
-        </select>
-      </div>
-    </div>
 
 {%- comment -%}══ 4. PRODUKT-GRID ══{%- endcomment -%}
 <div class="bz-col-main">
-
-  {%- comment -%} Orientierungs-Banner {%- endcomment -%}
-  <div class="bz-orient-banner">
-    <div class="bz-orient-icon">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-    </div>
-    <div class="bz-orient-text">
-      <strong>So findest du den richtigen Blechziegel</strong>
-      <span>Wähle oben deinen Dachziegeltyp – dann siehst du sofort die passenden Ersatzziegel für deine PV-Montage.</span>
-    </div>
-    <a href="{{ routes.root_url }}pages/contact" class="bz-orient-link">
-      Beratung anfordern &rarr;
-    </a>
-  </div>
 
   {%- paginate collection.products by products_per_page -%}
   {%- if collection.products.size > 0 -%}
