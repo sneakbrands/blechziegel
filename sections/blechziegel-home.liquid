@@ -411,12 +411,29 @@
 {%- comment -%}══ 1. HERO ══{%- endcomment -%}
 <section class="bz-hero">
   {%- if hero_image != blank -%}
-    {{ hero_image | image_url: width: 1920 | image_tag:
-      class: 'bz-hero-img',
-      loading: 'eager',
-      fetchpriority: 'high',
-      alt: hero_image.alt | default: 'PV-Blechziegel für Solaranlagen – Made in Germany'
-    }}
+    {%- assign hero_alt = hero_image.alt | default: 'PV-Blechziegel für Solaranlagen – Made in Germany' -%}
+    <picture>
+      {%- if hero_image_mobile != blank -%}
+        <source
+          media="(max-width: 640px)"
+          srcset="{{ hero_image_mobile | image_url: width: 640 }} 1x, {{ hero_image_mobile | image_url: width: 1280 }} 2x"
+          width="640"
+          height="720"
+        >
+      {%- endif -%}
+      <img
+        class="bz-hero-img"
+        src="{{ hero_image | image_url: width: 1600 }}"
+        srcset="{{ hero_image | image_url: width: 960 }} 960w, {{ hero_image | image_url: width: 1280 }} 1280w, {{ hero_image | image_url: width: 1600 }} 1600w, {{ hero_image | image_url: width: 1920 }} 1920w"
+        sizes="100vw"
+        width="1600"
+        height="900"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+        alt="{{ hero_alt | escape }}"
+      >
+    </picture>
   {%- else -%}
     <div class="bz-hero-img-placeholder"></div>
   {%- endif -%}
