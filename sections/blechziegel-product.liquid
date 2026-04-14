@@ -199,6 +199,97 @@
     margin: 20px 0;
   }
 
+  /* Staffelpreise (B2B) */
+  .bz-tier-pricing {
+    margin: 18px 0;
+    padding: 16px 16px 14px;
+    background: #f8f7f4;
+    border: 1px solid rgba(13, 30, 53, 0.08);
+    border-radius: 14px;
+  }
+  .bz-tier-pricing-head {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 12px;
+  }
+  .bz-tier-pricing-head strong {
+    color: var(--bz-navy);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .bz-tier-pricing-sub {
+    color: var(--bz-gray-text);
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  .bz-tier-pricing-table {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .bz-tier-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 0;
+    border-top: 1px solid rgba(13, 30, 53, 0.06);
+  }
+  .bz-tier-row:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+  .bz-tier-qty {
+    color: var(--bz-navy);
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+  .bz-tier-price {
+    color: var(--bz-navy);
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+  .bz-tier-hint {
+    margin-top: 12px;
+    color: var(--bz-gray-text);
+    font-size: 0.87rem;
+    line-height: 1.45;
+  }
+  .bz-tier-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .bz-tier-btn {
+    appearance: none;
+    -webkit-appearance: none;
+    border: 1px solid rgba(245, 166, 35, 0.35);
+    background: #fff4e0;
+    color: var(--bz-navy);
+    border-radius: 10px;
+    min-height: 40px;
+    padding: 0 14px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    font-family: var(--font-body-family, inherit);
+    transition: background .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+  }
+  .bz-tier-btn:hover {
+    background: #fbe9bf;
+    border-color: rgba(245, 166, 35, 0.55);
+    box-shadow: 0 6px 14px rgba(245, 166, 35, 0.12);
+  }
+  .bz-tier-btn:focus-visible {
+    outline: 2px solid var(--bz-navy);
+    outline-offset: 2px;
+  }
+  .bz-tier-btn:active { transform: translateY(1px); }
+
   /* Varianten */
   .bz-variant-label {
     font-size: 13px;
@@ -676,6 +767,14 @@
     .bz-tab-btn { padding: 10px 14px; font-size: 13px; }
     .bz-price-current { font-size: 1.7rem; }
     .bz-product-grid { padding: 16px 0 32px; }
+    .bz-tier-pricing { padding: 14px 14px 12px; border-radius: 12px; }
+    .bz-tier-pricing-head strong { font-size: 0.98rem; }
+    .bz-tier-pricing-sub,
+    .bz-tier-hint { font-size: 0.85rem; }
+    .bz-tier-qty,
+    .bz-tier-price { font-size: 0.92rem; }
+    .bz-tier-actions { gap: 6px; }
+    .bz-tier-btn { min-height: 38px; padding: 0 12px; font-size: 0.9rem; }
     .bz-sticky-atc { padding: 10px 10px calc(10px + env(safe-area-inset-bottom)); }
     .bz-sticky-atc-inner { grid-template-columns: auto 1fr; gap: 10px; }
     .bz-sticky-btn { grid-column: 1 / -1; }
@@ -789,6 +888,43 @@
       </div>
 
       <hr class="bz-divider">
+
+      {%- comment -%}
+        ── Staffelpreise ──
+        TODO: Datenquelle anbinden, sobald Staffelpreis-Metafield definiert ist.
+        Aktuell: statische Richtwerte. Verbindlich erst nach Angebots-Anfrage.
+      {%- endcomment -%}
+      <div class="bz-tier-pricing" aria-label="Staffelpreise">
+        <div class="bz-tier-pricing-head">
+          <strong>Mengenpreise für Projekte</strong>
+          <span class="bz-tier-pricing-sub">Richtwerte für Dachdecker und PV-Installateure</span>
+        </div>
+
+        <div class="bz-tier-pricing-table">
+          <div class="bz-tier-row">
+            <span class="bz-tier-qty">ab 25 Stück</span>
+            <span class="bz-tier-price">7,49 €</span>
+          </div>
+          <div class="bz-tier-row">
+            <span class="bz-tier-qty">ab 50 Stück</span>
+            <span class="bz-tier-price">7,19 €</span>
+          </div>
+          <div class="bz-tier-row">
+            <span class="bz-tier-qty">ab 100 Stück</span>
+            <span class="bz-tier-price">6,89 €</span>
+          </div>
+        </div>
+
+        <div class="bz-tier-hint">
+          Richtwerte · Projektpreise auf Anfrage. Für größere Dachflächen lohnen sich höhere Mengen.
+        </div>
+
+        <div class="bz-tier-actions">
+          <button type="button" class="bz-tier-btn" data-tier-add="25" aria-label="25 Stück zur Menge addieren">+25</button>
+          <button type="button" class="bz-tier-btn" data-tier-add="50" aria-label="50 Stück zur Menge addieren">+50</button>
+          <button type="button" class="bz-tier-btn" data-tier-add="100" aria-label="100 Stück zur Menge addieren">+100</button>
+        </div>
+      </div>
 
       {%- comment -%}── Varianten Form ──{%- endcomment -%}
       <form action="{{ routes.cart_add_url }}" method="post" id="bz-product-form">
@@ -1168,6 +1304,21 @@
   // Swatch-Klick via Delegation (ersetzt Inline onclick)
   document.querySelectorAll('.bz-swatch').forEach(function(swatch) {
     swatch.addEventListener('click', function() { bzSelectSwatch(swatch); });
+  });
+
+  // Staffelpreis-Buttons: addiert Menge zum vorhandenen qty-Input
+  document.querySelectorAll('.bz-tier-btn[data-tier-add]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var qtyInput = document.getElementById('bz-qty-input') || document.querySelector('input[name="quantity"]');
+      if (!qtyInput) return;
+      var current = parseInt(qtyInput.value || '1', 10);
+      if (isNaN(current) || current < 1) current = 1;
+      var add = parseInt(btn.dataset.tierAdd || '0', 10);
+      var next = Math.max(1, current + add);
+      qtyInput.value = String(next);
+      qtyInput.dispatchEvent(new Event('input', { bubbles: true }));
+      qtyInput.dispatchEvent(new Event('change', { bubbles: true }));
+    });
   });
 
   // Sticky-Kontext bauen — kurz, hochwertig, B2B-tauglich
