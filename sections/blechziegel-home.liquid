@@ -245,7 +245,41 @@
     font-family: var(--font-heading-family, inherit);
   }
   .bz-product-price-sub { font-size: 11.5px; color: #9a9890; margin-top: 4px; }
-  .bz-product-cta { margin-top: 6px; }
+
+  /* Trust-Line unter dem Preis */
+  .bz-product-trustline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+    padding: 10px 12px;
+    background: #f8f7f4;
+    border: 1px solid rgba(13, 30, 53, 0.06);
+    border-radius: 12px;
+    cursor: default;
+    transition: background .15s ease, border-color .15s ease;
+  }
+  .bz-product-card:hover .bz-product-trustline {
+    background: #f5f4f1;
+    border-color: rgba(13, 30, 53, 0.08);
+  }
+  .bz-product-trustitem {
+    color: var(--bz-navy);
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  .bz-product-trustitem:first-child {
+    font-weight: 700;
+  }
+  .bz-product-trustdot {
+    color: rgba(245, 166, 35, 0.9);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .bz-product-cta { margin-top: 2px; }
 
   /* CTA stärker, aber markenkonform — nur innerhalb der Karte */
   .bz-product-card .bz-btn-primary {
@@ -357,6 +391,8 @@
     .bz-product-img { padding: 12px; }
     .bz-product-img img { padding: 8px; }
     .bz-product-body { padding: 16px 14px 14px; }
+    .bz-product-trustline { gap: 5px; padding: 8px 10px; }
+    .bz-product-trustitem { font-size: 11.5px; }
     .bz-product-card .bz-btn-primary { min-height: 50px; border-radius: 12px; }
     .bz-product-price { font-size: 1.6rem; }
     .bz-steps { grid-template-columns: 1fr; }
@@ -516,6 +552,13 @@
           <div>
             <div class="bz-product-price">ab {{ product.price_min | money }}</div>
             <div class="bz-product-price-sub">inkl. MwSt. &middot; zzgl. Versand</div>
+          </div>
+          <div class="bz-product-trustline" aria-label="Produktvorteile">
+            <span class="bz-product-trustitem">Passgenau</span>
+            <span class="bz-product-trustdot">&bull;</span>
+            <span class="bz-product-trustitem">Made in Germany</span>
+            <span class="bz-product-trustdot">&bull;</span>
+            <span class="bz-product-trustitem">1–3 Werktage</span>
           </div>
           <div class="bz-product-cta">
             <a href="{{ product.url }}" class="bz-btn bz-btn-primary" style="width:100%;justify-content:center;">Jetzt kaufen</a>
