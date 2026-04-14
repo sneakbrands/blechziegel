@@ -1004,22 +1004,21 @@
     font-weight: 600;
   }
 
-  /* Farb-Filter: Farbpunkt wie auf der Produktseite */
+  /* Farb-Filter: Farbpunkt wie auf der Produktseite (flach, satt) */
   .bz-filter-swatch-dot {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
-    border: 1px solid rgba(13, 30, 53, 0.12);
+    border: 1px solid rgba(13, 30, 53, 0.15);
     flex-shrink: 0;
     display: inline-block;
-    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.15);
   }
   .bz-filter-option--color .bz-filter-option-label {
     color: var(--bz-navy);
   }
   .bz-filter-option--color:has(input:checked) .bz-filter-swatch-dot {
-    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.15), 0 0 0 2px var(--bz-orange);
-    border-color: var(--bz-orange);
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--bz-orange);
+    border-color: transparent;
   }
 
   /* ── Price Block ── */
@@ -1420,9 +1419,9 @@
                       {%- assign swatch_color = value.swatch.color -%}
                     {%- else -%}
                       {%- assign vl = value.label | downcase -%}
-                      {%- if vl contains 'aluminium' or vl contains 'alu blank' -%}{%- assign swatch_color = '#c8c8c0' -%}
-                      {%- elsif vl contains 'anthrazit' -%}{%- assign swatch_color = '#383e42' -%}
-                      {%- elsif vl contains 'ziegelrot' or vl contains 'ziegel-rot' -%}{%- assign swatch_color = '#8B3A2A' -%}
+                      {%- if vl contains 'aluminium' or vl contains 'alu blank' -%}{%- assign swatch_color = '#cfccc1' -%}
+                      {%- elsif vl contains 'anthrazit' -%}{%- assign swatch_color = '#373d47' -%}
+                      {%- elsif vl contains 'ziegelrot' or vl contains 'ziegel-rot' -%}{%- assign swatch_color = '#a14130' -%}
                       {%- elsif vl contains 'schwarz' -%}{%- assign swatch_color = '#111111' -%}
                       {%- elsif vl contains 'weiß' or vl contains 'weiss' or vl contains 'white' -%}{%- assign swatch_color = '#f2f1ee' -%}
                       {%- elsif vl contains 'grau' -%}{%- assign swatch_color = '#7a7a78' -%}
