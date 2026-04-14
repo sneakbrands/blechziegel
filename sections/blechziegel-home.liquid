@@ -140,8 +140,8 @@
   .bz-products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
   .bz-product-card { background: #fff; border: 1.5px solid #e2e0d8; border-radius: var(--bz-r-lg); overflow: hidden; display: flex; flex-direction: column; transition: box-shadow .18s, transform .18s; }
   .bz-product-card:hover { box-shadow: 0 8px 32px rgba(13,30,53,.1); transform: translateY(-2px); }
-  .bz-product-img { aspect-ratio: 16/9; background: #f0efeb; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-  .bz-product-img img { width: 100%; height: 100%; object-fit: cover; }
+  .bz-product-img { aspect-ratio: 4/3; background: #f0efeb; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  .bz-product-img img { width: 100%; height: 100%; object-fit: contain; padding: 16px; }
   .bz-product-badge { position: absolute; top: 12px; left: 12px; background: var(--bz-orange); color: var(--bz-navy); font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
   .bz-product-body { padding: 18px; flex: 1; display: flex; flex-direction: column; gap: 7px; }
   .bz-product-name { font-weight: 700; font-size: 15px; color: var(--bz-navy); }

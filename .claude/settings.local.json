@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -E \"\\\\.json$\")",
+      "Bash(bash build_chatgpt_export.sh)"
+    ]
+  }
+}
