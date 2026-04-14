@@ -250,6 +250,63 @@
   }
 
   body.bz-cart-open { overflow: hidden; }
+
+  /* Upsell */
+  .bz-cart-upsell:empty { display: none; }
+  .bz-cart-upsell {
+    margin: 0 20px 14px;
+  }
+  .bz-upsell-card {
+    display: grid;
+    grid-template-columns: 52px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    padding: 12px;
+    background: #fff4e0;
+    border: 1px solid rgba(245, 166, 35, 0.32);
+    border-radius: 12px;
+  }
+  .bz-upsell-img {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+    border-radius: 8px;
+    background: #fff;
+  }
+  .bz-upsell-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #d4891a;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .bz-upsell-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #0d1e35;
+    line-height: 1.3;
+  }
+  .bz-upsell-price {
+    font-size: 12px;
+    color: #5a5955;
+    margin-top: 2px;
+  }
+  .bz-upsell-btn {
+    appearance: none;
+    border: none;
+    background: #0d1e35;
+    color: #fff;
+    border-radius: 10px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background .15s ease, transform .15s ease;
+  }
+  .bz-upsell-btn:hover { background: #152840; transform: translateY(-1px); }
+  .bz-upsell-btn:disabled { opacity: .55; cursor: not-allowed; transform: none; }
 {% endstyle %}
 
 <div id="bz-cart-drawer" class="bz-cart-drawer" aria-hidden="true" role="dialog" aria-label="Warenkorb">
@@ -267,6 +324,8 @@
     <div class="bz-cart-body" id="bz-cart-items">
       <p class="bz-cart-empty">Dein Warenkorb ist leer.</p>
     </div>
+
+    <div class="bz-cart-upsell" id="bz-cart-upsell"></div>
 
     <div class="bz-cart-footer">
       <div class="bz-cart-subtotal">
@@ -377,9 +436,117 @@
 
   async function updateDrawer() {
     var cart = await fetchCart();
-    if (cart) renderCart(cart);
+    if (cart) {
+      renderCart(cart);
+      renderUpsell(cart);
+    }
     return cart;
   }
+
+  // === UPSELL: "Ohne Haken" → biete "mit Haken"-Variante an ===
+  var bzUpsellCache = {}; // handle → product.js
+
+  async function fetchProduct(handle) {
+    if (bzUpsellCache[handle]) return bzUpsellCache[handle];
+    try {
+      var res = await fetch('/products/' + handle + '.js');
+      if (!res.ok) return null;
+      var p = await res.json();
+      bzUpsellCache[handle] = p;
+      return p;
+    } catch (e) { return null; }
+  }
+
+  function findHakenVariant(product, currentVariant) {
+    // Suche Variante desselben Produkts mit "mit Haken" und sonst gleichen Options
+    var currentOpts = currentVariant.options || [];
+    for (var i = 0; i < product.variants.length; i++) {
+      var v = product.variants[i];
+      if (!v.available) continue;
+      var title = (v.title || '').toLowerCase();
+      var hasMit = title.indexOf('mit haken') !== -1;
+      if (!hasMit) continue;
+      // Andere Optionen müssen matchen (außer der Haken-Option selbst)
+      var optsMatch = true;
+      for (var j = 0; j < currentOpts.length; j++) {
+        var co = String(currentOpts[j] || '').toLowerCase();
+        if (co.indexOf('ohne haken') !== -1 || co.indexOf('mit haken') !== -1) continue;
+        if ((v.options[j] || '').toLowerCase() !== co) { optsMatch = false; break; }
+      }
+      if (optsMatch) return v;
+    }
+    return null;
+  }
+
+  async function renderUpsell(cart) {
+    var container = document.getElementById('bz-cart-upsell');
+    if (!container) return;
+    container.innerHTML = '';
+
+    // Finde erstes Cart-Item mit "ohne Haken" — Rest ignorieren (nur 1 Upsell im MVP)
+    var triggerItem = null;
+    for (var i = 0; i < cart.items.length; i++) {
+      var it = cart.items[i];
+      var blob = ((it.variant_title || '') + ' ' + (it.title || '')).toLowerCase();
+      if (blob.indexOf('ohne haken') !== -1) { triggerItem = it; break; }
+    }
+    if (!triggerItem) return;
+
+    // Handle aus URL ableiten
+    var handle = (triggerItem.url || '').split('/products/')[1];
+    if (handle) handle = handle.split('?')[0].split('/')[0];
+    if (!handle) return;
+
+    var product = await fetchProduct(handle);
+    if (!product) return;
+
+    // Aktuelle Variante im Produkt finden (für Options-Abgleich)
+    var currentVariant = product.variants.find(function(v) { return v.id === triggerItem.variant_id; });
+    if (!currentVariant) return;
+
+    var upsellVariant = findHakenVariant(product, currentVariant);
+    if (!upsellVariant) return;
+
+    // Bereits im Cart? Dann keinen Upsell mehr anzeigen
+    var alreadyInCart = cart.items.some(function(it) { return it.variant_id === upsellVariant.id; });
+    if (alreadyInCart) return;
+
+    var priceDiffCents = upsellVariant.price - currentVariant.price;
+    var priceLabel = priceDiffCents > 0 ? '+' + formatEUR(priceDiffCents) : formatEUR(upsellVariant.price);
+    var img = (upsellVariant.featured_image && upsellVariant.featured_image.src) || triggerItem.image || '';
+    var imgThumb = img ? img.replace(/(\.[^.\/?]+)(\?.*)?$/, '_104x104$1$2') : '';
+
+    container.innerHTML =
+      '<div class="bz-upsell-card" data-variant-id="' + upsellVariant.id + '">' +
+        (imgThumb ? '<img class="bz-upsell-img" src="' + imgThumb + '" alt="" width="52" height="52" loading="lazy">' : '<div class="bz-upsell-img"></div>') +
+        '<div>' +
+          '<div class="bz-upsell-label">Empfehlung</div>' +
+          '<div class="bz-upsell-title">Mit Dachhaken für PV-Montage aufrüsten</div>' +
+          '<div class="bz-upsell-price">' + priceLabel + '</div>' +
+        '</div>' +
+        '<button type="button" class="bz-upsell-btn" data-bz-upsell-add>Hinzufügen</button>' +
+      '</div>';
+  }
+
+  drawer.addEventListener('click', async function(e) {
+    var btn = e.target.closest('[data-bz-upsell-add]');
+    if (!btn) return;
+    var card = btn.closest('.bz-upsell-card');
+    if (!card) return;
+    var variantId = parseInt(card.dataset.variantId, 10);
+    if (!variantId) return;
+    btn.disabled = true;
+    btn.textContent = 'Wird hinzugefügt…';
+    try {
+      await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ id: variantId, quantity: 1 })
+      });
+    } catch (err) { /* noop */ }
+    await updateDrawer();
+    showSuccess();
+  });
 
   async function addToCart(form) {
     var formData = new FormData(form);
