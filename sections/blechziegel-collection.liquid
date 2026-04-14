@@ -586,6 +586,80 @@
     .bz-collection-faq summary { font-size: 14px; }
   }
 
+  /* Hersteller-Hero-Intro (minimal, unter H1) */
+  .bz-manufacturer-intro {
+    margin-top: 12px;
+    max-width: 620px;
+  }
+  .bz-manufacturer-intro p {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 15.5px;
+    line-height: 1.6;
+    margin: 0 0 10px;
+  }
+  .bz-mini-benefits {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.92);
+  }
+  .bz-mini-benefits span {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Hersteller-SEO (minimal, unter Grid) */
+  .bz-seo-manufacturer {
+    margin-top: 32px;
+    padding: 28px 0 8px;
+  }
+  .bz-seo-manufacturer .bz-col-wrap {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  .bz-seo-manufacturer h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--bz-navy);
+    margin: 0 0 12px;
+    font-family: var(--font-heading-family, inherit);
+  }
+  .bz-seo-manufacturer p {
+    font-size: 14.5px;
+    color: var(--bz-gray-text);
+    line-height: 1.7;
+    margin: 0 0 10px;
+  }
+  .bz-seo-manufacturer .bz-internal-links {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(13, 30, 53, 0.08);
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .bz-seo-manufacturer .bz-internal-links a {
+    color: var(--bz-navy);
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: color .18s ease;
+  }
+  .bz-seo-manufacturer .bz-internal-links a:hover {
+    color: var(--bz-orange);
+  }
+
+  @media (max-width: 640px) {
+    .bz-manufacturer-intro p { font-size: 14.5px; }
+    .bz-mini-benefits { gap: 12px; font-size: 13px; }
+    .bz-seo-manufacturer { margin-top: 24px; padding: 22px 0 4px; }
+    .bz-seo-manufacturer h2 { font-size: 1.1rem; }
+    .bz-seo-manufacturer .bz-internal-links { flex-direction: column; gap: 8px; }
+  }
+
   /* ══ RESPONSIVE ══ */
   @media (max-width: 900px) {
     .bz-dachtyp-grid { grid-template-columns: repeat(3, 1fr); }
@@ -674,13 +748,23 @@
         {{ collection.title }}
       {%- endif -%}
     </h1>
+    {%- if is_hersteller -%}
+      <div class="bz-manufacturer-intro">
+        <p>
+          Passgenaue Blechziegel für {{ hersteller_name }}-Dachziegel –
+          ideal für die schnelle und sichere PV-Montage ohne Bohren.
+        </p>
+        <div class="bz-mini-benefits">
+          <span>✓ passgenau</span>
+          <span>✓ kein Ziegelbruch</span>
+          <span>✓ schnelle Montage</span>
+        </div>
+      </div>
+    {%- else -%}
     <p class="bz-col-hero-sub">
-      {%- if is_hersteller -%}
-        Passgenaue Aluminium-Ersatzziegel für {{ hersteller_name }}-Dachziegel. Optimiert für die Photovoltaik-Montage ohne Beschädigung der bestehenden Dacheindeckung.
-      {%- else -%}
-        Aluminium-Ersatzziegel für die sichere PV-Montage – passgenau für alle gängigen Dachziegeltypen. Kein Ziegelbruch, kein Bohren, keine Nacharbeit. Made in Germany.
-      {%- endif -%}
+      Aluminium-Ersatzziegel für die sichere PV-Montage – passgenau für alle gängigen Dachziegeltypen. Kein Ziegelbruch, kein Bohren, keine Nacharbeit. Made in Germany.
     </p>
+    {%- endif -%}
     <div class="bz-col-hero-trust">
       <span class="bz-col-hero-trust-item">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
@@ -998,17 +1082,15 @@
   </div>
 </section>
 
-{%- comment -%}══ 5b. HERSTELLER-SEO-TEXT ══{%- endcomment -%}
-<section class="bz-col-seo">
-  <div class="bz-col-seo-inner">
-    <h2>{{ hersteller_name }}-Dachziegel für Photovoltaik optimal nutzen</h2>
-    <p>Bei der Installation von Photovoltaikanlagen auf {{ hersteller_name }}-Dächern ist eine saubere Integration entscheidend. Unsere Aluminium-Blechziegel ermöglichen eine sichere und optisch unauffällige Durchführung der PV-Montage — passgenau zum {{ hersteller_name }}-Profil.</p>
-    <p>Durch die exakte Form wird die bestehende Dachstruktur nicht beschädigt. Gleichzeitig bleibt die Funktionalität des Dachs vollständig erhalten: Der Blechziegel ersetzt den originalen {{ hersteller_name }}-Tonziegel an der Montagestelle und trägt den Dachhaken oder die PV-Durchführung sicher.</p>
-    <p>Aluminium als Material hat hier drei Vorteile: es ist korrosionsbeständig (25+ Jahre Haltbarkeit), bruchsicher (kein Ziegelsplittern beim Bohren) und optisch unauffällig durch pulverbeschichtete Oberflächen.</p>
+{%- comment -%}══ 5b. HERSTELLER-SEO-TEXT (minimal) ══{%- endcomment -%}
+<section class="bz-seo-manufacturer">
+  <div class="bz-col-wrap">
+    <h2>PV-Dachziegel für {{ hersteller_name }}</h2>
+    <p>Unsere Blechziegel sind speziell für gängige {{ hersteller_name }}-Modelle entwickelt und ermöglichen eine sichere Integration von Photovoltaik-Anlagen ohne Beschädigung der Dachstruktur.</p>
+    <p>Sie eignen sich ideal für Sanierung und Nachrüstung und sorgen für eine saubere, langlebige Lösung im Bereich der PV-Montage.</p>
     <nav class="bz-internal-links" aria-label="Weiterführende Seiten">
-      <a href="/collections/pv-dachziegel">→ Alle PV-Dachziegel ansehen</a>
-      <a href="/pages/hersteller">→ Alle Hersteller im Überblick</a>
-      <a href="/pages/gewerbe">→ Angebote für Dachdecker &amp; Gewerbe</a>
+      <a href="/collections/pv-dachziegel">Alle PV-Dachziegel</a>
+      <a href="/pages/hersteller">Alle Hersteller</a>
     </nav>
   </div>
 </section>
