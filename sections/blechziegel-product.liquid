@@ -530,9 +530,18 @@
     max-width: 1160px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     gap: 12px;
     align-items: center;
+  }
+  .bz-sticky-image {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    border-radius: 8px;
+    background: #f5f5f5;
+    display: block;
+    flex-shrink: 0;
   }
   .bz-sticky-meta {
     min-width: 0;
@@ -635,7 +644,9 @@
     .bz-price-current { font-size: 1.7rem; }
     .bz-product-grid { padding: 16px 0 32px; }
     .bz-sticky-atc { padding: 10px 10px calc(10px + env(safe-area-inset-bottom)); }
-    .bz-sticky-atc-inner { grid-template-columns: 1fr; gap: 10px; }
+    .bz-sticky-atc-inner { grid-template-columns: auto 1fr; gap: 10px; }
+    .bz-sticky-btn { grid-column: 1 / -1; }
+    .bz-sticky-image { width: 44px; height: 44px; }
     .bz-sticky-meta { gap: 5px; }
     .bz-sticky-variant-context { font-size: 11.5px; }
     .bz-sticky-trustline { gap: 4px; }
@@ -1027,6 +1038,15 @@
 {%- comment -%}══ STICKY ATC MOBILE ══{%- endcomment -%}
 <div class="bz-sticky-atc" id="bz-sticky">
   <div class="bz-sticky-atc-inner">
+    <img
+      id="bz-sticky-image"
+      class="bz-sticky-image"
+      src="{{ product.featured_image | image_url: width: 120 }}"
+      alt="{{ product.title | escape }}"
+      width="48"
+      height="48"
+      loading="eager"
+    />
     <div class="bz-sticky-meta">
       <div class="bz-sticky-variant-context" id="bz-sticky-context">{{ product.title | truncate: 32 }}</div>
 
@@ -1167,8 +1187,10 @@
 
       // Bild wechseln wenn vorhanden
       if (matched.featured_image) {
-        var imgSrc = matched.featured_image.src.replace(/(\.[^.]+)$/, '_800x800$1');
-        document.getElementById('bz-main-img-tag').src = 'https:' + matched.featured_image.src + '&width=800';
+        var mainImg = document.getElementById('bz-main-img-tag');
+        if (mainImg) mainImg.src = 'https:' + matched.featured_image.src + '&width=800';
+        var stickyImg = document.getElementById('bz-sticky-image');
+        if (stickyImg) stickyImg.src = 'https:' + matched.featured_image.src + '&width=120';
       }
 
       // ATC Status (Haupt + Sticky synchron)
