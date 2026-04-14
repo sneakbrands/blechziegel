@@ -1,0 +1,403 @@
+{% comment %}
+  blechziegel.de – Footer
+  Datei: sections/footer.liquid
+  Horizon Theme kompatibel
+  Farben: Navy #0d1e35, Orange #f5a623, Bottom-Bar #091625
+{% endcomment %}
+
+{% style %}
+  .bz-footer {
+    background: #0d1e35;
+    font-family: var(--font-body-family, sans-serif);
+  }
+
+  /* ── Haupt-Footer Grid ── */
+  .bz-footer-main {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 52px 20px 40px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: 40px;
+  }
+
+  /* ── Spalte 1: Marke ── */
+  .bz-footer-logo {
+    margin-bottom: 16px;
+  }
+  .bz-footer-logo img {
+    height: 38px;
+    width: auto;
+  }
+  .bz-footer-desc {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.7;
+    margin-bottom: 14px;
+    max-width: 280px;
+  }
+  .bz-footer-addr {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.45);
+    line-height: 1.75;
+  }
+  .bz-footer-addr a {
+    color: #f5a623;
+    text-decoration: none;
+  }
+  .bz-footer-addr a:hover {
+    text-decoration: underline;
+  }
+
+  /* ── Spalten 2 & 3: Links ── */
+  .bz-footer-col-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: 14px;
+  }
+  .bz-footer-col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .bz-footer-col ul li a {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.65);
+    text-decoration: none;
+    transition: color .15s;
+  }
+  .bz-footer-col ul li a:hover {
+    color: #f5a623;
+  }
+
+  /* ── Spalte 4: Versand & Zahlung ── */
+  .bz-footer-table-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: 12px;
+  }
+  .bz-footer-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  .bz-footer-table td {
+    padding: 6px 0;
+    color: rgba(255, 255, 255, 0.65);
+  }
+  .bz-footer-table td:last-child {
+    text-align: right;
+    font-weight: 600;
+    color: #ffffff;
+  }
+  .bz-footer-table tr + tr td {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .bz-footer-sub-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin: 20px 0 10px;
+  }
+  .bz-footer-sub-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .bz-footer-sub-list span {
+    font-size: 13.5px;
+    color: rgba(255, 255, 255, 0.65);
+  }
+  .bz-footer-odr {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, 0.45);
+    line-height: 1.65;
+  }
+  .bz-footer-odr a {
+    color: #f5a623;
+    text-decoration: none;
+  }
+  .bz-footer-odr a:hover {
+    text-decoration: underline;
+  }
+
+  /* ── Trennlinie ── */
+  .bz-footer-divider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 0;
+  }
+
+  /* ── Bottom-Leiste ── */
+  .bz-footer-bottom {
+    background: #091625;
+    padding: 16px 20px;
+  }
+  .bz-footer-bottom-inner {
+    max-width: 1160px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .bz-footer-bottom-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .bz-footer-bottom-links a {
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, 0.45);
+    text-decoration: none;
+    transition: color .15s;
+  }
+  .bz-footer-bottom-links a:hover {
+    color: #f5a623;
+  }
+  .bz-footer-bottom-copy {
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  /* ── Legal-Zeile ── */
+  .bz-footer-legal {
+    background: #091625;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    padding: 10px 20px 16px;
+    text-align: center;
+    font-size: 11.5px;
+    color: rgba(255, 255, 255, 0.3);
+    line-height: 1.7;
+  }
+  .bz-footer-legal a {
+    color: rgba(255, 255, 255, 0.3);
+    text-decoration: none;
+  }
+  .bz-footer-mwst {
+    background: #091625;
+    text-align: center;
+    padding: 4px 20px 18px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.25);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .bz-footer-main {
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+    .bz-footer-brand {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (max-width: 520px) {
+    .bz-footer-main {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      padding: 36px 20px 28px;
+    }
+    .bz-footer-bottom-inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .bz-footer-bottom-links {
+      gap: 12px;
+    }
+  }
+{% endstyle %}
+
+<footer class="bz-footer">
+
+  <div class="bz-footer-main">
+
+    <!-- Spalte 1: Marke & Adresse -->
+    <div class="bz-footer-brand">
+      <div class="bz-footer-logo">
+        <a href="{{ routes.root_url }}">
+          {%- if section.settings.footer_logo != blank -%}
+            {{ section.settings.footer_logo | image_url: width: 200 | image_tag:
+              alt: shop.name,
+              width: 160,
+              height: 40,
+              loading: 'lazy'
+            }}
+          {%- else -%}
+            <img
+              src="https://blechziegel.de/cdn/shop/files/blechziegel-de-logo-header-transparent.png?v=1774273454&width=270"
+              alt="{{ shop.name }}"
+              width="160"
+              height="40"
+              loading="lazy"
+            >
+          {%- endif -%}
+        </a>
+      </div>
+      <p class="bz-footer-desc">
+        {{ section.settings.footer_desc | default: 'Ihr Spezialist für PV-Ersatzziegel aus Aluminium. Passende Ersatzziegel für alle gängigen Dachziegeltypen – für eine sichere und optisch einwandfreie Photovoltaik-Montage.' }}
+      </p>
+      <div class="bz-footer-addr">
+        {{ section.settings.footer_address | default: 'Allersberger Straße 185<br>90461 Nürnberg, Deutschland' }}<br>
+        <a href="mailto:{{ section.settings.footer_email | default: 'web@blechziegel.de' }}">
+          {{ section.settings.footer_email | default: 'web@blechziegel.de' }}
+        </a>
+      </div>
+    </div>
+
+    <!-- Spalte 2: Service -->
+    <div class="bz-footer-col">
+      <div class="bz-footer-col-title">Service</div>
+      <ul>
+        <li><a href="{{ routes.root_url }}pages/contact">Kontakt &amp; Anfrage</a></li>
+        <li><a href="{{ routes.collections_url }}/all">Alle Produkte</a></li>
+        <li><a href="{{ routes.search_url }}">Produktsuche</a></li>
+        <li><a href="{{ routes.root_url }}policies/shipping-policy">Versand &amp; Lieferung</a></li>
+        <li><a href="{{ routes.root_url }}policies/refund-policy">R&uuml;ckgabe &amp; Widerruf</a></li>
+        <li><a href="{{ routes.account_url }}">Mein Konto</a></li>
+      </ul>
+    </div>
+
+    <!-- Spalte 3: Rechtliches -->
+    <div class="bz-footer-col">
+      <div class="bz-footer-col-title">Rechtliches</div>
+      <ul>
+        <li><a href="{{ routes.root_url }}policies/legal-notice">Impressum</a></li>
+        <li><a href="{{ routes.root_url }}policies/privacy-policy">Datenschutzerkl&auml;rung</a></li>
+        <li><a href="{{ routes.root_url }}policies/terms-of-service">AGB</a></li>
+        <li><a href="{{ routes.root_url }}policies/refund-policy">Widerrufsbelehrung</a></li>
+        <li><a href="{{ routes.root_url }}policies/shipping-policy">Versandrichtlinie</a></li>
+      </ul>
+    </div>
+
+    <!-- Spalte 4: Versandkosten & Zahlung -->
+    <div class="bz-footer-col">
+      <div class="bz-footer-table-title">Versandkosten &middot; DHL</div>
+      <table class="bz-footer-table">
+        <tr><td>bis 49,99 &euro;</td><td>4,99 &euro;</td></tr>
+        <tr><td>50,00 &ndash; 99,99 &euro;</td><td>3,99 &euro;</td></tr>
+        <tr><td>ab 100,00 &euro;</td><td>Kostenlos &#10003;</td></tr>
+      </table>
+
+      <div class="bz-footer-sub-title">Zahlungsarten</div>
+      <div class="bz-footer-sub-list">
+        <span>Vorkasse</span>
+        <span>Rechnung</span>
+        <span>SEPA</span>
+      </div>
+
+      <div class="bz-footer-sub-title">Versand &amp; Sicherheit</div>
+      <div class="bz-footer-sub-list">
+        <span>DHL</span>
+        <span>SSL gesichert</span>
+      </div>
+
+      <div class="bz-footer-odr">
+        <strong style="color:rgba(255,255,255,.65);">Online-Streitbeilegung (EU)</strong><br>
+        Plattform der EU-Kommission:<br>
+        <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer">
+          ec.europa.eu/consumers/odr
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Trennlinie -->
+  <hr class="bz-footer-divider">
+
+  <!-- Bottom-Links -->
+  <div class="bz-footer-bottom">
+    <div class="bz-footer-bottom-inner">
+      <div class="bz-footer-bottom-links">
+        <a href="{{ routes.root_url }}policies/legal-notice">Impressum</a>
+        <a href="{{ routes.root_url }}policies/privacy-policy">Datenschutz</a>
+        <a href="{{ routes.root_url }}policies/terms-of-service">AGB</a>
+        <a href="{{ routes.root_url }}policies/refund-policy">Widerruf</a>
+        <a href="{{ routes.root_url }}policies/shipping-policy">Versand</a>
+        <a href="{{ routes.root_url }}pages/contact">Kontakt</a>
+      </div>
+      <div class="bz-footer-bottom-copy">Alle Preise inkl. gesetzl. MwSt.</div>
+    </div>
+  </div>
+
+  <!-- Legal-Zeile -->
+  <div class="bz-footer-legal">
+    <strong style="color:rgba(255,255,255,.45);">TiWi Trade GmbH</strong> &middot;
+    Allersberger Stra&szlig;e 185, 90461 N&uuml;rnberg &middot;
+    <strong style="color:rgba(255,255,255,.45);">USt-IdNr.:</strong> DE315239032 &middot;
+    <strong style="color:rgba(255,255,255,.45);">HRB:</strong> 39140 Amtsgericht N&uuml;rnberg &middot;
+    <strong style="color:rgba(255,255,255,.45);">GF:</strong> Marcus Tischler, David Winkler &middot;
+    <a href="mailto:web@blechziegel.de">web@blechziegel.de</a>
+  </div>
+  <div class="bz-footer-mwst">
+    &copy; {{ 'now' | date: '%Y' }} Blechziegel.de &ndash; TiWi Trade GmbH &middot; Alle Rechte vorbehalten.
+  </div>
+
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "tag": "section",
+  "class": "bz-footer-section",
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo & Marke"
+    },
+    {
+      "type": "image_picker",
+      "id": "footer_logo",
+      "label": "Footer-Logo",
+      "info": "Leer lassen um Standard-Logo von blechziegel.de zu verwenden"
+    },
+    {
+      "type": "textarea",
+      "id": "footer_desc",
+      "label": "Beschreibungstext",
+      "default": "Ihr Spezialist für PV-Ersatzziegel aus Aluminium. Passende Ersatzziegel für alle gängigen Dachziegeltypen – für eine sichere und optisch einwandfreie Photovoltaik-Montage."
+    },
+    {
+      "type": "header",
+      "content": "Kontakt"
+    },
+    {
+      "type": "text",
+      "id": "footer_address",
+      "label": "Adresse (HTML erlaubt)",
+      "default": "Allersberger Straße 185<br>90461 Nürnberg, Deutschland"
+    },
+    {
+      "type": "text",
+      "id": "footer_email",
+      "label": "E-Mail",
+      "default": "web@blechziegel.de"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blechziegel Footer"
+    }
+  ]
+}
+{% endschema %}

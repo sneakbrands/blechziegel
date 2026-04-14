@@ -1,0 +1,880 @@
+{% comment %}
+  blechziegel.de – Optimierte Collection-Seite
+  Datei: sections/blechziegel-collection.liquid
+  Horizon Theme kompatibel
+  Features: Hero, Dachtyp-Filter, optimierte Produktkarten, Metafield-Filter, Mobile-first
+{% endcomment %}
+
+{% style %}
+  :root {
+    --bz-navy: #0d1e35;
+    --bz-navy-mid: #152840;
+    --bz-orange: #f5a623;
+    --bz-orange-dark: #d4891a;
+    --bz-orange-light: #fff4e0;
+    --bz-border: #e2e0d8;
+    --bz-gray-50: #f8f8f6;
+    --bz-gray-100: #f0efeb;
+    --bz-gray-text: #5a5955;
+    --bz-r: 6px;
+    --bz-r-lg: 12px;
+  }
+
+  .bz-col-wrap { max-width: 1160px; margin: 0 auto; padding: 0 20px; }
+
+  /* ══ HERO ══ */
+  .bz-col-hero {
+    background: var(--bz-navy);
+    padding: 48px 20px 44px;
+    position: relative;
+    overflow: hidden;
+  }
+  .bz-col-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0, rgba(255,255,255,.03) 1px, transparent 1px, transparent 80px);
+    pointer-events: none;
+  }
+  .bz-col-hero-inner {
+    max-width: 1160px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .bz-col-hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(245,166,35,.18);
+    border: 1px solid rgba(245,166,35,.35);
+    color: var(--bz-orange);
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .bz-col-hero h1 {
+    color: #fff;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 700;
+    line-height: 1.18;
+    margin-bottom: 12px;
+    font-family: var(--font-heading-family, inherit);
+  }
+  .bz-col-hero h1 em { font-style: normal; color: var(--bz-orange); }
+  .bz-col-hero-sub {
+    font-size: 15px;
+    color: rgba(255,255,255,.7);
+    max-width: 560px;
+    line-height: 1.65;
+    margin-bottom: 28px;
+  }
+  .bz-col-hero-trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .bz-col-hero-trust-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    color: rgba(255,255,255,.65);
+  }
+  .bz-col-hero-trust-item svg { color: var(--bz-orange); flex-shrink: 0; }
+
+  /* ══ DACHTYP FILTER ══ */
+  .bz-dachtyp-section {
+    background: var(--bz-gray-50);
+    padding: 36px 20px;
+    border-bottom: 1px solid var(--bz-border);
+  }
+  .bz-dachtyp-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .bz-dachtyp-head-left { display: flex; align-items: center; gap: 10px; }
+  .bz-dachtyp-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--bz-orange);
+  }
+  .bz-dachtyp-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--bz-navy);
+  }
+  .bz-dachtyp-hint {
+    font-size: 12.5px;
+    color: var(--bz-gray-text);
+  }
+  .bz-dachtyp-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+  }
+  .bz-dachtyp-btn {
+    background: #fff;
+    border: 1.5px solid var(--bz-border);
+    border-radius: var(--bz-r-lg);
+    padding: 14px 10px 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: all .18s;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body-family, inherit);
+  }
+  .bz-dachtyp-btn:hover { border-color: var(--bz-orange); box-shadow: 0 4px 16px rgba(245,166,35,.12); transform: translateY(-2px); }
+  .bz-dachtyp-btn.active { border-color: var(--bz-orange); background: var(--bz-orange-light); }
+  .bz-dachtyp-icon {
+    width: 38px;
+    height: 38px;
+    background: var(--bz-orange-light);
+    border-radius: var(--bz-r);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .bz-dachtyp-btn.active .bz-dachtyp-icon { background: rgba(245,166,35,.2); }
+  .bz-dachtyp-icon svg { color: var(--bz-orange); }
+  .bz-dachtyp-name { font-size: 12px; font-weight: 700; color: var(--bz-navy); line-height: 1.3; }
+  .bz-dachtyp-reset {
+    background: none;
+    border: none;
+    font-size: 12.5px;
+    color: var(--bz-gray-text);
+    cursor: pointer;
+    text-decoration: underline;
+    font-family: var(--font-body-family, inherit);
+    padding: 0;
+    display: none;
+  }
+  .bz-dachtyp-reset.visible { display: inline; }
+
+  /* ══ FILTER + SORT BAR ══ */
+  .bz-filter-bar {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--bz-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    background: #fff;
+    position: sticky;
+    top: 70px;
+    z-index: 40;
+  }
+  .bz-filter-bar-left { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .bz-filter-count {
+    font-size: 13px;
+    color: var(--bz-gray-text);
+  }
+  .bz-filter-count strong { color: var(--bz-navy); }
+
+  /* Shopify native filter buttons */
+  .bz-filter-bar details summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border: 1.5px solid var(--bz-border);
+    border-radius: var(--bz-r);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--bz-navy);
+    cursor: pointer;
+    background: #fff;
+    list-style: none;
+    transition: border-color .15s;
+  }
+  .bz-filter-bar details summary::-webkit-details-marker { display: none; }
+  .bz-filter-bar details summary:hover { border-color: var(--bz-orange); }
+  .bz-filter-bar details[open] summary { border-color: var(--bz-orange); background: var(--bz-orange-light); }
+
+  .bz-sort-select {
+    padding: 8px 32px 8px 12px;
+    border: 1.5px solid var(--bz-border);
+    border-radius: var(--bz-r);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--bz-navy);
+    background: #fff;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%230d1e35' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    cursor: pointer;
+    font-family: var(--font-body-family, inherit);
+  }
+
+  /* Active filter pills */
+  .bz-active-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+  }
+  .bz-filter-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--bz-orange-light);
+    border: 1px solid rgba(245,166,35,.4);
+    color: #854F0B;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .bz-filter-pill svg { color: #854F0B; }
+
+  /* ══ MAIN GRID AREA ══ */
+  .bz-col-main {
+    padding: 32px 20px 60px;
+    max-width: 1160px;
+    margin: 0 auto;
+  }
+
+  /* ══ ORIENTIERUNGS-BANNER ══ */
+  .bz-orient-banner {
+    background: var(--bz-navy);
+    border-radius: var(--bz-r-lg);
+    padding: 20px 24px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .bz-orient-icon {
+    width: 44px;
+    height: 44px;
+    background: rgba(245,166,35,.2);
+    border-radius: var(--bz-r);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--bz-orange);
+  }
+  .bz-orient-text { flex: 1; }
+  .bz-orient-text strong { display: block; color: #fff; font-size: 14px; margin-bottom: 3px; }
+  .bz-orient-text span { font-size: 13px; color: rgba(255,255,255,.65); line-height: 1.5; }
+  .bz-orient-link {
+    background: var(--bz-orange);
+    color: var(--bz-navy);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 9px 18px;
+    border-radius: var(--bz-r);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background .15s;
+  }
+  .bz-orient-link:hover { background: var(--bz-orange-dark); }
+
+  /* ══ PRODUKT-GRID ══ */
+  .bz-prod-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .bz-prod-card {
+    background: #fff;
+    border: 1.5px solid var(--bz-border);
+    border-radius: var(--bz-r-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow .18s, transform .18s;
+    text-decoration: none;
+    color: inherit;
+  }
+  .bz-prod-card:hover {
+    box-shadow: 0 8px 32px rgba(13,30,53,.1);
+    transform: translateY(-2px);
+    border-color: rgba(245,166,35,.4);
+  }
+
+  /* Bild */
+  .bz-prod-img {
+    aspect-ratio: 4/3;
+    background: var(--bz-gray-50);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .bz-prod-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 16px;
+    transition: transform .25s ease;
+  }
+  .bz-prod-card:hover .bz-prod-img img { transform: scale(1.04); }
+  .bz-prod-sale {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #E24B4A;
+    color: #fff;
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 4px;
+    letter-spacing: .04em;
+  }
+  .bz-prod-tag {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--bz-navy);
+    color: #fff;
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 4px;
+    letter-spacing: .03em;
+  }
+
+  /* Body */
+  .bz-prod-body { padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 6px; }
+
+  /* Dachtyp-Badge */
+  .bz-prod-dachtyp {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--bz-orange-light);
+    color: #854F0B;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 20px;
+    width: fit-content;
+    letter-spacing: .03em;
+  }
+
+  .bz-prod-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--bz-navy);
+    line-height: 1.3;
+    margin: 2px 0;
+  }
+  .bz-prod-nutzen {
+    font-size: 13px;
+    color: var(--bz-gray-text);
+    line-height: 1.5;
+    flex: 1;
+  }
+
+  /* Mini-Trust */
+  .bz-prod-trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 4px;
+  }
+  .bz-prod-trust-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--bz-gray-text);
+    background: var(--bz-gray-50);
+    border: 1px solid var(--bz-border);
+    padding: 2px 8px;
+    border-radius: 20px;
+  }
+  .bz-prod-trust-item svg { color: var(--bz-orange); }
+
+  /* Preis + CTA */
+  .bz-prod-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 16px;
+    border-top: 1px solid var(--bz-border);
+    background: var(--bz-gray-50);
+  }
+  .bz-prod-price { display: flex; align-items: baseline; gap: 6px; }
+  .bz-prod-price-cur { font-size: 19px; font-weight: 700; color: var(--bz-navy); font-family: var(--font-heading-family, inherit); }
+  .bz-prod-price-old { font-size: 13px; color: #aaa; text-decoration: line-through; }
+  .bz-prod-price-note { font-size: 10.5px; color: #aaa; }
+  .bz-prod-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--bz-navy);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 9px 16px;
+    border-radius: var(--bz-r);
+    white-space: nowrap;
+    transition: background .15s;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-body-family, inherit);
+    text-decoration: none;
+  }
+  .bz-prod-cta:hover { background: var(--bz-navy-mid); }
+
+  /* ══ LEER-STATE ══ */
+  .bz-empty {
+    text-align: center;
+    padding: 64px 20px;
+    color: var(--bz-gray-text);
+  }
+  .bz-empty h3 { color: var(--bz-navy); font-size: 1.2rem; margin-bottom: 10px; }
+  .bz-empty p { font-size: 14px; margin-bottom: 20px; }
+  .bz-empty a {
+    display: inline-block;
+    padding: 11px 22px;
+    background: var(--bz-orange);
+    color: var(--bz-navy);
+    font-weight: 700;
+    border-radius: var(--bz-r);
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  /* ══ SEO TEXT ══ */
+  .bz-col-seo {
+    background: var(--bz-gray-50);
+    border-top: 1px solid var(--bz-border);
+    padding: 40px 20px;
+  }
+  .bz-col-seo-inner {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .bz-col-seo h2 { font-size: 1.15rem; font-weight: 700; color: var(--bz-navy); margin-bottom: 12px; font-family: var(--font-heading-family, inherit); }
+  .bz-col-seo p { font-size: 14px; color: var(--bz-gray-text); line-height: 1.75; margin-bottom: 10px; }
+  .bz-col-seo p:last-child { margin-bottom: 0; }
+
+  /* ══ RESPONSIVE ══ */
+  @media (max-width: 900px) {
+    .bz-dachtyp-grid { grid-template-columns: repeat(3, 1fr); }
+    .bz-prod-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  }
+  @media (max-width: 640px) {
+    .bz-col-hero { padding: 36px 16px 32px; }
+    .bz-col-hero h1 { font-size: 1.6rem; }
+    .bz-col-hero-trust { gap: 12px; }
+    .bz-col-hero-trust-item { font-size: 12px; }
+    .bz-dachtyp-section { padding: 24px 16px; }
+    .bz-dachtyp-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .bz-dachtyp-btn { padding: 10px 6px 8px; }
+    .bz-dachtyp-name { font-size: 11px; }
+    .bz-filter-bar { padding: 10px 16px; top: 60px; }
+    .bz-col-main { padding: 20px 16px 40px; }
+    .bz-prod-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .bz-prod-body { padding: 12px; gap: 4px; }
+    .bz-prod-name { font-size: 13.5px; }
+    .bz-prod-nutzen { font-size: 12px; }
+    .bz-prod-trust { display: none; }
+    .bz-prod-footer { padding: 10px 12px; }
+    .bz-prod-price-cur { font-size: 16px; }
+    .bz-prod-cta { padding: 8px 12px; font-size: 12px; }
+    .bz-orient-banner { padding: 16px; gap: 12px; }
+    .bz-orient-link { width: 100%; text-align: center; }
+  }
+  @media (max-width: 380px) {
+    .bz-prod-grid { grid-template-columns: 1fr; }
+    .bz-dachtyp-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+{% endstyle %}
+
+{%- liquid
+  assign products_per_page = section.settings.products_per_page | default: 12
+  assign current_sort = collection.sort_by | default: collection.default_sort_by
+-%}
+
+{%- comment -%}══ 1. HERO ══{%- endcomment -%}
+<section class="bz-col-hero">
+  <div class="bz-col-hero-inner">
+    <div class="bz-col-hero-tag">
+      <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor"><circle cx="4" cy="4" r="4"/></svg>
+      {{ collection.products_count }} Produkte verfügbar
+    </div>
+    <h1>
+      {%- if collection.handle == 'all' -%}
+        PV-Dachziegel &amp; Blechziegel –<br><em>passend für Ihren Dachtyp</em>
+      {%- else -%}
+        {{ collection.title }}
+      {%- endif -%}
+    </h1>
+    <p class="bz-col-hero-sub">
+      Aluminium-Ersatzziegel für die sichere PV-Montage – passgenau für alle gängigen Dachziegeltypen. Kein Ziegelbruch, kein Bohren, keine Nacharbeit. Made in Germany.
+    </p>
+    <div class="bz-col-hero-trust">
+      <span class="bz-col-hero-trust-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+        Für alle gängigen Dachtypen
+      </span>
+      <span class="bz-col-hero-trust-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+        Lieferung 1&ndash;3 Werktage
+      </span>
+      <span class="bz-col-hero-trust-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+        Gratis Versand ab 100 &euro;
+      </span>
+      <span class="bz-col-hero-trust-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+        Made in Germany
+      </span>
+    </div>
+  </div>
+</section>
+
+{%- comment -%}══ 2. DACHTYP SCHNELLFILTER ══{%- endcomment -%}
+<section class="bz-dachtyp-section">
+  <div class="bz-col-wrap">
+    <div class="bz-dachtyp-head">
+      <div class="bz-dachtyp-head-left">
+        <span class="bz-dachtyp-label">Schritt 1</span>
+        <span class="bz-dachtyp-title">Welcher Dachtyp liegt auf Ihrem Dach?</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="bz-dachtyp-hint">Wählen Sie Ihren Dachziegeltyp &ndash; wir zeigen die passenden Blechziegel.</span>
+        <button class="bz-dachtyp-reset" id="bz-reset-filter" onclick="bzResetDachtyp()">Alle anzeigen</button>
+      </div>
+    </div>
+    <div class="bz-dachtyp-grid">
+
+      <a href="?filter.p.m.custom.dachziegel_typ=Frankfurter+Pfanne" class="bz-dachtyp-btn {% if current_tags contains 'Frankfurter Pfanne' %}active{% endif %}" data-type="frankfurter-pfanne">
+        <div class="bz-dachtyp-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <span class="bz-dachtyp-name">Frankfurter Pfanne</span>
+      </a>
+
+      <a href="?filter.p.m.custom.dachziegel_typ=Biberschwanz" class="bz-dachtyp-btn {% if current_tags contains 'Biberschwanz' %}active{% endif %}" data-type="biberschwanz">
+        <div class="bz-dachtyp-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+        </div>
+        <span class="bz-dachtyp-name">Biberschwanz</span>
+      </a>
+
+      <a href="?filter.p.m.custom.dachziegel_typ=Hohlfalzziegel" class="bz-dachtyp-btn {% if current_tags contains 'Hohlfalzziegel' %}active{% endif %}" data-type="hohlfalzziegel">
+        <div class="bz-dachtyp-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 20 C6 12 10 8 12 8 C14 8 18 12 22 20"/></svg>
+        </div>
+        <span class="bz-dachtyp-name">Hohlfalzziegel</span>
+      </a>
+
+      <a href="?filter.p.m.custom.dachziegel_typ=Flachdachziegel" class="bz-dachtyp-btn {% if current_tags contains 'Flachdachziegel' %}active{% endif %}" data-type="flachdachziegel">
+        <div class="bz-dachtyp-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="8" width="20" height="8" rx="1"/><path d="M6 8V6M12 8V5M18 8V6"/></svg>
+        </div>
+        <span class="bz-dachtyp-name">Flachdachziegel</span>
+      </a>
+
+      <a href="?filter.p.m.custom.dachziegel_typ=Krempziegel" class="bz-dachtyp-btn {% if current_tags contains 'Krempziegel' %}active{% endif %}" data-type="krempziegel">
+        <div class="bz-dachtyp-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20 Q8 8 12 8 Q16 8 20 20"/></svg>
+        </div>
+        <span class="bz-dachtyp-name">Krempziegel</span>
+      </a>
+
+      <a href="{{ collection.url }}" class="bz-dachtyp-btn" data-type="alle" style="border-style:dashed;background:transparent;">
+        <div class="bz-dachtyp-icon" style="background:var(--bz-gray-100);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9a9890" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </div>
+        <span class="bz-dachtyp-name" style="color:#888;">Alle Typen</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+{%- comment -%}══ 3. FILTER + SORT BAR ══{%- endcomment -%}
+<div class="bz-filter-bar">
+  <div class="bz-filter-bar-left">
+    <span class="bz-filter-count">
+      <strong>{{ collection.products_count }}</strong> {{ collection.products_count | pluralize: 'Produkt', 'Produkte' }}
+    </span>
+
+    {%- comment -%} Shopify Facets / Metafield Filter {%- endcomment -%}
+    {%- if collection.filters.size > 0 -%}
+      {%- for filter in collection.filters -%}
+        {%- unless filter.label == 'Verfügbarkeit' or filter.label == 'Preis' -%}
+          <details>
+            <summary>
+              {{ filter.label }}
+              {%- if filter.active_values.size > 0 -%}
+                <span style="background:var(--bz-orange);color:var(--bz-navy);border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">{{ filter.active_values.size }}</span>
+              {%- endif -%}
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <div style="position:absolute;background:#fff;border:1.5px solid var(--bz-border);border-radius:var(--bz-r-lg);padding:16px;min-width:200px;z-index:100;box-shadow:0 8px 32px rgba(0,0,0,.1);margin-top:4px;">
+              {%- for value in filter.values -%}
+                <label style="display:flex;align-items:center;gap:8px;padding:6px 0;cursor:pointer;font-size:14px;color:var(--bz-navy);">
+                  <input
+                    type="checkbox"
+                    name="{{ filter.param_name }}"
+                    value="{{ value.value }}"
+                    {% if value.active %}checked{% endif %}
+                    onchange="bzApplyFilter(this)"
+                    style="accent-color:var(--bz-orange);width:16px;height:16px;"
+                  >
+                  {{ value.label }}
+                  <span style="color:#aaa;font-size:12px;">({{ value.count }})</span>
+                </label>
+              {%- endfor -%}
+            </div>
+          </details>
+        {%- endunless -%}
+      {%- endfor -%}
+    {%- endif -%}
+
+    {%- comment -%} Aktive Filter Pills {%- endcomment -%}
+    {%- for filter in collection.filters -%}
+      {%- for value in filter.active_values -%}
+        <a href="{{ value.url_to_remove }}" class="bz-filter-pill">
+          {{ value.label }}
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </a>
+      {%- endfor -%}
+    {%- endfor -%}
+  </div>
+
+  <select class="bz-sort-select" onchange="bzSort(this.value)">
+    <option value="manual" {% if current_sort == 'manual' %}selected{% endif %}>Sortieren: Beliebtheit</option>
+    <option value="price-ascending" {% if current_sort == 'price-ascending' %}selected{% endif %}>Preis: aufsteigend</option>
+    <option value="price-descending" {% if current_sort == 'price-descending' %}selected{% endif %}>Preis: absteigend</option>
+    <option value="title-ascending" {% if current_sort == 'title-ascending' %}selected{% endif %}>Name: A–Z</option>
+    <option value="created-descending" {% if current_sort == 'created-descending' %}selected{% endif %}>Neueste zuerst</option>
+  </select>
+</div>
+
+{%- comment -%}══ 4. PRODUKT-GRID ══{%- endcomment -%}
+<div class="bz-col-main">
+
+  {%- comment -%} Orientierungs-Banner {%- endcomment -%}
+  <div class="bz-orient-banner">
+    <div class="bz-orient-icon">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    </div>
+    <div class="bz-orient-text">
+      <strong>So findest du den richtigen Blechziegel</strong>
+      <span>Wähle oben deinen Dachziegeltyp – dann siehst du sofort die passenden Ersatzziegel für deine PV-Montage.</span>
+    </div>
+    <a href="{{ routes.root_url }}pages/contact" class="bz-orient-link">
+      Beratung anfordern &rarr;
+    </a>
+  </div>
+
+  {%- if collection.products.size > 0 -%}
+    <div class="bz-prod-grid" id="bz-product-grid">
+      {%- for product in collection.products -%}
+
+        {%- assign dachtyp = product.metafields.custom.dachziegel_typ | default: '' -%}
+        {%- assign material = product.metafields.custom.material | default: 'Aluminium' -%}
+
+        <a href="{{ product.url }}" class="bz-prod-card">
+
+          {%- comment -%} Bild {%- endcomment -%}
+          <div class="bz-prod-img">
+            {%- if product.featured_image -%}
+              <img
+                src="{{ product.featured_image | image_url: width: 600 }}"
+                alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                width="600"
+                height="450"
+                loading="lazy"
+              >
+            {%- else -%}
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            {%- endif -%}
+            {%- if product.compare_at_price_min > product.price_min -%}
+              <span class="bz-prod-sale">Sale</span>
+            {%- endif -%}
+            <span class="bz-prod-tag">PV geeignet</span>
+          </div>
+
+          {%- comment -%} Body {%- endcomment -%}
+          <div class="bz-prod-body">
+
+            {%- if dachtyp != blank -%}
+              <span class="bz-prod-dachtyp">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                {{ dachtyp }}
+              </span>
+            {%- endif -%}
+
+            <div class="bz-prod-name">{{ product.title }}</div>
+
+            <div class="bz-prod-nutzen">
+              {%- if product.metafields.custom.kurzbeschreibung != blank -%}
+                {{ product.metafields.custom.kurzbeschreibung }}
+              {%- else -%}
+                Passgenauer Aluminium-Ersatzziegel für die PV-Montage – kein Ziegelbruch, kein Bohren.
+              {%- endif -%}
+            </div>
+
+            <div class="bz-prod-trust">
+              <span class="bz-prod-trust-item">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+                Aluminium
+              </span>
+              <span class="bz-prod-trust-item">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+                Made in Germany
+              </span>
+              <span class="bz-prod-trust-item">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+                Bruchsicher
+              </span>
+            </div>
+
+          </div>
+
+          {%- comment -%} Footer {%- endcomment -%}
+          <div class="bz-prod-footer">
+            <div>
+              <div class="bz-prod-price">
+                <span class="bz-prod-price-cur">ab {{ product.price_min | money }}</span>
+                {%- if product.compare_at_price_min > product.price_min -%}
+                  <span class="bz-prod-price-old">{{ product.compare_at_price_min | money }}</span>
+                {%- endif -%}
+              </div>
+              <div class="bz-prod-price-note">inkl. MwSt.</div>
+            </div>
+            <span class="bz-prod-cta">
+              Details
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+
+        </a>
+      {%- endfor -%}
+    </div>
+
+    {%- comment -%} Pagination {%- endcomment -%}
+    {%- if paginate.pages > 1 -%}
+      <div style="display:flex;justify-content:center;gap:8px;margin-top:40px;flex-wrap:wrap;">
+        {%- if paginate.previous -%}
+          <a href="{{ paginate.previous.url }}" style="padding:10px 18px;border:1.5px solid var(--bz-border);border-radius:var(--bz-r);font-size:13px;font-weight:600;color:var(--bz-navy);text-decoration:none;">&larr; Zurück</a>
+        {%- endif -%}
+        {%- for part in paginate.parts -%}
+          {%- if part.is_link -%}
+            <a href="{{ part.url }}" style="padding:10px 16px;border:1.5px solid var(--bz-border);border-radius:var(--bz-r);font-size:13px;color:var(--bz-navy);text-decoration:none;">{{ part.title }}</a>
+          {%- elsif part.title == paginate.current_page -%}
+            <span style="padding:10px 16px;border:1.5px solid var(--bz-orange);border-radius:var(--bz-r);font-size:13px;font-weight:700;color:var(--bz-navy);background:var(--bz-orange-light);">{{ part.title }}</span>
+          {%- else -%}
+            <span style="padding:10px 16px;font-size:13px;color:#aaa;">{{ part.title }}</span>
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if paginate.next -%}
+          <a href="{{ paginate.next.url }}" style="padding:10px 18px;border:1.5px solid var(--bz-border);border-radius:var(--bz-r);font-size:13px;font-weight:600;color:var(--bz-navy);text-decoration:none;">Weiter &rarr;</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+  {%- else -%}
+    <div class="bz-empty">
+      <h3>Keine Produkte gefunden</h3>
+      <p>Für diesen Filter sind aktuell keine Produkte verfügbar. Alle Dachtypen anzeigen oder Beratung anfragen.</p>
+      <a href="{{ collection.url }}">Alle Produkte anzeigen</a>
+    </div>
+  {%- endif -%}
+
+</div>
+
+{%- comment -%}══ 5. SEO TEXT ══{%- endcomment -%}
+<section class="bz-col-seo">
+  <div class="bz-col-seo-inner">
+    <h2>PV-Dachziegel aus Aluminium – für alle gängigen Dachziegeltypen</h2>
+    <p>Bei blechziegel.de finden Dachdecker, PV-Installateure und Privatkunden den passenden <strong>Ersatzziegel PV</strong> für ihre Dachziegelform. Unsere Aluminium-Blechziegel sind passgenau für Frankfurter Pfanne, Biberschwanz, Hohlfalzziegel und weitere Typen gefertigt.</p>
+    <p>Der <strong>PV-Dachziegel</strong> ersetzt den vorhandenen Tonziegel an der Montagestelle vollständig – kein Bohren, kein Ziegelbruch, keine Undichtigkeiten. Einfach entnehmen, einsetzen, Dachhaken positionieren, fertig. Lieferung in 1–3 Werktagen, Made in Germany.</p>
+    <p>Alle <strong>Dachziegel Solar</strong>-Produkte sind in drei Farben erhältlich: Aluminium blank, Anthrazit RAL 7016 und Ziegelrot RAL 8004 – für eine optisch einwandfreie Integration in Ihr Dachbild.</p>
+  </div>
+</section>
+
+<script>
+  function bzSort(val) {
+    var url = new URL(window.location.href);
+    url.searchParams.set('sort_by', val);
+    window.location.href = url.toString();
+  }
+
+  function bzApplyFilter(checkbox) {
+    var url = new URL(window.location.href);
+    var name = checkbox.name;
+    var value = checkbox.value;
+    if (checkbox.checked) {
+      url.searchParams.append(name, value);
+    } else {
+      var params = url.searchParams.getAll(name).filter(function(v) { return v !== value; });
+      url.searchParams.delete(name);
+      params.forEach(function(v) { url.searchParams.append(name, v); });
+    }
+    window.location.href = url.toString();
+  }
+
+  function bzResetDachtyp() {
+    window.location.href = '{{ collection.url }}';
+  }
+
+  // Reset-Button anzeigen wenn Filter aktiv
+  var hasFilter = window.location.search.length > 1;
+  if (hasFilter) {
+    var resetBtn = document.getElementById('bz-reset-filter');
+    if (resetBtn) resetBtn.classList.add('visible');
+  }
+
+  // Details schließen bei Klick außerhalb
+  document.addEventListener('click', function(e) {
+    document.querySelectorAll('.bz-filter-bar details[open]').forEach(function(d) {
+      if (!d.contains(e.target)) d.removeAttribute('open');
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Blechziegel Collection",
+  "tag": "section",
+  "class": "bz-collection-section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 6,
+      "max": 24,
+      "step": 6,
+      "label": "Produkte pro Seite",
+      "default": 12
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blechziegel Collection"
+    }
+  ]
+}
+{% endschema %}

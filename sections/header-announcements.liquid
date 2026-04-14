@@ -1,0 +1,120 @@
+{% comment %}
+  blechziegel.de – Announcement Bar
+  Datei: sections/announcement-bar.liquid
+  Horizon Theme kompatibel
+{% endcomment %}
+
+{% style %}
+  .bz-announcement-bar {
+    background-color: #0d1e35;
+    padding: 9px 20px;
+  }
+  .bz-announcement-bar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .bz-announcement-bar li {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.85);
+    padding: 3px 18px;
+    white-space: nowrap;
+    font-family: var(--font-body-family, sans-serif);
+  }
+  .bz-announcement-bar li + li {
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
+  }
+  .bz-announcement-bar li svg {
+    color: #f5a623;
+    flex-shrink: 0;
+  }
+  .bz-announcement-bar .bz-stars {
+    color: #f5c542;
+    font-size: 12px;
+    margin-right: 2px;
+    letter-spacing: 1px;
+  }
+  @media (max-width: 640px) {
+    .bz-announcement-bar li {
+      padding: 3px 10px;
+      font-size: 11.5px;
+    }
+    .bz-announcement-bar li:last-child {
+      display: none;
+    }
+  }
+{% endstyle %}
+
+<div class="bz-announcement-bar">
+  <ul>
+    <li>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="1" y="3" width="15" height="13" rx="1"/>
+        <path d="M16 8h4l3 5v3h-7V8z"/>
+        <circle cx="5.5" cy="18.5" r="2.5"/>
+        <circle cx="18.5" cy="18.5" r="2.5"/>
+      </svg>
+      {{ section.settings.item_1 | default: 'Kostenloser Versand ab 100 €' }}
+    </li>
+    <li>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="4" width="18" height="18" rx="2"/>
+        <line x1="3" y1="10" x2="21" y2="10"/>
+        <line x1="16" y1="2" x2="16" y2="6"/>
+        <line x1="8" y1="2" x2="8" y2="6"/>
+      </svg>
+      {{ section.settings.item_2 | default: 'Lieferzeit 1–3 Werktage' }}
+    </li>
+    <li>
+      <span class="bz-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+      {{ section.settings.item_3 | default: 'Trusted Shops · 4,9 / 5' }}
+    </li>
+  </ul>
+</div>
+
+{% schema %}
+{
+  "name": "Ankündigungsleiste",
+  "tag": "section",
+  "class": "bz-announcement-section",
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Trust-Punkte"
+    },
+    {
+      "type": "text",
+      "id": "item_1",
+      "label": "Punkt 1",
+      "default": "Kostenloser Versand ab 100 €"
+    },
+    {
+      "type": "text",
+      "id": "item_2",
+      "label": "Punkt 2",
+      "default": "Lieferzeit 1–3 Werktage"
+    },
+    {
+      "type": "text",
+      "id": "item_3",
+      "label": "Punkt 3",
+      "default": "Trusted Shops · 4,9 / 5"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Ankündigungsleiste"
+    }
+  ]
+}
+{% endschema %}
