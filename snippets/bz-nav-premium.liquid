@@ -1,0 +1,152 @@
+{%- comment -%}
+  blechziegel.de — Premium Dropdown-Styling für Header-Mega-Menu
+  Override-CSS für Horizon-Klassen (mega-menu, menu-list). Keine HTML-Struktur geändert.
+  CI: Navy #0d1e35 · Orange #f5a623 · Light #f8f7f4
+{%- endcomment -%}
+
+{% style %}
+  /* ══ MEGA-MENU CONTAINER (Dropdown) ══ */
+  .mega-menu {
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 20px 50px rgba(13, 30, 53, 0.12);
+    border: 1px solid rgba(13, 30, 53, 0.06);
+    padding: 10px 8px;
+    margin-top: 8px;
+    animation: bzFadeInMenu 0.18s ease;
+  }
+
+  @keyframes bzFadeInMenu {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Wenn einzelne Spalte (einfaches Dropdown), kompakter machen */
+  .mega-menu__grid {
+    gap: 2px;
+  }
+
+  .mega-menu__list {
+    margin: 0;
+    padding: 0;
+  }
+
+  .mega-menu__column {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* ══ MENU ITEMS (Dachtypen-Einträge) ══ */
+  .mega-menu__link {
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px !important;
+    font-size: 14px;
+    font-weight: 500;
+    color: #0d1e35 !important;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background 0.18s ease, transform 0.18s ease, color 0.18s ease;
+    line-height: 1.35;
+  }
+
+  .mega-menu__link:hover,
+  .mega-menu__link:focus-visible {
+    background: rgba(245, 166, 35, 0.10);
+    transform: translateX(2px);
+    color: #0d1e35 !important;
+  }
+
+  .mega-menu__link:focus-visible {
+    outline: 2px solid #0d1e35;
+    outline-offset: 2px;
+  }
+
+  /* Active/Current State */
+  .mega-menu__link[aria-current="page"],
+  .mega-menu__link.is-active {
+    background: rgba(245, 166, 35, 0.14);
+    font-weight: 600;
+  }
+
+  /* Icons im Dropdown (subtil statt dominant) */
+  .mega-menu__link svg,
+  .mega-menu__link .icon {
+    width: 16px;
+    height: 16px;
+    color: rgba(13, 30, 53, 0.55);
+    flex-shrink: 0;
+    transition: color 0.18s ease;
+  }
+
+  .mega-menu__link:hover svg,
+  .mega-menu__link:hover .icon {
+    color: #f5a623;
+  }
+
+  /* Wrap-Text innerhalb des Links */
+  .mega-menu__link .wrap-text {
+    font-weight: inherit;
+  }
+
+  /* Content-Liste (Featured Products / Collections) ausblenden für cleanen B2B-Look */
+  .mega-menu__content:empty,
+  .mega-menu__content-list:empty {
+    display: none;
+  }
+
+  /* ══ TOP-LEVEL MENÜPUNKTE (im Header) ══ */
+  .menu-list__link-title {
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    transition: color 0.18s ease;
+  }
+
+  .menu-list__list-item:hover .menu-list__link-title,
+  .menu-list__list-item[open] .menu-list__link-title,
+  .menu-list__link[aria-expanded="true"] .menu-list__link-title {
+    color: #f5a623;
+  }
+
+  /* Caret/Pfeil am Submenu-Trigger */
+  .menu-list__list-item[open] summary::after,
+  .menu-list__link[aria-expanded="true"]::after {
+    transform: rotate(180deg);
+  }
+
+  /* ══ DROPDOWN-PFEIL (wenn Theme eine Tail-Pseudoelement nutzt) ══ */
+  .mega-menu::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: 28px;
+    width: 12px;
+    height: 12px;
+    background: #ffffff;
+    transform: rotate(45deg);
+    border-left: 1px solid rgba(13, 30, 53, 0.06);
+    border-top: 1px solid rgba(13, 30, 53, 0.06);
+    z-index: 0;
+  }
+
+  /* ══ MOBILE: nicht anfassen (Horizon-Drawer beibehalten) ══ */
+  @media (max-width: 749px) {
+    .mega-menu {
+      box-shadow: none;
+      border-radius: 0;
+      border: none;
+      margin-top: 0;
+      padding: 0;
+      animation: none;
+    }
+    .mega-menu::before { display: none; }
+    .mega-menu__link {
+      padding: 12px 16px !important;
+      border-radius: 0;
+    }
+    .mega-menu__link:hover {
+      transform: none;
+    }
+  }
+{% endstyle %}
