@@ -728,7 +728,8 @@
 {%- endif -%}
 {%- endcomment -%}
 
-{%- comment -%}══ 2. DACHTYP SCHNELLFILTER ══{%- endcomment -%}
+{%- comment -%}══ 2. DACHTYP SCHNELLFILTER (nur auf Nicht-Hersteller-Collections) ══{%- endcomment -%}
+{%- unless is_hersteller -%}
 <section class="bz-dachtyp-section">
   <div class="bz-col-wrap">
     <div class="bz-dachtyp-head">
@@ -775,6 +776,7 @@
     </div>
   </div>
 </section>
+{%- endunless -%}
 
 {%- comment -%}══ 3. FILTER + SORT BAR ══{%- endcomment -%}
 <div class="bz-filter-bar">
