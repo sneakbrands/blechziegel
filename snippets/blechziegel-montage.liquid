@@ -1,0 +1,427 @@
+{% comment %}
+  ============================================================
+  BLECHZIEGEL.DE — Montageanleitung (2 Varianten)
+  Snippet: blechziegel-montage.liquid
+  Layout-DNA: hp-* (Navy/Orange), Gewerbe/Dachdecker-Style
+  Variante via page.handle:
+    - 'montageanleitung-mit-dachhaken' (6 Schritte)
+    - 'montageanleitung-ohne-dachhaken' (3 Schritte)
+  ============================================================
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+.hp {
+  --bz-navy:#0a2240; --bz-navy-light:#0d2d54;
+  --bz-orange:#ffa500; --bz-orange-dark:#e69400; --bz-orange-bg:rgba(255,165,0,.12);
+  --bz-white:#fff; --bz-gray:#f5f5f5; --bz-gray-mid:#e8eaed;
+  --bz-text:#333; --bz-text-light:#666; --bz-border:#e5e7eb;
+  --bz-green:#16a34a; --bz-green-bg:#f0fdf4;
+  --bz-head:'Montserrat',sans-serif; --bz-body:'Open Sans',sans-serif;
+  --bz-radius:8px; --bz-radius-lg:14px; --bz-max:1200px;
+  --bz-shadow:0 4px 20px rgba(10,34,64,.10);
+  --bz-shadow-lg:0 12px 40px rgba(10,34,64,.18);
+  font-family:var(--bz-body); color:var(--bz-text);
+}
+.hp *, .hp *::before, .hp *::after { box-sizing:border-box; margin:0; padding:0; }
+.hp a { text-decoration:none; color:inherit; }
+.hp img { max-width:100%; display:block; }
+.hp ul { list-style:none; }
+.hp-wrap { max-width:var(--bz-max); margin:0 auto; padding:0 20px; }
+
+.hp-hero { background:linear-gradient(135deg,var(--bz-navy) 0%,#163660 100%);
+  color:var(--bz-white); padding:64px 20px 56px; position:relative; overflow:hidden; }
+.hp-hero::before { content:''; position:absolute; inset:0; pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
+.hp-hero__inner { position:relative; max-width:var(--bz-max); margin:0 auto; text-align:left; }
+.hp-kicker { display:inline-flex; align-items:center; gap:8px;
+  background:var(--bz-orange-bg); border:1px solid rgba(255,165,0,.35);
+  color:var(--bz-orange); font-family:var(--bz-head);
+  font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.1em;
+  padding:5px 13px; border-radius:20px; margin-bottom:20px; }
+.hp-kicker svg { width:12px; height:12px; fill:var(--bz-orange); }
+.hp-hero h1 { font-family:var(--bz-head); font-size:clamp(28px,4vw,44px);
+  font-weight:800; line-height:1.15; margin-bottom:18px; color:var(--bz-white); max-width:780px; }
+.hp-hero h1 span { color:var(--bz-orange); }
+.hp-hero__sub { font-size:16px; line-height:1.7; color:rgba(255,255,255,.85); margin-bottom:28px; max-width:680px; }
+.hp-hero__cta { display:flex; gap:12px; flex-wrap:wrap; }
+
+/* Facts-Tiles im Hero */
+.hp-facts-bar { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:32px; max-width:780px; }
+.hp-fact-tile { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
+  border-top:2px solid var(--bz-orange); border-radius:var(--bz-radius-lg); padding:18px 18px 16px;
+  text-align:center; backdrop-filter:blur(4px); }
+.hp-fact-tile__head { font-family:var(--bz-head); font-size:18px; font-weight:800; color:var(--bz-orange); margin-bottom:4px; line-height:1.1; }
+.hp-fact-tile__title { font-size:12.5px; font-weight:700; color:var(--bz-white); margin-bottom:2px; font-family:var(--bz-head); }
+.hp-fact-tile__desc { font-size:11.5px; line-height:1.45; color:rgba(255,255,255,.65); }
+
+.hp-btn { display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:14px 26px; border-radius:var(--bz-radius);
+  font-family:var(--bz-head); font-size:14px; font-weight:700;
+  cursor:pointer; transition:all .2s; border:2px solid transparent; white-space:nowrap; }
+.hp-btn svg { width:16px; height:16px; fill:currentColor; flex-shrink:0; }
+.hp-btn--primary { background:var(--bz-orange); color:var(--bz-navy); border-color:var(--bz-orange); }
+.hp-btn--primary:hover { background:var(--bz-orange-dark); border-color:var(--bz-orange-dark); transform:translateY(-1px); box-shadow:0 6px 20px rgba(255,165,0,.3); }
+.hp-btn--outline { background:transparent; color:var(--bz-white); border-color:rgba(255,255,255,.4); }
+.hp-btn--outline:hover { border-color:var(--bz-white); background:rgba(255,255,255,.08); }
+
+.hp-section { padding:56px 0; }
+.hp-section--gray { background:var(--bz-gray); }
+.hp-section--white { background:var(--bz-white); }
+.hp-section--navy { background:var(--bz-navy); color:var(--bz-white); }
+.hp-section-label { font-family:var(--bz-head); font-size:11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.12em; color:var(--bz-orange); margin-bottom:8px; display:block; }
+.hp-section-title { font-family:var(--bz-head); font-size:clamp(22px,2.8vw,32px);
+  font-weight:800; color:var(--bz-navy); line-height:1.25; margin-bottom:12px; }
+.hp-section--navy .hp-section-title { color:var(--bz-white); }
+.hp-section-sub { font-size:15px; line-height:1.72; color:var(--bz-text-light); max-width:640px; margin-bottom:36px; }
+.hp-section--navy .hp-section-sub { color:rgba(255,255,255,.72); max-width:640px; margin:0 auto 28px; }
+
+/* STEPS — vertikale Liste mit großer Nummer + Beschreibung */
+.hp-steps-list { display:flex; flex-direction:column; gap:16px; }
+.hp-mstep { background:var(--bz-white); border:1.5px solid var(--bz-border);
+  border-radius:var(--bz-radius-lg); padding:26px 28px; display:grid;
+  grid-template-columns:70px 1fr; gap:24px; align-items:start;
+  transition:all .2s; border-left:4px solid var(--bz-orange); }
+.hp-mstep:hover { box-shadow:var(--bz-shadow-lg); transform:translateX(3px); }
+.hp-mstep__num { font-family:var(--bz-head); font-size:52px; font-weight:800;
+  color:var(--bz-orange); line-height:.9; letter-spacing:-.02em; }
+.hp-mstep__body h3 { font-family:var(--bz-head); font-size:18px; font-weight:800;
+  color:var(--bz-navy); margin-bottom:8px; line-height:1.3;
+  padding-bottom:6px; border-bottom:2px solid var(--bz-orange); display:inline-block; }
+.hp-mstep__body p { font-size:14.5px; line-height:1.7; color:var(--bz-text); margin-bottom:8px; }
+.hp-mstep__body p:last-child { margin-bottom:0; }
+
+/* Tipp/Info-Box */
+.hp-tip-box { background:#fff9ee; border:1.5px solid rgba(255,165,0,.4); border-left:4px solid var(--bz-orange);
+  border-radius:var(--bz-radius-lg); padding:20px 24px; margin-top:24px;
+  display:flex; gap:14px; align-items:flex-start; }
+.hp-tip-box__icon { width:34px; height:34px; background:var(--bz-orange); border-radius:8px;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.hp-tip-box__icon svg { width:18px; height:18px; fill:var(--bz-navy); }
+.hp-tip-box__title { font-family:var(--bz-head); font-size:14px; font-weight:800; color:var(--bz-navy); margin-bottom:3px; text-transform:uppercase; letter-spacing:.04em; }
+.hp-tip-box__text { font-size:14px; line-height:1.65; color:var(--bz-text); }
+
+/* Lastwerte-Table */
+.hp-spec-list { background:var(--bz-white); border:1.5px solid var(--bz-border);
+  border-radius:var(--bz-radius-lg); padding:8px 24px; box-shadow:var(--bz-shadow); margin-top:24px; }
+.hp-spec-row { display:flex; justify-content:space-between; gap:20px; padding:14px 0;
+  border-bottom:1px solid var(--bz-border); font-size:14px; line-height:1.5; }
+.hp-spec-row:last-child { border-bottom:none; }
+.hp-spec-row__k { font-family:var(--bz-head); font-weight:700; color:var(--bz-navy); }
+.hp-spec-row__v { color:var(--bz-orange); font-family:var(--bz-head); font-weight:800; text-align:right; }
+
+/* VORTEILE (nummerierte Liste) */
+.hp-benefits-num { display:flex; flex-direction:column; gap:14px; }
+.hp-benefit-num { display:grid; grid-template-columns:58px 1fr; gap:20px;
+  background:var(--bz-white); border:1.5px solid var(--bz-border);
+  border-radius:var(--bz-radius-lg); border-left:4px solid var(--bz-orange);
+  padding:22px 26px; align-items:flex-start; transition:all .18s; }
+.hp-benefit-num:hover { box-shadow:var(--bz-shadow); transform:translateX(2px); }
+.hp-benefit-num__num { font-family:var(--bz-head); font-size:32px; font-weight:800;
+  color:var(--bz-orange); letter-spacing:-.02em; line-height:1; }
+.hp-benefit-num__title { font-family:var(--bz-head); font-size:16px; font-weight:800;
+  color:var(--bz-navy); margin-bottom:4px; }
+.hp-benefit-num__text { font-size:14px; line-height:1.65; color:var(--bz-text-light); }
+
+/* CTA */
+.hp-cta-final { text-align:center; }
+.hp-cta-final__buttons { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:24px; }
+
+@media (max-width:900px) {
+  .hp-facts-bar { grid-template-columns:1fr; }
+  .hp-mstep { grid-template-columns:1fr; gap:8px; padding:22px 22px; }
+  .hp-mstep__num { font-size:40px; }
+  .hp-benefit-num { grid-template-columns:44px 1fr; gap:16px; padding:18px 22px; }
+  .hp-benefit-num__num { font-size:26px; }
+}
+@media (max-width:640px) {
+  .hp-hero { padding:48px 16px 48px; }
+  .hp-hero__cta { flex-direction:column; }
+  .hp-hero__cta .hp-btn { width:100%; }
+  .hp-section { padding:44px 0; }
+  .hp-cta-final__buttons .hp-btn { width:100%; }
+  .hp-tip-box { flex-direction:column; padding:18px; }
+}
+</style>
+
+{%- liquid
+  assign email_raw = 'web@blechziegel.de'
+  assign contact_url = '/pages/contact'
+  assign gewerbe_url = '/pages/gewerbe'
+  assign solar_url = '/pages/solar-installateure'
+  assign handle = page.handle
+  assign is_mit = false
+  if handle == 'montageanleitung-mit-dachhaken' or request.path contains '/pages/montageanleitung-mit-dachhaken'
+    assign is_mit = true
+  endif
+  if is_mit
+    assign steps_count = 6
+    assign steps_label = '6 Schritte'
+    assign hero_h1_a = 'Blechziegel montieren.'
+    assign hero_h1_b = 'Mit Dachhaken in 6 Schritten.'
+    assign hero_sub = 'Aluminium-Ersatzziegel inkl. Dachhaken-Montage: Tonziegel ersetzen, abdichten, Dachhaken am Sparren verschrauben — kein Flexen, kein Ziegelbruch.'
+    assign canonical = shop.url | append: '/pages/montageanleitung-mit-dachhaken'
+    assign other_url = '/pages/montageanleitung-ohne-dachhaken'
+    assign other_label = 'Variante ohne Dachhaken ansehen'
+  else
+    assign steps_count = 3
+    assign steps_label = '3 Schritte'
+    assign hero_h1_a = 'Blechziegel montieren.'
+    assign hero_h1_b = 'In 3 Schritten zum dichten Dach.'
+    assign hero_sub = 'Aluminium-Ersatzziegel als Einzelteil: Tonziegel entfernen, Blechziegel einsetzen, Dach schließen. Unter 10 Minuten pro Montagepunkt, ohne Flex und Ziegelbruch.'
+    assign canonical = shop.url | append: '/pages/montageanleitung-ohne-dachhaken'
+    assign other_url = '/pages/montageanleitung-mit-dachhaken'
+    assign other_label = 'Variante mit Dachhaken ansehen'
+  endif
+-%}
+
+<div class="hp">
+
+  <!-- HERO -->
+  <section class="hp-hero" aria-labelledby="ma-hero-title">
+    <div class="hp-wrap hp-hero__inner">
+      <div class="hp-kicker">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l9 4v6c0 5-3.8 9.5-9 10-5.2-.5-9-5-9-10V6l9-4z"/></svg>
+        Montageanleitung
+      </div>
+      <h1 id="ma-hero-title">{{ hero_h1_a }} <span>{{ hero_h1_b }}</span></h1>
+      <p class="hp-hero__sub">{{ hero_sub }}</p>
+      <div class="hp-hero__cta">
+        <a href="{{ contact_url }}" class="hp-btn hp-btn--primary">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          Frage zur Montage?
+        </a>
+        <a href="{{ other_url }}" class="hp-btn hp-btn--outline">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 6l6 6-6 6M5 12h14"/></svg>
+          {{ other_label }}
+        </a>
+      </div>
+
+      <div class="hp-facts-bar" role="list">
+        <div class="hp-fact-tile" role="listitem">
+          <div class="hp-fact-tile__head">{{ steps_label }}</div>
+          <div class="hp-fact-tile__title">Klare Anleitung</div>
+          <div class="hp-fact-tile__desc">Praxiserprobt für Dachdecker und Heimwerker</div>
+        </div>
+        <div class="hp-fact-tile" role="listitem">
+          <div class="hp-fact-tile__head">&lt; 10 Min.</div>
+          <div class="hp-fact-tile__title">Pro Montagepunkt</div>
+          <div class="hp-fact-tile__desc">{% if is_mit %}inkl. Dachhaken-Montage{% else %}Blechziegel einsetzen{% endif %}</div>
+        </div>
+        <div class="hp-fact-tile" role="listitem">
+          <div class="hp-fact-tile__head">Kein Flex</div>
+          <div class="hp-fact-tile__title">Nur Akkuschrauber</div>
+          <div class="hp-fact-tile__desc">Schrauben werden mitgeliefert</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEPS -->
+  <section class="hp-section hp-section--white" aria-labelledby="ma-steps-title">
+    <div class="hp-wrap">
+      <span class="hp-section-label">Schritt für Schritt</span>
+      <h2 class="hp-section-title" id="ma-steps-title">So läuft die Montage</h2>
+      <p class="hp-section-sub">Unter 10 Minuten pro Montagepunkt — wenn die benötigten Teile bereitliegen. Ausführliche Text-Anleitung direkt hier, PDF zum Download am Ende der Seite.</p>
+
+      <ol class="hp-steps-list">
+        {%- if is_mit -%}
+          <li class="hp-mstep">
+            <div class="hp-mstep__num">01</div>
+            <div class="hp-mstep__body">
+              <h3>Tonziegel entfernen</h3>
+              <p>Entferne den Tonziegel an der vorgesehenen Montageposition. Schiebe den darüberliegenden Ziegel nach oben, um den Dachsparren freizulegen. Achte darauf, die umliegenden Ziegel nicht zu beschädigen.</p>
+            </div>
+          </li>
+          <li class="hp-mstep">
+            <div class="hp-mstep__num">02</div>
+            <div class="hp-mstep__body">
+              <h3>Ersatzziegel einsetzen</h3>
+              <p>Setze den Aluminium-Ersatzziegel anstelle des entfernten Tonziegels ein. Für zusätzliche Stabilität kannst du ihn mit ein bis zwei Schrauben an der Lattung befestigen.</p>
+            </div>
+          </li>
+          <li class="hp-mstep">
+            <div class="hp-mstep__num">03</div>
+            <div class="hp-mstep__body">
+              <h3>Dichtkeil anbringen</h3>
+              <p>Klebe den selbstklebenden Schaumstoff-Dichtkeil an die Oberkante des Ersatzziegels. Er dichtet den Spalt ab und verhindert das Eindringen von Insekten und Schmutz.</p>
+            </div>
+          </li>
+          <li class="hp-mstep">
+            <div class="hp-mstep__num">04</div>
+            <div class="hp-mstep__body">
+              <h3>Dachhaken montieren</h3>
+              <p>Schneide die Dichtung mit einem <strong>L-Schnitt</strong> an der Stelle ein, an der der Dachhaken sitzt. Verschraube den Dachhaken direkt auf dem Sparren. Verwende dafür die mitgelieferten Schrauben.</p>
+            </div>
+          </li>
+          <li class="hp-mstep">
+            <div class="hp-mstep__num">05</div>
+            <div class="hp-mstep__body">
+              <h3>Dichtung verschließen</h3>
+              <p>Klappe die Dichtung über den montierten Haken. So wird die Durchführung vollständig abgedichtet und vor Witterung geschützt.</p>
+            </div>
+          </li>
+          <li class="hp-mstep">
+            <div class="hp-mstep__num">06</div>
+            <div class="hp-mstep__body">
+              <h3>Dach schließen</h3>
+              <p>Schiebe den darüberliegenden Tonziegel zurück in seine Ausgangsposition. Das Dach ist jetzt komplett geschlossen. Die Montage ist abgeschlossen.</p>
+            </div>
+          </li>
+        {%- else -%}
+          <li class="hp-mstep">
+            <div class="hp-mstep__num">01</div>
+            <div class="hp-mstep__body">
+              <h3>Tonziegel entfernen</h3>
+              <p>Entferne den Tonziegel an der vorgesehenen Montageposition. Schiebe den darüberliegenden Ziegel nach oben, um den Sparren freizulegen.</p>
+            </div>
+          </li>
+          <li class="hp-mstep">
+            <div class="hp-mstep__num">02</div>
+            <div class="hp-mstep__body">
+              <h3>Ersatzziegel einsetzen</h3>
+              <p>Setze den Aluminium-Ersatzziegel anstelle des Tonziegels ein. Befestige ihn mit zwei bis drei Schrauben. Klebe den selbstklebenden Schaumstoff-Dichtkeil an das obere Ende des Ersatzziegels. Er verhindert das Eindringen von Insekten und Schmutz.</p>
+            </div>
+          </li>
+          <li class="hp-mstep">
+            <div class="hp-mstep__num">03</div>
+            <div class="hp-mstep__body">
+              <h3>Dach schließen</h3>
+              <p>Schiebe den darüberliegenden Tonziegel wieder nach unten. Fertig. <strong>Hinweis:</strong> Der Ersatzziegel darf bis max. 15 cm neben dem senkrecht verlaufenden Sparren montiert werden.</p>
+            </div>
+          </li>
+        {%- endif -%}
+      </ol>
+
+      <div class="hp-tip-box" role="note">
+        <div class="hp-tip-box__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></div>
+        <div>
+          <div class="hp-tip-box__title">Tipp</div>
+          <div class="hp-tip-box__text">Prüfe nach der Montage, ob alle Ziegel fest sitzen und die Dichtungen korrekt anliegen. So stellst du sicher, dass dein Dach langfristig dicht bleibt.</div>
+        </div>
+      </div>
+
+      {%- unless is_mit -%}
+        <h3 style="font-family:var(--bz-head);font-size:16px;font-weight:800;color:var(--bz-navy);margin-top:40px;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em;">Lastwerte (geprüft)</h3>
+        <dl class="hp-spec-list">
+          <div class="hp-spec-row"><dt class="hp-spec-row__k">Lastaufnahme in Druckrichtung</dt><dd class="hp-spec-row__v">2,92 kN</dd></div>
+          <div class="hp-spec-row"><dt class="hp-spec-row__k">Lastaufnahme bei Windzug</dt><dd class="hp-spec-row__v">4,90 kN</dd></div>
+          <div class="hp-spec-row"><dt class="hp-spec-row__k">Lastaufnahme in Gleitrichtung</dt><dd class="hp-spec-row__v">1,26 kN</dd></div>
+        </dl>
+      {%- endunless -%}
+    </div>
+  </section>
+
+  <!-- VORTEILE -->
+  <section class="hp-section hp-section--gray" aria-labelledby="ma-benefits-title">
+    <div class="hp-wrap">
+      <span class="hp-section-label">Deine Vorteile</span>
+      <h2 class="hp-section-title" id="ma-benefits-title">Warum der Aluminium-Ersatzziegel die richtige Wahl ist</h2>
+      <p class="hp-section-sub">Fünf harte Vorteile, die auf jeder Baustelle den Unterschied machen.</p>
+      <div class="hp-benefits-num">
+        <article class="hp-benefit-num">
+          <div class="hp-benefit-num__num">01</div>
+          <div>
+            <div class="hp-benefit-num__title">Schnelle Montage</div>
+            <div class="hp-benefit-num__text">In wenigen Minuten montiert — spart Zeit auf der Baustelle und senkt die Montagekosten pro Modul spürbar.</div>
+          </div>
+        </article>
+        <article class="hp-benefit-num">
+          <div class="hp-benefit-num__num">02</div>
+          <div>
+            <div class="hp-benefit-num__title">Kein Ziegelbruch</div>
+            <div class="hp-benefit-num__text">Der Tonziegel wird ersetzt, nicht durchbohrt. Keine Risse, keine Bruchgefahr, keine Gewährleistungs-Probleme mit dem Ziegel-Hersteller.</div>
+          </div>
+        </article>
+        <article class="hp-benefit-num">
+          <div class="hp-benefit-num__num">03</div>
+          <div>
+            <div class="hp-benefit-num__title">Saubere Abdichtung</div>
+            <div class="hp-benefit-num__text">Integrierter Dichtkeil und Dichtungslasche schützen vor Wasser, Laub und Insekten — dauerhaft ohne nachzuarbeiten.</div>
+          </div>
+        </article>
+        <article class="hp-benefit-num">
+          <div class="hp-benefit-num__num">04</div>
+          <div>
+            <div class="hp-benefit-num__title">PV-Montage ohne Risiko</div>
+            <div class="hp-benefit-num__text">Der Dachhaken sitzt direkt auf dem Sparren — maximale Stabilität für Solarmodule, geprüfte Lastwerte für Statik-Nachweis.</div>
+          </div>
+        </article>
+        <article class="hp-benefit-num">
+          <div class="hp-benefit-num__num">05</div>
+          <div>
+            <div class="hp-benefit-num__title">Made in Germany</div>
+            <div class="hp-benefit-num__text">Gefertigt aus hochwertigem Aluminium, 1,0 mm, pulverbeschichtet. Langlebig, korrosionsbeständig, passgenau zu den Profilen der führenden Hersteller.</div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="hp-section hp-section--navy" aria-labelledby="ma-cta-title">
+    <div class="hp-wrap hp-cta-final">
+      <span class="hp-section-label">Fragen? Wir helfen gerne.</span>
+      <h2 class="hp-section-title" id="ma-cta-title">Unsicher bei Modell oder Montage?</h2>
+      <p class="hp-section-sub">Foto oder Maße reichen — wir identifizieren das Dachziegel-Profil und empfehlen den passenden Blechziegel samt Dachhaken. Antwort binnen 24 Stunden.</p>
+      <div class="hp-cta-final__buttons">
+        <a href="{{ contact_url }}" class="hp-btn hp-btn--primary">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          Kontakt aufnehmen
+        </a>
+        <a href="{{ gewerbe_url }}" class="hp-btn hp-btn--outline">
+          Für Dachdecker
+        </a>
+        <a href="{{ solar_url }}" class="hp-btn hp-btn--outline">
+          Für Solar-Installateure
+        </a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Startseite", "item": "{{ shop.url }}/" },
+      { "@type": "ListItem", "position": 2, "name": "{% if is_mit %}Montageanleitung mit Dachhaken{% else %}Montageanleitung ohne Dachhaken{% endif %}", "item": "{{ canonical }}" }
+    ]},
+    { "@type": "HowTo",
+      "name": "{% if is_mit %}Aluminium-Blechziegel inklusive Dachhaken montieren{% else %}Aluminium-Blechziegel als Ersatzziegel montieren{% endif %}",
+      "description": "Schritt-für-Schritt-Anleitung zur Montage von Aluminium-Ersatzziegeln für PV-Dachmontage.",
+      "totalTime": "PT10M",
+      "tool": [
+        { "@type": "HowToTool", "name": "Akkuschrauber" }
+      ],
+      "supply": [
+        { "@type": "HowToSupply", "name": "Aluminium-Ersatzziegel" },
+        { "@type": "HowToSupply", "name": "Schaumstoff-Dichtkeil" },
+        { "@type": "HowToSupply", "name": "Mitgelieferte Schrauben" }
+        {%- if is_mit -%},
+        { "@type": "HowToSupply", "name": "Dachhaken" }
+        {%- endif -%}
+      ],
+      "step": [
+        {%- if is_mit -%}
+        { "@type": "HowToStep", "position": 1, "name": "Tonziegel entfernen", "text": "Entferne den Tonziegel an der vorgesehenen Montageposition. Schiebe den darüberliegenden Ziegel nach oben, um den Dachsparren freizulegen." },
+        { "@type": "HowToStep", "position": 2, "name": "Ersatzziegel einsetzen", "text": "Setze den Aluminium-Ersatzziegel anstelle des entfernten Tonziegels ein. Für zusätzliche Stabilität mit ein bis zwei Schrauben an der Lattung befestigen." },
+        { "@type": "HowToStep", "position": 3, "name": "Dichtkeil anbringen", "text": "Klebe den selbstklebenden Schaumstoff-Dichtkeil an die Oberkante des Ersatzziegels." },
+        { "@type": "HowToStep", "position": 4, "name": "Dachhaken montieren", "text": "Schneide die Dichtung mit einem L-Schnitt ein. Verschraube den Dachhaken direkt auf dem Sparren mit den mitgelieferten Schrauben." },
+        { "@type": "HowToStep", "position": 5, "name": "Dichtung verschließen", "text": "Klappe die Dichtung über den montierten Haken für eine vollständige Abdichtung." },
+        { "@type": "HowToStep", "position": 6, "name": "Dach schließen", "text": "Schiebe den darüberliegenden Tonziegel zurück in seine Ausgangsposition." }
+        {%- else -%}
+        { "@type": "HowToStep", "position": 1, "name": "Tonziegel entfernen", "text": "Entferne den Tonziegel an der vorgesehenen Montageposition. Schiebe den darüberliegenden Ziegel nach oben." },
+        { "@type": "HowToStep", "position": 2, "name": "Ersatzziegel einsetzen", "text": "Setze den Aluminium-Ersatzziegel anstelle des Tonziegels ein. Befestige ihn mit zwei bis drei Schrauben und klebe den Schaumstoff-Dichtkeil an das obere Ende." },
+        { "@type": "HowToStep", "position": 3, "name": "Dach schließen", "text": "Schiebe den darüberliegenden Tonziegel wieder nach unten. Ersatzziegel darf bis max. 15 cm neben dem senkrecht verlaufenden Sparren montiert werden." }
+        {%- endif -%}
+      ]
+    }
+  ]
+}
+</script>
