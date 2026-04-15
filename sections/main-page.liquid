@@ -9,6 +9,7 @@
     assign bz_handle = 'hersteller'
   endif
 -%}
+<!-- BZ-DEBUG: handle={{ page.handle }} closest={{ closest.page.handle }} path={{ request.path }} resolved={{ bz_handle }} -->
 {%- if bz_handle == 'hersteller' -%}
   {% render 'blechziegel-hersteller' %}
 {%- else -%}
