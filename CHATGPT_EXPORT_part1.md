@@ -41,9 +41,9 @@ Design-Tokens (überlagern Horizon-Variablen):
 |---|---|
 | `layout/` | 2 |
 | `templates/` | 13 |
-| `sections/` | 45 |
+| `sections/` | 51 |
 | `blocks/` | 93 |
-| `snippets/` | 103 |
+| `snippets/` | 105 |
 | `assets/` | 113 |
 | `config/` | 2 |
 | `locales/` | 51 |
@@ -213,7 +213,7 @@ Design-Tokens (überlagern Horizon-Variablen):
   lang="{{ request.locale.iso_code }}"
 >
   <head>
-  <meta name="google-site-verification" content="miXYq8tqN3e1Q6WcNRVcyl6hAG_GjhzIKILKiflsHIA" />S
+  <meta name="google-site-verification" content="miXYq8tqN3e1Q6WcNRVcyl6hAG_GjhzIKILKiflsHIA" />
     {%- if settings.favicon != blank -%}
       <link
         rel="icon"
@@ -340,6 +340,9 @@ Design-Tokens (überlagern Horizon-Variablen):
     {% if settings.quick_add or settings.mobile_quick_add %}
       {% render 'quick-add-modal' %}
     {% endif %}
+
+    {%- render 'bz-cart-drawer' -%}
+    {%- render 'bz-nav-premium' -%}
   </body>
 </html>
 
@@ -1500,7 +1503,7 @@ Design-Tokens (überlagern Horizon-Variablen):
 ## templates/index.json
 
 ```json
-{"sections":{"blechziegel-home":{"type":"blechziegel-home","settings":{"hero_image":"shopify:\/\/shop_images\/blechziegel-pv-solar-solarhalterung-frankfurter-pfanne-hero.png","hero_headline":"Kein Ziegelbruch bei der PV-Montage.","hero_sub":"Aluminium-Ersatzziegel passgenau für alle gängigen Dachziegeltypen.","hero_cta_primary_text":"Passenden Blechziegel finden","hero_cta_primary_url":"","hero_cta_secondary_text":"Beratung anfordern","hero_cta_secondary_url":"","bestseller_collection":""}}},"order":["blechziegel-home"]}
+{"sections":{"blechziegel-home":{"type":"blechziegel-home","settings":{"hero_image":"shopify:\/\/shop_images\/blechziegel-pv-solar-solarhalterung-frankfurter-pfanne-hero.png","hero_headline":"Kein Ziegelbruch bei der PV-Montage.","hero_sub":"Aluminium-Ersatzziegel passgenau für alle gängigen Dachziegeltypen.","hero_cta_primary_text":"Passenden Blechziegel finden","hero_cta_primary_url":"/collections/frankfurter-pfanne","hero_cta_secondary_text":"Beratung anfordern","hero_cta_secondary_url":"","bestseller_collection":""}}},"order":["blechziegel-home"]}
 ```
 
 ## templates/list-collections.json
@@ -2760,6 +2763,118 @@ Design-Tokens (überlagern Horizon-Variablen):
   .bz-col-seo p { font-size: 14px; color: var(--bz-gray-text); line-height: 1.75; margin-bottom: 10px; }
   .bz-col-seo p:last-child { margin-bottom: 0; }
 
+  /* Hersteller-Intro + Hint */
+  .bz-hersteller-intro { padding: 20px 0 12px; background: transparent; }
+  .bz-hersteller-intro .bz-col-wrap { max-width: 1160px; margin: 0 auto; padding: 0 20px; }
+  .bz-hersteller-blurb { color: var(--bz-gray-text); font-size: 15px; line-height: 1.6; margin: 0 0 14px; }
+  .bz-benefits {
+    list-style: none;
+    margin: 0 0 14px;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+  }
+  .bz-benefits li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--bz-navy);
+  }
+  .bz-benefits li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 3px;
+    width: 15px; height: 15px;
+    background: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f5a623' stroke-width='3'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");
+  }
+  .bz-collection-hint {
+    margin: 0;
+    padding: 12px 16px;
+    background: #f8f7f4;
+    border-left: 4px solid var(--bz-orange);
+    border-radius: 0 10px 10px 0;
+    font-size: 14px;
+    color: var(--bz-navy);
+    line-height: 1.5;
+  }
+  .bz-collection-hint strong { color: var(--bz-navy); }
+
+  /* FAQ */
+  .bz-collection-faq { padding: 36px 0 12px; background: transparent; }
+  .bz-collection-faq .bz-col-seo-inner { max-width: 1160px; margin: 0 auto; padding: 0 20px; }
+  .bz-collection-faq h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--bz-navy);
+    margin-bottom: 16px;
+    font-family: var(--font-heading-family, inherit);
+  }
+  .bz-collection-faq details {
+    margin-bottom: 8px;
+    padding: 12px 16px;
+    background: #fff;
+    border: 1px solid rgba(13, 30, 53, 0.08);
+    border-radius: 10px;
+    transition: border-color .18s ease;
+  }
+  .bz-collection-faq details[open] { border-color: rgba(245, 166, 35, 0.4); }
+  .bz-collection-faq summary {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14.5px;
+    color: var(--bz-navy);
+    list-style: none;
+    position: relative;
+    padding-right: 28px;
+  }
+  .bz-collection-faq summary::-webkit-details-marker { display: none; }
+  .bz-collection-faq summary::after {
+    content: "+";
+    position: absolute;
+    right: 4px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--bz-orange);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+    transition: transform .2s;
+  }
+  .bz-collection-faq details[open] summary::after { transform: translateY(-50%) rotate(45deg); }
+  .bz-collection-faq details p {
+    margin: 10px 0 0;
+    font-size: 14px;
+    color: var(--bz-gray-text);
+    line-height: 1.65;
+  }
+
+  /* Internal Links */
+  .bz-internal-links {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(13, 30, 53, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .bz-internal-links a {
+    color: var(--bz-navy);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color .18s ease;
+  }
+  .bz-internal-links a:hover { color: var(--bz-orange); }
+
+  @media (max-width: 640px) {
+    .bz-benefits { gap: 8px 16px; }
+    .bz-benefits li { font-size: 13.5px; }
+    .bz-collection-hint { font-size: 13px; padding: 10px 14px; }
+    .bz-collection-faq { padding: 24px 0 8px; }
+    .bz-collection-faq summary { font-size: 14px; }
+  }
+
   /* ══ RESPONSIVE ══ */
   @media (max-width: 900px) {
     .bz-dachtyp-grid { grid-template-columns: repeat(3, 1fr); }
@@ -2796,6 +2911,40 @@ Design-Tokens (überlagern Horizon-Variablen):
 {%- liquid
   assign products_per_page = section.settings.products_per_page | default: 12
   assign current_sort = collection.sort_by | default: collection.default_sort_by
+
+  # Hersteller-Erkennung (dynamisch über Handle)
+  assign hersteller_handles = 'creaton,braas,wienerberger,nelskamp,erlus,roeben,walther,jacobi-walther,bramac,meyer-holsen' | split: ','
+  assign is_hersteller = false
+  if hersteller_handles contains collection.handle
+    assign is_hersteller = true
+    assign hersteller_name = collection.title
+  endif
+
+  # Kurze Hersteller-Intro je Hersteller (leichte Variation — kein Duplicate Content)
+  case collection.handle
+    when 'braas'
+      assign hersteller_blurb = 'Braas zählt zu den größten Dachziegelherstellern Deutschlands. Frankfurter Pfanne und Harzer Pfanne sind seit Jahrzehnten Standard auf Millionen Dächern.'
+    when 'bramac'
+      assign hersteller_blurb = 'Bramac ist auf Betondachsteine spezialisiert. Die Modelle Montero und Classic finden sich auf zahlreichen Ein- und Mehrfamilienhäusern.'
+    when 'creaton'
+      assign hersteller_blurb = 'Creaton fertigt Tondachziegel mit hoher Maßhaltigkeit. Modelle wie Heidelberger, Futura und Balance sind weit verbreitet.'
+    when 'nelskamp'
+      assign hersteller_blurb = 'Nelskamp produziert Dachziegel und Dachsteine für Wohn- und Gewerbebau. Sigma Pfanne und Finkenberger sind bekannte Modelle.'
+    when 'wienerberger'
+      assign hersteller_blurb = 'Wienerberger betreibt mit der Koramic-Linie eines der größten Dachziegel-Portfolios in Europa.'
+    when 'erlus'
+      assign hersteller_blurb = 'Erlus steht für hochwertige Keramik-Dachziegel. Modelle wie Ergoldsbacher E58 und Forma sind weit verbreitet.'
+    when 'roeben'
+      assign hersteller_blurb = 'Röben fertigt Tonziegel mit charakteristischen Oberflächen. Monza plus, Bornholm und Piemont gehören zu den gefragten Modellen.'
+    when 'walther'
+      assign hersteller_blurb = 'Die Walther-Dachziegelwerke fertigen traditionelle und moderne Dachziegel für den Wohnbau.'
+    when 'jacobi-walther'
+      assign hersteller_blurb = 'Jacobi Walther bietet Flach- und Falzziegel in hoher Maßhaltigkeit — J11V, J13V und Z10 sind weit verbreitet.'
+    when 'meyer-holsen'
+      assign hersteller_blurb = 'Meyer-Holsen fertigt klassische Modelle wie Vertikal und Rheinland-Pfanne mit hoher Oberflächenqualität.'
+    else
+      assign hersteller_blurb = ''
+  endcase
 -%}
 
 {%- comment -%}══ 1. HERO ══{%- endcomment -%}
@@ -2808,12 +2957,18 @@ Design-Tokens (überlagern Horizon-Variablen):
     <h1>
       {%- if collection.handle == 'all' -%}
         PV-Dachziegel &amp; Blechziegel –<br><em>passend für Ihren Dachtyp</em>
+      {%- elsif is_hersteller -%}
+        PV-Dachziegel für <em>{{ hersteller_name }}</em>
       {%- else -%}
         {{ collection.title }}
       {%- endif -%}
     </h1>
     <p class="bz-col-hero-sub">
-      Aluminium-Ersatzziegel für die sichere PV-Montage – passgenau für alle gängigen Dachziegeltypen. Kein Ziegelbruch, kein Bohren, keine Nacharbeit. Made in Germany.
+      {%- if is_hersteller -%}
+        Passgenaue Aluminium-Ersatzziegel für {{ hersteller_name }}-Dachziegel. Optimiert für die Photovoltaik-Montage ohne Beschädigung der bestehenden Dacheindeckung.
+      {%- else -%}
+        Aluminium-Ersatzziegel für die sichere PV-Montage – passgenau für alle gängigen Dachziegeltypen. Kein Ziegelbruch, kein Bohren, keine Nacharbeit. Made in Germany.
+      {%- endif -%}
     </p>
     <div class="bz-col-hero-trust">
       <span class="bz-col-hero-trust-item">
@@ -2836,6 +2991,27 @@ Design-Tokens (überlagern Horizon-Variablen):
   </div>
 </section>
 
+{%- if is_hersteller -%}
+{%- comment -%}══ 1b. HERSTELLER-INTRO + HINWEIS ══{%- endcomment -%}
+<section class="bz-hersteller-intro">
+  <div class="bz-col-wrap">
+    {%- if hersteller_blurb != '' -%}
+      <p class="bz-hersteller-blurb">{{ hersteller_blurb }}</p>
+    {%- endif -%}
+    <ul class="bz-benefits">
+      <li>Passgenau für {{ hersteller_name }}-Modelle</li>
+      <li>Made in Germany</li>
+      <li>Lieferzeit 1–3 Werktage</li>
+      <li>Optimiert für PV-Montage (kein Bohren, kein Ziegelbruch)</li>
+    </ul>
+    <div class="bz-collection-hint">
+      <strong>Hinweis:</strong>
+      Wähle im Produkt die passende Variante (Farbe, Ausführung), um den Blechziegel für dein Dach zu finden.
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
 {%- comment -%}══ 2. DACHTYP SCHNELLFILTER ══{%- endcomment -%}
 <section class="bz-dachtyp-section">
   <div class="bz-col-wrap">
@@ -2849,49 +3025,36 @@ Design-Tokens (überlagern Horizon-Variablen):
         <button class="bz-dachtyp-reset" id="bz-reset-filter" onclick="bzResetDachtyp()">Alle anzeigen</button>
       </div>
     </div>
+    {%- comment -%} Dachtyp-Filter dynamisch aus collection.filters rendern {%- endcomment -%}
+    {%- assign dachtyp_filter = nil -%}
+    {%- for filter in collection.filters -%}
+      {%- if filter.param_name == 'filter.p.m.custom.dachziegel_typ' -%}
+        {%- assign dachtyp_filter = filter -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- assign has_active = false -%}
+    {%- if dachtyp_filter and dachtyp_filter.active_values.size > 0 -%}{%- assign has_active = true -%}{%- endif -%}
+
     <div class="bz-dachtyp-grid">
 
-      <a href="?filter.p.m.custom.dachziegel_typ=Frankfurter+Pfanne" class="bz-dachtyp-btn {% if current_tags contains 'Frankfurter Pfanne' %}active{% endif %}" data-type="frankfurter-pfanne">
-        <div class="bz-dachtyp-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        </div>
-        <span class="bz-dachtyp-name">Frankfurter Pfanne</span>
-      </a>
-
-      <a href="?filter.p.m.custom.dachziegel_typ=Biberschwanz" class="bz-dachtyp-btn {% if current_tags contains 'Biberschwanz' %}active{% endif %}" data-type="biberschwanz">
-        <div class="bz-dachtyp-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
-        </div>
-        <span class="bz-dachtyp-name">Biberschwanz</span>
-      </a>
-
-      <a href="?filter.p.m.custom.dachziegel_typ=Hohlfalzziegel" class="bz-dachtyp-btn {% if current_tags contains 'Hohlfalzziegel' %}active{% endif %}" data-type="hohlfalzziegel">
-        <div class="bz-dachtyp-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 20 C6 12 10 8 12 8 C14 8 18 12 22 20"/></svg>
-        </div>
-        <span class="bz-dachtyp-name">Hohlfalzziegel</span>
-      </a>
-
-      <a href="?filter.p.m.custom.dachziegel_typ=Flachdachziegel" class="bz-dachtyp-btn {% if current_tags contains 'Flachdachziegel' %}active{% endif %}" data-type="flachdachziegel">
-        <div class="bz-dachtyp-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="8" width="20" height="8" rx="1"/><path d="M6 8V6M12 8V5M18 8V6"/></svg>
-        </div>
-        <span class="bz-dachtyp-name">Flachdachziegel</span>
-      </a>
-
-      <a href="?filter.p.m.custom.dachziegel_typ=Krempziegel" class="bz-dachtyp-btn {% if current_tags contains 'Krempziegel' %}active{% endif %}" data-type="krempziegel">
-        <div class="bz-dachtyp-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20 Q8 8 12 8 Q16 8 20 20"/></svg>
-        </div>
-        <span class="bz-dachtyp-name">Krempziegel</span>
-      </a>
-
-      <a href="{{ collection.url }}" class="bz-dachtyp-btn" data-type="alle" style="border-style:dashed;background:transparent;">
+      <a href="{{ collection.url }}" class="bz-dachtyp-btn {% unless has_active %}active{% endunless %}" data-type="alle" style="border-style:dashed;background:transparent;">
         <div class="bz-dachtyp-icon" style="background:var(--bz-gray-100);">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9a9890" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         </div>
         <span class="bz-dachtyp-name" style="color:#888;">Alle Typen</span>
       </a>
+
+      {%- if dachtyp_filter -%}
+        {%- for value in dachtyp_filter.values -%}
+          {%- assign slug = value.label | downcase | replace: ' ', '-' -%}
+          <a href="{{ value.url }}" class="bz-dachtyp-btn {% if value.active %}active{% endif %}" data-type="{{ slug }}">
+            <div class="bz-dachtyp-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div>
+            <span class="bz-dachtyp-name">{{ value.label }}</span>
+          </a>
+        {%- endfor -%}
+      {%- endif -%}
 
     </div>
   </div>
@@ -2974,6 +3137,7 @@ Design-Tokens (überlagern Horizon-Variablen):
     </a>
   </div>
 
+  {%- paginate collection.products by products_per_page -%}
   {%- if collection.products.size > 0 -%}
     <div class="bz-prod-grid" id="bz-product-grid">
       {%- for product in collection.products -%}
@@ -3088,10 +3252,71 @@ Design-Tokens (überlagern Horizon-Variablen):
       <a href="{{ collection.url }}">Alle Produkte anzeigen</a>
     </div>
   {%- endif -%}
+  {%- endpaginate -%}
 
 </div>
 
-{%- comment -%}══ 5. SEO TEXT ══{%- endcomment -%}
+{%- if is_hersteller -%}
+{%- comment -%}══ 5a. HERSTELLER FAQ ══{%- endcomment -%}
+<section class="bz-collection-faq">
+  <div class="bz-col-seo-inner">
+    <h2>Häufige Fragen zu {{ hersteller_name }}-Blechziegeln</h2>
+    <details>
+      <summary>Passen die Blechziegel auf alle {{ hersteller_name }}-Modelle?</summary>
+      <p>Die Aluminium-Blechziegel sind für die gängigsten {{ hersteller_name }}-Modelle ausgelegt. Das konkrete Dachziegel-Modell steht im Produkt unter "Passende Hersteller". Wenn dein Modell nicht gelistet ist, fertigen wir es auf Anfrage — schicke uns Foto oder Maße über <a href="/pages/contact">die Kontaktseite</a>.</p>
+    </details>
+    <details>
+      <summary>Kann ich die Blechziegel selbst montieren?</summary>
+      <p>Ja. Die Montage erfolgt ohne Bohren oder Sägen — einfach den passenden Tonziegel entnehmen und den Blechziegel einsetzen. Für größere Projekte empfehlen wir einen Dachdecker-Fachbetrieb; dafür bieten wir unter <a href="/pages/gewerbe">Gewerbekonditionen</a> Mengenpreise.</p>
+    </details>
+    <details>
+      <summary>Wie schnell erfolgt die Lieferung?</summary>
+      <p>Bestellungen sind in der Regel in 1–3 Werktagen bei dir — Lagerware, Versand ab Deutschland.</p>
+    </details>
+    <details>
+      <summary>In welchen Farben sind die Blechziegel erhältlich?</summary>
+      <p>Aluminium blank, Anthrazit (RAL 7016) und Ziegelrot (RAL 8004) — für eine optisch einwandfreie Integration ins Dachbild.</p>
+    </details>
+  </div>
+</section>
+
+{%- comment -%}══ 5b. HERSTELLER-SEO-TEXT ══{%- endcomment -%}
+<section class="bz-col-seo">
+  <div class="bz-col-seo-inner">
+    <h2>{{ hersteller_name }}-Dachziegel für Photovoltaik optimal nutzen</h2>
+    <p>Bei der Installation von Photovoltaikanlagen auf {{ hersteller_name }}-Dächern ist eine saubere Integration entscheidend. Unsere Aluminium-Blechziegel ermöglichen eine sichere und optisch unauffällige Durchführung der PV-Montage — passgenau zum {{ hersteller_name }}-Profil.</p>
+    <p>Durch die exakte Form wird die bestehende Dachstruktur nicht beschädigt. Gleichzeitig bleibt die Funktionalität des Dachs vollständig erhalten: Der Blechziegel ersetzt den originalen {{ hersteller_name }}-Tonziegel an der Montagestelle und trägt den Dachhaken oder die PV-Durchführung sicher.</p>
+    <p>Aluminium als Material hat hier drei Vorteile: es ist korrosionsbeständig (25+ Jahre Haltbarkeit), bruchsicher (kein Ziegelsplittern beim Bohren) und optisch unauffällig durch pulverbeschichtete Oberflächen.</p>
+    <nav class="bz-internal-links" aria-label="Weiterführende Seiten">
+      <a href="/collections/pv-dachziegel">→ Alle PV-Dachziegel ansehen</a>
+      <a href="/pages/hersteller">→ Alle Hersteller im Überblick</a>
+      <a href="/pages/gewerbe">→ Angebote für Dachdecker &amp; Gewerbe</a>
+    </nav>
+  </div>
+</section>
+
+{%- comment -%}══ 5c. JSON-LD · CollectionPage ══{%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": {{ 'PV-Dachziegel ' | append: hersteller_name | json }},
+  "description": {{ collection.description | default: 'Aluminium-Blechziegel für die PV-Montage auf Dächern mit ' | append: hersteller_name | append: '-Dachziegeln.' | json }},
+  "url": {{ shop.url | append: collection.url | json }},
+  "about": {
+    "@type": "Brand",
+    "name": {{ hersteller_name | json }}
+  },
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": {{ shop.name | json }},
+    "url": {{ shop.url | json }}
+  }
+}
+</script>
+
+{%- else -%}
+{%- comment -%}══ 5. SEO TEXT (Standard, Nicht-Hersteller) ══{%- endcomment -%}
 <section class="bz-col-seo">
   <div class="bz-col-seo-inner">
     <h2>PV-Dachziegel aus Aluminium – für alle gängigen Dachziegeltypen</h2>
@@ -3100,6 +3325,7 @@ Design-Tokens (überlagern Horizon-Variablen):
     <p>Alle <strong>Dachziegel Solar</strong>-Produkte sind in drei Farben erhältlich: Aluminium blank, Anthrazit RAL 7016 und Ziegelrot RAL 8004 – für eine optisch einwandfreie Integration in Ihr Dachbild.</p>
   </div>
 </section>
+{%- endif -%}
 
 <script>
   function bzSort(val) {
@@ -3310,17 +3536,187 @@ Design-Tokens (überlagern Horizon-Variablen):
   .bz-bestseller-head { max-width: 600px; margin-bottom: 44px; }
   .bz-bestseller-head h2 { color: var(--bz-navy); margin-top: 8px; }
   .bz-products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .bz-product-card { background: #fff; border: 1.5px solid #e2e0d8; border-radius: var(--bz-r-lg); overflow: hidden; display: flex; flex-direction: column; transition: box-shadow .18s, transform .18s; }
-  .bz-product-card:hover { box-shadow: 0 8px 32px rgba(13,30,53,.1); transform: translateY(-2px); }
-  .bz-product-img { aspect-ratio: 16/9; background: #f0efeb; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-  .bz-product-img img { width: 100%; height: 100%; object-fit: cover; }
-  .bz-product-badge { position: absolute; top: 12px; left: 12px; background: var(--bz-orange); color: var(--bz-navy); font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
-  .bz-product-body { padding: 18px; flex: 1; display: flex; flex-direction: column; gap: 7px; }
-  .bz-product-name { font-weight: 700; font-size: 15px; color: var(--bz-navy); }
-  .bz-product-desc { font-size: 13px; color: #5a5955; flex: 1; line-height: 1.55; }
-  .bz-product-price { font-size: 22px; font-weight: 700; color: var(--bz-navy); font-family: var(--font-heading-family, inherit); }
-  .bz-product-price-sub { font-size: 11.5px; color: #9a9890; }
-  .bz-product-cta { margin-top: 10px; }
+
+  /* Premium Produktkarte */
+  .bz-product-card {
+    background: #ffffff;
+    border: 1px solid rgba(13, 30, 53, 0.08);
+    border-radius: 22px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+    box-shadow: 0 8px 24px rgba(13, 30, 53, 0.05);
+  }
+  .bz-product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 42px rgba(13, 30, 53, 0.12);
+    border-color: rgba(245, 166, 35, 0.32);
+  }
+
+  /* Bildbereich hochwertiger und größer */
+  .bz-product-img {
+    aspect-ratio: 4 / 3;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background:
+      radial-gradient(circle at top left, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 32%),
+      linear-gradient(180deg, #f8f7f4 0%, #efede8 100%);
+    border-bottom: 1px solid rgba(13, 30, 53, 0.05);
+  }
+  .bz-product-img::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 45%);
+    pointer-events: none;
+  }
+  .bz-product-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 10px;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 16px 24px rgba(0, 0, 0, 0.08));
+    transition: transform .28s ease, filter .28s ease;
+  }
+  .bz-product-card:hover .bz-product-img img {
+    transform: scale(1.045);
+    filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.12));
+  }
+
+  /* Klickbare Bild- und Titel-Wrapper */
+  .bz-product-img-link,
+  .bz-product-name-link {
+    color: inherit;
+    text-decoration: none;
+    display: block;
+  }
+  .bz-product-name-link:hover .bz-product-name,
+  .bz-product-name-link:focus-visible .bz-product-name {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .bz-product-img-link:focus-visible,
+  .bz-product-name-link:focus-visible {
+    outline: 2px solid var(--bz-navy);
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+
+  /* Badge hochwertiger */
+  .bz-product-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: rgba(245, 166, 35, 0.96);
+    color: var(--bz-navy);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    box-shadow: 0 6px 14px rgba(245, 166, 35, 0.22);
+  }
+
+  /* Inhaltsbereich ruhiger und edler */
+  .bz-product-body {
+    padding: 20px 18px 18px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .bz-product-name {
+    color: var(--bz-navy);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    margin-bottom: 0;
+  }
+  .bz-product-desc {
+    font-size: 13px;
+    color: #5a5955;
+    flex: 1;
+    line-height: 1.55;
+  }
+
+  /* Preisblock mehr Fokus */
+  .bz-product-price {
+    color: var(--bz-navy);
+    font-size: clamp(1.55rem, 2vw, 1.9rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-family: var(--font-heading-family, inherit);
+  }
+  .bz-product-price-sub { font-size: 11.5px; color: #9a9890; margin-top: 4px; }
+
+  /* Trust-Line unter dem Preis */
+  .bz-product-trustline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+    padding: 10px 12px;
+    background: #f8f7f4;
+    border: 1px solid rgba(13, 30, 53, 0.06);
+    border-radius: 12px;
+    cursor: default;
+    transition: background .15s ease, border-color .15s ease;
+  }
+  .bz-product-card:hover .bz-product-trustline {
+    background: #f5f4f1;
+    border-color: rgba(13, 30, 53, 0.08);
+  }
+  .bz-product-trustitem {
+    color: var(--bz-navy);
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  .bz-product-trustitem:first-child {
+    font-weight: 700;
+  }
+  .bz-product-trustdot {
+    color: rgba(245, 166, 35, 0.9);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .bz-product-cta { margin-top: 2px; }
+
+  /* CTA stärker, aber markenkonform — nur innerhalb der Karte */
+  .bz-product-card .bz-btn-primary {
+    width: 100%;
+    justify-content: center;
+    min-height: 54px;
+    border-radius: 14px;
+    background: linear-gradient(180deg, #f5a623 0%, #eb9d1e 100%);
+    color: var(--bz-navy);
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    box-shadow: 0 10px 20px rgba(245, 166, 35, 0.18);
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+  }
+  .bz-product-card .bz-btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 24px rgba(245, 166, 35, 0.24);
+    background: linear-gradient(180deg, #f7ad34 0%, #eea225 100%);
+  }
   .bz-products-more { text-align: center; margin-top: 36px; }
 
   /* ── 5. PROBLEM / LÖSUNG ── */
@@ -3408,6 +3804,14 @@ Design-Tokens (überlagern Horizon-Variablen):
     .bz-dach-grid { grid-template-columns: 1fr; }
     .bz-usp-grid { grid-template-columns: 1fr; }
     .bz-products-grid { grid-template-columns: 1fr; }
+    .bz-product-card { border-radius: 18px; }
+    .bz-product-img { padding: 12px; }
+    .bz-product-img img { padding: 8px; }
+    .bz-product-body { padding: 16px 14px 14px; }
+    .bz-product-trustline { gap: 5px; padding: 8px 10px; }
+    .bz-product-trustitem { font-size: 11.5px; }
+    .bz-product-card .bz-btn-primary { min-height: 50px; border-radius: 12px; }
+    .bz-product-price { font-size: 1.6rem; }
     .bz-steps { grid-template-columns: 1fr; }
     .bz-proof-nums { grid-template-columns: 1fr 1fr; }
     .bz-reviews-grid { grid-template-columns: 1fr; }
@@ -3424,12 +3828,29 @@ Design-Tokens (überlagern Horizon-Variablen):
 {%- comment -%}══ 1. HERO ══{%- endcomment -%}
 <section class="bz-hero">
   {%- if hero_image != blank -%}
-    {{ hero_image | image_url: width: 1920 | image_tag:
-      class: 'bz-hero-img',
-      loading: 'eager',
-      fetchpriority: 'high',
-      alt: hero_image.alt | default: 'PV-Blechziegel für Solaranlagen – Made in Germany'
-    }}
+    {%- assign hero_alt = hero_image.alt | default: 'PV-Blechziegel für Solaranlagen – Made in Germany' -%}
+    <picture>
+      {%- if hero_image_mobile != blank -%}
+        <source
+          media="(max-width: 640px)"
+          srcset="{{ hero_image_mobile | image_url: width: 640 }} 1x, {{ hero_image_mobile | image_url: width: 1280 }} 2x"
+          width="640"
+          height="720"
+        >
+      {%- endif -%}
+      <img
+        class="bz-hero-img"
+        src="{{ hero_image | image_url: width: 1600 }}"
+        srcset="{{ hero_image | image_url: width: 960 }} 960w, {{ hero_image | image_url: width: 1280 }} 1280w, {{ hero_image | image_url: width: 1600 }} 1600w, {{ hero_image | image_url: width: 1920 }} 1920w"
+        sizes="100vw"
+        width="1600"
+        height="900"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+        alt="{{ hero_alt | escape }}"
+      >
+    </picture>
   {%- else -%}
     <div class="bz-hero-img-placeholder"></div>
   {%- endif -%}
@@ -3546,25 +3967,36 @@ Design-Tokens (überlagern Horizon-Variablen):
     <div class="bz-products-grid">
       {%- for product in bestseller_collection.products limit: 3 -%}
       <div class="bz-product-card">
-        <div class="bz-product-img">
-          {%- if product.featured_image -%}
-            {{ product.featured_image | image_url: width: 600 | image_tag:
-              loading: 'lazy',
-              width: 600,
-              height: 338,
-              alt: product.featured_image.alt | default: product.title
-            }}
-          {%- else -%}
-            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-          {%- endif -%}
-          {%- if forloop.first -%}<span class="bz-product-badge">Bestseller</span>{%- endif -%}
-        </div>
+        <a href="{{ product.url }}" class="bz-product-img-link" aria-label="{{ product.title | escape }}">
+          <div class="bz-product-img">
+            {%- if product.featured_image -%}
+              {{ product.featured_image | image_url: width: 600 | image_tag:
+                loading: 'lazy',
+                width: 600,
+                height: 338,
+                alt: product.featured_image.alt | default: product.title
+              }}
+            {%- else -%}
+              <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            {%- endif -%}
+            {%- if forloop.first -%}<span class="bz-product-badge">Bestseller</span>{%- endif -%}
+          </div>
+        </a>
         <div class="bz-product-body">
-          <div class="bz-product-name">{{ product.title }}</div>
+          <a href="{{ product.url }}" class="bz-product-name-link">
+            <div class="bz-product-name">{{ product.title }}</div>
+          </a>
           <div class="bz-product-desc">{{ product.description | strip_html | truncate: 100 }}</div>
           <div>
             <div class="bz-product-price">ab {{ product.price_min | money }}</div>
             <div class="bz-product-price-sub">inkl. MwSt. &middot; zzgl. Versand</div>
+          </div>
+          <div class="bz-product-trustline" aria-label="Produktvorteile">
+            <span class="bz-product-trustitem">Passgenau</span>
+            <span class="bz-product-trustdot">&bull;</span>
+            <span class="bz-product-trustitem">Made in Germany</span>
+            <span class="bz-product-trustdot">&bull;</span>
+            <span class="bz-product-trustitem">1–3 Werktage</span>
           </div>
           <div class="bz-product-cta">
             <a href="{{ product.url }}" class="bz-btn bz-btn-primary" style="width:100%;justify-content:center;">Jetzt kaufen</a>
@@ -3944,17 +4376,50 @@ Design-Tokens (überlagern Horizon-Variablen):
     text-decoration: line-through;
   }
   .bz-price-save {
-    background: #E24B4A;
-    color: #fff;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 4px;
+    color: #2e7d32;
+    font-weight: 600;
+    font-size: 0.9rem;
+    line-height: 1.3;
+    margin-top: 4px;
   }
   .bz-price-note {
     font-size: 12px;
     color: var(--bz-gray-text);
-    margin-bottom: 24px;
+    margin-bottom: 14px;
+  }
+
+  /* Trust-Block unter Preis */
+  .bz-trust-block {
+    margin-bottom: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .bz-trust-rating,
+  .bz-trust-security {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .bz-trust-stars {
+    display: inline-flex;
+    align-items: center;
+    gap: 1px;
+    color: var(--bz-orange);
+  }
+  .bz-trust-icon {
+    display: inline-flex;
+    align-items: center;
+    color: var(--bz-navy);
+  }
+  .bz-rating-text {
+    font-size: 13px;
+    color: var(--bz-navy);
+    font-weight: 600;
+  }
+  .bz-trust-security span:last-child {
+    font-size: 12.5px;
+    color: var(--bz-gray-text);
   }
 
   /* Divider */
@@ -3963,6 +4428,97 @@ Design-Tokens (überlagern Horizon-Variablen):
     border-top: 1px solid var(--bz-border);
     margin: 20px 0;
   }
+
+  /* Staffelpreise (B2B) */
+  .bz-tier-pricing {
+    margin: 18px 0;
+    padding: 16px 16px 14px;
+    background: #f8f7f4;
+    border: 1px solid rgba(13, 30, 53, 0.08);
+    border-radius: 14px;
+  }
+  .bz-tier-pricing-head {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 12px;
+  }
+  .bz-tier-pricing-head strong {
+    color: var(--bz-navy);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .bz-tier-pricing-sub {
+    color: var(--bz-gray-text);
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  .bz-tier-pricing-table {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .bz-tier-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 0;
+    border-top: 1px solid rgba(13, 30, 53, 0.06);
+  }
+  .bz-tier-row:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+  .bz-tier-qty {
+    color: var(--bz-navy);
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+  .bz-tier-price {
+    color: var(--bz-navy);
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+  .bz-tier-hint {
+    margin-top: 12px;
+    color: var(--bz-gray-text);
+    font-size: 0.87rem;
+    line-height: 1.45;
+  }
+  .bz-tier-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .bz-tier-btn {
+    appearance: none;
+    -webkit-appearance: none;
+    border: 1px solid rgba(245, 166, 35, 0.35);
+    background: #fff4e0;
+    color: var(--bz-navy);
+    border-radius: 10px;
+    min-height: 40px;
+    padding: 0 14px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    font-family: var(--font-body-family, inherit);
+    transition: background .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+  }
+  .bz-tier-btn:hover {
+    background: #fbe9bf;
+    border-color: rgba(245, 166, 35, 0.55);
+    box-shadow: 0 6px 14px rgba(245, 166, 35, 0.12);
+  }
+  .bz-tier-btn:focus-visible {
+    outline: 2px solid var(--bz-navy);
+    outline-offset: 2px;
+  }
+  .bz-tier-btn:active { transform: translateY(1px); }
 
   /* Varianten */
   .bz-variant-label {
@@ -4008,16 +4564,33 @@ Design-Tokens (überlagern Horizon-Variablen):
     flex-wrap: wrap;
   }
   .bz-swatch {
+    appearance: none;
+    -webkit-appearance: none;
     width: 36px;
     height: 36px;
+    padding: 0;
+    margin: 0;
     border-radius: 50%;
     border: 2px solid var(--bz-border);
+    background: transparent;
     cursor: pointer;
     transition: border-color .15s, transform .15s;
     position: relative;
   }
   .bz-swatch:hover { transform: scale(1.1); }
-  .bz-swatch.active { border-color: var(--bz-orange); border-width: 2.5px; }
+  .bz-swatch.active,
+  .bz-swatch[aria-pressed="true"] { border-color: var(--bz-orange); border-width: 2.5px; }
+  .bz-swatch:focus-visible,
+  .bz-gallery-thumb:focus-visible {
+    outline: 2px solid var(--bz-navy);
+    outline-offset: 2px;
+  }
+  .bz-gallery-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    font: inherit;
+  }
+  .bz-gallery-thumb[aria-current="true"] { border-color: var(--bz-orange); }
   .bz-swatch[data-color="alu"] { background: #c8c8c0; }
   .bz-swatch[data-color="anthrazit"] { background: #383e42; }
   .bz-swatch[data-color="ziegelrot"] { background: #8B3A2A; }
@@ -4292,40 +4865,121 @@ Design-Tokens (überlagern Horizon-Variablen):
   .bz-review-author { font-size: 12px; font-weight: 600; color: var(--bz-navy); }
   .bz-review-role { font-size: 11px; color: #aaa; }
 
-  /* Sticky ATC Mobile */
+  /* Sticky ATC Mobile — Ultra Premium */
   .bz-sticky-atc {
-    display: none;
     position: fixed;
-    bottom: 0;
     left: 0;
     right: 0;
-    background: #fff;
-    border-top: 1px solid var(--bz-border);
-    padding: 12px 20px;
-    z-index: 50;
-    box-shadow: 0 -4px 20px rgba(0,0,0,.08);
+    bottom: 0;
+    z-index: 70;
+    display: none;
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-top: 1px solid rgba(13,30,53,0.08);
+    box-shadow: 0 -10px 30px rgba(13,30,53,0.10);
   }
   .bz-sticky-atc-inner {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    max-width: 640px;
+    max-width: 1160px;
     margin: 0 auto;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: center;
   }
-  .bz-sticky-atc-info { flex: 1; }
-  .bz-sticky-atc-name { font-size: 13px; font-weight: 600; color: var(--bz-navy); }
-  .bz-sticky-atc-price { font-size: 15px; font-weight: 700; color: var(--bz-navy); }
-  .bz-sticky-atc-btn {
-    background: var(--bz-navy);
-    color: #fff;
-    border: none;
-    border-radius: var(--bz-r);
-    padding: 12px 24px;
-    font-size: 14px;
+  .bz-sticky-image {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    border-radius: 8px;
+    background: #f5f5f5;
+    display: block;
+    flex-shrink: 0;
+  }
+  .bz-sticky-meta {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .bz-sticky-variant-context {
+    color: var(--bz-navy);
+    font-size: 12px;
     font-weight: 700;
-    cursor: pointer;
+    line-height: 1.25;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .bz-sticky-price-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    line-height: 1;
+  }
+  .bz-sticky-price-label {
+    color: #5a5955;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .bz-sticky-price {
+    color: var(--bz-navy);
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .bz-sticky-trustline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+    min-width: 0;
+  }
+  .bz-sticky-trustitem {
+    color: var(--bz-navy);
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+  .bz-sticky-trustdot {
+    color: rgba(245,166,35,0.95);
+    font-weight: 700;
+    line-height: 1;
+  }
+  .bz-sticky-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 160px;
+    min-height: 50px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(180deg, #f5a623 0%, #eb9d1e 100%);
+    color: var(--bz-navy);
     font-family: var(--font-body-family, inherit);
+    font-size: 0.98rem;
+    font-weight: 700;
+    white-space: nowrap;
+    box-shadow: 0 10px 20px rgba(245,166,35,0.20);
+    transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease, background .18s ease;
+    cursor: pointer;
+  }
+  .bz-sticky-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 24px rgba(245,166,35,0.24);
+    background: linear-gradient(180deg, #f7ad34 0%, #eea225 100%);
+  }
+  .bz-sticky-btn:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  @media (min-width: 901px) {
+    .bz-sticky-atc { display: none !important; }
   }
 
   /* ── RESPONSIVE ── */
@@ -4335,7 +4989,6 @@ Design-Tokens (überlagern Horizon-Variablen):
     .bz-below-grid { grid-template-columns: 1fr; gap: 40px; }
     .bz-review-cards { grid-template-columns: 1fr; }
     .bz-usp-cards { grid-template-columns: 1fr 1fr; }
-    .bz-sticky-atc { display: block; }
   }
   @media (max-width: 580px) {
     .bz-trust-grid { grid-template-columns: 1fr 1fr; }
@@ -4344,6 +4997,23 @@ Design-Tokens (überlagern Horizon-Variablen):
     .bz-tab-btn { padding: 10px 14px; font-size: 13px; }
     .bz-price-current { font-size: 1.7rem; }
     .bz-product-grid { padding: 16px 0 32px; }
+    .bz-tier-pricing { padding: 14px 14px 12px; border-radius: 12px; }
+    .bz-tier-pricing-head strong { font-size: 0.98rem; }
+    .bz-tier-pricing-sub,
+    .bz-tier-hint { font-size: 0.85rem; }
+    .bz-tier-qty,
+    .bz-tier-price { font-size: 0.92rem; }
+    .bz-tier-actions { gap: 6px; }
+    .bz-tier-btn { min-height: 38px; padding: 0 12px; font-size: 0.9rem; }
+    .bz-sticky-atc { padding: 10px 10px calc(10px + env(safe-area-inset-bottom)); }
+    .bz-sticky-atc-inner { grid-template-columns: auto 1fr; gap: 10px; }
+    .bz-sticky-btn { grid-column: 1 / -1; }
+    .bz-sticky-image { width: 44px; height: 44px; }
+    .bz-sticky-meta { gap: 5px; }
+    .bz-sticky-variant-context { font-size: 11.5px; }
+    .bz-sticky-trustline { gap: 4px; }
+    .bz-sticky-trustitem { font-size: 11px; }
+    .bz-sticky-btn { width: 100%; min-height: 52px; }
   }
 {% endstyle %}
 
@@ -4366,11 +5036,14 @@ Design-Tokens (überlagern Horizon-Variablen):
         {%- endif -%}
       </div>
       {%- if product.images.size > 1 -%}
-        <div class="bz-gallery-thumbs">
+        <div class="bz-gallery-thumbs" role="list">
           {%- for image in product.images -%}
-            <div
+            <button
+              type="button"
               class="bz-gallery-thumb {% if forloop.first %}active{% endif %}"
-              onclick="bzSetImg('{{ image | image_url: width: 800 }}', this)"
+              data-src="{{ image | image_url: width: 800 }}"
+              aria-label="Produktbild {{ forloop.index }} anzeigen"
+              aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
             >
               <img
                 src="{{ image | image_url: width: 120 }}"
@@ -4379,7 +5052,7 @@ Design-Tokens (überlagern Horizon-Variablen):
                 height="120"
                 loading="lazy"
               >
-            </div>
+            </button>
           {%- endfor -%}
         </div>
       {%- endif -%}
@@ -4417,12 +5090,71 @@ Design-Tokens (überlagern Horizon-Variablen):
         {%- if product.compare_at_price_min > product.price_min -%}
           <span class="bz-price-compare">{{ product.compare_at_price_min | money }}</span>
           {%- assign savings = product.compare_at_price_min | minus: product.price_min -%}
-          <span class="bz-price-save">{{ savings | money }} sparen</span>
+          {%- assign savings_percent = savings | times: 100.0 | divided_by: product.compare_at_price_min | round -%}
+          <span class="bz-price-save">Spare {{ savings | money }} · {{ savings_percent }}%</span>
         {%- endif -%}
       </div>
       <p class="bz-price-note">inkl. MwSt. &middot; zzgl. <a href="{{ routes.root_url }}policies/shipping-policy" style="color:var(--bz-orange);">Versandkosten</a></p>
 
+      <div class="bz-trust-block" aria-label="Kundenbewertungen und Vertrauen">
+        <div class="bz-trust-rating">
+          <span class="bz-trust-stars" aria-hidden="true">
+            {%- for i in (1..5) -%}
+              <svg class="icon icon-star" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor">
+                {%- render 'icon', icon: 'star' -%}
+              </svg>
+            {%- endfor -%}
+          </span>
+          <span class="bz-rating-text">4,8 / 5 (120+ Bewertungen)</span>
+        </div>
+        <div class="bz-trust-security">
+          <span class="bz-trust-icon" aria-hidden="true">
+            <svg class="icon icon-lock" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor">
+              {%- render 'icon', icon: 'lock' -%}
+            </svg>
+          </span>
+          <span>Käuferschutz inklusive</span>
+        </div>
+      </div>
+
       <hr class="bz-divider">
+
+      {%- comment -%}
+        ── Staffelpreise ──
+        TODO: Datenquelle anbinden, sobald Staffelpreis-Metafield definiert ist.
+        Aktuell: statische Richtwerte. Verbindlich erst nach Angebots-Anfrage.
+      {%- endcomment -%}
+      <div class="bz-tier-pricing" aria-label="Staffelpreise">
+        <div class="bz-tier-pricing-head">
+          <strong>Mengenpreise für Projekte</strong>
+          <span class="bz-tier-pricing-sub">Richtwerte für Dachdecker und PV-Installateure</span>
+        </div>
+
+        <div class="bz-tier-pricing-table">
+          <div class="bz-tier-row">
+            <span class="bz-tier-qty">ab 25 Stück</span>
+            <span class="bz-tier-price">7,49 €</span>
+          </div>
+          <div class="bz-tier-row">
+            <span class="bz-tier-qty">ab 50 Stück</span>
+            <span class="bz-tier-price">7,19 €</span>
+          </div>
+          <div class="bz-tier-row">
+            <span class="bz-tier-qty">ab 100 Stück</span>
+            <span class="bz-tier-price">6,89 €</span>
+          </div>
+        </div>
+
+        <div class="bz-tier-hint">
+          Richtwerte · Projektpreise auf Anfrage. Für größere Dachflächen lohnen sich höhere Mengen.
+        </div>
+
+        <div class="bz-tier-actions">
+          <button type="button" class="bz-tier-btn" data-tier-add="25" aria-label="25 Stück zur Menge addieren">+25</button>
+          <button type="button" class="bz-tier-btn" data-tier-add="50" aria-label="50 Stück zur Menge addieren">+50</button>
+          <button type="button" class="bz-tier-btn" data-tier-add="100" aria-label="100 Stück zur Menge addieren">+100</button>
+        </div>
+      </div>
 
       {%- comment -%}── Varianten Form ──{%- endcomment -%}
       <form action="{{ routes.cart_add_url }}" method="post" id="bz-product-form">
@@ -4437,7 +5169,7 @@ Design-Tokens (überlagern Horizon-Variablen):
           </div>
 
           {%- if option.name == 'Farbe' -%}
-            <div class="bz-color-swatches" id="bz-swatches-{{ option.position }}">
+            <div class="bz-color-swatches" id="bz-swatches-{{ option.position }}" role="radiogroup" aria-label="{{ option.name | escape }}">
               {%- for value in option.values -%}
                 {%- assign swatch_data = value | downcase | replace: ' ', '-' -%}
                 {%- assign data_color = '' -%}
@@ -4445,14 +5177,16 @@ Design-Tokens (überlagern Horizon-Variablen):
                 {%- elsif value contains 'Anthrazit' -%}{%- assign data_color = 'anthrazit' -%}
                 {%- elsif value contains 'Ziegelrot' -%}{%- assign data_color = 'ziegelrot' -%}
                 {%- endif -%}
-                <div
+                <button
+                  type="button"
                   class="bz-swatch {% if forloop.first %}active{% endif %}"
                   data-color="{{ data_color }}"
-                  data-value="{{ value }}"
+                  data-value="{{ value | escape }}"
                   data-option="{{ option.position }}"
-                  title="{{ value }}"
-                  onclick="bzSelectSwatch(this)"
-                ></div>
+                  title="{{ value | escape }}"
+                  aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+                  aria-label="{{ option.name | escape }} {{ value | escape }} wählen"
+                ></button>
               {%- endfor -%}
             </div>
           {%- else -%}
@@ -4725,11 +5459,33 @@ Design-Tokens (überlagern Horizon-Variablen):
 {%- comment -%}══ STICKY ATC MOBILE ══{%- endcomment -%}
 <div class="bz-sticky-atc" id="bz-sticky">
   <div class="bz-sticky-atc-inner">
-    <div class="bz-sticky-atc-info">
-      <div class="bz-sticky-atc-name">{{ product.title | truncate: 30 }}</div>
-      <div class="bz-sticky-atc-price" id="bz-sticky-price">{{ product.price_min | money }}</div>
+    <img
+      id="bz-sticky-image"
+      class="bz-sticky-image"
+      src="{{ product.featured_image | image_url: width: 120 }}"
+      alt="{{ product.title | escape }}"
+      width="48"
+      height="48"
+      loading="eager"
+    />
+    <div class="bz-sticky-meta">
+      <div class="bz-sticky-variant-context" id="bz-sticky-context">{{ product.title | truncate: 32 }}</div>
+
+      <div class="bz-sticky-price-wrap">
+        <span class="bz-sticky-price-label">ab</span>
+        <span class="bz-sticky-price" id="bz-sticky-price">{{ product.price_min | money }}</span>
+      </div>
+
+      <div class="bz-sticky-trustline" aria-label="Produktvorteile">
+        <span class="bz-sticky-trustitem">Passgenau</span>
+        <span class="bz-sticky-trustdot">&bull;</span>
+        <span class="bz-sticky-trustitem">Made in Germany</span>
+        <span class="bz-sticky-trustdot">&bull;</span>
+        <span class="bz-sticky-trustitem">1–3 Werktage</span>
+      </div>
     </div>
-    <button class="bz-sticky-atc-btn" onclick="document.getElementById('bz-atc').click()">
+
+    <button class="bz-sticky-atc-btn bz-sticky-btn" id="bz-sticky-btn" type="button" onclick="document.getElementById('bz-atc').click()">
       In den Warenkorb
     </button>
   </div>
@@ -4739,9 +5495,21 @@ Design-Tokens (überlagern Horizon-Variablen):
   // Galerie
   function bzSetImg(src, thumb) {
     document.getElementById('bz-main-img-tag').src = src;
-    document.querySelectorAll('.bz-gallery-thumb').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.bz-gallery-thumb').forEach(function(t) {
+      t.classList.remove('active');
+      t.setAttribute('aria-current', 'false');
+    });
     thumb.classList.add('active');
+    thumb.setAttribute('aria-current', 'true');
   }
+
+  // Thumbnail-Klick via Delegation (ersetzt Inline onclick)
+  document.querySelectorAll('.bz-gallery-thumb').forEach(function(thumb) {
+    thumb.addEventListener('click', function() {
+      var src = thumb.dataset.src;
+      if (src) bzSetImg(src, thumb);
+    });
+  });
 
   // Menge
   function bzQty(delta) {
@@ -4754,9 +5522,75 @@ Design-Tokens (überlagern Horizon-Variablen):
   // Farb-Swatches
   function bzSelectSwatch(el) {
     var pos = el.dataset.option;
-    document.querySelectorAll('.bz-swatch[data-option="' + pos + '"]').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.bz-swatch[data-option="' + pos + '"]').forEach(function(s) {
+      s.classList.remove('active');
+      s.setAttribute('aria-pressed', 'false');
+    });
     el.classList.add('active');
+    el.setAttribute('aria-pressed', 'true');
     bzUpdateVariant();
+  }
+
+  // Swatch-Klick via Delegation (ersetzt Inline onclick)
+  document.querySelectorAll('.bz-swatch').forEach(function(swatch) {
+    swatch.addEventListener('click', function() { bzSelectSwatch(swatch); });
+  });
+
+  // Staffelpreis-Buttons: addiert Menge zum vorhandenen qty-Input
+  document.querySelectorAll('.bz-tier-btn[data-tier-add]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var qtyInput = document.getElementById('bz-qty-input') || document.querySelector('input[name="quantity"]');
+      if (!qtyInput) return;
+      var current = parseInt(qtyInput.value || '1', 10);
+      if (isNaN(current) || current < 1) current = 1;
+      var add = parseInt(btn.dataset.tierAdd || '0', 10);
+      var next = Math.max(1, current + add);
+      qtyInput.value = String(next);
+      qtyInput.dispatchEvent(new Event('input', { bubbles: true }));
+      qtyInput.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+  });
+
+  // Sticky-Kontext bauen — kurz, hochwertig, B2B-tauglich
+  var BZ_PRODUCT_TITLE = {{ product.title | json }};
+  var BZ_DACHTYPEN = ['Frankfurter Pfanne','Biberschwanz','Hohlfalzziegel','Flachdachziegel','Krempziegel'];
+
+  function bzNormalizeOption(value) {
+    if (!value) return '';
+    var v = String(value).trim();
+    var lower = v.toLowerCase();
+    // Kundengruppe ausblenden
+    if (lower.indexOf('privatkunde') !== -1 || lower.indexOf('gewerbekunde') !== -1) return '';
+    // Ausführung kurz halten
+    if (lower === 'mit haken') return 'Mit Haken';
+    if (lower === 'ohne haken') return 'Ohne Haken';
+    if (lower.indexOf('mit integriertem dachhaken') !== -1) return 'Mit Haken';
+    if (lower.indexOf('ohne haken') !== -1) return 'Ohne Haken';
+    return v;
+  }
+
+  function bzBuildStickyContext(opts) {
+    // Dachtyp aus Titel ableiten
+    var dachtyp = '';
+    for (var i = 0; i < BZ_DACHTYPEN.length; i++) {
+      if (BZ_PRODUCT_TITLE.indexOf(BZ_DACHTYPEN[i]) !== -1) { dachtyp = BZ_DACHTYPEN[i]; break; }
+    }
+    if (!dachtyp) {
+      dachtyp = BZ_PRODUCT_TITLE.length > 32 ? BZ_PRODUCT_TITLE.substring(0, 32) + '…' : BZ_PRODUCT_TITLE;
+    }
+
+    var parts = [];
+    Object.keys(opts).sort(function(a,b){return a-b;}).forEach(function(pos) {
+      var clean = bzNormalizeOption(opts[pos]);
+      if (clean) parts.push(clean);
+    });
+
+    var ctx = dachtyp;
+    if (parts.length) ctx += ' • ' + parts.slice(0, 2).join(' • ');
+    // Wenn zu lang, auf 1 Zusatz reduzieren; immer noch zu lang → nur Dachtyp
+    if (ctx.length > 42 && parts.length > 1) ctx = dachtyp + ' • ' + parts[0];
+    if (ctx.length > 42) ctx = dachtyp;
+    return ctx;
   }
 
   // Variante aktualisieren
@@ -4777,6 +5611,10 @@ Design-Tokens (überlagern Horizon-Variablen):
       });
     });
 
+    // Sticky-Kontext immer aktualisieren (auch wenn keine Variante matcht)
+    var ctxEl = document.getElementById('bz-sticky-context');
+    if (ctxEl) ctxEl.textContent = bzBuildStickyContext(opts);
+
     if (matched) {
       document.getElementById('bz-variant-id').value = matched.id;
       var price = (matched.price / 100).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
@@ -4785,21 +5623,45 @@ Design-Tokens (überlagern Horizon-Variablen):
 
       // Bild wechseln wenn vorhanden
       if (matched.featured_image) {
-        var imgSrc = matched.featured_image.src.replace(/(\.[^.]+)$/, '_800x800$1');
-        document.getElementById('bz-main-img-tag').src = 'https:' + matched.featured_image.src + '&width=800';
+        var mainImg = document.getElementById('bz-main-img-tag');
+        if (mainImg) mainImg.src = 'https:' + matched.featured_image.src + '&width=800';
+        var stickyImg = document.getElementById('bz-sticky-image');
+        if (stickyImg) stickyImg.src = 'https:' + matched.featured_image.src + '&width=120';
       }
 
-      // ATC Status
+      // ATC Status (Haupt + Sticky synchron)
       var btn = document.getElementById('bz-atc');
+      var stickyBtn = document.getElementById('bz-sticky-btn');
       if (matched.available) {
         btn.disabled = false;
+        btn.removeAttribute('aria-disabled');
         btn.style.opacity = '1';
         btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg> In den Warenkorb';
+        if (stickyBtn) { stickyBtn.disabled = false; stickyBtn.removeAttribute('aria-disabled'); stickyBtn.textContent = 'In den Warenkorb'; }
       } else {
         btn.disabled = true;
+        btn.setAttribute('aria-disabled', 'true');
         btn.style.opacity = '.5';
         btn.innerHTML = 'Nicht verfügbar';
+        if (stickyBtn) { stickyBtn.disabled = true; stickyBtn.setAttribute('aria-disabled', 'true'); stickyBtn.textContent = 'Nicht verfügbar'; }
       }
+    } else {
+      // Kombi nicht verfügbar (z.B. ausverkauft oder ungültige Optionsmischung)
+      var atc = document.getElementById('bz-atc');
+      var stickyBtnFb = document.getElementById('bz-sticky-btn');
+      if (atc) {
+        atc.disabled = true;
+        atc.setAttribute('aria-disabled', 'true');
+        atc.style.opacity = '.5';
+        atc.innerHTML = 'Nicht verfügbar';
+      }
+      if (stickyBtnFb) {
+        stickyBtnFb.disabled = true;
+        stickyBtnFb.setAttribute('aria-disabled', 'true');
+        stickyBtnFb.textContent = 'Nicht verfügbar';
+      }
+      var stickyPriceEl = document.getElementById('bz-sticky-price');
+      if (stickyPriceEl) stickyPriceEl.textContent = '–';
     }
   }
 
@@ -4831,6 +5693,31 @@ Design-Tokens (überlagern Horizon-Variablen):
 
   // Init
   bzUpdateVariant();
+</script>
+
+{%- comment -%}══ SEO: Product JSON-LD ══{%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": {{ product.title | json }},
+  "image": [
+    {{ product.featured_image | image_url: width: 1200 | prepend: 'https:' | json }}
+  ],
+  "description": {{ product.description | strip_html | json }},
+  "sku": {{ product.selected_or_first_available_variant.sku | default: product.id | json }},
+  "brand": {
+    "@type": "Brand",
+    "name": "Blechziegel"
+  },
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": {{ shop.currency | json }},
+    "price": "{{ product.price | divided_by: 100.0 }}",
+    "availability": "{% if product.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
+    "url": {{ shop.url | append: product.url | json }}
+  }
+}
 </script>
 
 {% schema %}
@@ -9069,131 +9956,8 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a) {
   "sections": {
     "footer_m9NzUG": {
       "type": "footer",
-      "blocks": {
-        "group_H6VpwJ": {
-          "type": "group",
-          "settings": {
-            "content_direction": "column",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 6,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
-            "link": "",
-            "open_in_new_tab": false,
-            "placeholder": "",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "text_LWt8Pz": {
-              "type": "text",
-              "settings": {
-                "text": "<h2>Join our email list</h2>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "h4",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "text_f9CFLH": {
-              "type": "text",
-              "settings": {
-                "text": "<p>Get exclusive deals and early access to new products.</p>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "text_LWt8Pz",
-            "text_f9CFLH"
-          ]
-        },
-        "email_signup_crihX7": {
-          "type": "email-signup",
-          "settings": {
-            "width": "fill",
-            "custom_width": 100,
-            "inherit_color_scheme": true,
-            "heading": "",
-            "heading_preset": "h3",
-            "color_scheme": "",
-            "border_style": "all",
-            "border_width": 1,
-            "border_radius": 100,
-            "input_type_preset": "paragraph",
-            "style_class": "button-unstyled",
-            "display_type": "arrow",
-            "label": "Sign up",
-            "integrated_button": true,
-            "button_type_preset": "paragraph",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        }
-      },
+      "blocks": {},
       "block_order": [
-        "group_H6VpwJ",
-        "email_signup_crihX7"
       ],
       "name": "t:names.footer",
       "settings": {
@@ -10025,32 +10789,11 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a) {
   "sections": {
     "header_announcements_9jGBFp": {
       "type": "header-announcements",
-      "blocks": {
-        "announcement_BxgCk9": {
-          "type": "_announcement",
-          "settings": {
-            "text": "Welcome to our store",
-            "link": "",
-            "font": "var(--font-subheading--family)",
-            "font_size": "0.75rem",
-            "weight": "",
-            "letter_spacing": "normal",
-            "case": "none"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "announcement_BxgCk9"
-      ],
-      "name": "t:names.announcement_bar",
+      "name": "Ankündigungsleiste",
       "settings": {
-        "speed": 5,
-        "section_width": "page-width",
-        "color_scheme": "scheme-1",
-        "divider_width": 1,
-        "padding-block-start": 15,
-        "padding-block-end": 15
+        "item_1": "Kostenloser Versand ab 100 €",
+        "item_2": "Lieferzeit 1–3 Werktage",
+        "item_3": "Trusted Shops · 4,9 / 5"
       }
     },
     "header_section": {
@@ -50299,6 +51042,846 @@ rgb(var(--color-border-rgb) / {{ settings.border_opacity | divided_by: 100.0 }})
     display: none;
   }
 {% endstylesheet %}
+
+```
+
+## snippets/bz-cart-drawer.liquid
+
+```liquid
+{%- comment -%}
+  blechziegel.de — Cart Drawer (global)
+  AJAX Add-to-Cart Override für alle Produkt-Forms.
+  Läuft einmalig via layout/theme.liquid.
+{%- endcomment -%}
+
+{% style %}
+  .bz-cart-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    display: none;
+    font-family: var(--font-body-family, inherit);
+  }
+  .bz-cart-drawer.active { display: block; }
+
+  .bz-cart-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(13, 30, 53, 0.45);
+    opacity: 0;
+    transition: opacity .25s ease;
+  }
+  .bz-cart-drawer.active .bz-cart-overlay { opacity: 1; }
+
+  .bz-cart-panel {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    max-width: 420px;
+    height: 100%;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform .25s ease;
+    box-shadow: -10px 0 32px rgba(13, 30, 53, 0.18);
+  }
+  .bz-cart-drawer.active .bz-cart-panel { transform: translateX(0); }
+
+  .bz-cart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+    border-bottom: 1px solid rgba(13, 30, 53, 0.08);
+  }
+  .bz-cart-header h3 {
+    margin: 0;
+    color: #0d1e35;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .bz-cart-close {
+    appearance: none;
+    border: none;
+    background: transparent;
+    font-size: 28px;
+    line-height: 1;
+    color: #0d1e35;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+  }
+  .bz-cart-close:hover { background: rgba(13, 30, 53, 0.05); }
+  .bz-cart-close:focus-visible { outline: 2px solid #0d1e35; outline-offset: 2px; }
+
+  .bz-cart-success {
+    margin: 12px 20px 0;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: rgba(46, 125, 50, 0.08);
+    border: 1px solid rgba(46, 125, 50, 0.25);
+    color: #2e7d32;
+    font-size: 13px;
+    font-weight: 600;
+    display: none;
+  }
+  .bz-cart-success.visible { display: block; animation: bzCartSuccessIn .28s ease; }
+  @keyframes bzCartSuccessIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .bz-cart-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .bz-cart-empty {
+    color: #5a5955;
+    font-size: 14px;
+    text-align: center;
+    padding: 32px 0;
+  }
+
+  .bz-cart-item {
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .bz-cart-item-img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    border-radius: 8px;
+    background: #f5f5f5;
+    display: block;
+  }
+  .bz-cart-item-main { min-width: 0; }
+  .bz-cart-item-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #0d1e35;
+    line-height: 1.3;
+    margin-bottom: 2px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .bz-cart-item-variant {
+    font-size: 11.5px;
+    color: #5a5955;
+    margin-bottom: 4px;
+  }
+  .bz-cart-item-price {
+    font-size: 13px;
+    color: #0d1e35;
+    font-weight: 700;
+  }
+  .bz-cart-item-qty {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+    font-size: 12px;
+    color: #5a5955;
+  }
+  .bz-cart-item-qty button {
+    appearance: none;
+    border: 1px solid rgba(13, 30, 53, 0.15);
+    background: #fff;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #0d1e35;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0;
+  }
+  .bz-cart-item-qty button:hover { border-color: #f5a623; }
+  .bz-cart-item-remove {
+    appearance: none;
+    border: none;
+    background: transparent;
+    color: #9a9890;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+  }
+  .bz-cart-item-remove:hover { color: #c03a3a; }
+
+  .bz-cart-footer {
+    border-top: 1px solid rgba(13, 30, 53, 0.08);
+    padding: 14px 20px 20px;
+    padding-bottom: calc(20px + env(safe-area-inset-bottom));
+    background: #fafaf7;
+  }
+  .bz-cart-subtotal {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+  .bz-cart-subtotal-label { font-size: 13px; color: #5a5955; font-weight: 600; }
+  .bz-cart-subtotal-value {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #0d1e35;
+    letter-spacing: -0.02em;
+  }
+  .bz-cart-shipping-hint {
+    font-size: 12px;
+    color: #5a5955;
+    margin-bottom: 12px;
+    line-height: 1.4;
+  }
+  .bz-cart-shipping-hint strong { color: #2e7d32; }
+  .bz-cart-shipping-bar {
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(13, 30, 53, 0.08);
+    margin: 6px 0 12px;
+    overflow: hidden;
+  }
+  .bz-cart-shipping-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #f5a623 0%, #eb9d1e 100%);
+    width: 0;
+    transition: width .35s ease;
+  }
+  .bz-cart-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .bz-cart-actions .bz-btn-secondary,
+  .bz-cart-actions .bz-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    padding: 0 14px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+    font-family: var(--font-body-family, inherit);
+    border: none;
+    cursor: pointer;
+  }
+  .bz-cart-actions .bz-btn-secondary {
+    background: #fff;
+    color: #0d1e35;
+    border: 1.5px solid rgba(13, 30, 53, 0.15);
+  }
+  .bz-cart-actions .bz-btn-secondary:hover { border-color: #0d1e35; }
+  .bz-cart-actions .bz-btn-primary {
+    background: linear-gradient(180deg, #f5a623 0%, #eb9d1e 100%);
+    color: #0d1e35;
+    box-shadow: 0 8px 18px rgba(245, 166, 35, 0.22);
+  }
+  .bz-cart-actions .bz-btn-primary:hover { transform: translateY(-1px); }
+
+  @media (max-width: 480px) {
+    .bz-cart-panel { max-width: 100%; }
+    .bz-cart-actions { grid-template-columns: 1fr; }
+  }
+
+  body.bz-cart-open { overflow: hidden; }
+
+  /* Upsell */
+  .bz-cart-upsell:empty { display: none; }
+  .bz-cart-upsell {
+    margin: 0 20px 14px;
+  }
+  .bz-upsell-card {
+    display: grid;
+    grid-template-columns: 52px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    padding: 12px;
+    background: #fff4e0;
+    border: 1px solid rgba(245, 166, 35, 0.32);
+    border-radius: 12px;
+  }
+  .bz-upsell-img {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+    border-radius: 8px;
+    background: #fff;
+  }
+  .bz-upsell-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #d4891a;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .bz-upsell-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #0d1e35;
+    line-height: 1.3;
+  }
+  .bz-upsell-price {
+    font-size: 12px;
+    color: #5a5955;
+    margin-top: 2px;
+  }
+  .bz-upsell-btn {
+    appearance: none;
+    border: none;
+    background: #0d1e35;
+    color: #fff;
+    border-radius: 10px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background .15s ease, transform .15s ease;
+  }
+  .bz-upsell-btn:hover { background: #152840; transform: translateY(-1px); }
+  .bz-upsell-btn:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+{% endstyle %}
+
+<div id="bz-cart-drawer" class="bz-cart-drawer" aria-hidden="true" role="dialog" aria-label="Warenkorb">
+  <div class="bz-cart-overlay" data-bz-cart-close></div>
+  <aside class="bz-cart-panel" aria-live="polite">
+    <div class="bz-cart-header">
+      <h3>Warenkorb</h3>
+      <button type="button" class="bz-cart-close" data-bz-cart-close aria-label="Warenkorb schließen">&times;</button>
+    </div>
+
+    <div class="bz-cart-success" id="bz-cart-success" role="status" aria-live="polite">
+      Produkt wurde zum Warenkorb hinzugefügt
+    </div>
+
+    <div class="bz-cart-body" id="bz-cart-items">
+      <p class="bz-cart-empty">Dein Warenkorb ist leer.</p>
+    </div>
+
+    <div class="bz-cart-upsell" id="bz-cart-upsell"></div>
+
+    <div class="bz-cart-footer">
+      <div class="bz-cart-subtotal">
+        <span class="bz-cart-subtotal-label">Zwischensumme</span>
+        <span class="bz-cart-subtotal-value" id="bz-cart-subtotal">0,00 €</span>
+      </div>
+      <div class="bz-cart-shipping-bar" aria-hidden="true">
+        <div class="bz-cart-shipping-bar-fill" id="bz-cart-shipping-fill"></div>
+      </div>
+      <p class="bz-cart-shipping-hint" id="bz-cart-shipping-hint">
+        Noch <strong>100,00 €</strong> bis zum kostenlosen Versand.
+      </p>
+      <div class="bz-cart-actions">
+        <a href="{{ routes.cart_url }}" class="bz-btn-secondary">Warenkorb</a>
+        <a href="{{ routes.cart_url }}/checkout" class="bz-btn-primary">Zur Kasse</a>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  var FREE_SHIPPING_CENTS = 10000; // 100 EUR
+  var drawer = document.getElementById('bz-cart-drawer');
+  if (!drawer) return;
+
+  function formatEUR(cents) {
+    return (cents / 100).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+  }
+
+  function openDrawer() {
+    drawer.classList.add('active');
+    drawer.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('bz-cart-open');
+  }
+
+  function closeDrawer() {
+    drawer.classList.remove('active');
+    drawer.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('bz-cart-open');
+  }
+
+  function showSuccess() {
+    var el = document.getElementById('bz-cart-success');
+    if (!el) return;
+    el.classList.add('visible');
+    clearTimeout(showSuccess._t);
+    showSuccess._t = setTimeout(function() { el.classList.remove('visible'); }, 3200);
+  }
+
+  function renderCart(cart) {
+    var itemsEl = document.getElementById('bz-cart-items');
+    var subtotalEl = document.getElementById('bz-cart-subtotal');
+    var hintEl = document.getElementById('bz-cart-shipping-hint');
+    var fillEl = document.getElementById('bz-cart-shipping-fill');
+
+    if (!itemsEl) return;
+
+    if (!cart.items || cart.items.length === 0) {
+      itemsEl.innerHTML = '<p class="bz-cart-empty">Dein Warenkorb ist leer.</p>';
+    } else {
+      itemsEl.innerHTML = cart.items.map(function(item) {
+        var img = item.image ? item.image.replace(/(\.[^.\/?]+)(\?.*)?$/, '_120x120$1$2') : '';
+        var variant = (item.variant_options || []).filter(function(v) { return v && v !== 'Default Title'; }).join(' · ');
+        return '' +
+          '<div class="bz-cart-item" data-key="' + item.key + '">' +
+            (img ? '<img class="bz-cart-item-img" src="' + img + '" alt="' + (item.product_title || '').replace(/"/g, '&quot;') + '" width="64" height="64" loading="lazy">' : '<div class="bz-cart-item-img"></div>') +
+            '<div class="bz-cart-item-main">' +
+              '<div class="bz-cart-item-title">' + (item.product_title || '') + '</div>' +
+              (variant ? '<div class="bz-cart-item-variant">' + variant + '</div>' : '') +
+              '<div class="bz-cart-item-price">' + item.quantity + ' × ' + formatEUR(item.price) + '</div>' +
+              '<div class="bz-cart-item-qty">' +
+                '<button type="button" data-bz-qty="-1" aria-label="Menge verringern">−</button>' +
+                '<span>' + item.quantity + '</span>' +
+                '<button type="button" data-bz-qty="1" aria-label="Menge erhöhen">+</button>' +
+              '</div>' +
+            '</div>' +
+            '<button type="button" class="bz-cart-item-remove" data-bz-remove aria-label="Entfernen">&times;</button>' +
+          '</div>';
+      }).join('');
+    }
+
+    if (subtotalEl) subtotalEl.textContent = formatEUR(cart.total_price);
+
+    var remaining = FREE_SHIPPING_CENTS - cart.total_price;
+    if (hintEl) {
+      if (remaining <= 0) {
+        hintEl.innerHTML = '<strong>Kostenloser Versand freigeschaltet.</strong>';
+      } else {
+        hintEl.innerHTML = 'Noch <strong>' + formatEUR(remaining) + '</strong> bis zum kostenlosen Versand.';
+      }
+    }
+    if (fillEl) {
+      var pct = Math.min(100, Math.max(0, (cart.total_price / FREE_SHIPPING_CENTS) * 100));
+      fillEl.style.width = pct + '%';
+    }
+  }
+
+  async function fetchCart() {
+    try {
+      var res = await fetch('/cart.js', { headers: { 'Accept': 'application/json' } });
+      if (!res.ok) return null;
+      return await res.json();
+    } catch (err) { return null; }
+  }
+
+  async function updateDrawer() {
+    var cart = await fetchCart();
+    if (cart) {
+      renderCart(cart);
+      renderUpsell(cart);
+    }
+    return cart;
+  }
+
+  // === UPSELL: "Ohne Haken" → biete "mit Haken"-Variante an ===
+  var bzUpsellCache = {}; // handle → product.js
+
+  async function fetchProduct(handle) {
+    if (bzUpsellCache[handle]) return bzUpsellCache[handle];
+    try {
+      var res = await fetch('/products/' + handle + '.js');
+      if (!res.ok) return null;
+      var p = await res.json();
+      bzUpsellCache[handle] = p;
+      return p;
+    } catch (e) { return null; }
+  }
+
+  function findHakenVariant(product, currentVariant) {
+    // Suche Variante desselben Produkts mit "mit Haken" und sonst gleichen Options
+    var currentOpts = currentVariant.options || [];
+    for (var i = 0; i < product.variants.length; i++) {
+      var v = product.variants[i];
+      if (!v.available) continue;
+      var title = (v.title || '').toLowerCase();
+      var hasMit = title.indexOf('mit haken') !== -1;
+      if (!hasMit) continue;
+      // Andere Optionen müssen matchen (außer der Haken-Option selbst)
+      var optsMatch = true;
+      for (var j = 0; j < currentOpts.length; j++) {
+        var co = String(currentOpts[j] || '').toLowerCase();
+        if (co.indexOf('ohne haken') !== -1 || co.indexOf('mit haken') !== -1) continue;
+        if ((v.options[j] || '').toLowerCase() !== co) { optsMatch = false; break; }
+      }
+      if (optsMatch) return v;
+    }
+    return null;
+  }
+
+  async function renderUpsell(cart) {
+    var container = document.getElementById('bz-cart-upsell');
+    if (!container) return;
+    container.innerHTML = '';
+
+    // Finde erstes Cart-Item mit "ohne Haken" — Rest ignorieren (nur 1 Upsell im MVP)
+    var triggerItem = null;
+    for (var i = 0; i < cart.items.length; i++) {
+      var it = cart.items[i];
+      var blob = ((it.variant_title || '') + ' ' + (it.title || '')).toLowerCase();
+      if (blob.indexOf('ohne haken') !== -1) { triggerItem = it; break; }
+    }
+    if (!triggerItem) return;
+
+    // Handle aus URL ableiten
+    var handle = (triggerItem.url || '').split('/products/')[1];
+    if (handle) handle = handle.split('?')[0].split('/')[0];
+    if (!handle) return;
+
+    var product = await fetchProduct(handle);
+    if (!product) return;
+
+    // Aktuelle Variante im Produkt finden (für Options-Abgleich)
+    var currentVariant = product.variants.find(function(v) { return v.id === triggerItem.variant_id; });
+    if (!currentVariant) return;
+
+    var upsellVariant = findHakenVariant(product, currentVariant);
+    if (!upsellVariant) return;
+
+    // Bereits im Cart? Dann keinen Upsell mehr anzeigen
+    var alreadyInCart = cart.items.some(function(it) { return it.variant_id === upsellVariant.id; });
+    if (alreadyInCart) return;
+
+    var priceDiffCents = upsellVariant.price - currentVariant.price;
+    var priceLabel = priceDiffCents > 0 ? '+' + formatEUR(priceDiffCents) : formatEUR(upsellVariant.price);
+    var img = (upsellVariant.featured_image && upsellVariant.featured_image.src) || triggerItem.image || '';
+    var imgThumb = img ? img.replace(/(\.[^.\/?]+)(\?.*)?$/, '_104x104$1$2') : '';
+
+    container.innerHTML =
+      '<div class="bz-upsell-card" data-variant-id="' + upsellVariant.id + '">' +
+        (imgThumb ? '<img class="bz-upsell-img" src="' + imgThumb + '" alt="" width="52" height="52" loading="lazy">' : '<div class="bz-upsell-img"></div>') +
+        '<div>' +
+          '<div class="bz-upsell-label">Empfehlung</div>' +
+          '<div class="bz-upsell-title">Mit Dachhaken für PV-Montage aufrüsten</div>' +
+          '<div class="bz-upsell-price">' + priceLabel + '</div>' +
+        '</div>' +
+        '<button type="button" class="bz-upsell-btn" data-bz-upsell-add>Hinzufügen</button>' +
+      '</div>';
+  }
+
+  drawer.addEventListener('click', async function(e) {
+    var btn = e.target.closest('[data-bz-upsell-add]');
+    if (!btn) return;
+    var card = btn.closest('.bz-upsell-card');
+    if (!card) return;
+    var variantId = parseInt(card.dataset.variantId, 10);
+    if (!variantId) return;
+    btn.disabled = true;
+    btn.textContent = 'Wird hinzugefügt…';
+    try {
+      await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ id: variantId, quantity: 1 })
+      });
+    } catch (err) { /* noop */ }
+    await updateDrawer();
+    showSuccess();
+  });
+
+  async function addToCart(form) {
+    var formData = new FormData(form);
+    try {
+      var res = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+        body: formData
+      });
+      if (!res.ok) {
+        var err = await res.json().catch(function() { return {}; });
+        alert(err.description || 'Fehler beim Hinzufügen zum Warenkorb.');
+        return false;
+      }
+      return true;
+    } catch (err) {
+      alert('Netzwerkfehler.');
+      return false;
+    }
+  }
+
+  async function changeLine(key, quantity) {
+    try {
+      var res = await fetch('/cart/change.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ id: key, quantity: quantity })
+      });
+      if (res.ok) {
+        var cart = await res.json();
+        renderCart(cart);
+      }
+    } catch (err) { /* noop */ }
+  }
+
+  // Close handlers
+  drawer.addEventListener('click', function(e) {
+    if (e.target.closest('[data-bz-cart-close]')) closeDrawer();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && drawer.classList.contains('active')) closeDrawer();
+  });
+
+  // Qty +/- und Remove in Drawer
+  drawer.addEventListener('click', function(e) {
+    var item = e.target.closest('.bz-cart-item');
+    if (!item) return;
+    var key = item.dataset.key;
+    if (e.target.closest('[data-bz-remove]')) {
+      changeLine(key, 0);
+      return;
+    }
+    var qtyBtn = e.target.closest('[data-bz-qty]');
+    if (qtyBtn && key) {
+      var delta = parseInt(qtyBtn.dataset.bzQty, 10);
+      var current = parseInt(item.querySelector('.bz-cart-item-qty span').textContent, 10) || 1;
+      changeLine(key, Math.max(0, current + delta));
+    }
+  });
+
+  // Form-Intercept (Produktseite + jede /cart/add Form)
+  document.addEventListener('submit', async function(e) {
+    var form = e.target;
+    if (!(form instanceof HTMLFormElement)) return;
+    var action = form.getAttribute('action') || '';
+    if (action.indexOf('/cart/add') === -1) return;
+    e.preventDefault();
+
+    // Button-Feedback
+    var btn = form.querySelector('[type="submit"]');
+    var stickyBtn = document.getElementById('bz-sticky-btn');
+    var origBtnHtml = btn ? btn.innerHTML : '';
+    var origStickyText = stickyBtn ? stickyBtn.textContent : '';
+    if (btn) { btn.disabled = true; btn.innerHTML = 'Wird hinzugefügt…'; }
+    if (stickyBtn) { stickyBtn.disabled = true; stickyBtn.textContent = 'Wird hinzugefügt…'; }
+
+    var ok = await addToCart(form);
+
+    if (btn) { btn.disabled = false; btn.innerHTML = origBtnHtml; }
+    if (stickyBtn) { stickyBtn.disabled = false; stickyBtn.textContent = origStickyText; }
+
+    if (ok) {
+      await updateDrawer();
+      showSuccess();
+      openDrawer();
+    }
+  });
+
+  // Initial cart preload (für Reopen-Scenarien)
+  updateDrawer();
+
+  // Expose für Debug
+  window.bzCart = { open: openDrawer, close: closeDrawer, update: updateDrawer };
+})();
+</script>
+
+```
+
+## snippets/bz-nav-premium.liquid
+
+```liquid
+{%- comment -%}
+  blechziegel.de — Premium Dropdown-Styling für Header-Mega-Menu
+  Override-CSS für Horizon-Klassen (mega-menu, menu-list). Keine HTML-Struktur geändert.
+  CI: Navy #0d1e35 · Orange #f5a623 · Light #f8f7f4
+{%- endcomment -%}
+
+{% style %}
+  /* ══ MEGA-MENU CONTAINER (als kompaktes Kategorien-Popover statt Full-Width-Panel) ══ */
+  .mega-menu {
+    background: #ffffff !important;
+    border-radius: 14px !important;
+    box-shadow: 0 20px 50px rgba(13, 30, 53, 0.12) !important;
+    border: 1px solid rgba(13, 30, 53, 0.06);
+    padding: 10px 8px !important;
+    margin-top: 8px !important;
+    animation: bzFadeInMenu 0.18s ease;
+    /* Kompakte Breite statt Horizon-Full-Width */
+    max-width: 320px !important;
+    width: max-content !important;
+    min-width: 240px;
+    /* Section-Wrapper-Spacing neutralisieren */
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  @keyframes bzFadeInMenu {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Grid auf 1 Spalte zwingen — überschreibt --menu-columns-desktop */
+  .mega-menu__grid,
+  [data-menu-grid-id] {
+    display: block !important;
+    gap: 2px !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .mega-menu__list,
+  [data-menu-list-id] {
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px;
+    grid-template-columns: 1fr !important;
+  }
+
+  .mega-menu__column {
+    padding: 0 !important;
+    margin: 0 !important;
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  /* ══ CONTENT-BEREICH (rechte Spalte mit Featured Products/Collections) ══ */
+  /* Wenn leer oder nur mit leerer Liste gefüllt — komplett ausblenden */
+  .mega-menu__content {
+    display: none !important;
+  }
+  .mega-menu__content:has(.mega-menu__content-list > li),
+  .mega-menu__content:has(.mega-menu__content-list--products > li),
+  .mega-menu__content:has(.mega-menu__content-list--collections > li) {
+    display: block !important;
+  }
+  .mega-menu__content-list:empty {
+    display: none !important;
+  }
+
+  /* ══ MENU ITEMS (Dachtypen-Einträge) ══ */
+  .mega-menu__link {
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px !important;
+    font-size: 14px;
+    font-weight: 500;
+    color: #0d1e35 !important;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background 0.18s ease, transform 0.18s ease, color 0.18s ease;
+    line-height: 1.35;
+  }
+
+  .mega-menu__link:hover,
+  .mega-menu__link:focus-visible {
+    background: rgba(245, 166, 35, 0.10);
+    transform: translateX(2px);
+    color: #0d1e35 !important;
+  }
+
+  .mega-menu__link:focus-visible {
+    outline: 2px solid #0d1e35;
+    outline-offset: 2px;
+  }
+
+  /* Active/Current State */
+  .mega-menu__link[aria-current="page"],
+  .mega-menu__link.is-active {
+    background: rgba(245, 166, 35, 0.14);
+    font-weight: 600;
+  }
+
+  /* Icons im Dropdown (subtil statt dominant) */
+  .mega-menu__link svg,
+  .mega-menu__link .icon {
+    width: 16px;
+    height: 16px;
+    color: rgba(13, 30, 53, 0.55);
+    flex-shrink: 0;
+    transition: color 0.18s ease;
+  }
+
+  .mega-menu__link:hover svg,
+  .mega-menu__link:hover .icon {
+    color: #f5a623;
+  }
+
+  /* Wrap-Text innerhalb des Links */
+  .mega-menu__link .wrap-text {
+    font-weight: inherit;
+  }
+
+  /* Content-Liste (Featured Products / Collections) ausblenden für cleanen B2B-Look */
+  .mega-menu__content:empty,
+  .mega-menu__content-list:empty {
+    display: none;
+  }
+
+  /* ══ TOP-LEVEL MENÜPUNKTE (im Header) ══ */
+  .menu-list__link-title {
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    transition: color 0.18s ease;
+  }
+
+  .menu-list__list-item:hover .menu-list__link-title,
+  .menu-list__list-item[open] .menu-list__link-title,
+  .menu-list__link[aria-expanded="true"] .menu-list__link-title {
+    color: #f5a623;
+  }
+
+  /* Caret/Pfeil am Submenu-Trigger */
+  .menu-list__list-item[open] summary::after,
+  .menu-list__link[aria-expanded="true"]::after {
+    transform: rotate(180deg);
+  }
+
+  /* ══ DROPDOWN-PFEIL (wenn Theme eine Tail-Pseudoelement nutzt) ══ */
+  .mega-menu::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: 28px;
+    width: 12px;
+    height: 12px;
+    background: #ffffff;
+    transform: rotate(45deg);
+    border-left: 1px solid rgba(13, 30, 53, 0.06);
+    border-top: 1px solid rgba(13, 30, 53, 0.06);
+    z-index: 0;
+  }
+
+  /* ══ MOBILE: nicht anfassen (Horizon-Drawer beibehalten) ══ */
+  @media (max-width: 749px) {
+    .mega-menu {
+      box-shadow: none;
+      border-radius: 0;
+      border: none;
+      margin-top: 0;
+      padding: 0;
+      animation: none;
+    }
+    .mega-menu::before { display: none; }
+    .mega-menu__link {
+      padding: 12px 16px !important;
+      border-radius: 0;
+    }
+    .mega-menu__link:hover {
+      transform: none;
+    }
+  }
+{% endstyle %}
 
 ```
 

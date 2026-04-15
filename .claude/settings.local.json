@@ -2,7 +2,19 @@
   "permissions": {
     "allow": [
       "Bash(grep -E \"\\\\.json$\")",
-      "Bash(bash build_chatgpt_export.sh)"
+      "Bash(bash build_chatgpt_export.sh)",
+      "WebFetch(domain:blechziegel.de)",
+      "Bash(ls -la c:/Users/Administrator/blechziegel-theme/sections/blechziegel-home.liquid*)",
+      "Bash(python -c \"import markdown; print\\(markdown.__version__\\)\")",
+      "Bash(pip install:*)",
+      "Bash(curl -sI \"https://blechziegel.de/products/pv-dachziegel-frankfurter-pfanne\")",
+      "Bash(curl -sL \"https://blechziegel.de/\")",
+      "Bash(awk '/<div class=\"bz-product-card\">/,/bz-product-cta/')",
+      "Read(//c/Users/Administrator/blechziegel-admin-tools/**)",
+      "Bash(node -e \"require\\('./shopify'\\).rest\\('GET','/pages.json?handle=hersteller&limit=1'\\).then\\(r=>console.log\\(JSON.stringify\\(\\(r.pages||[]\\).map\\(p=>\\({id:p.id,title:p.title,handle:p.handle,updated_at:p.updated_at}\\)\\),null,2\\)\\)\\).catch\\(e=>{console.error\\(e.message\\);process.exit\\(1\\)}\\)\")",
+      "Bash(/c/Users/Administrator/AppData/Roaming/npm/shopify.cmd theme *)",
+      "Read(//tmp/**)",
+      "Read(//tmp/bz-full/templates/**)"
     ]
   }
 }
