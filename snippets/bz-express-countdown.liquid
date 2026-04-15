@@ -179,7 +179,7 @@
   role="complementary"
   aria-label="Express-Versand Countdown"
   hidden
-  data-cutoff-hour="12"
+  data-cutoff-hour="13"
   data-cutoff-min="0"
   data-show-from-hour="8"
   data-hide-days="1"
@@ -225,7 +225,7 @@
   </div>
 
   <p class="bz-express__msg" data-bz-express-msg>
-    und Sie erhalten Ihre Ware schon <strong>morgen</strong> — bei Lagerware, DHL-Versand Deutschland.
+    und Sie erhalten Ihre Ware schon <strong>morgen</strong> — bei Lagerware bis 13 Uhr bestellt, DHL-Versand Deutschland.
   </p>
 
   <a href="{{ routes.root_url }}policies/shipping-policy" class="bz-express__link">
@@ -304,7 +304,7 @@
         el.classList.remove('is-tomorrow');
         intro.textContent = 'Bestellen Sie in den nächsten:';
         renderDiff(cutoff - now);
-        msg.innerHTML = 'und Sie erhalten Ihre Ware schon <strong>morgen bis 12 Uhr</strong> — bei Lagerware, DHL-Versand Deutschland.';
+        msg.innerHTML = 'und Sie erhalten Ihre Ware schon <strong>morgen</strong> — bei Lagerware bis 13 Uhr bestellt, DHL-Versand Deutschland.';
       }
     }
     function pad(n){ return String(n).padStart(2, '0'); }
