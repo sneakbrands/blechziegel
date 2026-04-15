@@ -376,79 +376,43 @@
       {%- endfor -%}
     ].filter(p => p && p.handle);
 
-    /* ══ STAMMDATEN: Hersteller-Profile mit Standard-Maßen ══
-       Öffentliche Hersteller-Spezifikationen, nicht erfunden.
-       Format: [name, laenge_mm, breite_mm]
+    /* ══ MFR_MAP ══
+       Abgeleitet aus SHOPIFY_PRODUCTS. Einzige Finder-Datenquelle.
+       Jeder passende_hersteller-Eintrag im Format "Profil (Hersteller)"
+       wird zu einem MFR_MAP-Eintrag {profil, laenge, breite, product}.
+       Produkt-Dimensionen gelten als Profil-Dimensionen (Blechziegel-Semantik).
     */
-    var MFR_DATA = [
-      { name:'Braas', stock:true, profiles:[
-        ['Frankfurter Pfanne', 420, 330],
-        ['Harzer Pfanne',      420, 330],
-        ['Tegalit',            472, 325],
-        ['Rubin 13V',          460, 282]
-      ]},
-      { name:'Bramac', stock:true, profiles:[
-        ['Montero',            420, 330],
-        ['Classic Protector',  400, 330],
-        ['Römer',              420, 334],
-        ['Donau',              475, 290]
-      ]},
-      { name:'Creaton', stock:true, profiles:[
-        ['Heidelberger',       420, 330],
-        ['Futura',             473, 290],
-        ['Balance',            472, 290],
-        ['MZ3',                460, 260]
-      ]},
-      { name:'Nelskamp', stock:true, profiles:[
-        ['Sigma Pfanne',       420, 330],
-        ['Finkenberger',       420, 330],
-        ['F10',                475, 297],
-        ['H2',                 475, 290]
-      ]},
-      { name:'Wienerberger', stock:false, profiles:[
-        ['Koramic',            465, 285],
-        ['Pianoflach',         460, 280],
-        ['Tradi 12',           460, 280]
-      ]},
-      { name:'Erlus', stock:false, profiles:[
-        ['Ergoldsbacher E58',  475, 297],
-        ['Forma',              460, 290],
-        ['Linea',              460, 290]
-      ]},
-      { name:'Röben', stock:false, profiles:[
-        ['Monza plus',         472, 290],
-        ['Bornholm',           460, 280],
-        ['Piemont',            460, 280]
-      ]},
-      { name:'Walther', stock:false, profiles:[
-        ['Klassische Profile', 420, 330],
-        ['Moderne Profile',    460, 280]
-      ]},
-      { name:'Jacobi Walther', stock:false, profiles:[
-        ['J11V',               460, 282],
-        ['J13V',               460, 282],
-        ['Z10',                465, 285]
-      ]},
-      { name:'Meyer-Holsen', stock:false, profiles:[
-        ['Vertikal',           460, 280],
-        ['Rheinland-Pfanne',   420, 330]
-      ]}
-    ];
-
-    /* Versuche zu einer (Hersteller, Profil) den passenden Shopify-Produkt-Handle zu finden.
-       Matching via passende_hersteller-Liste am Produkt, Eintrag-Format: "Profil (Hersteller)".
-    */
-    function matchProductHandle(mfrName, profileName) {
-      var target = profileName + ' (' + mfrName + ')';
-      var p = SHOPIFY_PRODUCTS.find(function(x) {
-        return x.profiles && x.profiles.indexOf(target) !== -1;
+    var MFR_MAP = {};
+    (function buildMfrMap(){
+      var seen = {};
+      SHOPIFY_PRODUCTS.forEach(function(p){
+        if (!p) return;
+        if (typeof p.laenge !== 'number' || typeof p.breite !== 'number') return;
+        if (p.laenge <= 0 || p.breite <= 0) return;
+        if (!Array.isArray(p.profiles)) return;
+        p.profiles.forEach(function(entry){
+          if (typeof entry !== 'string' || !entry.trim()) return;
+          var m = entry.match(/^(.+?)\s*\(([^)]+)\)\s*$/);
+          if (!m) return;
+          var profil = m[1].trim();
+          var hersteller = m[2].trim();
+          if (!profil || !hersteller) return;
+          var key = hersteller + '|' + profil + '|' + p.laenge + '|' + p.breite + '|' + p.handle;
+          if (seen[key]) return;
+          seen[key] = true;
+          (MFR_MAP[hersteller] = MFR_MAP[hersteller] || []).push({
+            profil: profil,
+            laenge: p.laenge,
+            breite: p.breite,
+            product: p
+          });
+        });
       });
-      return p || null;
-    }
+    })();
 
     var body = document.getElementById('zf-body');
     var stepsEls = document.querySelectorAll('.zf-step');
-    var state = { step:1, mfr:null, laenge:null, breite:null };
+    var state = { step:1, mfrName:null, laenge:null, breite:null };
 
     function updateStepper() {
       stepsEls.forEach(function(el, i){
@@ -459,7 +423,7 @@
         if (idx === state.step) el.classList.add('zf-step--active');
       });
       // Werte befüllen
-      var v1 = document.querySelector('[data-val="1"]'); if (v1) v1.textContent = state.mfr ? state.mfr.name : '';
+      var v1 = document.querySelector('[data-val="1"]'); if (v1) v1.textContent = state.mfrName || '';
       var v2 = document.querySelector('[data-val="2"]'); if (v2) v2.textContent = state.laenge ? state.laenge + ' mm' : '';
       var v3 = document.querySelector('[data-val="3"]'); if (v3) v3.textContent = state.breite ? state.breite + ' mm' : '';
       var v4 = document.querySelector('[data-val="4"]'); if (v4) v4.textContent = '';
@@ -467,7 +431,7 @@
 
     function goto(step) {
       // Reset deeper state when jumping back
-      if (step <= 1) { state.mfr = null; state.laenge = null; state.breite = null; }
+      if (step <= 1) { state.mfrName = null; state.laenge = null; state.breite = null; }
       if (step <= 2) { state.laenge = null; state.breite = null; }
       if (step <= 3) { state.breite = null; }
       state.step = step;
@@ -483,7 +447,7 @@
       }
       // Tracking-Hook
       if (typeof window.dataLayer !== 'undefined') {
-        window.dataLayer.push({ event:'ziegel_finder_step', step: step, mfr: state.mfr ? state.mfr.name : null, laenge: state.laenge, breite: state.breite });
+        window.dataLayer.push({ event:'ziegel_finder_step', step: step, mfrName: state.mfrName, laenge: state.laenge, breite: state.breite });
       }
     }
 
@@ -505,50 +469,71 @@
     }
 
     function renderStep1() {
-      // Sortiere: zuerst Stock, dann on-request, alphabetisch innerhalb
-      var sorted = MFR_DATA.slice().sort(function(a,b){
-        if (a.stock !== b.stock) return a.stock ? -1 : 1;
-        return a.name.localeCompare(b.name, 'de');
-      });
+      var names = Object.keys(MFR_MAP).sort(function(a,b){ return a.localeCompare(b, 'de'); });
+
+      // Empty-State
+      if (names.length === 0) {
+        body.innerHTML =
+          '<div class="zf-body__head">'+
+            '<h2>Hersteller wählen</h2>'+
+          '</div>'+
+          '<article class="zf-result-card" style="grid-template-columns:1fr;">'+
+            '<div class="zf-result-card__body">'+
+              '<div class="zf-result-card__title">Noch keine Blechziegel-Produkte gepflegt</div>'+
+              '<div class="zf-result-card__desc">Sobald Produkte mit passenden Hersteller-Profilen im Shop sind, erscheinen sie hier automatisch. Bis dahin: Beratung anfragen — wir identifizieren Ihr Profil per Foto.</div>'+
+              '<div class="zf-result-card__actions">'+
+                '<a class="hp-btn hp-btn--primary" href="{{ anfrage_url }}">Beratung anfragen</a>'+
+              '</div>'+
+            '</div>'+
+          '</article>';
+        return;
+      }
+
       var html = '<div class="zf-body__head">'+
         '<h2>1. Hersteller wählen</h2>'+
         '<p>Welcher Hersteller hat Ihren Dachziegel gefertigt? Der Name steht meistens eingeprägt auf der Unterseite.</p></div>'+
         '<div class="zf-options zf-mfr-grid" role="radiogroup" aria-label="Hersteller auswählen">';
-      sorted.forEach(function(m){
-        var badgeCls = m.stock ? 'zf-option__badge--stock' : 'zf-option__badge--request';
-        var badgeTxt = m.stock ? 'Ab Lager' : 'Auf Anfrage';
-        html += '<button type="button" class="zf-option" role="radio" data-mfr="'+ esc(m.name) +'">'+
-          '<span class="zf-option__name">' + esc(m.name) + '</span>'+
-          '<span class="zf-option__meta">' + m.profiles.length + ' Profile</span>'+
-          '<span class="zf-option__badge ' + badgeCls + '">' + badgeTxt + '</span>'+
+      names.forEach(function(n){
+        html += '<button type="button" class="zf-option" role="radio" data-mfr="'+ esc(n) +'">'+
+          '<span class="zf-option__name">' + esc(n) + '</span>'+
+          '<span class="zf-option__meta">' + MFR_MAP[n].length + ' Profile</span>'+
+          '<span class="zf-option__badge zf-option__badge--stock">Ab Lager</span>'+
           '</button>';
       });
       html += '</div>';
+
+      // Pflicht-CTA: Hersteller nicht in Liste → Beratung
+      html += '<div style="text-align:center; margin-top:22px; padding-top:18px; border-top:1px solid var(--bz-border);">'+
+        '<a href="{{ anfrage_url }}" class="hp-btn hp-btn--primary" style="background:transparent; color:var(--bz-navy); border-color:var(--bz-border);">'+
+          'Mein Hersteller ist nicht dabei? Beratung anfragen →'+
+        '</a></div>';
+
       body.innerHTML = html;
       body.querySelectorAll('[data-mfr]').forEach(function(btn){
         btn.addEventListener('click', function(){
-          var m = MFR_DATA.find(function(x){ return x.name === btn.dataset.mfr; });
-          state.mfr = m; goto(2);
+          state.mfrName = btn.dataset.mfr;
+          goto(2);
         });
       });
     }
 
     function renderStep2() {
-      var mfr = state.mfr;
-      // Unique Längen aus Profilen, numerisch sortiert
+      var entries = MFR_MAP[state.mfrName] || [];
       var lenSet = {};
-      mfr.profiles.forEach(function(p){ lenSet[p[1]] = true; });
+      entries.forEach(function(e){ lenSet[e.laenge] = true; });
       var lens = Object.keys(lenSet).map(Number).sort(function(a,b){ return a - b; });
 
       var html = backBtn(1, 'Hersteller ändern') +
         '<div class="zf-body__head">'+
-        '<h2>2. Länge wählen — ' + esc(mfr.name) + '</h2>'+
+        '<h2>2. Länge wählen — ' + esc(state.mfrName) + '</h2>'+
         '<p>Länge = längere Seite des Ziegels, gemessen an der Oberseite in Millimetern.</p></div>'+
         '<div class="zf-options zf-options--measure" role="radiogroup" aria-label="Länge auswählen">';
 
       lens.forEach(function(l){
-        var profiles = mfr.profiles.filter(function(p){ return p[1] === l; });
-        var profNames = profiles.map(function(p){ return p[0]; }).join(', ');
+        var atLen = entries.filter(function(e){ return e.laenge === l; });
+        var profSet = {};
+        atLen.forEach(function(e){ profSet[e.profil] = true; });
+        var profNames = Object.keys(profSet).sort(function(a,b){ return a.localeCompare(b,'de'); }).join(', ');
         html += '<button type="button" class="zf-option" role="radio" data-laenge="' + l + '">'+
           '<span class="zf-option__name">' + l + ' mm</span>'+
           '<span class="zf-option__meta">' + esc(profNames) + '</span>'+
@@ -560,23 +545,14 @@
       body.querySelectorAll('[data-laenge]').forEach(function(btn){
         btn.addEventListener('click', function(){
           state.laenge = parseInt(btn.dataset.laenge, 10);
-          // Profile mit dieser Länge
-          var matches = mfr.profiles.filter(function(p){ return p[1] === state.laenge; });
-          if (matches.length === 1) {
-            // Eindeutiges Profil → direkt Ergebnis
-            state.breite = matches[0][2];
+          var matches = entries.filter(function(e){ return e.laenge === state.laenge; });
+          var breitenSet = {};
+          matches.forEach(function(e){ breitenSet[e.breite] = true; });
+          if (Object.keys(breitenSet).length === 1) {
+            state.breite = matches[0].breite;
             goto(4);
           } else {
-            // Verschiedene Breiten → Step 3
-            var breiten = {};
-            matches.forEach(function(p){ breiten[p[2]] = true; });
-            if (Object.keys(breiten).length === 1) {
-              // Mehrere Profile aber gleiche Breite → direkt Ergebnis
-              state.breite = matches[0][2];
-              goto(4);
-            } else {
-              goto(3);
-            }
+            goto(3);
           }
         });
       });
@@ -584,22 +560,23 @@
     }
 
     function renderStep3() {
-      var mfr = state.mfr;
-      var matches = mfr.profiles.filter(function(p){ return p[1] === state.laenge; });
-      // Unique Breiten
+      var entries = MFR_MAP[state.mfrName] || [];
+      var matches = entries.filter(function(e){ return e.laenge === state.laenge; });
       var breitenSet = {};
-      matches.forEach(function(p){ breitenSet[p[2]] = true; });
+      matches.forEach(function(e){ breitenSet[e.breite] = true; });
       var breiten = Object.keys(breitenSet).map(Number).sort(function(a,b){ return a - b; });
 
       var html = backBtn(2, 'Länge ändern') +
         '<div class="zf-body__head">'+
         '<h2>3. Breite wählen</h2>'+
-        '<p>Für die Länge ' + state.laenge + ' mm gibt es bei <strong>' + esc(mfr.name) + '</strong> mehrere Profile. Breite = kürzere Seite.</p></div>'+
+        '<p>Für die Länge ' + state.laenge + ' mm gibt es bei <strong>' + esc(state.mfrName) + '</strong> mehrere Profile. Breite = kürzere Seite.</p></div>'+
         '<div class="zf-options zf-options--measure" role="radiogroup" aria-label="Breite auswählen">';
 
       breiten.forEach(function(b){
-        var profiles = matches.filter(function(p){ return p[2] === b; });
-        var profNames = profiles.map(function(p){ return p[0]; }).join(', ');
+        var atB = matches.filter(function(e){ return e.breite === b; });
+        var profSet = {};
+        atB.forEach(function(e){ profSet[e.profil] = true; });
+        var profNames = Object.keys(profSet).sort(function(a,b){ return a.localeCompare(b,'de'); }).join(', ');
         html += '<button type="button" class="zf-option" role="radio" data-breite="' + b + '">'+
           '<span class="zf-option__name">' + b + ' mm</span>'+
           '<span class="zf-option__meta">' + esc(profNames) + '</span>'+
@@ -618,76 +595,49 @@
     }
 
     function renderResult() {
-      var mfr = state.mfr;
-      // Alle Profile mit dieser Länge + Breite
-      var matches = mfr.profiles.filter(function(p){
-        return p[1] === state.laenge && (state.breite == null || p[2] === state.breite);
+      var entries = MFR_MAP[state.mfrName] || [];
+      var matches = entries.filter(function(e){
+        return e.laenge === state.laenge && e.breite === state.breite;
       });
 
-      // Für jedes Profil schauen, ob ein Produkt existiert
-      var cards = [];
-      matches.forEach(function(profile){
-        var prod = matchProductHandle(mfr.name, profile[0]);
-        cards.push({ profile: profile, product: prod });
-      });
-
-      // Build HTML
       var html = backBtn(state.breite != null ? 3 : 2, 'Zurück');
       html += '<div class="zf-body__head">'+
         '<h2>Ihr Ergebnis</h2>'+
-        '<p>' + esc(mfr.name) + ' · ' + state.laenge + ' mm' + (state.breite ? ' × ' + state.breite + ' mm' : '') + '</p></div>'+
+        '<p>' + esc(state.mfrName) + ' · ' + state.laenge + ' mm' + (state.breite ? ' × ' + state.breite + ' mm' : '') + '</p></div>'+
         '<div class="zf-result">';
 
-      // Eine Produkt-Card pro gematchtem Profil (deduped by product.handle)
+      // Deduplizieren nach product.handle — jeder Match hat bereits .product aus MFR_MAP
       var seen = {};
       var productCards = 0;
-      cards.forEach(function(c){
-        if (c.product && !seen[c.product.handle]) {
-          seen[c.product.handle] = true;
-          productCards++;
-          var p = c.product;
-          html += '<article class="zf-result-card">'+
-            '<div class="zf-result-card__img">' + (p.image ? '<img src="' + esc(p.image) + '" alt="' + esc(p.title) + '" loading="lazy">' : '') + '</div>'+
-            '<div class="zf-result-card__body">'+
-              '<div class="zf-result-card__pills">'+
-                '<span class="zf-result-card__pill">Ab Lager</span>'+
-                '<span class="zf-result-card__pill" style="background:#dbeafe;color:#1e3a8a">' + esc(mfr.name) + '</span>'+
-                '<span class="zf-result-card__pill" style="background:#f3f4f6;color:#374151">' + esc(c.profile[0]) + '</span>'+
-              '</div>'+
-              '<div class="zf-result-card__title">' + esc(p.title) + '</div>'+
-              '<div class="zf-result-card__desc">' + esc(p.desc || '') + '</div>'+
-              '<div class="zf-result-card__specs">'+
-                '<span>Maße Produkt: <strong>' + p.laenge + ' × ' + p.breite + ' mm</strong></span>'+
-                '<span>Ihr Profil: <strong>' + c.profile[1] + ' × ' + c.profile[2] + ' mm</strong></span>'+
-              '</div>'+
-              '<div class="zf-result-card__price">ab ' + p.price_min.toFixed(2).replace('.',',') + ' €<span>pro Stück</span></div>'+
-              '<div class="zf-result-card__actions">'+
-                '<a class="hp-btn hp-btn--primary" href="' + esc(p.url) + '">Zum Produkt</a>'+
-                '<a class="hp-btn hp-btn--secondary" href="{{ anfrage_url }}">Beratung anfragen</a>'+
-              '</div>'+
-            '</div>'+
-          '</article>';
-        }
-      });
-
-      // Wenn kein Produkt-Match oder on-request-Hersteller
-      if (productCards === 0) {
-        html += '<article class="zf-result-card" style="grid-template-columns:1fr;">'+
+      matches.forEach(function(e){
+        if (!e.product || seen[e.product.handle]) return;
+        seen[e.product.handle] = true;
+        productCards++;
+        var p = e.product;
+        html += '<article class="zf-result-card">'+
+          '<div class="zf-result-card__img">' + (p.image ? '<img src="' + esc(p.image) + '" alt="' + esc(p.title) + '" loading="lazy">' : '') + '</div>'+
           '<div class="zf-result-card__body">'+
             '<div class="zf-result-card__pills">'+
-              '<span class="zf-result-card__pill" style="background:#fef3c7;color:#92400e">Sonderanfertigung möglich</span>'+
+              '<span class="zf-result-card__pill">Ab Lager</span>'+
+              '<span class="zf-result-card__pill" style="background:#dbeafe;color:#1e3a8a">' + esc(state.mfrName) + '</span>'+
+              '<span class="zf-result-card__pill" style="background:#f3f4f6;color:#374151">' + esc(e.profil) + '</span>'+
             '</div>'+
-            '<div class="zf-result-card__title">Kein Lager-Produkt für ' + esc(mfr.name) + ' ' + state.laenge + ' mm</div>'+
-            '<div class="zf-result-card__desc">Für dieses Profil fertigen wir auf Anfrage passgenau. Lieferzeit in der Regel 1–3 Wochen. Schicken Sie uns Foto und Maße — wir melden uns binnen 24 Stunden mit Angebot und Lieferzeit.</div>'+
+            '<div class="zf-result-card__title">' + esc(p.title) + '</div>'+
+            '<div class="zf-result-card__desc">' + esc(p.desc || '') + '</div>'+
+            '<div class="zf-result-card__specs">'+
+              '<span>Maße: <strong>' + p.laenge + ' × ' + p.breite + ' mm</strong></span>'+
+              '<span>Profil: <strong>' + esc(e.profil) + '</strong></span>'+
+            '</div>'+
+            '<div class="zf-result-card__price">ab ' + p.price_min.toFixed(2).replace('.',',') + ' €<span>pro Stück</span></div>'+
             '<div class="zf-result-card__actions">'+
-              '<a class="hp-btn hp-btn--primary" href="{{ anfrage_url }}">Sonderanfertigung anfragen</a>'+
-              '<a class="hp-btn hp-btn--secondary" href="{{ hersteller_url }}">Alle Hersteller</a>'+
+              '<a class="hp-btn hp-btn--primary" href="' + esc(p.url) + '">Zum Produkt</a>'+
+              '<a class="hp-btn hp-btn--secondary" href="{{ anfrage_url }}">Beratung anfragen</a>'+
             '</div>'+
           '</div>'+
         '</article>';
-      }
+      });
 
-      // Immer Beratungs-CTA unter dem Ergebnis
+      // Beratungs-CTA bleibt immer unter dem Ergebnis sichtbar
       html += '<div class="zf-help">'+
         '<div class="zf-help__icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></div>'+
         '<div>'+
@@ -699,7 +649,7 @@
 
       html += '</div>';
 
-      // Neu starten Button
+      // Neu starten
       html += '<div style="margin-top:18px; text-align:center;">'+
         '<button type="button" class="zf-back" data-goto="1" style="display:inline-flex;">'+
           '<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="currentColor"><path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>'+
@@ -712,7 +662,7 @@
       if (typeof window.dataLayer !== 'undefined') {
         window.dataLayer.push({
           event: 'ziegel_finder_result',
-          mfr: mfr.name, laenge: state.laenge, breite: state.breite,
+          mfrName: state.mfrName, laenge: state.laenge, breite: state.breite,
           product_matches: productCards
         });
       }
