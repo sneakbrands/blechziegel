@@ -35,7 +35,12 @@
   color:var(--bz-white); padding:64px 20px 56px; position:relative; overflow:hidden; }
 .hp-hero::before { content:''; position:absolute; inset:0; pointer-events:none;
   background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
-.hp-hero__inner { position:relative; max-width:var(--bz-max); margin:0 auto; text-align:left; }
+.hp-hero__inner { position:relative; max-width:var(--bz-max); margin:0 auto;
+  display:grid; grid-template-columns:1.25fr .75fr; gap:48px; align-items:center; }
+.hp-hero__text { text-align:left; }
+.hp-hero__product { position:relative; border-radius:var(--bz-radius-lg); overflow:hidden;
+  box-shadow:0 12px 40px rgba(0,0,0,.3); }
+.hp-hero__product img { width:100%; height:auto; display:block; }
 .hp-kicker { display:inline-flex; align-items:center; gap:8px;
   background:var(--bz-orange-bg); border:1px solid rgba(255,165,0,.35);
   color:var(--bz-orange); font-family:var(--bz-head);
@@ -79,15 +84,22 @@
 .hp-section-sub { font-size:15px; line-height:1.72; color:var(--bz-text-light); max-width:640px; margin-bottom:36px; }
 .hp-section--navy .hp-section-sub { color:rgba(255,255,255,.72); max-width:640px; margin:0 auto 28px; }
 
-/* STEPS — vertikale Liste mit großer Nummer + Beschreibung */
-.hp-steps-list { display:flex; flex-direction:column; gap:16px; }
+/* STEPS — vertikale Liste mit Bild + Nummer + Beschreibung */
+.hp-steps-list { display:flex; flex-direction:column; gap:20px; }
 .hp-mstep { background:var(--bz-white); border:1.5px solid var(--bz-border);
-  border-radius:var(--bz-radius-lg); padding:26px 28px; display:grid;
-  grid-template-columns:70px 1fr; gap:24px; align-items:start;
+  border-radius:var(--bz-radius-lg); overflow:hidden; display:grid;
+  grid-template-columns:300px 1fr; gap:0; align-items:stretch;
   transition:all .2s; border-left:4px solid var(--bz-orange); }
 .hp-mstep:hover { box-shadow:var(--bz-shadow-lg); transform:translateX(3px); }
-.hp-mstep__num { font-family:var(--bz-head); font-size:52px; font-weight:800;
-  color:var(--bz-orange); line-height:.9; letter-spacing:-.02em; }
+.hp-mstep--reverse { grid-template-columns:1fr 300px; }
+.hp-mstep__img { background:var(--bz-gray); position:relative; min-height:220px;
+  display:flex; align-items:stretch; }
+.hp-mstep__img img { width:100%; height:100%; object-fit:cover; display:block; }
+.hp-mstep--reverse .hp-mstep__img { order:2; }
+.hp-mstep__content { padding:26px 28px; display:flex; gap:20px; align-items:flex-start; }
+.hp-mstep--reverse .hp-mstep__content { order:1; }
+.hp-mstep__num { font-family:var(--bz-head); font-size:48px; font-weight:800;
+  color:var(--bz-orange); line-height:.9; letter-spacing:-.02em; flex-shrink:0; min-width:60px; }
 .hp-mstep__body h3 { font-family:var(--bz-head); font-size:18px; font-weight:800;
   color:var(--bz-navy); margin-bottom:8px; line-height:1.3;
   padding-bottom:6px; border-bottom:2px solid var(--bz-orange); display:inline-block; }
@@ -131,9 +143,17 @@
 .hp-cta-final__buttons { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:24px; }
 
 @media (max-width:900px) {
+  .hp-hero__inner { grid-template-columns:1fr; gap:28px; }
+  .hp-hero__product { order:-1; max-width:320px; margin:0 auto; }
   .hp-facts-bar { grid-template-columns:1fr; }
-  .hp-mstep { grid-template-columns:1fr; gap:8px; padding:22px 22px; }
-  .hp-mstep__num { font-size:40px; }
+  .hp-mstep,
+  .hp-mstep--reverse { grid-template-columns:1fr; }
+  .hp-mstep__img,
+  .hp-mstep--reverse .hp-mstep__img { order:0; min-height:0; }
+  .hp-mstep__img img { aspect-ratio:16/10; max-height:360px; }
+  .hp-mstep__content,
+  .hp-mstep--reverse .hp-mstep__content { order:1; padding:22px; gap:16px; }
+  .hp-mstep__num { font-size:40px; min-width:48px; }
   .hp-benefit-num { grid-template-columns:44px 1fr; gap:16px; padding:18px 22px; }
   .hp-benefit-num__num { font-size:26px; }
 }
@@ -183,6 +203,7 @@
   <!-- HERO -->
   <section class="hp-hero" aria-labelledby="ma-hero-title">
     <div class="hp-wrap hp-hero__inner">
+      <div class="hp-hero__text">
       <div class="hp-kicker">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l9 4v6c0 5-3.8 9.5-9 10-5.2-.5-9-5-9-10V6l9-4z"/></svg>
         Montageanleitung
@@ -217,6 +238,11 @@
           <div class="hp-fact-tile__desc">Schrauben werden mitgeliefert</div>
         </div>
       </div>
+      </div><!-- /hp-hero__text -->
+
+      <div class="hp-hero__product">
+        <img src="{{ 'bz-montage-hero.jpg' | asset_url }}" alt="Aluminium-Blechziegel für PV-Dachmontage mit Dachhaken" width="1400" height="593" loading="eager" fetchpriority="high">
+      </div>
     </div>
   </section>
 
@@ -230,67 +256,94 @@
       <ol class="hp-steps-list">
         {%- if is_mit -%}
           <li class="hp-mstep">
-            <div class="hp-mstep__num">01</div>
-            <div class="hp-mstep__body">
-              <h3>Tonziegel entfernen</h3>
-              <p>Entferne den Tonziegel an der vorgesehenen Montageposition. Schiebe den darüberliegenden Ziegel nach oben, um den Dachsparren freizulegen. Achte darauf, die umliegenden Ziegel nicht zu beschädigen.</p>
+            <div class="hp-mstep__img"><img src="{{ 'bz-montage-mit-step-1.jpg' | asset_url }}" alt="Schritt 1 — Tonziegel entfernen" loading="lazy" width="605" height="807"></div>
+            <div class="hp-mstep__content">
+              <div class="hp-mstep__num">01</div>
+              <div class="hp-mstep__body">
+                <h3>Tonziegel entfernen</h3>
+                <p>Entferne den Tonziegel an der vorgesehenen Montageposition. Schiebe den darüberliegenden Ziegel nach oben, um den Dachsparren freizulegen. Achte darauf, die umliegenden Ziegel nicht zu beschädigen.</p>
+              </div>
+            </div>
+          </li>
+          <li class="hp-mstep hp-mstep--reverse">
+            <div class="hp-mstep__img"><img src="{{ 'bz-montage-mit-step-2.jpg' | asset_url }}" alt="Schritt 2 — Ersatzziegel einsetzen" loading="lazy" width="900" height="1199"></div>
+            <div class="hp-mstep__content">
+              <div class="hp-mstep__num">02</div>
+              <div class="hp-mstep__body">
+                <h3>Ersatzziegel einsetzen</h3>
+                <p>Setze den Aluminium-Ersatzziegel anstelle des entfernten Tonziegels ein. Für zusätzliche Stabilität kannst du ihn mit ein bis zwei Schrauben an der Lattung befestigen.</p>
+              </div>
             </div>
           </li>
           <li class="hp-mstep">
-            <div class="hp-mstep__num">02</div>
-            <div class="hp-mstep__body">
-              <h3>Ersatzziegel einsetzen</h3>
-              <p>Setze den Aluminium-Ersatzziegel anstelle des entfernten Tonziegels ein. Für zusätzliche Stabilität kannst du ihn mit ein bis zwei Schrauben an der Lattung befestigen.</p>
+            <div class="hp-mstep__img"><img src="{{ 'bz-montage-mit-step-3.jpg' | asset_url }}" alt="Schritt 3 — Dichtkeil anbringen" loading="lazy" width="605" height="807"></div>
+            <div class="hp-mstep__content">
+              <div class="hp-mstep__num">03</div>
+              <div class="hp-mstep__body">
+                <h3>Dichtkeil anbringen</h3>
+                <p>Klebe den selbstklebenden Schaumstoff-Dichtkeil an die Oberkante des Ersatzziegels. Er dichtet den Spalt ab und verhindert das Eindringen von Insekten und Schmutz.</p>
+              </div>
+            </div>
+          </li>
+          <li class="hp-mstep hp-mstep--reverse">
+            <div class="hp-mstep__img"><img src="{{ 'bz-montage-mit-step-4.jpg' | asset_url }}" alt="Schritt 4 — Dachhaken montieren" loading="lazy" width="900" height="1199"></div>
+            <div class="hp-mstep__content">
+              <div class="hp-mstep__num">04</div>
+              <div class="hp-mstep__body">
+                <h3>Dachhaken montieren</h3>
+                <p>Schneide die Dichtung mit einem <strong>L-Schnitt</strong> an der Stelle ein, an der der Dachhaken sitzt. Verschraube den Dachhaken direkt auf dem Sparren. Verwende dafür die mitgelieferten Schrauben.</p>
+              </div>
             </div>
           </li>
           <li class="hp-mstep">
-            <div class="hp-mstep__num">03</div>
-            <div class="hp-mstep__body">
-              <h3>Dichtkeil anbringen</h3>
-              <p>Klebe den selbstklebenden Schaumstoff-Dichtkeil an die Oberkante des Ersatzziegels. Er dichtet den Spalt ab und verhindert das Eindringen von Insekten und Schmutz.</p>
+            <div class="hp-mstep__img"><img src="{{ 'bz-montage-mit-step-5.jpg' | asset_url }}" alt="Schritt 5 — Dichtung verschließen" loading="lazy" width="605" height="807"></div>
+            <div class="hp-mstep__content">
+              <div class="hp-mstep__num">05</div>
+              <div class="hp-mstep__body">
+                <h3>Dichtung verschließen</h3>
+                <p>Klappe die Dichtung über den montierten Haken. So wird die Durchführung vollständig abgedichtet und vor Witterung geschützt.</p>
+              </div>
             </div>
           </li>
-          <li class="hp-mstep">
-            <div class="hp-mstep__num">04</div>
-            <div class="hp-mstep__body">
-              <h3>Dachhaken montieren</h3>
-              <p>Schneide die Dichtung mit einem <strong>L-Schnitt</strong> an der Stelle ein, an der der Dachhaken sitzt. Verschraube den Dachhaken direkt auf dem Sparren. Verwende dafür die mitgelieferten Schrauben.</p>
-            </div>
-          </li>
-          <li class="hp-mstep">
-            <div class="hp-mstep__num">05</div>
-            <div class="hp-mstep__body">
-              <h3>Dichtung verschließen</h3>
-              <p>Klappe die Dichtung über den montierten Haken. So wird die Durchführung vollständig abgedichtet und vor Witterung geschützt.</p>
-            </div>
-          </li>
-          <li class="hp-mstep">
-            <div class="hp-mstep__num">06</div>
-            <div class="hp-mstep__body">
-              <h3>Dach schließen</h3>
-              <p>Schiebe den darüberliegenden Tonziegel zurück in seine Ausgangsposition. Das Dach ist jetzt komplett geschlossen. Die Montage ist abgeschlossen.</p>
+          <li class="hp-mstep hp-mstep--reverse">
+            <div class="hp-mstep__img"><img src="{{ 'bz-montage-mit-step-6.jpg' | asset_url }}" alt="Schritt 6 — Dach schließen" loading="lazy" width="605" height="807"></div>
+            <div class="hp-mstep__content">
+              <div class="hp-mstep__num">06</div>
+              <div class="hp-mstep__body">
+                <h3>Dach schließen</h3>
+                <p>Schiebe den darüberliegenden Tonziegel zurück in seine Ausgangsposition. Das Dach ist jetzt komplett geschlossen. Die Montage ist abgeschlossen.</p>
+              </div>
             </div>
           </li>
         {%- else -%}
           <li class="hp-mstep">
-            <div class="hp-mstep__num">01</div>
-            <div class="hp-mstep__body">
-              <h3>Tonziegel entfernen</h3>
-              <p>Entferne den Tonziegel an der vorgesehenen Montageposition. Schiebe den darüberliegenden Ziegel nach oben, um den Sparren freizulegen.</p>
+            <div class="hp-mstep__img"><img src="{{ 'bz-montage-ohne-step-1.jpg' | asset_url }}" alt="Schritt 1 — Tonziegel entfernen" loading="lazy" width="605" height="807"></div>
+            <div class="hp-mstep__content">
+              <div class="hp-mstep__num">01</div>
+              <div class="hp-mstep__body">
+                <h3>Tonziegel entfernen</h3>
+                <p>Entferne den Tonziegel an der vorgesehenen Montageposition. Schiebe den darüberliegenden Ziegel nach oben, um den Sparren freizulegen.</p>
+              </div>
+            </div>
+          </li>
+          <li class="hp-mstep hp-mstep--reverse">
+            <div class="hp-mstep__img"><img src="{{ 'bz-montage-ohne-step-2.jpg' | asset_url }}" alt="Schritt 2 — Ersatzziegel einsetzen" loading="lazy" width="900" height="1199"></div>
+            <div class="hp-mstep__content">
+              <div class="hp-mstep__num">02</div>
+              <div class="hp-mstep__body">
+                <h3>Ersatzziegel einsetzen</h3>
+                <p>Setze den Aluminium-Ersatzziegel anstelle des Tonziegels ein. Befestige ihn mit zwei bis drei Schrauben. Klebe den selbstklebenden Schaumstoff-Dichtkeil an das obere Ende des Ersatzziegels. Er verhindert das Eindringen von Insekten und Schmutz.</p>
+              </div>
             </div>
           </li>
           <li class="hp-mstep">
-            <div class="hp-mstep__num">02</div>
-            <div class="hp-mstep__body">
-              <h3>Ersatzziegel einsetzen</h3>
-              <p>Setze den Aluminium-Ersatzziegel anstelle des Tonziegels ein. Befestige ihn mit zwei bis drei Schrauben. Klebe den selbstklebenden Schaumstoff-Dichtkeil an das obere Ende des Ersatzziegels. Er verhindert das Eindringen von Insekten und Schmutz.</p>
-            </div>
-          </li>
-          <li class="hp-mstep">
-            <div class="hp-mstep__num">03</div>
-            <div class="hp-mstep__body">
-              <h3>Dach schließen</h3>
-              <p>Schiebe den darüberliegenden Tonziegel wieder nach unten. Fertig. <strong>Hinweis:</strong> Der Ersatzziegel darf bis max. 15 cm neben dem senkrecht verlaufenden Sparren montiert werden.</p>
+            <div class="hp-mstep__img"><img src="{{ 'bz-montage-ohne-step-3.jpg' | asset_url }}" alt="Schritt 3 — Dach schließen" loading="lazy" width="605" height="807"></div>
+            <div class="hp-mstep__content">
+              <div class="hp-mstep__num">03</div>
+              <div class="hp-mstep__body">
+                <h3>Dach schließen</h3>
+                <p>Schiebe den darüberliegenden Tonziegel wieder nach unten. Fertig. <strong>Hinweis:</strong> Der Ersatzziegel darf bis max. 15 cm neben dem senkrecht verlaufenden Sparren montiert werden.</p>
+              </div>
             </div>
           </li>
         {%- endif -%}
