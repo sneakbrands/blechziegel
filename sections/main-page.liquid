@@ -1,6 +1,15 @@
 
 
-{%- if page.handle == 'hersteller' -%}
+{%- liquid
+  assign bz_handle = page.handle
+  if bz_handle == blank
+    assign bz_handle = closest.page.handle
+  endif
+  if bz_handle == blank and request.path contains '/pages/hersteller'
+    assign bz_handle = 'hersteller'
+  endif
+-%}
+{%- if bz_handle == 'hersteller' -%}
   {% render 'blechziegel-hersteller' %}
 {%- else -%}
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
