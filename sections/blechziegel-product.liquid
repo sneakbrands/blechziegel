@@ -920,9 +920,9 @@
         </div>
 
         <div class="bz-tier-actions">
-          <button type="button" class="bz-tier-btn" data-tier-add="25" aria-label="25 Stück zur Menge addieren">+25</button>
-          <button type="button" class="bz-tier-btn" data-tier-add="50" aria-label="50 Stück zur Menge addieren">+50</button>
-          <button type="button" class="bz-tier-btn" data-tier-add="100" aria-label="100 Stück zur Menge addieren">+100</button>
+          <button type="button" class="bz-tier-btn" data-tier-set="25" aria-label="Menge auf 25 Stück setzen">25</button>
+          <button type="button" class="bz-tier-btn" data-tier-set="50" aria-label="Menge auf 50 Stück setzen">50</button>
+          <button type="button" class="bz-tier-btn" data-tier-set="100" aria-label="Menge auf 100 Stück setzen">100</button>
         </div>
       </div>
 
@@ -1306,16 +1306,14 @@
     swatch.addEventListener('click', function() { bzSelectSwatch(swatch); });
   });
 
-  // Staffelpreis-Buttons: addiert Menge zum vorhandenen qty-Input
-  document.querySelectorAll('.bz-tier-btn[data-tier-add]').forEach(function(btn) {
+  // Staffelpreis-Buttons: setzt Menge direkt auf Zielwert (25/50/100) — nicht addieren
+  document.querySelectorAll('.bz-tier-btn[data-tier-set]').forEach(function(btn) {
     btn.addEventListener('click', function() {
       var qtyInput = document.getElementById('bz-qty-input') || document.querySelector('input[name="quantity"]');
       if (!qtyInput) return;
-      var current = parseInt(qtyInput.value || '1', 10);
-      if (isNaN(current) || current < 1) current = 1;
-      var add = parseInt(btn.dataset.tierAdd || '0', 10);
-      var next = Math.max(1, current + add);
-      qtyInput.value = String(next);
+      var target = parseInt(btn.dataset.tierSet || '0', 10);
+      if (isNaN(target) || target < 1) return;
+      qtyInput.value = String(target);
       qtyInput.dispatchEvent(new Event('input', { bubbles: true }));
       qtyInput.dispatchEvent(new Event('change', { bubbles: true }));
     });
