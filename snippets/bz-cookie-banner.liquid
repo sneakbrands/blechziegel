@@ -1,0 +1,227 @@
+{%- comment -%}
+  blechziegel.de — Cookie-Consent-Banner im CI
+  Stylt Shopifys nativen Privacy-Consent-Banner (shopify-pc__*)
+  CI: Navy #0a2240 · Orange #ffa500 · Montserrat/Open Sans
+{%- endcomment -%}
+
+{% style %}
+  #shopify-pc__banner,
+  #shopify-pc__prefs {
+    --bz-pc-navy: #0a2240;
+    --bz-pc-orange: #ffa500;
+    --bz-pc-orange-dark: #e69400;
+    --bz-pc-text: #0a2240;
+    --bz-pc-muted: #5a6271;
+    --bz-pc-border: #e5e7eb;
+    --bz-pc-gray: #f5f5f5;
+    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  }
+
+  /* ═══ BANNER WRAPPER (bottom-fixed) ═══ */
+  #shopify-pc__banner {
+    inset-inline: 16px !important;
+    inset-block-end: 16px !important;
+    max-width: 560px !important;
+    margin-inline: auto !important;
+    padding: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    z-index: 9999 !important;
+  }
+
+  /* Dialog */
+  #shopify-pc__banner__dialog,
+  .shopify-pc__banner__dialog {
+    background: #ffffff !important;
+    border-radius: 14px !important;
+    border: 1px solid var(--bz-pc-border) !important;
+    border-top: 3px solid var(--bz-pc-orange) !important;
+    box-shadow: 0 24px 60px rgba(10, 34, 64, 0.22),
+                0 6px 16px rgba(10, 34, 64, 0.08) !important;
+    padding: 22px 24px !important;
+    color: var(--bz-pc-text) !important;
+    max-width: 100% !important;
+  }
+
+  /* Title */
+  #shopify-pc__banner .shopify-pc__banner__title,
+  #shopify-pc__banner h2 {
+    font-family: 'Montserrat', sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    line-height: 1.3 !important;
+    color: var(--bz-pc-navy) !important;
+    margin: 0 0 10px !important;
+    padding-left: 26px;
+    position: relative;
+  }
+  #shopify-pc__banner .shopify-pc__banner__title::before,
+  #shopify-pc__banner h2::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 2px;
+    width: 18px;
+    height: 18px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffa500'%3E%3Cpath d='M21.97 11c-.23-.7-1.08-.94-1.62-.44-.4.37-1.02.37-1.42 0l-.35-.33c-.6-.56-1.55-.56-2.15 0l-.35.33c-.4.37-1.02.37-1.42 0l-.35-.33c-.6-.56-1.55-.56-2.15 0l-.35.33c-.4.37-1.02.37-1.42 0l-.35-.33c-.6-.56-1.55-.56-2.15 0l-.35.33c-.4.37-1.02.37-1.42 0-.54-.5-1.39-.26-1.62.44C2.25 13.44 2 14.2 2 15c0 5.5 4.5 10 10 10s10-4.5 10-10c0-.8-.25-1.56-.03-2.84M8.5 16a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m3-5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m4 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3M12 2C8.1 2 4.8 4.5 3.5 8c.8-.2 1.6-.1 2.3.3.7-.2 1.5-.2 2.2 0 .6-.4 1.4-.5 2.1-.3.3-.1.7-.2 1-.2.3 0 .7.1 1 .2.7-.2 1.5-.1 2.1.3.7-.2 1.5-.2 2.2 0 .7-.4 1.5-.5 2.3-.3C19.2 4.5 15.9 2 12 2z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  /* Body text */
+  #shopify-pc__banner .shopify-pc__banner__body,
+  #shopify-pc__banner p {
+    font-family: 'Open Sans', sans-serif !important;
+    font-size: 13.5px !important;
+    line-height: 1.6 !important;
+    color: var(--bz-pc-muted) !important;
+    margin: 0 0 16px !important;
+  }
+  #shopify-pc__banner a,
+  #shopify-pc__banner .shopify-pc__banner__body a {
+    color: var(--bz-pc-orange) !important;
+    font-weight: 700 !important;
+    text-decoration: underline !important;
+    text-underline-offset: 2px !important;
+  }
+  #shopify-pc__banner a:hover { color: var(--bz-pc-orange-dark) !important; }
+
+  /* Button container */
+  #shopify-pc__banner .shopify-pc__banner__btn-container,
+  #shopify-pc__banner [class*="btn-container"] {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* All buttons — baseline */
+  #shopify-pc__banner button,
+  #shopify-pc__banner .shopify-pc__banner__btn,
+  #shopify-pc__banner [role="button"] {
+    font-family: 'Montserrat', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+    padding: 11px 18px !important;
+    border-radius: 8px !important;
+    border: 2px solid transparent !important;
+    cursor: pointer !important;
+    transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.15s ease !important;
+    text-transform: none !important;
+    letter-spacing: 0.01em !important;
+    min-height: 40px !important;
+    white-space: nowrap !important;
+  }
+
+  /* Accept (primary) — usually the accept-all button */
+  #shopify-pc__banner .shopify-pc__banner__btn-accept,
+  #shopify-pc__banner button[data-action="accept"],
+  #shopify-pc__banner button[data-accept-all],
+  #shopify-pc__banner .shopify-pc__banner__btn--primary {
+    background: var(--bz-pc-orange) !important;
+    color: var(--bz-pc-navy) !important;
+    border-color: var(--bz-pc-orange) !important;
+    order: 1 !important;
+  }
+  #shopify-pc__banner .shopify-pc__banner__btn-accept:hover,
+  #shopify-pc__banner button[data-action="accept"]:hover,
+  #shopify-pc__banner button[data-accept-all]:hover,
+  #shopify-pc__banner .shopify-pc__banner__btn--primary:hover {
+    background: var(--bz-pc-orange-dark) !important;
+    border-color: var(--bz-pc-orange-dark) !important;
+    transform: translateY(-1px) !important;
+  }
+
+  /* Decline */
+  #shopify-pc__banner .shopify-pc__banner__btn-decline,
+  #shopify-pc__banner button[data-action="decline"],
+  #shopify-pc__banner button[data-decline-all] {
+    background: #ffffff !important;
+    color: var(--bz-pc-navy) !important;
+    border-color: var(--bz-pc-border) !important;
+    order: 3 !important;
+  }
+  #shopify-pc__banner .shopify-pc__banner__btn-decline:hover,
+  #shopify-pc__banner button[data-action="decline"]:hover,
+  #shopify-pc__banner button[data-decline-all]:hover {
+    border-color: var(--bz-pc-navy) !important;
+    background: var(--bz-pc-gray) !important;
+  }
+
+  /* Prefs / Manage (secondary) */
+  #shopify-pc__banner .shopify-pc__banner__btn-prefs,
+  #shopify-pc__banner button[data-action="manage"],
+  #shopify-pc__banner button[data-action="prefs"],
+  #shopify-pc__banner .shopify-pc__banner__btn--secondary {
+    background: var(--bz-pc-gray) !important;
+    color: var(--bz-pc-navy) !important;
+    border-color: var(--bz-pc-border) !important;
+    order: 2 !important;
+  }
+  #shopify-pc__banner .shopify-pc__banner__btn-prefs:hover,
+  #shopify-pc__banner button[data-action="manage"]:hover {
+    background: #e8eaed !important;
+    border-color: var(--bz-pc-navy) !important;
+  }
+
+  /* ═══ PREFS DIALOG (Einstellungen verwalten) ═══ */
+  #shopify-pc__prefs {
+    font-family: 'Open Sans', sans-serif !important;
+  }
+  #shopify-pc__prefs__dialog,
+  .shopify-pc__prefs__dialog {
+    background: #ffffff !important;
+    border-radius: 14px !important;
+    border: 1px solid var(--bz-pc-border) !important;
+    border-top: 3px solid var(--bz-pc-orange) !important;
+    box-shadow: 0 24px 60px rgba(10, 34, 64, 0.25) !important;
+    color: var(--bz-pc-text) !important;
+  }
+  #shopify-pc__prefs h2,
+  #shopify-pc__prefs h3,
+  .shopify-pc__prefs__header {
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 800 !important;
+    color: var(--bz-pc-navy) !important;
+  }
+  #shopify-pc__prefs button {
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 700 !important;
+    border-radius: 8px !important;
+  }
+  /* Save button in prefs — primary */
+  #shopify-pc__prefs button[data-action="save"],
+  #shopify-pc__prefs .shopify-pc__prefs__btn--primary {
+    background: var(--bz-pc-orange) !important;
+    color: var(--bz-pc-navy) !important;
+    border-color: var(--bz-pc-orange) !important;
+  }
+  /* Checkboxes / toggles — Orange-Akzent */
+  #shopify-pc__prefs input[type="checkbox"]:checked {
+    accent-color: var(--bz-pc-orange) !important;
+  }
+
+  /* ═══ MOBILE ═══ */
+  @media (max-width: 640px) {
+    #shopify-pc__banner {
+      inset-inline: 8px !important;
+      inset-block-end: 8px !important;
+      max-width: none !important;
+    }
+    #shopify-pc__banner__dialog,
+    .shopify-pc__banner__dialog {
+      padding: 18px 18px 16px !important;
+      border-radius: 12px !important;
+    }
+    #shopify-pc__banner .shopify-pc__banner__btn-container {
+      flex-direction: column !important;
+    }
+    #shopify-pc__banner button {
+      width: 100% !important;
+      min-height: 44px !important;
+      padding: 12px 16px !important;
+    }
+  }
+{% endstyle %}
