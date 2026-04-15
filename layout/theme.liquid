@@ -6,13 +6,31 @@
   lang="{{ request.locale.iso_code }}"
 >
   <head>
-    <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) + Google Consent Mode v2 · Shopify Customer Privacy -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-YXNTMRFJGB"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        functionality_storage: 'granted',
+        security_storage: 'granted',
+        wait_for_update: 500
+      });
       gtag('js', new Date());
-      gtag('config', 'G-YXNTMRFJGB');
+      gtag('config', 'G-YXNTMRFJGB', { anonymize_ip: true });
+      document.addEventListener('visitorConsentCollected', function(e){
+        var d = e.detail || {};
+        gtag('consent', 'update', {
+          analytics_storage: d.analyticsAllowed ? 'granted' : 'denied',
+          ad_storage:         d.marketingAllowed ? 'granted' : 'denied',
+          ad_user_data:       d.marketingAllowed ? 'granted' : 'denied',
+          ad_personalization: d.marketingAllowed ? 'granted' : 'denied'
+        });
+      });
     </script>
   <meta name="google-site-verification" content="miXYq8tqN3e1Q6WcNRVcyl6hAG_GjhzIKILKiflsHIA" />
     {%- if settings.favicon != blank -%}
