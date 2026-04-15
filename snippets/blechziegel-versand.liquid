@@ -1,0 +1,459 @@
+{% comment %}
+  ============================================================
+  BLECHZIEGEL.DE — Versand & Lieferung
+  Snippet: blechziegel-versand.liquid
+  Layout-DNA: hp-* (Navy/Orange) wie AGB/Impressum/Datenschutz
+  Live-Daten:
+    - Versandkosten: shop.metafields.blechziegel.shipping_rates
+      (sync via sync-shipping-rates.js)
+    - Zahlungsmethoden: shop.enabled_payment_types (auto)
+  Statisch:
+    - Bankverbindung TiWi Trade GmbH
+  Eingebunden: page.handle == 'versand'
+  ============================================================
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+.hp {
+  --bz-navy:#0a2240; --bz-navy-light:#0d2d54;
+  --bz-orange:#ffa500; --bz-orange-dark:#e69400; --bz-orange-bg:rgba(255,165,0,.12);
+  --bz-white:#fff; --bz-gray:#f5f5f5; --bz-gray-mid:#e8eaed;
+  --bz-text:#333; --bz-text-light:#666; --bz-border:#e5e7eb;
+  --bz-green:#16a34a; --bz-green-bg:#f0fdf4;
+  --bz-head:'Montserrat',sans-serif; --bz-body:'Open Sans',sans-serif;
+  --bz-radius:8px; --bz-radius-lg:14px; --bz-max:1200px;
+  --bz-shadow:0 4px 20px rgba(10,34,64,.10);
+  --bz-shadow-lg:0 12px 40px rgba(10,34,64,.18);
+  font-family:var(--bz-body); color:var(--bz-text);
+}
+.hp *, .hp *::before, .hp *::after { box-sizing:border-box; margin:0; padding:0; }
+.hp a { text-decoration:none; color:inherit; }
+.hp img { max-width:100%; display:block; }
+.hp ul { list-style:none; }
+.hp-wrap { max-width:var(--bz-max); margin:0 auto; padding:0 20px; }
+
+.hp-hero { background:linear-gradient(135deg,var(--bz-navy) 0%,#163660 100%);
+  color:var(--bz-white); padding:64px 20px 56px; position:relative; overflow:hidden; }
+.hp-hero::before { content:''; position:absolute; inset:0; pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
+.hp-hero__inner { position:relative; max-width:var(--bz-max); margin:0 auto; }
+.hp-kicker { display:inline-flex; align-items:center; gap:8px;
+  background:var(--bz-orange-bg); border:1px solid rgba(255,165,0,.35);
+  color:var(--bz-orange); font-family:var(--bz-head);
+  font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.1em;
+  padding:5px 13px; border-radius:20px; margin-bottom:18px; }
+.hp-kicker svg { width:12px; height:12px; fill:var(--bz-orange); }
+.hp-hero h1 { font-family:var(--bz-head); font-size:clamp(28px,4vw,42px);
+  font-weight:800; line-height:1.15; margin-bottom:16px; color:var(--bz-white); max-width:780px; }
+.hp-hero h1 span { color:var(--bz-orange); }
+.hp-hero__sub { font-size:16px; line-height:1.7; color:rgba(255,255,255,.85); margin-bottom:24px; max-width:680px; }
+.hp-hero__trust { display:flex; flex-wrap:wrap; gap:18px; }
+.hp-hero__trust-item { display:flex; align-items:center; gap:7px;
+  font-size:12.5px; color:rgba(255,255,255,.78); font-weight:600; }
+.hp-hero__trust-item svg { width:14px; height:14px; fill:var(--bz-green); flex-shrink:0; }
+
+.hp-section { padding:56px 0; }
+.hp-section--gray { background:var(--bz-gray); }
+.hp-section--white { background:var(--bz-white); }
+.hp-section--navy { background:var(--bz-navy); color:var(--bz-white); }
+.hp-section-label { font-family:var(--bz-head); font-size:11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.12em; color:var(--bz-orange); margin-bottom:8px; display:block; }
+.hp-section-title { font-family:var(--bz-head); font-size:clamp(22px,2.6vw,28px);
+  font-weight:800; color:var(--bz-navy); line-height:1.25; margin-bottom:10px; }
+.hp-section--navy .hp-section-title { color:var(--bz-white); }
+.hp-section-sub { font-size:15px; line-height:1.7; color:var(--bz-text-light); max-width:680px; margin-bottom:32px; }
+.hp-section--navy .hp-section-sub { color:rgba(255,255,255,.72); max-width:640px; margin:0 auto 28px; }
+
+/* CARRIER + DELIVERY */
+.hp-carrier-grid { display:grid; grid-template-columns:1.1fr 1fr; gap:24px; align-items:stretch; }
+.hp-carrier-card,
+.hp-delivery-card { background:var(--bz-white); border:1.5px solid var(--bz-border);
+  border-radius:var(--bz-radius-lg); padding:28px 30px; box-shadow:var(--bz-shadow); }
+.hp-carrier-head { display:flex; align-items:center; gap:14px; margin-bottom:14px; }
+.hp-dhl-logo { display:inline-flex; align-items:center; justify-content:center;
+  height:36px; padding:6px 14px; background:#ffcc00; border-radius:6px;
+  font-family:'Montserrat','Arial Black',sans-serif; font-weight:900;
+  font-size:18px; color:#d40511; letter-spacing:0.04em; line-height:1;
+  box-shadow:0 2px 6px rgba(0,0,0,.08); }
+.hp-carrier-name { font-family:var(--bz-head); font-size:18px; font-weight:800; color:var(--bz-navy); }
+.hp-carrier-sub { font-size:13px; color:var(--bz-text-light); }
+.hp-carrier-card p { font-size:14px; line-height:1.65; color:var(--bz-text); margin-bottom:10px; }
+.hp-carrier-card p:last-child { margin-bottom:0; }
+
+.hp-delivery-list { display:flex; flex-direction:column; gap:12px; }
+.hp-delivery-row { display:grid; grid-template-columns:1fr auto; gap:16px;
+  padding:14px 16px; background:var(--bz-gray); border-radius:var(--bz-radius);
+  border-left:3px solid var(--bz-orange); align-items:center; }
+.hp-delivery-row__name { font-family:var(--bz-head); font-weight:700; color:var(--bz-navy); font-size:14.5px; }
+.hp-delivery-row__time { font-family:var(--bz-head); font-weight:800; color:var(--bz-orange);
+  font-size:14px; white-space:nowrap; }
+
+/* COSTS TABLE */
+.hp-costs-card { background:var(--bz-white); border:1.5px solid var(--bz-border);
+  border-radius:var(--bz-radius-lg); overflow:hidden; box-shadow:var(--bz-shadow); }
+.hp-costs-table { width:100%; border-collapse:collapse; }
+.hp-costs-table thead { background:var(--bz-navy); }
+.hp-costs-table th { padding:14px 20px; text-align:left;
+  font-family:var(--bz-head); font-size:12px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.08em; color:var(--bz-white); }
+.hp-costs-table th:last-child { text-align:right; }
+.hp-costs-table td { padding:14px 20px; border-top:1px solid var(--bz-border);
+  font-size:14.5px; color:var(--bz-text); vertical-align:middle; }
+.hp-costs-table td:last-child { text-align:right; font-family:var(--bz-head); font-weight:800; color:var(--bz-navy); }
+.hp-costs-table tbody tr:hover { background:var(--bz-gray); }
+.hp-costs-free { display:inline-flex; align-items:center; gap:6px;
+  color:var(--bz-green); font-weight:800; }
+.hp-costs-free::before { content:''; width:8px; height:8px; border-radius:50%; background:var(--bz-green); }
+.hp-costs-note { margin-top:14px; font-size:13px; color:var(--bz-text-light); line-height:1.6; }
+.hp-costs-note a { color:var(--bz-orange-dark); font-weight:700; text-decoration:underline; }
+
+/* PAYMENT METHODS */
+.hp-pay-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:14px; }
+.hp-pay-card { background:var(--bz-white); border:1.5px solid var(--bz-border);
+  border-radius:var(--bz-radius); padding:18px 14px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:10px; transition:all .2s; min-height:96px; }
+.hp-pay-card:hover { border-color:var(--bz-orange); box-shadow:var(--bz-shadow); transform:translateY(-2px); }
+.hp-pay-card__icon { display:flex; align-items:center; justify-content:center;
+  height:32px; }
+.hp-pay-card__icon svg { height:32px; width:auto; max-width:60px; display:block; }
+.hp-pay-card__name { font-family:var(--bz-head); font-size:12px; font-weight:700;
+  color:var(--bz-navy); text-align:center; text-transform:uppercase; letter-spacing:.04em; }
+.hp-pay-card--label .hp-pay-card__icon {
+  width:48px; height:32px; background:var(--bz-orange-bg); border-radius:6px;
+  font-family:var(--bz-head); font-size:14px; font-weight:800; color:var(--bz-orange); }
+
+/* BANK */
+.hp-bank-card { background:var(--bz-white); border:1.5px solid var(--bz-border);
+  border-radius:var(--bz-radius-lg); padding:28px 30px; box-shadow:var(--bz-shadow);
+  display:grid; grid-template-columns:1fr 1fr; gap:18px 32px; }
+.hp-bank-row { display:flex; flex-direction:column; gap:3px; }
+.hp-bank-row__label { font-family:var(--bz-head); font-size:11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.08em; color:var(--bz-text-light); }
+.hp-bank-row__value { font-family:var(--bz-head); font-size:15px; font-weight:700;
+  color:var(--bz-navy); word-break:break-all; }
+
+/* LEGAL TEXT (full Shopify shipping-policy body) */
+.hp-legal { background:var(--bz-white); border:1.5px solid var(--bz-border);
+  border-radius:var(--bz-radius-lg); padding:36px 40px; box-shadow:var(--bz-shadow); }
+.hp-legal__body { font-size:14.5px; line-height:1.75; color:var(--bz-text);
+  overflow-wrap:anywhere; word-break:break-word; }
+.hp-legal__body a { color:var(--bz-orange-dark); font-weight:600; text-decoration:underline; }
+.hp-legal__body a:hover { color:var(--bz-orange); }
+.hp-legal__body h1, .hp-legal__body h2, .hp-legal__body h3, .hp-legal__body h4 {
+  font-family:var(--bz-head); color:var(--bz-navy); line-height:1.3;
+  margin:28px 0 12px; font-weight:800; }
+.hp-legal__body h2 { font-size:18px; padding-bottom:6px; border-bottom:2px solid var(--bz-orange-bg); }
+.hp-legal__body h3 { font-size:15.5px; }
+.hp-legal__body p { margin:0 0 12px; }
+.hp-legal__body ul, .hp-legal__body ol { margin:0 0 14px; padding-left:22px; list-style:disc; }
+.hp-legal__body ol { list-style:decimal; }
+.hp-legal__body table { display:block; max-width:100%; overflow-x:auto;
+  -webkit-overflow-scrolling:touch; border-collapse:collapse; }
+.hp-legal__body th, .hp-legal__body td { padding:8px 10px; border:1px solid var(--bz-border); font-size:13.5px; }
+.hp-legal__body img { max-width:100%; height:auto; }
+.hp-legal__body strong { color:var(--bz-navy); font-weight:700; }
+
+/* CTA */
+.hp-cta-final { text-align:center; }
+.hp-cta-final__buttons { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:24px; }
+.hp-btn { display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:14px 26px; border-radius:var(--bz-radius);
+  font-family:var(--bz-head); font-size:14px; font-weight:700;
+  cursor:pointer; transition:all .2s; border:2px solid transparent; white-space:nowrap; }
+.hp-btn--primary { background:var(--bz-orange); color:var(--bz-navy); border-color:var(--bz-orange); }
+.hp-btn--primary:hover { background:var(--bz-orange-dark); border-color:var(--bz-orange-dark); transform:translateY(-1px); }
+.hp-btn--outline { background:transparent; color:var(--bz-white); border-color:rgba(255,255,255,.4); }
+.hp-btn--outline:hover { border-color:var(--bz-white); background:rgba(255,255,255,.08); }
+
+/* RESPONSIVE */
+@media (max-width:1024px) {
+  .hp-carrier-grid { grid-template-columns:1fr; }
+  .hp-bank-card { grid-template-columns:1fr; gap:16px; }
+}
+@media (max-width:640px) {
+  .hp-hero { padding:40px 16px 44px; }
+  .hp-hero h1 { font-size:24px; line-height:1.2; }
+  .hp-hero__sub { font-size:14.5px; }
+  .hp-hero__trust { gap:10px 14px; }
+  .hp-hero__trust-item { font-size:12px; }
+  .hp-section { padding:36px 0; }
+  .hp-section-title { font-size:21px; }
+  .hp-section-sub { font-size:14px; margin-bottom:24px; }
+  .hp-wrap { padding:0 16px; }
+  .hp-carrier-card, .hp-delivery-card, .hp-bank-card, .hp-legal { padding:22px 18px; border-radius:10px; }
+  .hp-costs-table th, .hp-costs-table td { padding:11px 14px; font-size:13.5px; }
+  .hp-pay-grid { grid-template-columns:repeat(auto-fill,minmax(110px,1fr)); gap:10px; }
+  .hp-pay-card { min-height:84px; padding:14px 10px; }
+  .hp-pay-card__icon { height:26px; }
+  .hp-pay-card__icon svg { height:26px; max-width:50px; }
+  .hp-pay-card__name { font-size:11px; }
+  .hp-bank-row__value { font-size:14px; }
+  .hp-legal__body { font-size:14px; }
+  .hp-legal__body h2 { font-size:16px; }
+  .hp-cta-final__buttons .hp-btn { width:100%; }
+}
+@media (max-width:380px) {
+  .hp-hero h1 { font-size:22px; }
+  .hp-pay-grid { grid-template-columns:repeat(2,1fr); }
+}
+</style>
+
+{%- liquid
+  assign contact_url = '/pages/contact'
+  assign agb_url = '/pages/agb'
+  assign datenschutz_url = '/pages/datenschutz'
+  assign widerruf_url = '/policies/refund-policy'
+
+  assign ship_data = shop.metafields.blechziegel.shipping_rates.value
+  assign ship_rates = ship_data.rates | default: empty
+  assign standard_rates = empty
+  assign express_rates = empty
+  if ship_rates != empty
+    assign standard_rates = ship_rates | where: 'name', 'Standard'
+    assign express_rates = ship_rates | where: 'name', 'Express'
+  endif
+
+  capture versand_body
+    render 'bz-versand-content'
+  endcapture
+-%}
+
+<div class="hp">
+
+  <!-- HERO -->
+  <section class="hp-hero" aria-labelledby="vd-hero-title">
+    <div class="hp-wrap hp-hero__inner">
+      <div class="hp-kicker">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm12 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm-1-5.5V9.5h2.5l1.96 2.5H17z"/></svg>
+        Versand & Lieferung
+      </div>
+      <h1 id="vd-hero-title">Versand mit <span>DHL.</span><br>Innerhalb Deutschlands in 1–3 Werktagen.</h1>
+      <p class="hp-hero__sub">
+        Versand erfolgt täglich werktags ab unserem Lager in Nürnberg per DHL.
+        Bestellungen bis 13 Uhr gehen am gleichen Tag raus — Lieferung deutschlandweit
+        in der Regel innerhalb 1–3 Werktagen.
+      </p>
+      <div class="hp-hero__trust">
+        <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>DHL-Versand</div>
+        <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Versandkostenfrei ab 55 €</div>
+        <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Cutoff 13:00 Uhr</div>
+        <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Tracking inklusive</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VERSANDDIENSTLEISTER + LIEFERZEIT -->
+  <section class="hp-section hp-section--white" aria-labelledby="vd-carrier-title">
+    <div class="hp-wrap">
+      <span class="hp-section-label">Versanddienstleister</span>
+      <h2 class="hp-section-title" id="vd-carrier-title">Wie wir liefern</h2>
+      <p class="hp-section-sub">Standard-Versand erfolgt über DHL — sicher, getrackt, deutschlandweit. Bei Großmengen schalten wir automatisch auf Spedition mit Palettenversand um.</p>
+
+      <div class="hp-carrier-grid">
+        <article class="hp-carrier-card">
+          <div class="hp-carrier-head">
+            <span class="hp-dhl-logo" aria-label="DHL">DHL</span>
+            <div>
+              <div class="hp-carrier-name">DHL Paket Deutschland</div>
+              <div class="hp-carrier-sub">Standard-Versand für alle Bestellungen bis 31,5&nbsp;kg</div>
+            </div>
+          </div>
+          <p>Lieferung an die angegebene Adresse, Packstation oder Postfiliale. Sendungsverfolgung wird per Mail versandt, sobald die Sendung das Lager verlässt.</p>
+          <p><strong>Cutoff:</strong> Bestellungen, die werktags bis <strong>13:00 Uhr</strong> bei uns eingehen, verlassen das Werk noch am selben Tag.</p>
+        </article>
+
+        <article class="hp-delivery-card">
+          <div class="hp-section-label">Lieferzeit</div>
+          <h3 style="font-family:var(--bz-head); font-size:18px; font-weight:800; color:var(--bz-navy); margin:0 0 14px;">Service-Optionen</h3>
+          <div class="hp-delivery-list">
+            {%- if standard_rates != empty -%}
+              {%- for r in standard_rates -%}
+                <div class="hp-delivery-row">
+                  <div class="hp-delivery-row__name">DHL Standard
+                    {%- if r.max %} (Bestellung &lt; {{ r.max | round }} €){%- elsif r.min and r.min > 0 %} (Bestellung &gt; {{ r.min | round }} €){% endif -%}
+                  </div>
+                  <div class="hp-delivery-row__time">1–3 Werktage</div>
+                </div>
+              {%- endfor -%}
+            {%- else -%}
+              <div class="hp-delivery-row">
+                <div class="hp-delivery-row__name">DHL Standard</div>
+                <div class="hp-delivery-row__time">1–3 Werktage</div>
+              </div>
+            {%- endif -%}
+            {%- if express_rates != empty -%}
+              {%- for r in express_rates -%}
+                <div class="hp-delivery-row">
+                  <div class="hp-delivery-row__name">DHL Express</div>
+                  <div class="hp-delivery-row__time">1 Werktag</div>
+                </div>
+              {%- endfor -%}
+            {%- endif -%}
+            <div class="hp-delivery-row">
+              <div class="hp-delivery-row__name">Spedition / Palette (auf Anfrage)</div>
+              <div class="hp-delivery-row__time">2–5 Werktage</div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- VERSANDKOSTEN (live aus Shopify) -->
+  <section class="hp-section hp-section--gray" aria-labelledby="vd-costs-title">
+    <div class="hp-wrap">
+      <span class="hp-section-label">Versandkosten Deutschland</span>
+      <h2 class="hp-section-title" id="vd-costs-title">Aktuelle Konditionen</h2>
+      <p class="hp-section-sub">Preise direkt aus den Shopify-Versandzonen. Änderungen im Admin werden automatisch übernommen, sobald sync-shipping-rates läuft.</p>
+
+      <div class="hp-costs-card">
+        <table class="hp-costs-table" aria-label="Versandkosten DHL Deutschland">
+          <thead>
+            <tr><th scope="col">Bestellwert</th><th scope="col">Service</th><th scope="col">Versandkosten</th></tr>
+          </thead>
+          <tbody>
+            {%- if ship_rates != empty -%}
+              {%- for r in ship_rates -%}
+                <tr>
+                  <td>
+                    {%- liquid
+                      assign max_c = r.max | times: 100 | round
+                      assign max_w = max_c | divided_by: 100
+                      assign max_f = max_c | modulo: 100
+                      assign min_c = r.min | times: 100 | round
+                      assign min_w = min_c | divided_by: 100
+                      assign min_f = min_c | modulo: 100
+                    -%}
+                    {%- if r.max -%}
+                      bis {{ max_w }},{%- if max_f < 10 -%}0{%- endif -%}{{ max_f }}&nbsp;&euro;
+                    {%- elsif r.min and r.min > 0 -%}
+                      ab {{ min_w }},{%- if min_f < 10 -%}0{%- endif -%}{{ min_f }}&nbsp;&euro;
+                    {%- else -%}
+                      Alle Bestellungen
+                    {%- endif -%}
+                  </td>
+                  <td>{{ r.name }}</td>
+                  <td>
+                    {%- if r.price == 0 -%}
+                      <span class="hp-costs-free">Kostenlos</span>
+                    {%- else -%}
+                      {%- assign price_c = r.price | times: 100 | round -%}
+                      {%- assign price_w = price_c | divided_by: 100 -%}
+                      {%- assign price_f = price_c | modulo: 100 -%}
+                      {{ price_w }},{%- if price_f < 10 -%}0{%- endif -%}{{ price_f }}&nbsp;&euro;
+                    {%- endif -%}
+                  </td>
+                </tr>
+              {%- endfor -%}
+            {%- else -%}
+              <tr><td>bis 54,99&nbsp;€</td><td>DHL Standard</td><td>5,99&nbsp;€</td></tr>
+              <tr><td>ab 55,00&nbsp;€</td><td>DHL Standard</td><td><span class="hp-costs-free">Kostenlos</span></td></tr>
+            {%- endif -%}
+          </tbody>
+        </table>
+      </div>
+      <p class="hp-costs-note">Alle Preise inkl. gesetzl. MwSt. EU-Versand und Spedition auf Anfrage — <a href="{{ contact_url }}">Kontakt</a>.</p>
+    </div>
+  </section>
+
+  <!-- ZAHLUNGSMETHODEN (live aus Shopify) -->
+  <section class="hp-section hp-section--white" aria-labelledby="vd-pay-title">
+    <div class="hp-wrap">
+      <span class="hp-section-label">Zahlungsarten</span>
+      <h2 class="hp-section-title" id="vd-pay-title">Sicher bezahlen — Ihre Wahl</h2>
+      <p class="hp-section-sub">Aktiv geschaltete Zahlungsmethoden im Shopify-Admin. Neue Methoden erscheinen automatisch, sobald sie freigeschaltet sind.</p>
+
+      <div class="hp-pay-grid" role="list">
+        {%- for type in shop.enabled_payment_types -%}
+          {%- assign label = type | replace: '_', ' ' | capitalize -%}
+          <div class="hp-pay-card" role="listitem" aria-label="{{ label }}">
+            <div class="hp-pay-card__icon">{{ type | payment_type_svg_tag }}</div>
+            <div class="hp-pay-card__name">{{ label }}</div>
+          </div>
+        {%- endfor -%}
+        <div class="hp-pay-card hp-pay-card--label" role="listitem" aria-label="Kauf auf Rechnung">
+          <div class="hp-pay-card__icon">RG</div>
+          <div class="hp-pay-card__name">Rechnung</div>
+        </div>
+        <div class="hp-pay-card hp-pay-card--label" role="listitem" aria-label="Vorkasse / Banküberweisung">
+          <div class="hp-pay-card__icon">VK</div>
+          <div class="hp-pay-card__name">Vorkasse</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BANKVERBINDUNG -->
+  <section class="hp-section hp-section--gray" aria-labelledby="vd-bank-title">
+    <div class="hp-wrap">
+      <span class="hp-section-label">Bankverbindung</span>
+      <h2 class="hp-section-title" id="vd-bank-title">Vorkasse / SEPA-Überweisung</h2>
+      <p class="hp-section-sub">Bei Auswahl „Vorkasse" überweisen Sie an folgende Bankverbindung. Die Bestellung wird versandt, sobald der Zahlungseingang verbucht ist (in der Regel 1–2 Werktage).</p>
+
+      <div class="hp-bank-card">
+        <div class="hp-bank-row">
+          <span class="hp-bank-row__label">Kontoinhaber</span>
+          <span class="hp-bank-row__value">TiWi Trade GmbH</span>
+        </div>
+        <div class="hp-bank-row">
+          <span class="hp-bank-row__label">Bank</span>
+          <span class="hp-bank-row__value">UniCredit Bank — HypoVereinsbank</span>
+        </div>
+        <div class="hp-bank-row">
+          <span class="hp-bank-row__label">IBAN</span>
+          <span class="hp-bank-row__value">DE80 7602 0070 0030 9422 05</span>
+        </div>
+        <div class="hp-bank-row">
+          <span class="hp-bank-row__label">BIC</span>
+          <span class="hp-bank-row__value">HYVEDEMM460</span>
+        </div>
+        <div class="hp-bank-row" style="grid-column:1/-1;">
+          <span class="hp-bank-row__label">Verwendungszweck</span>
+          <span class="hp-bank-row__value" style="font-size:13.5px; color:var(--bz-text); font-weight:600;">Bitte stets Ihre Bestellnummer (z.&nbsp;B. <em>BZ-12345</em>) angeben.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POLICY-TEXT -->
+  <section class="hp-section hp-section--white" aria-labelledby="vd-policy-title">
+    <div class="hp-wrap">
+      <span class="hp-section-label">Vollständige Versandrichtlinie</span>
+      <h2 class="hp-section-title" id="vd-policy-title">Rechtsverbindliche Versandbedingungen</h2>
+      <p class="hp-section-sub">Nachstehend die offizielle Shopify-Versandrichtlinie (synchronisiert aus Admin → Einstellungen → Richtlinien → Versand).</p>
+
+      <article class="hp-legal">
+        <div class="hp-legal__body">
+          {%- if versand_body != blank -%}
+            {{ versand_body }}
+          {%- else -%}
+            <p><strong>Hinweis:</strong> Die Versandrichtlinie wird aus den Shopify-Richtlinien geladen. Bitte im Admin ergänzen und <code>sync-agb.js shipping-policy</code> ausführen.</p>
+          {%- endif -%}
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="hp-section hp-section--navy" aria-labelledby="vd-cta-title">
+    <div class="hp-wrap hp-cta-final">
+      <span class="hp-section-label">Fragen zum Versand?</span>
+      <h2 class="hp-section-title" id="vd-cta-title">Wir helfen — auch bei Eilig-Sendungen</h2>
+      <p class="hp-section-sub">Express-Versand, Wochenend-Lieferung, Sperrgut, Palettenversand zu einer Baustelle — schreiben Sie uns. Antwort innerhalb 24 Stunden.</p>
+      <div class="hp-cta-final__buttons">
+        <a href="{{ contact_url }}" class="hp-btn hp-btn--primary">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          Versandanfrage stellen
+        </a>
+        <a href="{{ agb_url }}" class="hp-btn hp-btn--outline">AGB</a>
+        <a href="{{ widerruf_url }}" class="hp-btn hp-btn--outline">Widerruf</a>
+        <a href="{{ datenschutz_url }}" class="hp-btn hp-btn--outline">Datenschutz</a>
+      </div>
+    </div>
+  </section>
+
+</div>
