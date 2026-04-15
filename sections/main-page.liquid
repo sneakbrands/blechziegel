@@ -1,5 +1,7 @@
 {%- if page.handle == 'hersteller' or request.path contains '/pages/hersteller' -%}
   {% render 'blechziegel-hersteller' %}
+{%- elsif page.handle == 'gewerbe' or request.path contains '/pages/gewerbe' -%}
+  {% render 'blechziegel-gewerbe' %}
 {%- else -%}
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <div class="section page-width-content color-{{ section.settings.color_scheme }}">
