@@ -1,0 +1,669 @@
+{% comment %}
+  ============================================================
+  BLECHZIEGEL.DE — Solar-Installateure-Seite
+  Snippet: blechziegel-solar-installateure.liquid
+  Layout-DNA: Gewerbe/Hersteller-Seite (Navy-Hero, Orange-Akzente,
+  Montserrat/Open Sans, hp-* class system)
+  PV-Fokus: Systemkompatibilität, integrierte Dachhaken, Projektmengen
+  Eingebunden via sections/main-page.liquid wenn page.handle == 'solar-installateure'
+  ============================================================
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+.hp {
+  --bz-navy:#0a2240; --bz-navy-light:#0d2d54;
+  --bz-orange:#ffa500; --bz-orange-dark:#e69400; --bz-orange-bg:rgba(255,165,0,.12);
+  --bz-white:#fff; --bz-gray:#f5f5f5; --bz-gray-mid:#e8eaed;
+  --bz-text:#333; --bz-text-light:#666; --bz-border:#e5e7eb;
+  --bz-green:#16a34a; --bz-green-bg:#f0fdf4;
+  --bz-head:'Montserrat',sans-serif; --bz-body:'Open Sans',sans-serif;
+  --bz-radius:8px; --bz-radius-lg:14px; --bz-max:1200px;
+  --bz-shadow:0 4px 20px rgba(10,34,64,.10);
+  --bz-shadow-lg:0 12px 40px rgba(10,34,64,.18);
+  font-family:var(--bz-body); color:var(--bz-text);
+}
+.hp *, .hp *::before, .hp *::after { box-sizing:border-box; margin:0; padding:0; }
+.hp a { text-decoration:none; color:inherit; }
+.hp img { max-width:100%; display:block; }
+.hp ul { list-style:none; }
+.hp-wrap { max-width:var(--bz-max); margin:0 auto; padding:0 20px; }
+
+.hp-hero {
+  background:linear-gradient(135deg,var(--bz-navy) 0%,#163660 100%);
+  color:var(--bz-white); padding:72px 20px 64px; position:relative; overflow:hidden;
+}
+.hp-hero::before {
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.hp-hero__inner { position:relative; max-width:var(--bz-max); margin:0 auto;
+  display:grid; grid-template-columns:1.1fr .9fr; gap:56px; align-items:center; }
+.hp-kicker {
+  display:inline-flex; align-items:center; gap:8px;
+  background:var(--bz-orange-bg); border:1px solid rgba(255,165,0,.35);
+  color:var(--bz-orange); font-family:var(--bz-head);
+  font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.1em;
+  padding:5px 13px; border-radius:20px; margin-bottom:20px;
+}
+.hp-kicker svg { width:12px; height:12px; fill:var(--bz-orange); }
+.hp-hero h1 {
+  font-family:var(--bz-head); font-size:clamp(26px,3.8vw,44px);
+  font-weight:800; line-height:1.2; margin-bottom:18px; color:var(--bz-white);
+}
+.hp-hero h1 span { color:var(--bz-orange); }
+.hp-hero__sub { font-size:16px; line-height:1.75; color:rgba(255,255,255,.82); margin-bottom:32px; max-width:520px; }
+.hp-hero__cta { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:36px; }
+.hp-hero__trust { display:flex; flex-wrap:wrap; gap:20px; }
+.hp-hero__trust-item { display:flex; align-items:center; gap:7px;
+  font-size:12.5px; color:rgba(255,255,255,.72); font-weight:600; }
+.hp-hero__trust-item svg { width:14px; height:14px; fill:var(--bz-green); flex-shrink:0; }
+
+.hp-hero__box {
+  background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12);
+  border-radius:var(--bz-radius-lg); padding:28px; backdrop-filter:blur(6px);
+}
+.hp-hero__box-title { font-family:var(--bz-head); font-size:13px; font-weight:700;
+  color:var(--bz-white); margin-bottom:18px; display:flex; align-items:center; gap:8px;
+  text-transform:uppercase; letter-spacing:.08em; }
+.hp-hero__box-title svg { width:16px; height:16px; fill:var(--bz-orange); }
+.hp-hero__facts { display:flex; flex-direction:column; gap:12px; }
+.hp-hero__fact {
+  display:flex; align-items:center; gap:12px;
+  padding:14px 16px; background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08); border-radius:var(--bz-radius);
+  font-family:var(--bz-head); font-size:13.5px; font-weight:700; color:var(--bz-white);
+}
+.hp-hero__fact svg { width:20px; height:20px; fill:var(--bz-orange); flex-shrink:0; }
+.hp-hero__fact-num { color:var(--bz-orange); font-size:18px; font-weight:800; margin-left:auto; }
+
+.hp-btn {
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:14px 26px; border-radius:var(--bz-radius);
+  font-family:var(--bz-head); font-size:14px; font-weight:700;
+  cursor:pointer; transition:all .2s; border:2px solid transparent; white-space:nowrap;
+}
+.hp-btn svg { width:16px; height:16px; fill:currentColor; flex-shrink:0; }
+.hp-btn--primary { background:var(--bz-orange); color:var(--bz-navy); border-color:var(--bz-orange); }
+.hp-btn--primary:hover { background:var(--bz-orange-dark); border-color:var(--bz-orange-dark); transform:translateY(-1px); box-shadow:0 6px 20px rgba(255,165,0,.3); }
+.hp-btn--outline { background:transparent; color:var(--bz-white); border-color:rgba(255,255,255,.4); }
+.hp-btn--outline:hover { border-color:var(--bz-white); background:rgba(255,255,255,.08); }
+
+.hp-section { padding:64px 0; }
+.hp-section--gray { background:var(--bz-gray); }
+.hp-section--white { background:var(--bz-white); }
+.hp-section--navy { background:var(--bz-navy); color:var(--bz-white); }
+.hp-section-label { font-family:var(--bz-head); font-size:11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.12em; color:var(--bz-orange);
+  margin-bottom:8px; display:block; }
+.hp-section-title { font-family:var(--bz-head); font-size:clamp(22px,2.8vw,32px);
+  font-weight:800; color:var(--bz-navy); line-height:1.25; margin-bottom:12px; }
+.hp-section--navy .hp-section-title { color:var(--bz-white); }
+.hp-section-sub { font-size:15px; line-height:1.72; color:var(--bz-text-light); max-width:640px; margin-bottom:40px; }
+.hp-section--navy .hp-section-sub { color:rgba(255,255,255,.72); }
+
+.hp-benefits { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+.hp-benefit {
+  background:var(--bz-white); border:1.5px solid var(--bz-border);
+  border-radius:var(--bz-radius-lg); padding:28px 24px; transition:all .2s;
+}
+.hp-benefit:hover { border-color:var(--bz-orange); box-shadow:var(--bz-shadow-lg); transform:translateY(-3px); }
+.hp-benefit__icon { width:48px; height:48px; background:var(--bz-orange-bg); border-radius:12px;
+  display:flex; align-items:center; justify-content:center; margin-bottom:18px; }
+.hp-benefit__icon svg { width:22px; height:22px; fill:var(--bz-orange); }
+.hp-benefit h3 { font-family:var(--bz-head); font-size:16px; font-weight:800; color:var(--bz-navy); margin-bottom:8px; line-height:1.3; }
+.hp-benefit p { font-size:14px; line-height:1.7; color:var(--bz-text-light); }
+
+.hp-steps { display:grid; grid-template-columns:repeat(4,1fr); gap:22px; margin-top:40px; }
+.hp-step {
+  position:relative; background:var(--bz-white);
+  border:1.5px solid var(--bz-border); border-radius:var(--bz-radius-lg);
+  padding:32px 24px 26px; transition:all .2s;
+}
+.hp-step:hover { border-color:var(--bz-orange); box-shadow:var(--bz-shadow-lg); transform:translateY(-3px); }
+.hp-step__num { position:absolute; top:-14px; left:24px;
+  width:34px; height:34px; border-radius:50%;
+  background:var(--bz-orange); color:var(--bz-navy);
+  font-family:var(--bz-head); font-size:15px; font-weight:800;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 14px rgba(255,165,0,.35); }
+.hp-step__icon { width:44px; height:44px; background:var(--bz-orange-bg); border-radius:10px;
+  display:flex; align-items:center; justify-content:center; margin-bottom:18px; }
+.hp-step__icon svg { width:20px; height:20px; fill:var(--bz-orange); }
+.hp-step h3 { font-family:var(--bz-head); font-size:15.5px; font-weight:800; color:var(--bz-navy); margin-bottom:8px; line-height:1.3; }
+.hp-step p { font-size:13.5px; line-height:1.65; color:var(--bz-text-light); }
+
+.hp-brands { display:grid; grid-template-columns:repeat(5,1fr); gap:14px; margin-top:40px; }
+.hp-brand-card {
+  background:var(--bz-white); border:1.5px solid var(--bz-border);
+  border-radius:var(--bz-radius-lg); padding:22px 18px 18px;
+  display:flex; flex-direction:column; gap:10px;
+  transition:all .2s; position:relative; overflow:hidden; text-align:center;
+}
+.hp-brand-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background:var(--bz-orange); transform:scaleX(0); transform-origin:left; transition:transform .2s;
+}
+.hp-brand-card:hover { box-shadow:var(--bz-shadow-lg); border-color:var(--bz-orange); transform:translateY(-3px); }
+.hp-brand-card:hover::before { transform:scaleX(1); }
+.hp-brand-card__icon { width:40px; height:40px; margin:0 auto 4px;
+  background:var(--bz-orange-bg); border-radius:10px;
+  display:flex; align-items:center; justify-content:center; }
+.hp-brand-card__icon svg { width:20px; height:20px; fill:var(--bz-orange); }
+.hp-brand-card__name { font-family:var(--bz-head); font-size:15px; font-weight:800; color:var(--bz-navy); }
+.hp-brand-card__models { font-size:12.5px; line-height:1.55; color:var(--bz-text-light); }
+
+.hp-pricing { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:40px; }
+.hp-price {
+  background:var(--bz-white); border:1.5px solid var(--bz-border);
+  border-radius:var(--bz-radius-lg); padding:32px 26px; text-align:center;
+  transition:all .2s; position:relative;
+}
+.hp-price:hover { border-color:var(--bz-orange); box-shadow:var(--bz-shadow-lg); transform:translateY(-3px); }
+.hp-price--featured { border-color:var(--bz-orange); background:linear-gradient(180deg,#fff 0%,#fff9ee 100%); }
+.hp-price--featured::before {
+  content:'Beliebt'; position:absolute; top:-12px; left:50%; transform:translateX(-50%);
+  background:var(--bz-orange); color:var(--bz-navy); font-family:var(--bz-head);
+  font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:.08em;
+  padding:4px 11px; border-radius:20px;
+}
+.hp-price__tier { font-family:var(--bz-head); font-size:12px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.1em; color:var(--bz-text-light); margin-bottom:12px; }
+.hp-price__amount { font-family:var(--bz-head); font-size:40px; font-weight:800; color:var(--bz-navy); line-height:1; margin-bottom:4px; }
+.hp-price__unit { font-size:13px; color:var(--bz-text-light); margin-bottom:16px; }
+.hp-price__note { font-size:13px; color:var(--bz-text); line-height:1.6; }
+.hp-pricing-note { margin-top:22px; font-size:13px; color:var(--bz-text-light); text-align:center; }
+.hp-pricing-note a { color:var(--bz-orange); font-weight:700; text-decoration:underline; }
+
+.hp-specs { display:grid; grid-template-columns:1.15fr .85fr; gap:40px; margin-top:40px; align-items:start; }
+.hp-spec-list { background:var(--bz-white); border:1.5px solid var(--bz-border);
+  border-radius:var(--bz-radius-lg); padding:8px 24px; box-shadow:var(--bz-shadow); }
+.hp-spec-row { display:flex; justify-content:space-between; gap:20px; padding:16px 0;
+  border-bottom:1px solid var(--bz-border); font-size:14px; line-height:1.5; }
+.hp-spec-row:last-child { border-bottom:none; }
+.hp-spec-row__k { font-family:var(--bz-head); font-weight:700; color:var(--bz-navy); min-width:140px; }
+.hp-spec-row__v { color:var(--bz-text); text-align:right; }
+.hp-colors {
+  background:var(--bz-white); border:1.5px solid var(--bz-border);
+  border-radius:var(--bz-radius-lg); padding:28px; box-shadow:var(--bz-shadow);
+}
+.hp-colors h3 { font-family:var(--bz-head); font-size:15px; font-weight:800; color:var(--bz-navy);
+  text-transform:uppercase; letter-spacing:.06em; margin-bottom:18px; }
+.hp-color-grid { display:flex; flex-direction:column; gap:14px; }
+.hp-color { display:flex; align-items:center; gap:14px; }
+.hp-color__chip { width:50px; height:50px; border-radius:var(--bz-radius);
+  border:1.5px solid var(--bz-border); flex-shrink:0; box-shadow:inset 0 -3px 8px rgba(0,0,0,.08); }
+.hp-color__chip--alu { background:linear-gradient(135deg,#c7ccd1 0%,#a6abb2 100%); }
+.hp-color__chip--anthrazit { background:#383d42; }
+.hp-color__chip--ziegelrot { background:#8b3a2b; }
+.hp-color__meta { font-size:14px; line-height:1.4; }
+.hp-color__name { font-family:var(--bz-head); font-weight:700; color:var(--bz-navy); }
+.hp-color__ral { font-size:12.5px; color:var(--bz-text-light); }
+
+.hp-testimonials { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-top:40px; }
+.hp-testimonial {
+  background:var(--bz-white); border:1.5px solid var(--bz-border);
+  border-radius:var(--bz-radius-lg); padding:28px 26px;
+  display:flex; flex-direction:column; gap:14px; transition:all .2s;
+}
+.hp-testimonial:hover { box-shadow:var(--bz-shadow-lg); transform:translateY(-3px); border-color:var(--bz-orange); }
+.hp-stars { display:flex; gap:2px; }
+.hp-stars svg { width:16px; height:16px; fill:var(--bz-orange); }
+.hp-testimonial__quote { font-size:14.5px; line-height:1.7; color:var(--bz-text); font-style:italic; }
+.hp-testimonial__author { display:flex; align-items:center; gap:12px; margin-top:auto;
+  padding-top:14px; border-top:1px solid var(--bz-border); }
+.hp-testimonial__avatar { width:38px; height:38px; border-radius:50%;
+  background:var(--bz-orange-bg); display:flex; align-items:center; justify-content:center;
+  font-family:var(--bz-head); font-weight:800; color:var(--bz-orange); font-size:14px; }
+.hp-testimonial__meta { font-size:13px; line-height:1.4; }
+.hp-testimonial__name { font-family:var(--bz-head); font-weight:700; color:var(--bz-navy); }
+.hp-testimonial__role { font-size:12px; color:var(--bz-text-light); }
+
+.hp-faq-layout { display:grid; grid-template-columns:1fr 2fr; gap:56px; align-items:start; }
+.hp-faq-list { display:flex; flex-direction:column; gap:12px; }
+.hp-faq-item { background:var(--bz-white); border:1.5px solid var(--bz-border);
+  border-radius:var(--bz-radius); overflow:hidden; transition:border-color .18s; }
+.hp-faq-item.open { border-color:var(--bz-orange); }
+.hp-faq-item__q { display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:18px 20px; cursor:pointer; font-family:var(--bz-head); font-size:14.5px; font-weight:700;
+  color:var(--bz-navy); user-select:none; transition:background .15s; list-style:none; }
+.hp-faq-item__q::-webkit-details-marker { display:none; }
+.hp-faq-item__q:hover, .hp-faq-item.open .hp-faq-item__q { background:var(--bz-gray); }
+.hp-faq-item__icon { width:22px; height:22px; background:var(--bz-orange-bg);
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; transition:transform .25s; }
+.hp-faq-item.open .hp-faq-item__icon { transform:rotate(45deg); background:var(--bz-orange); }
+.hp-faq-item__icon svg { width:12px; height:12px; fill:var(--bz-orange); }
+.hp-faq-item.open .hp-faq-item__icon svg { fill:var(--bz-navy); }
+.hp-faq-item__a { display:none; padding:0 20px 18px; font-size:14px; line-height:1.7; color:var(--bz-text-light); }
+.hp-faq-item.open .hp-faq-item__a { display:block; }
+.hp-faq-item__a a { color:var(--bz-orange); font-weight:700; text-decoration:underline; }
+
+.hp-cta-final { text-align:center; }
+.hp-cta-final .hp-section-sub { margin-left:auto; margin-right:auto; }
+.hp-cta-final__buttons { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:28px; }
+.hp-cta-final__contact { display:flex; justify-content:center; gap:28px; flex-wrap:wrap;
+  margin-top:28px; font-size:14px; color:rgba(255,255,255,.82); }
+.hp-cta-final__contact-item { display:flex; align-items:center; gap:8px; }
+.hp-cta-final__contact-item svg { width:16px; height:16px; fill:var(--bz-orange); }
+
+@media (max-width:1024px) {
+  .hp-hero__inner { grid-template-columns:1fr; gap:36px; }
+  .hp-brands { grid-template-columns:repeat(3,1fr); }
+  .hp-benefits { grid-template-columns:repeat(2,1fr); }
+  .hp-pricing { grid-template-columns:1fr; }
+  .hp-specs { grid-template-columns:1fr; gap:24px; }
+  .hp-testimonials { grid-template-columns:1fr; }
+  .hp-faq-layout { grid-template-columns:1fr; gap:24px; }
+  .hp-steps { grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width:640px) {
+  .hp-hero { padding:48px 16px 56px; }
+  .hp-hero h1 { font-size:28px; }
+  .hp-hero__cta { flex-direction:column; }
+  .hp-hero__cta .hp-btn { width:100%; }
+  .hp-section { padding:48px 0; }
+  .hp-brands { grid-template-columns:repeat(2,1fr); }
+  .hp-benefits { grid-template-columns:1fr; }
+  .hp-steps { grid-template-columns:1fr; }
+  .hp-cta-final__buttons .hp-btn { width:100%; }
+  .hp-spec-row { flex-direction:column; gap:4px; }
+  .hp-spec-row__v { text-align:left; }
+}
+</style>
+
+{%- liquid
+  assign email_raw = 'web@blechziegel.de'
+  assign contact_url = '/pages/contact'
+  assign catalog_url = '/collections/pv-dachziegel'
+  assign hersteller_url = '/pages/hersteller'
+  assign gewerbe_url = '/pages/gewerbe'
+  assign canonical = shop.url | append: '/pages/solar-installateure'
+-%}
+
+<div class="hp">
+
+  <!-- HERO -->
+  <section class="hp-hero" aria-labelledby="si-hero-title">
+    <div class="hp-hero__inner">
+      <div>
+        <div class="hp-kicker">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zM20.45 4.46l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zM17.24 18.16l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-2.05l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/></svg>
+          Für PV-Installateure & Solarteure
+        </div>
+        <h1 id="si-hero-title">Blechziegel mit <span>integriertem Dachhaken.</span><br>Für jede PV-Montage.</h1>
+        <p class="hp-hero__sub">
+          Aluminium-Ersatzziegel passgenau zum Dachprofil — mit vorinstalliertem Dachhaken für K2,
+          Schletter, IBC, Renusol, Esdec & Co. Projektmengen mit Staffelpreis, Lieferung in 1–3 Werktagen.
+        </p>
+        <div class="hp-hero__cta">
+          <a href="{{ contact_url }}" class="hp-btn hp-btn--primary">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            PV-Projekt anfragen
+          </a>
+          <a href="{{ catalog_url }}" class="hp-btn hp-btn--outline">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z"/></svg>
+            Sortiment ansehen
+          </a>
+        </div>
+        <div class="hp-hero__trust">
+          <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Alle gängigen PV-Systeme</div>
+          <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Dachhaken integriert</div>
+          <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Lieferzeit 1–3 Werktage</div>
+          <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Projekt-Konditionen</div>
+        </div>
+      </div>
+
+      <aside class="hp-hero__box" aria-label="PV-Projekt auf einen Blick">
+        <div class="hp-hero__box-title">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14l-6-4.5h7.5z"/></svg>
+          Projekt-Konditionen
+        </div>
+        <div class="hp-hero__facts">
+          <div class="hp-hero__fact"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L4 6v6c0 5 3.4 9.5 8 10 4.6-.5 8-5 8-10V6l-8-4z"/></svg><span>PV-Systeme</span><span class="hp-hero__fact-num">5+</span></div>
+          <div class="hp-hero__fact"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 13l-4-4h3V7h2v6h3l-4 4z"/></svg><span>Staffelpreis</span><span class="hp-hero__fact-num">ab 25 St.</span></div>
+          <div class="hp-hero__fact"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z"/></svg><span>Lieferzeit</span><span class="hp-hero__fact-num">1–3 Tage</span></div>
+          <div class="hp-hero__fact"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l9 4v6c0 5-3.8 9.5-9 10-5.2-.5-9-5-9-10V6l9-4z"/></svg><span>Lebensdauer</span><span class="hp-hero__fact-num">25+ Jahre</span></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- VORTEILE -->
+  <section class="hp-section hp-section--white" aria-labelledby="si-benefits-title">
+    <div class="hp-wrap">
+      <span class="hp-section-label">Vorteile für Solarteure</span>
+      <h2 class="hp-section-title" id="si-benefits-title">Warum PV-Installateure mit uns arbeiten</h2>
+      <p class="hp-section-sub">Ein Lieferant für alle Dachprofile. Dachhaken direkt ab Werk integriert. Projektmengen zum Staffelpreis.</p>
+      <div class="hp-benefits">
+        <article class="hp-benefit">
+          <div class="hp-benefit__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg></div>
+          <h3>Kompatibel mit allen PV-Systemen</h3>
+          <p>K2, Schletter, IBC, Renusol, Esdec, Alumero, Mounting Systems — wir fertigen den Einschub exakt zum Dachhaken Ihres Montagesystems.</p>
+        </article>
+        <article class="hp-benefit">
+          <div class="hp-benefit__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 2L7.2 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.2L15 2H9zm3 15a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg></div>
+          <h3>Dachhaken bereits integriert</h3>
+          <p>Auf Wunsch liefern wir den Blechziegel mit vormontiertem Dachhaken. Eine Komponente, eine Montagestelle — keine Fehlerquellen auf dem Dach.</p>
+        </article>
+        <article class="hp-benefit">
+          <div class="hp-benefit__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 13l-4-4h3V7h2v6h3l-4 4z"/></svg></div>
+          <h3>Projekt-Staffelpreise</h3>
+          <p>Automatische Mengenstaffel ab 25, 50, 100+ Stück. Ab 200 Stück oder bei Rahmenverträgen individuelle Projektkonditionen auf Anfrage.</p>
+        </article>
+        <article class="hp-benefit">
+          <div class="hp-benefit__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z"/></svg></div>
+          <h3>Baustellengerechte Lieferung</h3>
+          <p>Kommissionierung nach Modell und Menge, paletten- oder DHL-Versand. Lagerware in 1–3 Werktagen, Sonderanfertigungen 1–3 Wochen.</p>
+        </article>
+        <article class="hp-benefit">
+          <div class="hp-benefit__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l9 4v6c0 5-3.8 9.5-9 10-5.2-.5-9-5-9-10V6l9-4zm-1 14l7-7-1.4-1.4L11 13.2 7.4 9.6 6 11l5 5z"/></svg></div>
+          <h3>Aluminium, 25+ Jahre haltbar</h3>
+          <p>Pulverbeschichtetes Aluminium, 1,0 mm stark. UV- und witterungsbeständig, rostfrei, wartungsarm. Übersteht jede PV-Anlagen-Lebensdauer.</p>
+        </article>
+        <article class="hp-benefit">
+          <div class="hp-benefit__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-9 14l-5-5 1.4-1.4L11 13.2l6.6-6.6L19 8l-8 8z"/></svg></div>
+          <h3>Technische Freigabe-Dokumente</h3>
+          <p>Datenblätter, Kompatibilitätslisten und Montage-PDFs für Ihre Planung und den Netzbetreiber-Antrag. Rückmeldung auf Anfragen binnen 24 Stunden.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PV-SYSTEME -->
+  <section class="hp-section hp-section--gray" aria-labelledby="si-systems-title">
+    <div class="hp-wrap">
+      <span class="hp-section-label">Kompatible PV-Montagesysteme</span>
+      <h2 class="hp-section-title" id="si-systems-title">Funktioniert mit jedem gängigen Hersteller</h2>
+      <p class="hp-section-sub">Unsere Blechziegel sind mit allen relevanten PV-Montagesystemen am deutschen Markt kompatibel — Dachhaken-Einschub exakt auf das jeweilige Profil ausgelegt.</p>
+      <div class="hp-brands">
+        <div class="hp-brand-card">
+          <div class="hp-brand-card__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l9 4v6c0 5-3.8 9.5-9 10-5.2-.5-9-5-9-10V6l9-4z"/></svg></div>
+          <div class="hp-brand-card__name">K2 Systems</div>
+          <div class="hp-brand-card__models">SingleHook · MultiRail · CrossRail</div>
+        </div>
+        <div class="hp-brand-card">
+          <div class="hp-brand-card__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l9 4v6c0 5-3.8 9.5-9 10-5.2-.5-9-5-9-10V6l9-4z"/></svg></div>
+          <div class="hp-brand-card__name">Schletter</div>
+          <div class="hp-brand-card__models">FixZ · Rapid2+ · AluGrid</div>
+        </div>
+        <div class="hp-brand-card">
+          <div class="hp-brand-card__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l9 4v6c0 5-3.8 9.5-9 10-5.2-.5-9-5-9-10V6l9-4z"/></svg></div>
+          <div class="hp-brand-card__name">IBC SolMount</div>
+          <div class="hp-brand-card__models">Flat · Basic · Top Fix</div>
+        </div>
+        <div class="hp-brand-card">
+          <div class="hp-brand-card__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l9 4v6c0 5-3.8 9.5-9 10-5.2-.5-9-5-9-10V6l9-4z"/></svg></div>
+          <div class="hp-brand-card__name">Renusol</div>
+          <div class="hp-brand-card__models">VS · MetaSole · ConSole</div>
+        </div>
+        <div class="hp-brand-card">
+          <div class="hp-brand-card__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l9 4v6c0 5-3.8 9.5-9 10-5.2-.5-9-5-9-10V6l9-4z"/></svg></div>
+          <div class="hp-brand-card__name">Esdec</div>
+          <div class="hp-brand-card__models">FlatFix · ClickFit EVO</div>
+        </div>
+      </div>
+      <p class="hp-pricing-note">System nicht dabei? <a href="{{ contact_url }}">Kompatibilität prüfen →</a> — in der Regel können wir jeden Dachhaken verbauen.</p>
+    </div>
+  </section>
+
+  <!-- MENGENSTAFFEL -->
+  <section class="hp-section hp-section--white" aria-labelledby="si-pricing-title">
+    <div class="hp-wrap">
+      <span class="hp-section-label">Projektpreise</span>
+      <h2 class="hp-section-title" id="si-pricing-title">Staffelpreise für PV-Projekte</h2>
+      <p class="hp-section-sub">Indikative Netto-Preise pro Stück. Staffelung greift automatisch ab Bestellmenge. Für Rahmenverträge und Großprojekte (ab 200 Stück) individuelle Konditionen.</p>
+      <div class="hp-pricing">
+        <div class="hp-price">
+          <div class="hp-price__tier">Ab 25 Stück</div>
+          <div class="hp-price__amount">7,49&nbsp;€</div>
+          <div class="hp-price__unit">pro Stück · netto</div>
+          <div class="hp-price__note">Einzel-Anlage Einfamilienhaus: typisch 8–20 Ziegel pro Dachseite.</div>
+        </div>
+        <div class="hp-price hp-price--featured">
+          <div class="hp-price__tier">Ab 50 Stück</div>
+          <div class="hp-price__amount">7,19&nbsp;€</div>
+          <div class="hp-price__unit">pro Stück · netto</div>
+          <div class="hp-price__note">Standard-Staffel für PV-Installateure mit laufenden Projekten.</div>
+        </div>
+        <div class="hp-price">
+          <div class="hp-price__tier">Ab 100 Stück</div>
+          <div class="hp-price__amount">6,89&nbsp;€</div>
+          <div class="hp-price__unit">pro Stück · netto</div>
+          <div class="hp-price__note">MFH- und Gewerbe-Projekte, Rahmenabnahme-Vorstufe.</div>
+        </div>
+      </div>
+      <p class="hp-pricing-note">Unverbindliche Richtwerte für die Frankfurter Pfanne. Abweichungen je nach Modell. <a href="{{ contact_url }}">Projekt-Angebot anfragen →</a></p>
+    </div>
+  </section>
+
+  <!-- ABLAUF -->
+  <section class="hp-section hp-section--gray" aria-labelledby="si-process-title">
+    <div class="hp-wrap">
+      <span class="hp-section-label">Bestellablauf</span>
+      <h2 class="hp-section-title" id="si-process-title">In vier Schritten zur PV-Montage</h2>
+      <p class="hp-section-sub">Transparenter Ablauf vom Kick-off bis zur Baustelle. Ein fester Ansprechpartner pro Projekt.</p>
+      <ol class="hp-steps">
+        <li class="hp-step">
+          <span class="hp-step__num" aria-hidden="true">1</span>
+          <div class="hp-step__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 5 1.5-1.5-5-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"/></svg></div>
+          <h3>Dachprofil + System</h3>
+          <p>Dachziegel-Hersteller/Modell und eingesetztes PV-Montagesystem nennen. Bei Unklarheit: Foto reicht uns.</p>
+        </li>
+        <li class="hp-step">
+          <span class="hp-step__num" aria-hidden="true">2</span>
+          <div class="hp-step__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
+          <h3>Projekt-Angebot</h3>
+          <p>Angebot mit Netto-Staffelpreis innerhalb 24 Stunden. Datenblätter und Kompatibilitäts-Nachweise als PDF.</p>
+        </li>
+        <li class="hp-step">
+          <span class="hp-step__num" aria-hidden="true">3</span>
+          <div class="hp-step__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg></div>
+          <h3>Auftragsbestätigung</h3>
+          <p>Schriftliche Bestätigung mit Liefertermin, passend zum Baustellen-Start. Rechnung auf 30 Tage verfügbar.</p>
+        </li>
+        <li class="hp-step">
+          <span class="hp-step__num" aria-hidden="true">4</span>
+          <div class="hp-step__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.6-1.4 2.4c-.2.3-.2.7 0 1 .2.3.5.5.9.5H19v-2H6.4l1.1-2h7.5c.8 0 1.4-.4 1.7-1l3.6-6.5c.2-.3.2-.6 0-.9-.2-.3-.5-.5-.9-.5H5.2l-.9-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg></div>
+          <h3>Lieferung zur Baustelle</h3>
+          <p>DHL oder Spedition, je nach Menge. Kommissioniert nach Dachseite/Menge, damit die Montage ohne Sortieraufwand läuft.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- TECH SPECS -->
+  <section class="hp-section hp-section--white" aria-labelledby="si-specs-title">
+    <div class="hp-wrap">
+      <span class="hp-section-label">Technische Details</span>
+      <h2 class="hp-section-title" id="si-specs-title">Material, Maße, Dachhaken-Optionen</h2>
+      <p class="hp-section-sub">Alle relevanten Werte für Statik, Netzbetreiber-Antrag und Montage auf einen Blick.</p>
+      <div class="hp-specs">
+        <dl class="hp-spec-list">
+          <div class="hp-spec-row"><dt class="hp-spec-row__k">Material</dt><dd class="hp-spec-row__v">Aluminium, pulverbeschichtet</dd></div>
+          <div class="hp-spec-row"><dt class="hp-spec-row__k">Stärke</dt><dd class="hp-spec-row__v">1,0 mm</dd></div>
+          <div class="hp-spec-row"><dt class="hp-spec-row__k">Lebensdauer</dt><dd class="hp-spec-row__v">25+ Jahre, wartungsfrei</dd></div>
+          <div class="hp-spec-row"><dt class="hp-spec-row__k">Maße (Frankfurter Pfanne)</dt><dd class="hp-spec-row__v">420 × 330 mm</dd></div>
+          <div class="hp-spec-row"><dt class="hp-spec-row__k">Gewicht</dt><dd class="hp-spec-row__v">ca. 0,9 kg pro Ziegel</dd></div>
+          <div class="hp-spec-row"><dt class="hp-spec-row__k">Dachhaken-Einschub</dt><dd class="hp-spec-row__v">offen oder geschlossen</dd></div>
+          <div class="hp-spec-row"><dt class="hp-spec-row__k">PV-Systeme</dt><dd class="hp-spec-row__v">K2, Schletter, IBC, Renusol, Esdec u.&nbsp;a.</dd></div>
+          <div class="hp-spec-row"><dt class="hp-spec-row__k">Herkunft</dt><dd class="hp-spec-row__v">Made in Germany</dd></div>
+        </dl>
+        <div class="hp-colors">
+          <h3>Standard-Farben</h3>
+          <div class="hp-color-grid">
+            <div class="hp-color"><span class="hp-color__chip hp-color__chip--alu" aria-hidden="true"></span><div class="hp-color__meta"><div class="hp-color__name">Aluminium blank</div><div class="hp-color__ral">unbeschichtet</div></div></div>
+            <div class="hp-color"><span class="hp-color__chip hp-color__chip--anthrazit" aria-hidden="true"></span><div class="hp-color__meta"><div class="hp-color__name">Anthrazit</div><div class="hp-color__ral">RAL 7016</div></div></div>
+            <div class="hp-color"><span class="hp-color__chip hp-color__chip--ziegelrot" aria-hidden="true"></span><div class="hp-color__meta"><div class="hp-color__name">Ziegelrot</div><div class="hp-color__ral">RAL 8004</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="hp-section hp-section--gray" aria-labelledby="si-reviews-title">
+    <div class="hp-wrap">
+      <span class="hp-section-label">Feedback aus PV-Projekten</span>
+      <h2 class="hp-section-title" id="si-reviews-title">Was Solarteure an uns schätzen</h2>
+      <p class="hp-section-sub">Rückmeldungen aus realen PV-Projekten — vom 10-kWp-EFH bis zur 200-kWp-Gewerbeanlage.</p>
+      <div class="hp-testimonials">
+        <article class="hp-testimonial">
+          <div class="hp-stars" aria-label="5 von 5 Sternen">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14l-6-4.5h7.5z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14l-6-4.5h7.5z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14l-6-4.5h7.5z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14l-6-4.5h7.5z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14l-6-4.5h7.5z"/></svg>
+          </div>
+          <p class="hp-testimonial__quote">„Blechziegel mit integriertem K2-Dachhaken — Montagezeit pro Modul auf der Hälfte. Schöner Nebeneffekt: keine gebohrten Ziegel mehr reklamiert."</p>
+          <div class="hp-testimonial__author">
+            <div class="hp-testimonial__avatar" aria-hidden="true">SI</div>
+            <div class="hp-testimonial__meta">
+              <div class="hp-testimonial__name">Solar-Installationsbetrieb</div>
+              <div class="hp-testimonial__role">Franken · 180 kWp / 6 Projekte</div>
+            </div>
+          </div>
+        </article>
+        <article class="hp-testimonial">
+          <div class="hp-stars" aria-label="5 von 5 Sternen">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14l-6-4.5h7.5z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14l-6-4.5h7.5z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14l-6-4.5h7.5z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14l-6-4.5h7.5z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14l-6-4.5h7.5z"/></svg>
+          </div>
+          <p class="hp-testimonial__quote">„200-kWp Gewerbedach, Projekttermin nicht verhandelbar. Blechziegel.de hat passend kommissioniert auf Palette geliefert — genau zum Kran-Tag."</p>
+          <div class="hp-testimonial__author">
+            <div class="hp-testimonial__avatar" aria-hidden="true">PV</div>
+            <div class="hp-testimonial__meta">
+              <div class="hp-testimonial__name">PV-Generalunternehmer</div>
+              <div class="hp-testimonial__role">NRW · Gewerbedach 200 kWp</div>
+            </div>
+          </div>
+        </article>
+        <article class="hp-testimonial">
+          <div class="hp-stars" aria-label="5 von 5 Sternen">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14l-6-4.5h7.5z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14l-6-4.5h7.5z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14l-6-4.5h7.5z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14l-6-4.5h7.5z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14l-6-4.5h7.5z"/></svg>
+          </div>
+          <p class="hp-testimonial__quote">„Kompatibilitäts-PDF für Netzbetreiber-Antrag gab's binnen Stunden. Selten so einen Support bei einem Zulieferer erlebt."</p>
+          <div class="hp-testimonial__author">
+            <div class="hp-testimonial__avatar" aria-hidden="true">SP</div>
+            <div class="hp-testimonial__meta">
+              <div class="hp-testimonial__name">Solar-Planungsbüro</div>
+              <div class="hp-testimonial__role">Baden-Württemberg · 30+ Anlagen/Jahr</div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="hp-section hp-section--white" aria-labelledby="si-faq-title">
+    <div class="hp-wrap">
+      <div class="hp-faq-layout">
+        <div>
+          <span class="hp-section-label">Häufige Fragen</span>
+          <h2 class="hp-section-title" id="si-faq-title">Was PV-Installateure wissen wollen</h2>
+          <p class="hp-section-sub">Die häufigsten Fragen rund um Systemkompatibilität, Dachhaken-Integration und PV-Projektlogistik.</p>
+        </div>
+        <div class="hp-faq-list">
+          <details class="hp-faq-item"><summary class="hp-faq-item__q">Mit welchen PV-Montagesystemen sind Ihre Blechziegel kompatibel?<span class="hp-faq-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="hp-faq-item__a">Mit allen gängigen Systemen am deutschen Markt: K2 Systems, Schletter, IBC SolMount, Renusol, Esdec, Alumero, Mounting Systems. Der Dachhaken-Einschub wird exakt auf das jeweilige Profil gefertigt. System nicht dabei? Kurze Mail an <strong>{{ email_raw }}</strong> — in 95 % der Fälle können wir's umsetzen.</div></details>
+          <details class="hp-faq-item"><summary class="hp-faq-item__q">Wird der Dachhaken direkt am Blechziegel geliefert?<span class="hp-faq-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="hp-faq-item__a">Auf Wunsch ja. Wir liefern den Blechziegel wahlweise mit vormontiertem Dachhaken (von Ihnen geliefert oder direkt von uns besorgt) oder als reinen Ersatzziegel zum Selbst-Einsetzen. Spart Montagezeit auf dem Dach und reduziert Fehlerquellen.</div></details>
+          <details class="hp-faq-item"><summary class="hp-faq-item__q">Gibt es Datenblätter für den Netzbetreiber-Antrag?<span class="hp-faq-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="hp-faq-item__a">Ja. Wir liefern Datenblätter, Materialzertifikate und Kompatibilitäts-Nachweise als PDF zum Download. Für Netzbetreiber-Anträge, VDE-AR-N 4105-Nachweise oder Denkmalschutz-Genehmigungen kein Problem.</div></details>
+          <details class="hp-faq-item"><summary class="hp-faq-item__q">Funktioniert das auch bei Indach-Systemen?<span class="hp-faq-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="hp-faq-item__a">Unsere Blechziegel sind primär für Aufdach-Montage mit Dachhaken konzipiert. Für Indach-Randziegel und Randabschluss-Lösungen fertigen wir auf Anfrage passgenaue Aluminium-Anschlüsse — einfach mit Skizze oder Foto melden.</div></details>
+          <details class="hp-faq-item"><summary class="hp-faq-item__q">Welche Mengen ab wann lohnen sich?<span class="hp-faq-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="hp-faq-item__a">Staffelpreis greift ab 25 Stück, typische Einzelanlage EFH: 8–20 Ziegel pro Dachseite. Für MFH ab 50 Stück bessere Konditionen, ab 100 Großabnehmer-Staffel. Ab 200 Stück oder Rahmenverträgen individuelle Projektpreise.</div></details>
+          <details class="hp-faq-item"><summary class="hp-faq-item__q">Kann ich eine Musterlieferung anfordern?<span class="hp-faq-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="hp-faq-item__a">Ja. Gegen Aufwandspauschale senden wir Einzelstücke zur Passform-Prüfung oder für Ausschreibungen. Details und aktuelle Konditionen per Mail an <strong>{{ email_raw }}</strong>.</div></details>
+          <details class="hp-faq-item"><summary class="hp-faq-item__q">Wie ist die Lieferlogistik bei Großprojekten?<span class="hp-faq-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="hp-faq-item__a">Bis 80 Stück: DHL-Paketversand. Darüber Palettenversand per Spedition. Auf Wunsch kommissionieren wir nach Dachseite oder Charge, damit die Montage ohne Sortieraufwand läuft.</div></details>
+          <details class="hp-faq-item"><summary class="hp-faq-item__q">Welche Garantie gilt für den gewerblichen Einsatz?<span class="hp-faq-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="hp-faq-item__a">Zwei Jahre gesetzliche Gewährleistung, 10 Jahre Garantie auf Farb- und Materialbeständigkeit. Bei gewerblichem Einsatz/PV-Projekten gelten die in den AGB geregelten Fristen. Details <a href="{{ gewerbe_url }}">hier</a>.</div></details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="hp-section hp-section--navy" aria-labelledby="si-cta-title">
+    <div class="hp-wrap hp-cta-final">
+      <span class="hp-section-label">Kontakt</span>
+      <h2 class="hp-section-title" id="si-cta-title">Blechziegel für Ihr nächstes PV-Projekt</h2>
+      <p class="hp-section-sub">Projektmengen mit Staffelpreis, Dachhaken-Integration, Datenblätter für den Netzbetreiber-Antrag. Antwort innerhalb 24 Stunden.</p>
+      <div class="hp-cta-final__buttons">
+        <a href="{{ contact_url }}" class="hp-btn hp-btn--primary">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          PV-Projekt anfragen
+        </a>
+        <a href="mailto:{{ email_raw }}" class="hp-btn hp-btn--outline">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/></svg>
+          E-Mail schreiben
+        </a>
+      </div>
+      <div class="hp-cta-final__contact">
+        <div class="hp-cta-final__contact-item">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/></svg>
+          {{ email_raw }}
+        </div>
+        <div class="hp-cta-final__contact-item">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+          Allersberger Straße 185, 90461 Nürnberg
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  (function(){
+    var items = document.querySelectorAll('.hp-faq-item');
+    items.forEach(function(el){
+      el.addEventListener('toggle', function(){
+        if (el.open) el.classList.add('open'); else el.classList.remove('open');
+      });
+    });
+  })();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Startseite", "item": "{{ shop.url }}/" },
+      { "@type": "ListItem", "position": 2, "name": "Für PV-Installateure & Solarteure", "item": "{{ canonical }}" }
+    ]},
+    { "@type": "WebPage", "@id": "{{ canonical }}#webpage", "url": "{{ canonical }}",
+      "name": "Blechziegel für PV-Installateure & Solarteure — Dachhaken-Integration, Projektpreise",
+      "description": "Aluminium-Blechziegel für PV-Montagen mit integriertem Dachhaken. Kompatibel mit K2, Schletter, IBC, Renusol, Esdec. Projektstaffelpreise ab 25 Stück, 1–3 Werktage Lieferzeit, Made in Germany.",
+      "inLanguage": "de-DE",
+      "isPartOf": { "@type": "WebSite", "url": "{{ shop.url }}/", "name": "{{ shop.name | escape }}" },
+      "audience": { "@type": "BusinessAudience", "audienceType": "PV-Installateure, Solarteure, Solar-Generalunternehmer, Solar-Planer" }
+    },
+    { "@type": "Organization", "name": "Blechziegel.de", "url": "{{ shop.url }}/", "email": "{{ email_raw }}",
+      "address": { "@type": "PostalAddress", "streetAddress": "Allersberger Straße 185", "postalCode": "90461", "addressLocality": "Nürnberg", "addressCountry": "DE" } },
+    { "@type": "ItemList", "name": "Kompatible PV-Montagesysteme", "numberOfItems": 5, "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "K2 Systems" },
+      { "@type": "ListItem", "position": 2, "name": "Schletter" },
+      { "@type": "ListItem", "position": 3, "name": "IBC SolMount" },
+      { "@type": "ListItem", "position": 4, "name": "Renusol" },
+      { "@type": "ListItem", "position": 5, "name": "Esdec" }
+    ]},
+    { "@type": "FAQPage", "mainEntity": [
+      { "@type": "Question", "name": "Mit welchen PV-Montagesystemen sind Ihre Blechziegel kompatibel?", "acceptedAnswer": { "@type": "Answer", "text": "Mit allen gängigen Systemen am deutschen Markt: K2 Systems, Schletter, IBC SolMount, Renusol, Esdec, Alumero, Mounting Systems." } },
+      { "@type": "Question", "name": "Wird der Dachhaken direkt am Blechziegel geliefert?", "acceptedAnswer": { "@type": "Answer", "text": "Auf Wunsch ja. Wir liefern den Blechziegel wahlweise mit vormontiertem Dachhaken oder als reinen Ersatzziegel." } },
+      { "@type": "Question", "name": "Gibt es Datenblätter für den Netzbetreiber-Antrag?", "acceptedAnswer": { "@type": "Answer", "text": "Ja. Datenblätter, Materialzertifikate und Kompatibilitäts-Nachweise als PDF." } },
+      { "@type": "Question", "name": "Funktioniert das auch bei Indach-Systemen?", "acceptedAnswer": { "@type": "Answer", "text": "Primär Aufdach-Montage. Indach-Randziegel auf Anfrage." } },
+      { "@type": "Question", "name": "Welche Mengen ab wann lohnen sich?", "acceptedAnswer": { "@type": "Answer", "text": "Staffelpreis ab 25 Stück, bessere Konditionen ab 50 und 100, individuelle Projektpreise ab 200." } },
+      { "@type": "Question", "name": "Kann ich eine Musterlieferung anfordern?", "acceptedAnswer": { "@type": "Answer", "text": "Ja, gegen Aufwandspauschale für Passform-Prüfung oder Ausschreibungen." } },
+      { "@type": "Question", "name": "Wie ist die Lieferlogistik bei Großprojekten?", "acceptedAnswer": { "@type": "Answer", "text": "Bis 80 Stück DHL, darüber Palettenversand per Spedition. Kommissionierung nach Dachseite möglich." } },
+      { "@type": "Question", "name": "Welche Garantie gilt für den gewerblichen Einsatz?", "acceptedAnswer": { "@type": "Answer", "text": "Zwei Jahre gesetzliche Gewährleistung, 10 Jahre Garantie auf Farb- und Materialbeständigkeit." } }
+    ]}
+  ]
+}
+</script>
