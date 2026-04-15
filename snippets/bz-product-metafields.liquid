@@ -1,0 +1,158 @@
+{%- comment -%}
+  BLECHZIEGEL — Produkt-Metafield-Renderer
+  Erweiterbare, typ-sichere Specs-Ausgabe für die PDP.
+
+  @param {product} product  — Shopify product object
+  @param {string}  [title]  — Section-Überschrift (Default: Produktdaten)
+  @param {string}  [class]  — extra CSS-Klasse am Wrapper
+
+  Unterstützte Metafield-Typen:
+    - single_line_text_field / multi_line_text_field
+    - number_integer / number_decimal (mit optionaler Einheit via FIELD_UNITS)
+    - list.single_line_text_field (als Tag-Pills)
+    - list.metaobject_reference (Labels via metaobject.displayName)
+    - metaobject_reference (Label via .displayName)
+    - file_reference (als Download-Link mit Icon)
+    - rich_text_field (HTML)
+    - boolean (Ja/Nein)
+
+  Neues Metafield anzeigen = ein Eintrag in FIELDS unten. Keine weiteren Edits nötig.
+  Leere Werte werden NIE ausgegeben.
+{%- endcomment -%}
+
+{%- liquid
+  assign bz_title = title | default: 'Produktdaten'
+  assign bz_class = class | default: ''
+
+  comment
+    ─── FIELDS: hier neue Produkt-Metafields ergänzen ───
+    Format: "key_pfad|Label|einheit|priority"
+    key_pfad = metafields.namespace.key
+    einheit  = optional (cm, mm, kg, Jahre, ...)  — leer lassen: ""
+    priority = Sortier-Zahl (klein = oben)
+  endcomment
+  assign FIELDS = 'custom.dachziegel_typ|Dachziegel-Typ||10,custom.laenge|Länge|mm|20,custom.breite|Breite|mm|30,custom.passende_hersteller|Passende Hersteller||40,shopify.shingle-tile-material|Material||50,shopify.color-pattern|Farb-Optionen||60,custom.montageanleitung_mit_haken|Montageanleitung (mit Haken)||70,custom.montageanleitung_ohne_haken|Montageanleitung (ohne Haken)||80' | split: ','
+-%}
+
+{%- capture bz_rows -%}
+  {%- for entry in FIELDS -%}
+    {%- assign parts = entry | split: '|' -%}
+    {%- assign key_path = parts[0] -%}
+    {%- assign label = parts[1] -%}
+    {%- assign unit = parts[2] -%}
+    {%- assign ns = key_path | split: '.' | first -%}
+    {%- assign key = key_path | split: '.' | last -%}
+    {%- assign mf = product.metafields[ns][key] -%}
+    {%- if mf == nil or mf == empty -%}{%- continue -%}{%- endif -%}
+
+    {%- assign mf_type = mf.type -%}
+    {%- assign rendered = '' -%}
+
+    {%- comment -%} List-Typen: metaobject-refs {%- endcomment -%}
+    {%- if mf_type == 'list.metaobject_reference' -%}
+      {%- capture rendered -%}
+        {%- for m in mf.value -%}
+          {%- assign lbl = m.displayName | default: m.name | default: m.system.handle -%}
+          {%- if lbl != blank -%}<span class="bz-spec-pill">{{ lbl }}</span>{%- endif -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+
+    {%- elsif mf_type == 'metaobject_reference' -%}
+      {%- assign lbl = mf.value.displayName | default: mf.value.name | default: mf.value.system.handle -%}
+      {%- if lbl != blank -%}{%- capture rendered -%}<span class="bz-spec-pill">{{ lbl }}</span>{%- endcapture -%}{%- endif -%}
+
+    {%- elsif mf_type == 'list.single_line_text_field' -%}
+      {%- capture rendered -%}
+        {%- for item in mf.value -%}
+          {%- if item != blank -%}<span class="bz-spec-pill">{{ item }}</span>{%- endif -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+
+    {%- elsif mf_type == 'file_reference' -%}
+      {%- assign file_url = mf.value.url -%}
+      {%- if file_url != blank -%}
+        {%- capture rendered -%}
+          <a href="{{ file_url }}" class="bz-spec-file" target="_blank" rel="noopener" download>
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zm-7-8h3l-4 4-4-4h3V9h2v3z"/></svg>
+            PDF herunterladen
+          </a>
+        {%- endcapture -%}
+      {%- endif -%}
+
+    {%- elsif mf_type == 'boolean' -%}
+      {%- if mf.value == true -%}
+        {%- capture rendered -%}<span class="bz-spec-bool is-yes">Ja</span>{%- endcapture -%}
+      {%- else -%}
+        {%- capture rendered -%}<span class="bz-spec-bool is-no">Nein</span>{%- endcapture -%}
+      {%- endif -%}
+
+    {%- elsif mf_type == 'number_integer' or mf_type == 'number_decimal' -%}
+      {%- capture rendered -%}{{ mf.value }}{%- if unit != blank -%}&nbsp;{{ unit }}{%- endif -%}{%- endcapture -%}
+
+    {%- elsif mf_type == 'rich_text_field' -%}
+      {%- capture rendered -%}{{ mf | metafield_tag }}{%- endcapture -%}
+
+    {%- else -%}
+      {%- capture rendered -%}{{ mf.value | escape }}{%- if unit != blank -%}&nbsp;{{ unit }}{%- endif -%}{%- endcapture -%}
+    {%- endif -%}
+
+    {%- assign rendered_stripped = rendered | strip -%}
+    {%- if rendered_stripped == blank -%}{%- continue -%}{%- endif -%}
+
+    <div class="bz-spec-row">
+      <dt class="bz-spec-key">{{ label }}</dt>
+      <dd class="bz-spec-val">{{ rendered }}</dd>
+    </div>
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- assign bz_rows_stripped = bz_rows | strip -%}
+{%- if bz_rows_stripped != blank -%}
+  <section class="bz-product-specs {{ bz_class }}" aria-label="{{ bz_title | escape }}">
+    <h2 class="bz-product-specs__title">{{ bz_title }}</h2>
+    <dl class="bz-product-specs__grid">
+      {{ bz_rows }}
+    </dl>
+  </section>
+
+  {%- style -%}
+    .bz-product-specs { margin: 32px 0; padding: 24px 28px;
+      background: #f7f9fc; border: 1.5px solid #e5e7eb; border-radius: 12px; }
+    .bz-product-specs__title { font-family: 'Montserrat', sans-serif;
+      font-size: 16px; font-weight: 800; color: #0a2240;
+      text-transform: uppercase; letter-spacing: .06em;
+      margin: 0 0 16px; padding-bottom: 10px;
+      border-bottom: 2px solid #ffa500; display: inline-block; }
+    .bz-product-specs__grid { margin: 0; padding: 0;
+      display: grid; grid-template-columns: minmax(160px, auto) 1fr;
+      gap: 8px 20px; font-size: 14px; line-height: 1.6; }
+    .bz-spec-row { display: contents; }
+    .bz-spec-key { font-family: 'Montserrat', sans-serif; font-weight: 700;
+      color: #0a2240; margin: 0; padding: 6px 0;
+      border-bottom: 1px solid rgba(10,34,64,.06); }
+    .bz-spec-val { color: #333; margin: 0; padding: 6px 0;
+      border-bottom: 1px solid rgba(10,34,64,.06);
+      display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    .bz-spec-row:last-child .bz-spec-key,
+    .bz-spec-row:last-child .bz-spec-val { border-bottom: none; }
+    .bz-spec-pill { display: inline-flex; align-items: center;
+      padding: 3px 10px; background: #fff; border: 1px solid #e5e7eb;
+      border-radius: 14px; font-size: 12.5px; color: #0a2240; font-weight: 600; }
+    .bz-spec-file { display: inline-flex; align-items: center; gap: 6px;
+      color: #e69400; font-weight: 700; text-decoration: underline;
+      text-underline-offset: 2px; }
+    .bz-spec-file:hover { color: #ffa500; }
+    .bz-spec-bool.is-yes { color: #166534; font-weight: 700; }
+    .bz-spec-bool.is-no  { color: #991b1b; font-weight: 700; }
+    @media (max-width: 640px) {
+      .bz-product-specs { padding: 20px 18px; }
+      .bz-product-specs__grid { grid-template-columns: 1fr; gap: 2px 0; }
+      .bz-spec-row { display: block; padding: 10px 0;
+        border-bottom: 1px solid rgba(10,34,64,.08); }
+      .bz-spec-row:last-child { border-bottom: none; }
+      .bz-spec-key, .bz-spec-val { border: none; padding: 0; }
+      .bz-spec-key { font-size: 12px; text-transform: uppercase;
+        letter-spacing: .04em; color: #5a6271; margin-bottom: 4px; }
+    }
+  {%- endstyle -%}
+{%- endif -%}
