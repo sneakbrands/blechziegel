@@ -378,6 +378,42 @@
   .bz-faq-a { display: none; padding-bottom: 18px; font-size: 14.5px; color: #5a5955; line-height: 1.7; }
   .bz-faq-item.open .bz-faq-a { display: block; }
 
+  /* ── 8.5 SERVICE BOXEN ── */
+  .bz-svc-head { text-align: center; margin-bottom: 40px; }
+  .bz-svc-head h2 { color: var(--bz-navy); margin-top: 8px; }
+  .bz-svc-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  }
+  .bz-svc-card {
+    background: linear-gradient(180deg, var(--bz-navy) 0%, var(--bz-navy-mid) 100%);
+    border-radius: var(--bz-r-lg);
+    padding: 32px 28px;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,.06);
+    box-shadow: 0 10px 30px rgba(13,30,53,.12);
+  }
+  .bz-svc-num {
+    display: inline-block;
+    font-size: 11px; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--bz-navy);
+    background: var(--bz-orange);
+    padding: 5px 10px; border-radius: 4px;
+    margin-bottom: 20px;
+  }
+  .bz-svc-card h3 {
+    font-size: 1.55rem; font-weight: 700; line-height: 1.2;
+    margin-bottom: 18px; color: #fff;
+  }
+  .bz-svc-card h3 .accent { color: var(--bz-orange); }
+  .bz-svc-list { list-style: none; padding: 0; margin: 0; }
+  .bz-svc-list li {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 7px 0;
+    font-size: 15px; line-height: 1.45;
+    color: rgba(255,255,255,.92);
+  }
+  .bz-svc-list li svg { flex: 0 0 auto; margin-top: 3px; color: var(--bz-orange); }
+
   /* ── 9. CTA BANNER ── */
   .bz-cta-banner { background: var(--bz-orange); text-align: center; padding: 56px 20px; }
   .bz-cta-banner h2 { color: var(--bz-navy); margin-bottom: 12px; }
@@ -392,6 +428,7 @@
     .bz-pvl-grid { grid-template-columns: 1fr; }
     .bz-steps { grid-template-columns: repeat(2, 1fr); }
     .bz-steps::before { display: none; }
+    .bz-svc-grid { grid-template-columns: 1fr; }
     .bz-proof-nums { grid-template-columns: repeat(3, 1fr); }
   }
   @media (max-width: 640px) {
@@ -415,6 +452,7 @@
     .bz-product-card .bz-btn-primary { min-height: 50px; border-radius: 12px; }
     .bz-product-price { font-size: 1.6rem; }
     .bz-steps { grid-template-columns: 1fr; }
+    .bz-svc-grid { grid-template-columns: 1fr; }
     .bz-proof-nums { grid-template-columns: 1fr 1fr; }
     .bz-reviews-grid { grid-template-columns: 1fr; }
     .bz-cta-btns { flex-direction: column; align-items: stretch; }
@@ -640,6 +678,48 @@
       <div class="bz-step"><div class="bz-step-num">2</div><h3>Online bestellen</h3><p>Lieferung in 1–3 Werktagen per DHL. Einzeln oder als Mengenbestellung.</p></div>
       <div class="bz-step"><div class="bz-step-num">3</div><h3>Tonziegel entnehmen</h3><p>Vorhandenen Dachziegel herausnehmen – kein Bohren nötig.</p></div>
       <div class="bz-step"><div class="bz-step-num">4</div><h3>Blechziegel einsetzen</h3><p>Einhängen, Dachhaken positionieren, Kabel führen – fertig.</p></div>
+    </div>
+  </div>
+</section>
+
+{%- comment -%}══ 7b. SERVICE ══{%- endcomment -%}
+<section class="bz-section">
+  <div class="bz-wrap">
+    <div class="bz-svc-head">
+      <span class="bz-label">Unser Service</span>
+      <h2>Service, der auf der Baustelle ankommt</h2>
+    </div>
+    <div class="bz-svc-grid">
+      <div class="bz-svc-card">
+        <span class="bz-svc-num">Service 01</span>
+        <h3>Direkt auf die <span class="accent">Baustelle.</span></h3>
+        <ul class="bz-svc-list">
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Versand ab Werk an die Zielanschrift Ihres Kunden</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Lieferschein und Rechnung separat an Sie</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>DHL-Paket oder Palettenversand nach Menge</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Kommissionierung nach Dachseite auf Wunsch</li>
+        </ul>
+      </div>
+      <div class="bz-svc-card">
+        <span class="bz-svc-num">Service 02</span>
+        <h3>Muster vor dem <span class="accent">Großauftrag.</span></h3>
+        <ul class="bz-svc-list">
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Einzelmuster zur Prüfung auf Ihrem Dachtyp</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Passgenauigkeit direkt am Objekt kontrollieren</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Farbe und Oberfläche am Original vergleichen</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Bei Folgeauftrag wird der Musterpreis verrechnet</li>
+        </ul>
+      </div>
+      <div class="bz-svc-card">
+        <span class="bz-svc-num">Service 03</span>
+        <h3>Projektpreise für <span class="accent">Profis.</span></h3>
+        <ul class="bz-svc-list">
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Individuelle Konditionen ab 50 Stück</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Rahmenverträge für Dachdecker und PV-Betriebe</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Persönlicher Ansprechpartner für Ihr Projekt</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Angebot innerhalb von 24 Stunden</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
