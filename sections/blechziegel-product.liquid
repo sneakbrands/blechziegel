@@ -864,7 +864,11 @@
           <span class="bz-price-save">Spare {{ savings | money }} · {{ savings_percent }}%</span>
         {%- endif -%}
       </div>
-      <p class="bz-price-note">inkl. MwSt. &middot; zzgl. <a href="{{ routes.root_url }}policies/shipping-policy" style="color:var(--bz-orange);">Versandkosten</a></p>
+      <p class="bz-price-note" id="bz-price-note" data-customer-type="{{ product.selected_or_first_available_variant.option3 | default: 'Privatkunde' }}">
+        <span data-tax-private{% if product.selected_or_first_available_variant.option3 == 'Gewerbekunde' %} hidden{% endif %}>inkl. 0% Umsatzsteuer gem. § 12 Abs. 3 UStG</span>
+        <span data-tax-business{% if product.selected_or_first_available_variant.option3 != 'Gewerbekunde' %} hidden{% endif %}>inkl. 19% Umsatzsteuer</span>
+        &middot; zzgl. <a href="{{ routes.root_url }}pages/versand" style="color:var(--bz-orange);">Versandkosten</a>
+      </p>
 
       <div class="bz-trust-block" aria-label="Kundenbewertungen und Vertrauen">
         <div class="bz-trust-rating">
@@ -960,17 +964,26 @@
               {%- endfor -%}
             </div>
           {%- else -%}
-            <select name="option{{ option.position }}" class="bz-select" onchange="bzUpdateVariant()">
+            {%- comment -%}
+              Bei "Bestellung als" nur Privatkunde/Gewerbekunde zulassen (defensiv,
+              falls im Admin später weitere Werte hinzugefügt würden).
+            {%- endcomment -%}
+            <select name="option{{ option.position }}" class="bz-select"
+                    {% if option.name == 'Bestellung als' %}data-customer-type-select{% endif %}
+                    onchange="bzUpdateVariant()">
               {%- for value in option.values -%}
+                {%- if option.name == 'Bestellung als' and value != 'Privatkunde' and value != 'Gewerbekunde' -%}
+                  {%- continue -%}
+                {%- endif -%}
                 <option value="{{ value }}" {% if option.selected_value == value %}selected{% endif %}>
                   {%- if value == 'mit Haken' -%}
                     Mit integriertem Dachhaken (für PV-Montage)
                   {%- elsif value == 'ohne Haken' -%}
                     Ohne Haken (reiner Ersatzziegel)
                   {%- elsif value == 'Privatkunde' -%}
-                    Privatkunde (inkl. MwSt.)
+                    Privatkunde
                   {%- elsif value == 'Gewerbekunde' -%}
-                    Gewerbekunde (Netto-Preis)
+                    Gewerbekunde
                   {%- else -%}
                     {{ value }}
                   {%- endif -%}
@@ -1361,6 +1374,18 @@
     return ctx;
   }
 
+  // Steuerhinweis an Kundentyp koppeln — idempotent, wird bei jeder Variant-Aktualisierung gerufen
+  function bzUpdateTaxNote(customerType) {
+    var note = document.getElementById('bz-price-note');
+    if (!note) return;
+    var priv = note.querySelector('[data-tax-private]');
+    var biz  = note.querySelector('[data-tax-business]');
+    var isBiz = (customerType === 'Gewerbekunde');
+    if (priv) priv.hidden = isBiz;
+    if (biz)  biz.hidden = !isBiz;
+    note.dataset.customerType = customerType || 'Privatkunde';
+  }
+
   // Variante aktualisieren
   function bzUpdateVariant() {
     var opts = {};
@@ -1382,6 +1407,9 @@
     // Sticky-Kontext immer aktualisieren (auch wenn keine Variante matcht)
     var ctxEl = document.getElementById('bz-sticky-context');
     if (ctxEl) ctxEl.textContent = bzBuildStickyContext(opts);
+
+    // Dynamischer Steuerhinweis basierend auf "Bestellung als" (option3)
+    bzUpdateTaxNote(opts[3] || 'Privatkunde');
 
     if (matched) {
       document.getElementById('bz-variant-id').value = matched.id;
