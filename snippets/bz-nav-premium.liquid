@@ -1,41 +1,120 @@
 {%- comment -%}
-  blechziegel.de — Premium Dropdown-Styling für Header-Mega-Menu
-  Override-CSS für Horizon-Klassen (mega-menu, menu-list). Keine HTML-Struktur geändert.
-  CI: Navy #0d1e35 · Orange #f5a623 · Light #f8f7f4
+  blechziegel.de — Enterprise Navigation (Desktop + Mobile)
+  CI: Navy #0a2240 · Orange #ffa500 · Montserrat/Open Sans
+  Scope: Horizon mega-menu, top-level links, mobile drawer
 {%- endcomment -%}
 
 {% style %}
-  /* ══ MEGA-MENU CONTAINER (als kompaktes Kategorien-Popover statt Full-Width-Panel) ══ */
-  .mega-menu {
-    background: #ffffff !important;
-    border-radius: 14px !important;
-    box-shadow: 0 20px 50px rgba(13, 30, 53, 0.12) !important;
-    border: 1px solid rgba(13, 30, 53, 0.06);
-    padding: 10px 8px !important;
-    margin-top: 8px !important;
-    animation: bzFadeInMenu 0.18s ease;
-    /* Kompakte Breite statt Horizon-Full-Width */
-    max-width: 320px !important;
-    width: max-content !important;
-    min-width: 240px;
-    /* Section-Wrapper-Spacing neutralisieren */
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+  :root {
+    --bz-nav-navy: #0a2240;
+    --bz-nav-navy-light: #163660;
+    --bz-nav-orange: #ffa500;
+    --bz-nav-orange-dark: #e69400;
+    --bz-nav-orange-bg: rgba(255, 165, 0, 0.10);
+    --bz-nav-text: #0a2240;
+    --bz-nav-muted: #5a6271;
+    --bz-nav-border: rgba(10, 34, 64, 0.08);
+    --bz-nav-white: #ffffff;
+    --bz-nav-gray: #f5f5f5;
+    --bz-nav-green: #16a34a;
+    --bz-nav-head: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
-  @keyframes bzFadeInMenu {
-    from { opacity: 0; transform: translateY(6px); }
+  /* ═══ TOP-LEVEL NAV LINKS ═══ */
+  .menu-list__link {
+    position: relative;
+    transition: color 0.2s ease;
+  }
+  .menu-list__link-title {
+    font-family: var(--bz-nav-head);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.01em;
+    color: var(--bz-nav-text);
+    transition: color 0.2s ease;
+  }
+  .menu-list__link-title::after {
+    content: "";
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: -4px;
+    height: 2px;
+    background: var(--bz-nav-orange);
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.22s ease;
+  }
+  .menu-list__link:hover .menu-list__link-title,
+  .menu-list__link:focus-visible .menu-list__link-title,
+  .menu-list__list-item[open] .menu-list__link-title,
+  .menu-list__link[aria-expanded="true"] .menu-list__link-title {
+    color: var(--bz-nav-orange);
+  }
+  .menu-list__link:hover .menu-list__link-title::after,
+  .menu-list__link[aria-expanded="true"] .menu-list__link-title::after,
+  .menu-list__list-item[open] > summary .menu-list__link-title::after {
+    transform: scaleX(1);
+  }
+  .menu-list__link--active .menu-list__link-title {
+    color: var(--bz-nav-orange);
+  }
+  .menu-list__link--active .menu-list__link-title::after {
+    transform: scaleX(1);
+  }
+
+  /* Caret rotation */
+  .menu-list__list-item[open] > summary svg,
+  .menu-list__link[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+    transition: transform 0.22s ease;
+  }
+
+  /* ═══ MEGA-MENU CONTAINER ═══ */
+  .mega-menu {
+    background: var(--bz-nav-white) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 24px 60px rgba(10, 34, 64, 0.18),
+                0 4px 12px rgba(10, 34, 64, 0.06) !important;
+    border: 1px solid var(--bz-nav-border);
+    padding: 18px !important;
+    margin-top: 10px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    animation: bzFadeNav 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    max-width: 460px !important;
+    width: max-content !important;
+    min-width: 320px;
+    position: relative;
+  }
+  @keyframes bzFadeNav {
+    from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* Grid auf 1 Spalte zwingen — überschreibt --menu-columns-desktop */
-  .mega-menu__grid,
-  [data-menu-grid-id] {
-    display: block !important;
-    gap: 2px !important;
-    grid-template-columns: 1fr !important;
+  /* Arrow pointer */
+  .mega-menu::before {
+    content: "";
+    position: absolute;
+    top: -7px;
+    left: 32px;
+    width: 14px;
+    height: 14px;
+    background: var(--bz-nav-white);
+    transform: rotate(45deg);
+    border-left: 1px solid var(--bz-nav-border);
+    border-top: 1px solid var(--bz-nav-border);
+    z-index: 0;
   }
 
+  /* Grid → 2-Spalten auf Desktop für Hersteller (über Child-Count erkannt) */
+  .mega-menu__grid,
+  [data-menu-grid-id] {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 4px !important;
+  }
   .mega-menu__list,
   [data-menu-list-id] {
     margin: 0 !important;
@@ -45,7 +124,6 @@
     gap: 2px;
     grid-template-columns: 1fr !important;
   }
-
   .mega-menu__column {
     padding: 0 !important;
     margin: 0 !important;
@@ -54,131 +132,208 @@
     max-width: none !important;
   }
 
-  /* ══ CONTENT-BEREICH (rechte Spalte mit Featured Products/Collections) ══ */
-  /* Wenn leer oder nur mit leerer Liste gefüllt — komplett ausblenden */
-  .mega-menu__content {
+  /* Featured-Content-Slot im Mega-Menu verstecken wenn leer */
+  .mega-menu__content:not(:has(.mega-menu__content-list > li)):not(:has(.mega-menu__content-list--products > li)):not(:has(.mega-menu__content-list--collections > li)) {
     display: none !important;
   }
-  .mega-menu__content:has(.mega-menu__content-list > li),
-  .mega-menu__content:has(.mega-menu__content-list--products > li),
-  .mega-menu__content:has(.mega-menu__content-list--collections > li) {
-    display: block !important;
-  }
-  .mega-menu__content-list:empty {
-    display: none !important;
-  }
+  .mega-menu__content-list:empty { display: none !important; }
 
-  /* ══ MENU ITEMS (Dachtypen-Einträge) ══ */
+  /* ═══ MENU ITEMS (Einzel-Links im Dropdown) ═══ */
   .mega-menu__link {
     display: flex !important;
     align-items: center;
-    gap: 10px;
-    padding: 10px 14px !important;
+    gap: 12px;
+    padding: 12px 14px !important;
+    font-family: var(--bz-nav-head);
     font-size: 14px;
-    font-weight: 500;
-    color: #0d1e35 !important;
+    font-weight: 600;
+    color: var(--bz-nav-text) !important;
     text-decoration: none;
-    border-radius: 8px;
-    transition: background 0.18s ease, transform 0.18s ease, color 0.18s ease;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease, color 0.18s ease;
     line-height: 1.35;
+    position: relative;
   }
-
+  .mega-menu__link::after {
+    content: "";
+    width: 14px;
+    height: 14px;
+    margin-left: auto;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b8bec7' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 6l6 6-6 6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    flex-shrink: 0;
+  }
   .mega-menu__link:hover,
   .mega-menu__link:focus-visible {
-    background: rgba(245, 166, 35, 0.10);
+    background: var(--bz-nav-orange-bg);
+    border-color: rgba(255, 165, 0, 0.35);
+    color: var(--bz-nav-navy) !important;
     transform: translateX(2px);
-    color: #0d1e35 !important;
   }
-
+  .mega-menu__link:hover::after,
+  .mega-menu__link:focus-visible::after {
+    opacity: 1;
+    transform: translateX(0);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffa500' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 6l6 6-6 6'/%3E%3C/svg%3E");
+  }
   .mega-menu__link:focus-visible {
-    outline: 2px solid #0d1e35;
+    outline: 2px solid var(--bz-nav-orange);
     outline-offset: 2px;
   }
-
-  /* Active/Current State */
   .mega-menu__link[aria-current="page"],
   .mega-menu__link.is-active {
-    background: rgba(245, 166, 35, 0.14);
-    font-weight: 600;
+    background: var(--bz-nav-orange-bg);
+    border-color: rgba(255, 165, 0, 0.45);
+    font-weight: 700;
   }
 
-  /* Icons im Dropdown (subtil statt dominant) */
-  .mega-menu__link svg,
+  /* Icons/SVGs im Dropdown */
+  .mega-menu__link svg:not([class*="chevron"]),
   .mega-menu__link .icon {
-    width: 16px;
-    height: 16px;
-    color: rgba(13, 30, 53, 0.55);
+    width: 18px;
+    height: 18px;
+    color: var(--bz-nav-muted);
     flex-shrink: 0;
     transition: color 0.18s ease;
   }
-
   .mega-menu__link:hover svg,
   .mega-menu__link:hover .icon {
-    color: #f5a623;
+    color: var(--bz-nav-orange);
+  }
+  .mega-menu__link .wrap-text { font-weight: inherit; }
+
+  /* "Alle Hersteller" oder ähnliche Meta-Links visuell abgrenzen */
+  .mega-menu__link[href="/pages/hersteller"],
+  .mega-menu__link[href$="/pages/hersteller"],
+  .mega-menu__link[href*="/collections/alle"],
+  .mega-menu__link[href*="/collections/all"] {
+    margin-top: 6px;
+    border-top: 1px solid var(--bz-nav-border);
+    padding-top: 14px !important;
+    border-radius: 0 0 10px 10px;
+    font-weight: 700;
+    color: var(--bz-nav-orange) !important;
+  }
+  .mega-menu__link[href="/pages/hersteller"]:hover,
+  .mega-menu__link[href$="/pages/hersteller"]:hover {
+    background: var(--bz-nav-orange);
+    color: var(--bz-nav-navy) !important;
   }
 
-  /* Wrap-Text innerhalb des Links */
-  .mega-menu__link .wrap-text {
-    font-weight: inherit;
+  /* ═══ HEADER-BAR SUBTLE POLISH ═══ */
+  .header, header.header {
+    border-bottom: 1px solid var(--bz-nav-border);
+    transition: box-shadow 0.2s ease;
+  }
+  .header.is-scrolled,
+  .header.scrolled,
+  header.header.is-scrolled {
+    box-shadow: 0 6px 20px rgba(10, 34, 64, 0.08);
   }
 
-  /* Content-Liste (Featured Products / Collections) ausblenden für cleanen B2B-Look */
-  .mega-menu__content:empty,
-  .mega-menu__content-list:empty {
-    display: none;
+  /* ═══ HEADER ACTION BUTTONS (Cart, Search, Account) ═══ */
+  .header .button-unstyled svg,
+  .header button svg,
+  .header [role="button"] svg {
+    transition: transform 0.18s ease, color 0.18s ease;
+  }
+  .header button:hover svg,
+  .header [role="button"]:hover svg {
+    color: var(--bz-nav-orange);
+    transform: scale(1.08);
   }
 
-  /* ══ TOP-LEVEL MENÜPUNKTE (im Header) ══ */
-  .menu-list__link-title {
-    font-weight: 600;
-    letter-spacing: -0.005em;
-    transition: color 0.18s ease;
-  }
-
-  .menu-list__list-item:hover .menu-list__link-title,
-  .menu-list__list-item[open] .menu-list__link-title,
-  .menu-list__link[aria-expanded="true"] .menu-list__link-title {
-    color: #f5a623;
-  }
-
-  /* Caret/Pfeil am Submenu-Trigger */
-  .menu-list__list-item[open] summary::after,
-  .menu-list__link[aria-expanded="true"]::after {
-    transform: rotate(180deg);
-  }
-
-  /* ══ DROPDOWN-PFEIL (wenn Theme eine Tail-Pseudoelement nutzt) ══ */
-  .mega-menu::before {
-    content: "";
-    position: absolute;
-    top: -6px;
-    left: 28px;
-    width: 12px;
-    height: 12px;
-    background: #ffffff;
-    transform: rotate(45deg);
-    border-left: 1px solid rgba(13, 30, 53, 0.06);
-    border-top: 1px solid rgba(13, 30, 53, 0.06);
-    z-index: 0;
-  }
-
-  /* ══ MOBILE: nicht anfassen (Horizon-Drawer beibehalten) ══ */
+  /* ═══ MOBILE DRAWER (≤ 749px) ═══ */
   @media (max-width: 749px) {
+    /* Mega-Menu als Inline-Panel im Drawer, nicht als Floating Popover */
     .mega-menu {
-      box-shadow: none;
-      border-radius: 0;
-      border: none;
-      margin-top: 0;
-      padding: 0;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      border: none !important;
+      margin-top: 0 !important;
+      padding: 6px 0 !important;
       animation: none;
+      max-width: none !important;
+      min-width: 0;
+      width: 100% !important;
+      background: transparent !important;
     }
-    .mega-menu::before { display: none; }
+    .mega-menu::before { display: none !important; }
+
     .mega-menu__link {
-      padding: 12px 16px !important;
+      padding: 14px 20px !important;
       border-radius: 0;
+      font-size: 15px;
+      border: none;
+      border-bottom: 1px solid var(--bz-nav-border);
+      min-height: 52px;
+      transform: none !important;
     }
-    .mega-menu__link:hover {
-      transform: none;
+    .mega-menu__link::after {
+      opacity: 0.55;
+      transform: translateX(0);
     }
+    .mega-menu__link:hover,
+    .mega-menu__link:active {
+      background: var(--bz-nav-orange-bg);
+      border-color: var(--bz-nav-border);
+      transform: none !important;
+    }
+
+    /* Top-Level Einträge im Drawer */
+    .menu-list__link {
+      padding: 16px 20px !important;
+      min-height: 56px;
+      border-bottom: 1px solid var(--bz-nav-border);
+      display: flex !important;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .menu-list__link-title {
+      font-size: 16px !important;
+      font-weight: 700 !important;
+    }
+    .menu-list__link-title::after { display: none; }
+    .menu-list__list-item[open] > summary {
+      background: var(--bz-nav-gray);
+    }
+    .menu-list__list-item[open] > summary .menu-list__link-title {
+      color: var(--bz-nav-orange);
+    }
+
+    /* Submenu-Container-Padding reset */
+    .menu-list__submenu,
+    .menu-list__submenu-inner {
+      padding: 0 !important;
+      background: var(--bz-nav-white);
+    }
+
+    /* Account / Language Drawer-Regionen */
+    .header-drawer .drawer-menu,
+    details.Details-menu-drawer-container > .menu-drawer,
+    .header-drawer-mobile {
+      background: var(--bz-nav-white);
+    }
+
+    /* CTA-Buttons unten im Drawer (z.B. Kontakt) mit Orange-Akzent */
+    .header-drawer [href*="/pages/contact"],
+    .header-drawer [href*="/pages/gewerbe"] {
+      font-weight: 700;
+    }
+  }
+
+  /* ═══ TABLET (≤ 1024px) ═══ */
+  @media (max-width: 1024px) and (min-width: 750px) {
+    .mega-menu {
+      max-width: 400px !important;
+      padding: 14px !important;
+    }
+    .mega-menu__link { padding: 11px 13px !important; font-size: 13.5px; }
   }
 {% endstyle %}
