@@ -379,12 +379,23 @@
       <table class="bz-footer-table" aria-label="Versandkosten Deutschland">
         {%- if standard_rates != empty and standard_rates.size > 0 -%}
           {%- for r in standard_rates -%}
+            {%- liquid
+              assign max_c = r.max | times: 100 | round
+              assign max_w = max_c | divided_by: 100
+              assign max_f = max_c | modulo: 100
+              assign min_c = r.min | times: 100 | round
+              assign min_w = min_c | divided_by: 100
+              assign min_f = min_c | modulo: 100
+              assign price_c = r.price | times: 100 | round
+              assign price_w = price_c | divided_by: 100
+              assign price_f = price_c | modulo: 100
+            -%}
             <tr>
               <td>
                 {%- if r.max -%}
-                  bis {{ r.max | money_without_currency }}&nbsp;&euro;
+                  bis {{ max_w }},{%- if max_f < 10 -%}0{%- endif -%}{{ max_f }}&nbsp;&euro;
                 {%- elsif r.min and r.min > 0 -%}
-                  ab {{ r.min | money_without_currency }}&nbsp;&euro;
+                  ab {{ min_w }},{%- if min_f < 10 -%}0{%- endif -%}{{ min_f }}&nbsp;&euro;
                 {%- else -%}
                   Standard
                 {%- endif -%}
@@ -393,7 +404,7 @@
                 {%- if r.price == 0 -%}
                   Kostenlos&nbsp;&#10003;
                 {%- else -%}
-                  {{ r.price | money_without_currency }}&nbsp;&euro;
+                  {{ price_w }},{%- if price_f < 10 -%}0{%- endif -%}{{ price_f }}&nbsp;&euro;
                 {%- endif -%}
               </td>
             </tr>
