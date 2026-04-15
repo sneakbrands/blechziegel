@@ -158,18 +158,36 @@
 
   @media (max-width: 640px) {
     .bz-express {
-      left: 8px;
+      left: auto;
       right: 8px;
       bottom: 8px;
-      width: auto;
-      padding: 14px 16px 16px;
+      width: min(260px, calc(100vw - 16px));
+      padding: 10px 12px 12px;
+      border-radius: 10px;
+      border-top-width: 2px;
     }
-    /* Bottom spacing gegen Cookie-Banner (links unten) */
+    .bz-express__header { margin-bottom: 6px; }
+    .bz-express__title { font-size: 11px; letter-spacing: 0.06em; gap: 6px; }
+    .bz-express__title svg { width: 13px; height: 13px; }
+    .bz-express__close { width: 22px; height: 22px; }
+    .bz-express__close svg { width: 10px; height: 10px; }
+    .bz-express__intro { font-size: 11.5px; margin-bottom: 8px; line-height: 1.35; }
+    .bz-express__timer { gap: 6px; margin-bottom: 8px; }
+    .bz-express__num { gap: 2px; margin-bottom: 2px; }
     .bz-express__digit {
-      min-width: 24px;
-      font-size: 19px;
-      padding: 5px 3px;
+      min-width: 20px;
+      font-size: 15px;
+      padding: 3px 2px;
+      border-radius: 4px;
     }
+    .bz-express__label { font-size: 8.5px; letter-spacing: 0.06em; }
+    .bz-express__msg { font-size: 11px; line-height: 1.35; margin-bottom: 6px; }
+    .bz-express__link { font-size: 10.5px; }
+    .bz-express__link svg { width: 10px; height: 10px; }
+  }
+  @media (max-width: 360px) {
+    .bz-express { width: min(240px, calc(100vw - 16px)); padding: 9px 11px 11px; }
+    .bz-express__digit { min-width: 18px; font-size: 14px; }
   }
 {% endstyle %}
 
