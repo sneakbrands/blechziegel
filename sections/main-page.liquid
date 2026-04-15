@@ -12,6 +12,8 @@
   {% render 'blechziegel-agb' %}
 {%- elsif page.handle == 'impressum' or request.path contains '/pages/impressum' -%}
   {% render 'blechziegel-impressum' %}
+{%- elsif page.handle == 'datenschutz' or request.path contains '/pages/datenschutz' -%}
+  {% render 'blechziegel-datenschutz' %}
 {%- elsif page.handle == 'haendler' or request.path contains '/pages/haendler' -%}
   {% render 'blechziegel-haendler' %}
 {%- else -%}
