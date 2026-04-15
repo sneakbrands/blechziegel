@@ -3,196 +3,190 @@
 **Branch:** `feat/ziegel-finder-enterprise`
 **Zielseite:** `/pages/ziegel-finder`
 **Page ID (Shopify):** 708092133760
-**Datum:** 2026-04-15
+**Letztes Update:** 2026-04-15 (HARD FIX: nur Shopify-Metafields als Datenquelle)
 
 ---
 
-## 1. Analyse
+## Aktuelles Datenmodell (nach HARD FIX)
 
-### Shopify-Datenlage (API-verifiziert)
+Der Finder speist sich **ausschließlich** aus Shopify-Produkt-Metafields. Es gibt keine Ersatz-Stammdaten, keine hartcodierten Hersteller-Listen und keine Standard-Maß-Tabellen mehr.
 
-- **Aktive Produkte im Shop: 1** (`pv-dachziegel-frankfurter-pfanne`)
-- Metafield-Modell pro Produkt:
-  - `custom.dachziegel_typ` (single_line_text_field) — Hauptprofil, z. B. "Frankfurter Pfanne"
-  - `custom.laenge` (number_integer) — 420 mm
-  - `custom.breite` (number_integer) — 330 mm
-  - `custom.passende_hersteller` (list.single_line_text_field) — 7 Einträge, Format `"Profil (Hersteller)"`
-- Produkt-Metafelder von `passende_hersteller`:
-  - `Frankfurter Pfanne (Braas)`, `Harzer Pfanne (Braas)`, `Bramac Montero (Bramac)`, `Bramac Classic (Bramac)`, `Heidelberger (Creaton)`, `Sigma Pfanne (Nelskamp)`, `Finkenberger (Nelskamp)`
+### Rohdaten (einzige Quelle)
 
-### Navigation
+Liquid-generiert aus `collections.pv-dachziegel.products`:
 
-- `blechziegel-admin-tools/menu.json` + `set-menu.js` via Admin-REST
-- Hauptmenü vor der Änderung: Startseite · Hersteller (mit Submenü) · PV Dachziegel kaufen · Ratgeber · Ziegel anfragen · Für Händler · Kontakt
+```js
+var SHOPIFY_PRODUCTS = [
+  { handle, title, url, image, price_min, laenge, breite, profiles:[…], desc }
+];
+```
 
-### Design-DNA `/pages/gewerbe`
+### Abgeleitetes `MFR_MAP`
 
-- `hp-*` CSS-System (Navy `#0a2240` + Orange `#ffa500`, Montserrat/Open Sans)
-- Hero + Section + Feature-Cards + Step-Grid-Pattern bereits etabliert
-- Custom-Page-Routing über `sections/main-page.liquid` `{%- elsif page.handle == … -%}` mit `{% render 'blechziegel-xyz' %}`
+Parst jeden `custom.passende_hersteller`-Eintrag im Format `"Profil (Hersteller)"` und ordnet die Produkt-Dimensionen dem Profil zu:
 
----
+```js
+var MFR_MAP = {
+  "Braas":   [{ profil:"Frankfurter Pfanne", laenge:420, breite:330, product:{…} }, …],
+  "Bramac":  [{ profil:"Bramac Montero",      laenge:420, breite:330, product:{…} }, …],
+  "Creaton": [{ profil:"Heidelberger",        laenge:420, breite:330, product:{…} }],
+  "Nelskamp":[{ profil:"Sigma Pfanne",        laenge:420, breite:330, product:{…} }, …]
+};
+```
 
-## 2. Datenbasis / Matching-Strategie
-
-**Hybrid-Ansatz (datengetrieben + Stammdaten):**
-
-1. **Dynamisch — Shopify-Produkte** (Liquid-generierter JS-Array):
-   - Iteriert `collections.pv-dachziegel.products`
-   - Liest `custom.laenge`, `custom.breite`, `custom.passende_hersteller`
-   - Format je Produkt: `{ handle, title, url, image, price_min, laenge, breite, profiles[], desc }`
-2. **Stammdaten — Hersteller-Matrix** (öffentliche Industrie-Specs, im JS hartcodiert mit Kommentar):
-   - 10 Hersteller aus der Hersteller-Übersichtsseite: 4 Ab Lager (Braas, Bramac, Creaton, Nelskamp) + 6 Auf Anfrage (Wienerberger, Erlus, Röben, Walther, Jacobi, Meyer-Holsen)
-   - Pro Hersteller: 2–4 Dachziegel-Profile mit Standard-Maßen (Länge/Breite in mm)
-3. **Matching**: `matchProductHandle(mfr, profil)` → sucht in Produkt-Metafield-Liste nach `"Profil (Hersteller)"`-String. Findet: ein Shopify-Produkt-Objekt **oder** `null`
-4. **Fallback**: bei `null` → "Sonderanfertigung möglich" + `/pages/ziegel-anfrage` als primärer CTA
-
-**Warum hybrid?** Bei nur 1 aktiven Produkt wäre ein rein produkt-getriebener Finder ein leerer Schritt-2. Die Profil-Matrix ist Dachziegel-Stammdaten, nicht "erfunden" — sie bilden die Marktrealität ab und machen den Finder sinnvoll.
+**Guards:**
+- Produkte ohne valide `laenge`/`breite` übersprungen
+- Einträge, die nicht dem Regex `Profil (Hersteller)` entsprechen, übersprungen
+- Dedupe-Key: `hersteller|profil|laenge|breite|product.handle`
 
 ---
 
-## 3. Architekturentscheidung
+## Fachliche Annahme (Blechziegel-Semantik)
 
-| Komponente | Entscheidung | Begründung |
+Wenn ein Produkt X mit `laenge=420, breite=330` in `custom.passende_hersteller` den Eintrag `"Frankfurter Pfanne (Braas)"` trägt, dann gilt dieses Produkt als passender Blechziegel für einen Braas-Frankfurter-Pfanne-Ziegel mit den Maßen 420×330 mm.
+
+Das heißt: **Die Produkt-Maße sind die Maße, die der Finder dem Profil zuordnet.** Das ist korrekt für die Blechziegel-Logik — ein 420×330-mm-Blechziegel passt auf alle Profile gleicher Außenmaße.
+
+**Alternative** für künftige präzisere Per-Profil-Dimensionen: neues Metafield `custom.profil_dimensionen` als JSON oder `list.metaobject_reference`. Nicht Teil dieses Fixes.
+
+---
+
+## Sichtbare Hersteller bei aktuellem Datenstand
+
+Beim aktuellen Bestand (1 aktives Produkt, 7 passende_hersteller-Einträge) erscheinen in Step 1:
+
+| Hersteller | Profile im Finder | Maße |
 |---|---|---|
-| Routing | `sections/main-page.liquid` `{%- elsif page.handle == 'ziegel-finder' -%}` | Konsistent mit Gewerbe/Hersteller/Anfrage |
-| Rendering | Ein Snippet `blechziegel-ziegel-finder.liquid` | Keep alles in einem Block, hp-* CSS inline (wie andere Custom-Pages) |
-| Datenmodell | JS-Array in `<script>`, Liquid-generiert | Schneller als AJAX, SEO-freundlich (kein Loading-State), max. 20 Profile → Payload trivial |
-| UI-State | Pure Vanilla-JS-Objekt `state = {step, mfr, laenge, breite}` | Keine Framework-Abhängigkeit, keine Build-Tools |
-| Step-Flow | 4 Schritte: Hersteller → Länge → Breite (optional) → Ergebnis | Breite wird automatisch übersprungen wenn bei gewählter Länge nur 1 Profil oder nur 1 Breite existiert |
-| Ergebnis | Ein Result-Card pro gemachtem Produkt (dedupliziert nach Handle) + Fallback-Card "Sonderanfertigung" wenn 0 Matches + ständig sichtbarer Beratungs-CTA |
-| Menü | `menu.json` + `set-menu.js` | Existierendes Tooling |
+| **Braas** | Frankfurter Pfanne, Harzer Pfanne | 420×330 mm |
+| **Bramac** | Bramac Montero, Bramac Classic | 420×330 mm |
+| **Creaton** | Heidelberger | 420×330 mm |
+| **Nelskamp** | Sigma Pfanne, Finkenberger | 420×330 mm |
+
+**Alle Hersteller erhalten automatisch den „Ab Lager"-Badge**, da nur Hersteller mit tatsächlich verfügbarem Produkt im `MFR_MAP` landen.
+
+### Weitere Hersteller
+
+Sobald neue Produkte mit `custom.passende_hersteller`-Einträgen gepflegt werden, erweitert sich der Finder automatisch — **ohne Theme-Änderung**.
+
+### Nicht abgedeckte Hersteller
+
+Nutzer mit einem Dachziegel, dessen Hersteller nicht im Finder erscheint, werden durch zwei klare Auffangnetze zu Beratung geführt:
+
+1. **Pflicht-CTA unter dem Hersteller-Grid**: „Mein Hersteller ist nicht dabei? Beratung anfragen →" — führt nach `/pages/ziegel-anfrage`
+2. **Untere Beratungs-Section** der Seite (unverändert aus dem Original-Design)
 
 ---
 
-## 4. Geänderte Dateien
+## Empty-State
 
-| Datei | Typ | Zweck |
+Falls `SHOPIFY_PRODUCTS` leer ist (keine Produkte mit passende_hersteller im Shop), zeigt Step 1 eine Fallback-Card: „Noch keine Blechziegel-Produkte gepflegt" mit Beratungs-CTA. Kein hartcodierter Fallback-Content, keine toten UI-Zustände.
+
+---
+
+## Architekturentscheidung
+
+| Komponente | Entscheidung |
+|---|---|
+| Routing | Unverändert: `sections/main-page.liquid` `{%- elsif page.handle == 'ziegel-finder' -%}` |
+| Rendering | Single snippet `blechziegel-ziegel-finder.liquid` |
+| Datenmodell | **Nur** Liquid-generierter `SHOPIFY_PRODUCTS`-Array + abgeleitetes `MFR_MAP` |
+| State | `{ step, mfrName, laenge, breite }` — `mfrName` ist ein String aus `MFR_MAP`-Keys |
+| Step-Flow | 4 Schritte, Breite wird übersprungen wenn nach gewählter Länge nur 1 Breite existiert |
+| Ergebnis | Produkt-Card(s) aus `e.product`; Deduplizierung nach `product.handle`; keine Sonderanfertigung-Fallback-Card |
+| Menü | Unverändert: `menu.json` + `set-menu.js` |
+
+---
+
+## Geänderte Dateien
+
+| Datei | Status | Zweck |
 |---|---|---|
-| [`snippets/blechziegel-ziegel-finder.liquid`](../snippets/blechziegel-ziegel-finder.liquid) | **neu** (~520 Zeilen) | Hero + Finder-Shell + Step-Logik + Result-Renderer + Beratungs-Block + JSON-LD |
-| [`sections/main-page.liquid`](../sections/main-page.liquid) | Edit | `elsif`-Branch für `ziegel-finder`-Handle |
-| `~/blechziegel-admin-tools/menu.json` | Edit | Nav-Eintrag zwischen "PV Dachziegel kaufen" und "Ratgeber" |
-| Shopify Page (ID 708092133760) | **neu** | `/pages/ziegel-finder` via `ensure-page.js` angelegt |
+| [`snippets/blechziegel-ziegel-finder.liquid`](../snippets/blechziegel-ziegel-finder.liquid) | Refactored | MFR_DATA + matchProductHandle entfernt, MFR_MAP-Derivation + state-Rename + Step-1..4-Umbau + Empty-State + CTA |
+| [`docs/ZIEGEL_FINDER_REPORT.md`](./ZIEGEL_FINDER_REPORT.md) | Updated | Doku des Metafield-only-Modells |
+
+**Nicht geändert** (Scope-Disziplin):
+- `sections/main-page.liquid` · Navigation / Menü · Shopify-Page-Entity
+- CSS-Struktur (`.zf-*`, `.hp-*`) · Hero · Tipps-Cards · untere Beratungs-Section
+- JSON-LD · Routing · Tracking-Event-Namen
+- andere Snippets / Assets / Templates
 
 ---
 
-## 5. Validierung
+## Validierung
 
-### Funktional
-- ✅ Hersteller-Auswahl zeigt 10 Hersteller, Ab-Lager zuerst, alphabetisch sortiert
-- ✅ Nach Hersteller-Klick: unique Längen für diesen Hersteller, numerisch sortiert
-- ✅ Länge → bei 1 Profil-Match: springt direkt zu Ergebnis (Breite übersprungen)
-- ✅ Länge → bei mehreren Profilen mit unterschiedlichen Breiten: Schritt 3 (Breite)
-- ✅ Länge → bei mehreren Profilen mit identischer Breite: Schritt 3 übersprungen
-- ✅ Ergebnis mit Produkt: Bild, Titel, Pills (Ab Lager · Hersteller · Profil), Beschreibung, Maße-Vergleich, Preis ab, CTA "Zum Produkt" + "Beratung anfragen"
-- ✅ Ergebnis ohne Produkt: "Sonderanfertigung möglich"-Card mit Link zur Ziegel-Anfrage
-- ✅ Schritt-Indikator klickbar für bereits abgeschlossene Schritte (Zurück)
-- ✅ "Neu starten"-Button nach Ergebnis
-- ✅ Back-Buttons pro Step zum vorherigen
+### Statische grep-Prüfungen
 
-### Daten
-- ✅ Herstellerliste ohne Dubletten (MFR_DATA-Array, jeder name eindeutig)
-- ✅ Längen/Breiten numerisch sortiert (`Number` + `sort`)
-- ✅ Produkt-Matching via exaktem String-Format `"Profil (Hersteller)"`
-- ✅ Aktuell 1 Produkt-Match → Frankfurter Pfanne 420×330 mm, trifft bei: Braas/Frankfurter+Harzer, Bramac/Montero, Creaton/Heidelberger, Nelskamp/Sigma+Finkenberger, Meyer-Holsen/Rheinland-Pfanne
+| Suche | Soll | Ist |
+|---|---|---|
+| `MFR_DATA` | 0 | **0** ✅ |
+| `matchProductHandle` | 0 | **0** ✅ |
+| `state\.mfr\b` (alt) | 0 | **0** ✅ |
+| `MFR_MAP` | > 0 | 10 ✅ |
+| `state.mfrName` | > 0 | 12 ✅ |
+| `Noch keine Blechziegel-Produkte gepflegt` | > 0 | 1 ✅ |
+| `Mein Hersteller ist nicht dabei` | > 0 | 1 ✅ |
+| Hersteller-Namen (Braas/Bramac/…) | nur in Content | 1 Treffer (SEO-JSON-LD-Beschreibung — legitimer Content-Block, unverändert aus Original-Version) |
 
-### UX
-- ✅ Step-Indicator visualisiert Fortschritt (active/done/upcoming Zustände)
-- ✅ Zurück-Buttons immer sichtbar
-- ✅ Mobile: `@media ≤900px` → Step-Nav horizontal scrollbar, Cards einspaltig, Result stacked
-- ✅ Mobile `≤480px`: Options-Grid komplett einspaltig (Mess-Grid 2-col)
-- ✅ Beratungs-Card (Navy + Orange-Icon + CTA) unter jedem Ergebnis, zusätzlich permanente Section unten
-- ✅ Focus-Styles auf allen Buttons (`outline + offset`)
+### Funktionale Verifikation
 
-### SEO
-- ✅ genau 1× H1 (Hero)
-- ✅ H2-Hierarchie: "Ihren Blechziegel finden" · "Persönliche Beratung statt Finder"
-- ✅ Einleitungstext unter H2 (nicht dünn)
-- ✅ BreadcrumbList + WebPage Schema JSON-LD
-- ✅ SearchAction potentialAction (Pseudo-Search-Entry-Point)
-- ✅ Tipps-Section unter Finder als zusätzlicher semantischer Content
-- ✅ Interne Links zu `/pages/ziegel-anfrage`, `/pages/hersteller`, Produkt-Detailseiten
+| Schritt | Erwartung |
+|---|---|
+| Step 1 | Zeigt 4 Kacheln: Braas, Bramac, Creaton, Nelskamp (alphabetisch, alle „Ab Lager") |
+| Step 2 Braas | Eine Kachel „420 mm" mit Label „Frankfurter Pfanne, Harzer Pfanne" |
+| Step 3 | Wird übersprungen (nur eine Breite 330 mm vorhanden) |
+| Step 4 | Zeigt Produkt-Card für `PV-Dachziegel Frankfurter Pfanne` |
+| CTA | „Mein Hersteller ist nicht dabei?" → `/pages/ziegel-anfrage` |
+| Empty-State | Bei leerem `SHOPIFY_PRODUCTS` erscheint Fallback-Card |
 
-### Theme-Qualität
-- ✅ Keine Liquid-Syntax-Fehler (Shopify-CLI push erfolgreich)
-- ✅ Keine globalen CSS-Konflikte (alle Klassen `.zf-*` + `.hp-*` gescoped auf `.hp`)
-- ✅ Vanilla-JS isoliert in IIFE
-- ✅ Kein externes Fetch / kein Framework
+### Nicht regressiv
+
+- CSS-Struktur unverändert → Mobile-Breakpoints (`≤900px`, `≤480px`) bleiben funktional
+- JSON-LD-Schema unverändert
+- Tracking-Event-Namen (`ziegel_finder_step`, `ziegel_finder_result`) unverändert — nur Payload-Feld `mfr` → `mfrName` umbenannt
 
 ---
 
-## 6. SEO-Maßnahmen
+## Navigation & Startseiten-Vorbereitung
 
-- **H1**: „Passenden Blechziegel finden. In drei Schritten zum richtigen Produkt." (Hero)
-- **H2 (2×)**: „Ihren Blechziegel finden" · „Persönliche Beratung statt Finder"
-- **Meta-Keywords natürlich eingearbeitet**: Blechziegel, Ziegel Finder, Dachziegel, Frankfurter Pfanne, Hersteller-Namen
-- **Structured Data**:
-  - `BreadcrumbList` (Start → Ziegel Finder)
-  - `WebPage` mit Description + `isPartOf` WebSite
-  - `potentialAction` SearchAction (Hinweis an Crawler: dies ist ein Search-Entry-Point)
-- **Interne Verlinkung** (kaufnah + hilfestellend):
-  - Zu `/pages/ziegel-anfrage` aus Hero-CTA, Ergebnis-Fallback, Beratungs-Sections
-  - Zu `/pages/hersteller` aus Fallback-Card
-  - Zu Produktseiten (dynamisch aus `product.url`)
+Menü-Struktur **unverändert** gegenüber Vor-Fix:
 
----
-
-## 7. Navigation & Startseiten-Vorbereitung
-
-### Navigation (live, deployed)
-
-Menüstruktur nach Update:
 ```
 Startseite
 Hersteller (Submenü: Braas · Bramac · Creaton · Nelskamp · Alle Hersteller)
 PV Dachziegel kaufen
-Ziegel Finder             ← NEU
+Ziegel Finder             ← bereits vorhanden
 Ratgeber
 Ziegel anfragen
 Für Händler
 Kontakt
 ```
 
-### Startseiten-Hero-Vorbereitung
-
-**Datei**: [`sections/blechziegel-home.liquid`](../sections/blechziegel-home.liquid) (~1500+ Zeilen)
-**Hero-Section**: CTAs liegen in einem `.bz-hero__cta`-Block (nach Analyse der Datei)
-**Empfohlener CTA-Link** für späteren Einbau:
-```liquid
-<a href="/pages/ziegel-finder" class="bz-hero-cta-secondary">
-  Passenden Ziegel finden →
-</a>
-```
-**Wurde bewusst nicht eingebaut**, da die Hero-Section produktiv live ist und ein Fehler dort hohe Sichtbarkeit hat. Empfehlung: separater PR mit visuellem QA.
+Startseiten-Hero-CTA empfohlen für späteren separaten PR, nicht Teil dieses Fixes.
 
 ---
 
-## 8. Offene Punkte / Nächste Schritte
+## Offene Punkte / Nächste Schritte
 
-1. **Startseiten-Hero-CTA** auf den Finder verlinken (separater PR)
-2. **Weitere Produkte ins Sortiment** (aktuell nur 1 Produkt) → Finder wird automatisch stärker, sobald weitere Produkte mit `passende_hersteller`-Metafield gepflegt sind
-3. **GA4-Events**: `ziegel_finder_step` + `ziegel_finder_result` werden an `window.dataLayer` gepusht — benötigt GTM-Container-Konfiguration zur Auswertung
-4. **Produkt-Variant-Link**: Momentan zeigt die Result-Card auf das Produkt-Root — wenn später pro Farbe/Ausführung eine separate Variant-URL sinnvoll ist, kann das im `matchProductHandle` ergänzt werden
-5. **Hersteller-Matrix pflegen**: `MFR_DATA` im Snippet ist die Single-Source-of-Truth für nicht-Lagerware. Bei neuen Profilen → Eintrag ergänzen, kein weiterer Edit nötig
+1. **Weitere Produkte mit `custom.passende_hersteller`-Einträgen pflegen** — Finder erweitert sich automatisch
+2. **Per-Profil-Dimensionen** (optional): neues Metafield `custom.profil_dimensionen` bei Bedarf
+3. **GA4-Events**: `ziegel_finder_step` + `ziegel_finder_result` werden an `window.dataLayer` gepusht (GTM-Container-Konfiguration außerhalb dieses Repos)
+4. **Startseiten-Hero-CTA** auf `/pages/ziegel-finder` verlinken (separater PR)
 
 ---
 
-## 9. Unsicherheiten
+## Unsicherheiten
 
 > „Ich kann das nicht bestätigen."
 
-- **Maße der Auf-Anfrage-Profile**: Die Standard-Abmessungen sind aus öffentlichen Hersteller-Spezifikationen abgeleitet, aber nicht jede Variante jedes Herstellers wurde 1:1 mit Werk-Datenblatt gegengeprüft. Für die 4 Ab-Lager-Profile, die auf das Shopify-Produkt matchen, sind die Maße unstrittig (420 × 330 mm = Standard Frankfurter-Pfanne-Klasse).
-- **GA4/GTM-Integration**: Das Tracking-Code-Snippet pusht an `window.dataLayer`, aber ob diese Events im GTM erfasst & ausgewertet werden, liegt außerhalb dieses Repos.
-- **Shopify Search-Action Schema**: Der `potentialAction`-Eintrag verweist auf den Finder selbst. Ob Google das als echten Search-Entry-Point erkennt, lässt sich erst nach Crawl-Analyse bestätigen.
+- **GA4/GTM-Integration**: Der Tracking-Code pusht an `window.dataLayer`. Ob die Events im GTM erfasst und ausgewertet werden, liegt außerhalb dieses Repos.
+- **Shopify Search-Action Schema**: Der JSON-LD `potentialAction`-Eintrag bleibt aus dem Ursprungs-Build bestehen. Ob Google den Finder als echten Search-Entry-Point erkennt, lässt sich erst nach Crawl-Analyse bestätigen.
 
 ---
 
 ## Finaler Link
 
-**Live (nach Shopify-Deploy):**
+**Live:** `https://blechziegel.de/pages/ziegel-finder`
 
-`https://blechziegel.de/pages/ziegel-finder`
-
-Menü-Eintrag: **Ziegel Finder** (zwischen "PV Dachziegel kaufen" und "Ratgeber")
+Menü-Eintrag: **Ziegel Finder** (zwischen „PV Dachziegel kaufen" und „Ratgeber")
 
 Theme-Branch: `feat/ziegel-finder-enterprise` · Page ID Shopify: `708092133760`
