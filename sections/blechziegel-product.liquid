@@ -1505,27 +1505,79 @@
   bzUpdateVariant();
 </script>
 
-{%- comment -%}══ SEO: Product JSON-LD ══{%- endcomment -%}
+{%- comment -%}══ SEO: Product JSON-LD (erweitert + metafield-aware) ══{%- endcomment -%}
+{%- liquid
+  assign seo_variant = product.selected_or_first_available_variant
+  assign mf_typ = product.metafields.custom.dachziegel_typ
+  assign mf_laenge = product.metafields.custom.laenge
+  assign mf_breite = product.metafields.custom.breite
+  assign mf_hersteller = product.metafields.custom.passende_hersteller
+  assign mf_material = product.metafields.shopify['shingle-tile-material']
+-%}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org/",
   "@type": "Product",
+  "@id": {{ shop.url | append: product.url | json }},
   "name": {{ product.title | json }},
+  "description": {{ product.description | strip_html | truncate: 500 | json }},
   "image": [
-    {{ product.featured_image | image_url: width: 1200 | prepend: 'https:' | json }}
+    {%- for img in product.images limit: 6 -%}
+      {{ img | image_url: width: 1200 | prepend: 'https:' | json }}{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
   ],
-  "description": {{ product.description | strip_html | json }},
-  "sku": {{ product.selected_or_first_available_variant.sku | default: product.id | json }},
-  "brand": {
-    "@type": "Brand",
-    "name": "Blechziegel"
-  },
+  "sku": {{ seo_variant.sku | default: product.id | json }},
+  "mpn": {{ product.id | append: '-' | append: seo_variant.id | json }},
+  "url": {{ shop.url | append: product.url | json }},
+  "brand": { "@type": "Brand", "name": "Blechziegel.de" },
+  "manufacturer": { "@type": "Organization", "name": "TiWi Trade GmbH", "url": {{ shop.url | json }} },
+  {%- if mf_typ != blank -%}
+  "category": {{ mf_typ.value | json }},
+  {%- endif -%}
+  {%- if mf_laenge != blank and mf_breite != blank -%}
+  "additionalProperty": [
+    {"@type":"PropertyValue","name":"Länge","value":{{ mf_laenge.value | json }},"unitCode":"MMT"},
+    {"@type":"PropertyValue","name":"Breite","value":{{ mf_breite.value | json }},"unitCode":"MMT"}
+    {%- if mf_material != blank -%},
+    {"@type":"PropertyValue","name":"Material","value":"Aluminium"}
+    {%- endif -%}
+  ],
+  {%- endif -%}
+  {%- if mf_hersteller != blank -%}
+  "isRelatedTo": [
+    {%- for h in mf_hersteller.value -%}
+      { "@type": "Product", "name": {{ h | json }} }{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ],
+  {%- endif -%}
   "offers": {
-    "@type": "Offer",
+    "@type": "AggregateOffer",
     "priceCurrency": {{ shop.currency | json }},
-    "price": "{{ product.price | divided_by: 100.0 }}",
+    "lowPrice": "{{ product.price_min | divided_by: 100.0 }}",
+    "highPrice": "{{ product.price_max | divided_by: 100.0 }}",
+    "offerCount": {{ product.variants.size }},
     "availability": "{% if product.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
-    "url": {{ shop.url | append: product.url | json }}
+    "itemCondition": "https://schema.org/NewCondition",
+    "url": {{ shop.url | append: product.url | json }},
+    "seller": { "@type": "Organization", "name": "TiWi Trade GmbH" },
+    "shippingDetails": {
+      "@type": "OfferShippingDetails",
+      "shippingRate": { "@type": "MonetaryAmount", "value": "0.00", "currency": "EUR" },
+      "shippingDestination": { "@type": "DefinedRegion", "addressCountry": "DE" },
+      "deliveryTime": {
+        "@type": "ShippingDeliveryTime",
+        "handlingTime": { "@type": "QuantitativeValue", "minValue": 0, "maxValue": 1, "unitCode": "DAY" },
+        "transitTime": { "@type": "QuantitativeValue", "minValue": 1, "maxValue": 3, "unitCode": "DAY" }
+      }
+    },
+    "hasMerchantReturnPolicy": {
+      "@type": "MerchantReturnPolicy",
+      "applicableCountry": "DE",
+      "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+      "merchantReturnDays": 14,
+      "returnMethod": "https://schema.org/ReturnByMail",
+      "returnFees": "https://schema.org/FreeReturn"
+    }
   }
 }
 </script>
