@@ -16,6 +16,8 @@
   {% render 'blechziegel-datenschutz' %}
 {%- elsif page.handle == 'versand' or request.path contains '/pages/versand' -%}
   {% render 'blechziegel-versand' %}
+{%- elsif page.handle == 'ziegel-anfrage' or request.path contains '/pages/ziegel-anfrage' -%}
+  {% render 'blechziegel-anfrage' %}
 {%- elsif page.handle == 'haendler' or request.path contains '/pages/haendler' -%}
   {% render 'blechziegel-haendler' %}
 {%- else -%}
