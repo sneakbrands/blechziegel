@@ -121,6 +121,7 @@
   .bz-footer-table tr + tr td {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
+  .bz-footer-shippers { display: flex; flex-wrap: wrap; gap: 8px; }
   .bz-footer-sub-title {
     font-size: 12px;
     font-weight: 700;
@@ -366,7 +367,6 @@
     <div class="bz-footer-col">
       <div class="bz-footer-table-title">
         <span>Versandkosten</span>
-        <span class="bz-footer-dhl-logo" aria-label="DHL Versand">DHL</span>
       </div>
       {%- liquid
         assign ship_data = shop.metafields.blechziegel.shipping_rates.value
@@ -414,6 +414,11 @@
           <tr><td>ab 55,00&nbsp;&euro;</td><td>Kostenlos&nbsp;&#10003;</td></tr>
         {%- endif -%}
       </table>
+
+      <div class="bz-footer-sub-title">Versender</div>
+      <div class="bz-footer-shippers" role="list" aria-label="Versender">
+        <span class="bz-footer-dhl-logo" role="listitem" aria-label="DHL Versand">DHL</span>
+      </div>
 
       <div class="bz-footer-sub-title">Zahlungsarten</div>
       <div class="bz-footer-badges" role="list" aria-label="Akzeptierte Zahlungsarten">
