@@ -1,0 +1,546 @@
+{% comment %}
+  ============================================================
+  BLECHZIEGEL.DE — Für Händler (Partner-Anfrage)
+  Snippet: blechziegel-haendler.liquid
+  Layout-DNA: hp-* (Navy/Orange), Dachdecker/Gewerbe-Style
+  Zielgruppe: Fachhändler, Baustoffhändler, Bedachungsfachhandel
+  USP: Baustellen-Direktlieferung · Musterpakete · Custom-Flyer
+  ============================================================
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+.hp {
+  --bz-navy:#0a2240; --bz-navy-light:#0d2d54;
+  --bz-orange:#ffa500; --bz-orange-dark:#e69400; --bz-orange-bg:rgba(255,165,0,.12);
+  --bz-white:#fff; --bz-gray:#f5f5f5; --bz-gray-mid:#e8eaed;
+  --bz-text:#333; --bz-text-light:#666; --bz-border:#e5e7eb;
+  --bz-green:#16a34a; --bz-green-bg:#f0fdf4;
+  --bz-head:'Montserrat',sans-serif; --bz-body:'Open Sans',sans-serif;
+  --bz-radius:8px; --bz-radius-lg:14px; --bz-max:1200px;
+  --bz-shadow:0 4px 20px rgba(10,34,64,.10);
+  --bz-shadow-lg:0 12px 40px rgba(10,34,64,.18);
+  font-family:var(--bz-body); color:var(--bz-text);
+}
+.hp *, .hp *::before, .hp *::after { box-sizing:border-box; margin:0; padding:0; }
+.hp a { text-decoration:none; color:inherit; }
+.hp img { max-width:100%; display:block; }
+.hp ul { list-style:none; }
+.hp-wrap { max-width:var(--bz-max); margin:0 auto; padding:0 20px; }
+
+.hp-hero { background:linear-gradient(135deg,var(--bz-navy) 0%,#163660 100%);
+  color:var(--bz-white); padding:72px 20px 64px; position:relative; overflow:hidden; }
+.hp-hero::before { content:''; position:absolute; inset:0; pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
+.hp-hero__inner { position:relative; max-width:var(--bz-max); margin:0 auto;
+  display:grid; grid-template-columns:1.1fr .9fr; gap:56px; align-items:center; }
+.hp-kicker { display:inline-flex; align-items:center; gap:8px;
+  background:var(--bz-orange-bg); border:1px solid rgba(255,165,0,.35);
+  color:var(--bz-orange); font-family:var(--bz-head);
+  font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.1em;
+  padding:5px 13px; border-radius:20px; margin-bottom:20px; }
+.hp-kicker svg { width:12px; height:12px; fill:var(--bz-orange); }
+.hp-hero h1 { font-family:var(--bz-head); font-size:clamp(26px,3.8vw,44px);
+  font-weight:800; line-height:1.2; margin-bottom:18px; color:var(--bz-white); }
+.hp-hero h1 span { color:var(--bz-orange); }
+.hp-hero__sub { font-size:16px; line-height:1.75; color:rgba(255,255,255,.82); margin-bottom:32px; max-width:520px; }
+.hp-hero__cta { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:36px; }
+.hp-hero__trust { display:flex; flex-wrap:wrap; gap:20px; }
+.hp-hero__trust-item { display:flex; align-items:center; gap:7px;
+  font-size:12.5px; color:rgba(255,255,255,.72); font-weight:600; }
+.hp-hero__trust-item svg { width:14px; height:14px; fill:var(--bz-green); flex-shrink:0; }
+
+.hp-hero__box { background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12);
+  border-radius:var(--bz-radius-lg); padding:28px; backdrop-filter:blur(6px); }
+.hp-hero__box-title { font-family:var(--bz-head); font-size:13px; font-weight:700;
+  color:var(--bz-white); margin-bottom:18px; display:flex; align-items:center; gap:8px;
+  text-transform:uppercase; letter-spacing:.08em; }
+.hp-hero__box-title svg { width:16px; height:16px; fill:var(--bz-orange); }
+.hp-hero__facts { display:flex; flex-direction:column; gap:12px; }
+.hp-hero__fact { display:flex; align-items:center; gap:12px;
+  padding:14px 16px; background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08); border-radius:var(--bz-radius);
+  font-family:var(--bz-head); font-size:13.5px; font-weight:700; color:var(--bz-white); }
+.hp-hero__fact svg { width:20px; height:20px; fill:var(--bz-orange); flex-shrink:0; }
+.hp-hero__fact-num { color:var(--bz-orange); font-size:16px; font-weight:800; margin-left:auto; white-space:nowrap; }
+
+.hp-btn { display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:14px 26px; border-radius:var(--bz-radius);
+  font-family:var(--bz-head); font-size:14px; font-weight:700;
+  cursor:pointer; transition:all .2s; border:2px solid transparent; white-space:nowrap; }
+.hp-btn svg { width:16px; height:16px; fill:currentColor; flex-shrink:0; }
+.hp-btn--primary { background:var(--bz-orange); color:var(--bz-navy); border-color:var(--bz-orange); }
+.hp-btn--primary:hover { background:var(--bz-orange-dark); border-color:var(--bz-orange-dark); transform:translateY(-1px); box-shadow:0 6px 20px rgba(255,165,0,.3); }
+.hp-btn--outline { background:transparent; color:var(--bz-white); border-color:rgba(255,255,255,.4); }
+.hp-btn--outline:hover { border-color:var(--bz-white); background:rgba(255,255,255,.08); }
+
+.hp-section { padding:64px 0; }
+.hp-section--gray { background:var(--bz-gray); }
+.hp-section--white { background:var(--bz-white); }
+.hp-section--navy { background:var(--bz-navy); color:var(--bz-white); }
+.hp-section-label { font-family:var(--bz-head); font-size:11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.12em; color:var(--bz-orange); margin-bottom:8px; display:block; }
+.hp-section-title { font-family:var(--bz-head); font-size:clamp(22px,2.8vw,32px);
+  font-weight:800; color:var(--bz-navy); line-height:1.25; margin-bottom:12px; }
+.hp-section--navy .hp-section-title { color:var(--bz-white); }
+.hp-section-sub { font-size:15px; line-height:1.72; color:var(--bz-text-light); max-width:640px; margin-bottom:40px; }
+.hp-section--navy .hp-section-sub { color:rgba(255,255,255,.72); max-width:640px; margin:0 auto 28px; }
+
+.hp-benefits { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+.hp-benefit { background:var(--bz-white); border:1.5px solid var(--bz-border);
+  border-radius:var(--bz-radius-lg); padding:28px 24px; transition:all .2s; }
+.hp-benefit:hover { border-color:var(--bz-orange); box-shadow:var(--bz-shadow-lg); transform:translateY(-3px); }
+.hp-benefit__icon { width:48px; height:48px; background:var(--bz-orange-bg); border-radius:12px;
+  display:flex; align-items:center; justify-content:center; margin-bottom:18px; }
+.hp-benefit__icon svg { width:22px; height:22px; fill:var(--bz-orange); }
+.hp-benefit h3 { font-family:var(--bz-head); font-size:16px; font-weight:800; color:var(--bz-navy); margin-bottom:8px; line-height:1.3; }
+.hp-benefit p { font-size:14px; line-height:1.7; color:var(--bz-text-light); }
+
+/* Feature-Split — alternating image-left/right with full text */
+.hp-feature { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;
+  margin-bottom:56px; }
+.hp-feature:last-child { margin-bottom:0; }
+.hp-feature--reverse { direction:rtl; }
+.hp-feature--reverse > * { direction:ltr; }
+.hp-feature__visual { background:linear-gradient(135deg,var(--bz-navy) 0%,#163660 100%);
+  border-radius:var(--bz-radius-lg); padding:40px 36px; color:var(--bz-white);
+  position:relative; overflow:hidden; min-height:260px;
+  display:flex; flex-direction:column; justify-content:center; }
+.hp-feature__visual::before { content:''; position:absolute; right:-40px; top:-40px;
+  width:240px; height:240px; background:radial-gradient(circle,rgba(255,165,0,.18) 0%,transparent 70%); }
+.hp-feature__visual-label { font-family:var(--bz-head); font-size:11px; font-weight:800;
+  text-transform:uppercase; letter-spacing:.12em; color:var(--bz-orange); margin-bottom:12px; position:relative; }
+.hp-feature__visual-title { font-family:var(--bz-head); font-size:26px; font-weight:800;
+  line-height:1.15; margin-bottom:14px; position:relative; }
+.hp-feature__visual-title span { color:var(--bz-orange); }
+.hp-feature__visual-bullets { display:flex; flex-direction:column; gap:8px; position:relative; }
+.hp-feature__visual-bullets li { display:flex; align-items:flex-start; gap:9px;
+  font-size:14px; line-height:1.55; color:rgba(255,255,255,.85); }
+.hp-feature__visual-bullets li svg { width:16px; height:16px; fill:var(--bz-orange); flex-shrink:0; margin-top:2px; }
+
+.hp-feature__content h3 { font-family:var(--bz-head); font-size:22px; font-weight:800;
+  color:var(--bz-navy); line-height:1.25; margin-bottom:12px;
+  padding-bottom:8px; border-bottom:2px solid var(--bz-orange); display:inline-block; }
+.hp-feature__content p { font-size:15px; line-height:1.75; color:var(--bz-text); margin-bottom:14px; }
+.hp-feature__content p:last-child { margin-bottom:0; }
+.hp-feature__content strong { color:var(--bz-navy); font-weight:700; }
+
+/* Steps (Partnerschafts-Prozess) */
+.hp-steps { display:grid; grid-template-columns:repeat(4,1fr); gap:22px; margin-top:40px; }
+.hp-step { position:relative; background:var(--bz-white);
+  border:1.5px solid var(--bz-border); border-radius:var(--bz-radius-lg);
+  padding:32px 24px 26px; transition:all .2s; }
+.hp-step:hover { border-color:var(--bz-orange); box-shadow:var(--bz-shadow-lg); transform:translateY(-3px); }
+.hp-step__num { position:absolute; top:-14px; left:24px;
+  width:34px; height:34px; border-radius:50%;
+  background:var(--bz-orange); color:var(--bz-navy);
+  font-family:var(--bz-head); font-size:15px; font-weight:800;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 14px rgba(255,165,0,.35); }
+.hp-step__icon { width:44px; height:44px; background:var(--bz-orange-bg); border-radius:10px;
+  display:flex; align-items:center; justify-content:center; margin-bottom:18px; }
+.hp-step__icon svg { width:20px; height:20px; fill:var(--bz-orange); }
+.hp-step h3 { font-family:var(--bz-head); font-size:15.5px; font-weight:800; color:var(--bz-navy); margin-bottom:8px; line-height:1.3; }
+.hp-step p { font-size:13.5px; line-height:1.65; color:var(--bz-text-light); }
+
+/* FAQ */
+.hp-faq-layout { display:grid; grid-template-columns:1fr 2fr; gap:56px; align-items:start; }
+.hp-faq-list { display:flex; flex-direction:column; gap:12px; }
+.hp-faq-item { background:var(--bz-white); border:1.5px solid var(--bz-border);
+  border-radius:var(--bz-radius); overflow:hidden; transition:border-color .18s; }
+.hp-faq-item[open] { border-color:var(--bz-orange); }
+.hp-faq-item__q { display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:18px 20px; cursor:pointer; font-family:var(--bz-head); font-size:14.5px; font-weight:700;
+  color:var(--bz-navy); user-select:none; list-style:none; }
+.hp-faq-item__q::-webkit-details-marker { display:none; }
+.hp-faq-item__q:hover, .hp-faq-item[open] .hp-faq-item__q { background:var(--bz-gray); }
+.hp-faq-item__icon { width:22px; height:22px; background:var(--bz-orange-bg);
+  border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:transform .25s; }
+.hp-faq-item[open] .hp-faq-item__icon { transform:rotate(45deg); background:var(--bz-orange); }
+.hp-faq-item__icon svg { width:12px; height:12px; fill:var(--bz-orange); }
+.hp-faq-item[open] .hp-faq-item__icon svg { fill:var(--bz-navy); }
+.hp-faq-item__a { padding:0 20px 18px; font-size:14px; line-height:1.7; color:var(--bz-text-light); }
+.hp-faq-item__a a { color:var(--bz-orange); font-weight:700; text-decoration:underline; }
+
+/* CTA */
+.hp-cta-final { text-align:center; }
+.hp-cta-final__buttons { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:28px; }
+.hp-cta-final__contact { display:flex; justify-content:center; gap:28px; flex-wrap:wrap;
+  margin-top:28px; font-size:14px; color:rgba(255,255,255,.82); }
+.hp-cta-final__contact-item { display:flex; align-items:center; gap:8px; }
+.hp-cta-final__contact-item svg { width:16px; height:16px; fill:var(--bz-orange); }
+
+@media (max-width:1024px) {
+  .hp-hero__inner { grid-template-columns:1fr; gap:36px; }
+  .hp-benefits { grid-template-columns:repeat(2,1fr); }
+  .hp-steps { grid-template-columns:repeat(2,1fr); }
+  .hp-faq-layout { grid-template-columns:1fr; gap:24px; }
+  .hp-feature { grid-template-columns:1fr; gap:24px; margin-bottom:40px; }
+  .hp-feature--reverse { direction:ltr; }
+  .hp-feature__visual { padding:32px 28px; min-height:auto; }
+  .hp-feature__visual-title { font-size:22px; }
+}
+@media (max-width:640px) {
+  .hp-hero { padding:48px 16px 56px; }
+  .hp-hero h1 { font-size:28px; }
+  .hp-hero__cta { flex-direction:column; }
+  .hp-hero__cta .hp-btn { width:100%; }
+  .hp-section { padding:48px 0; }
+  .hp-benefits { grid-template-columns:1fr; }
+  .hp-steps { grid-template-columns:1fr; }
+  .hp-cta-final__buttons .hp-btn { width:100%; }
+  .hp-feature__visual-title { font-size:20px; }
+}
+</style>
+
+{%- liquid
+  assign email_raw = 'web@blechziegel.de'
+  assign contact_url = '/pages/contact'
+  assign catalog_url = '/collections/pv-dachziegel'
+  assign gewerbe_url = '/pages/gewerbe'
+  assign canonical = shop.url | append: '/pages/haendler'
+-%}
+
+<div class="hp">
+
+  <!-- HERO -->
+  <section class="hp-hero" aria-labelledby="hd-hero-title">
+    <div class="hp-hero__inner">
+      <div>
+        <div class="hp-kicker">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-6 11H6v-2h8v2zm4-4H6V9h12v2zm0-4H6V5h12v2z"/></svg>
+          Für Händler & Fachhandel
+        </div>
+        <h1 id="hd-hero-title">Werden Sie <span>Blechziegel-Partner.</span><br>Vom Lager direkt auf die Baustelle.</h1>
+        <p class="hp-hero__sub">
+          Baustoffhändler, Bedachungsfachhandel, Solartechnik-Händler: Mit Blechziegel.de bieten
+          Sie Ihren Kunden PV-Ersatzziegel <strong>ohne eigenes Lagerrisiko</strong> — wir liefern
+          direkt zur Baustelle, senden Musterpakete und drucken Verkaufsflyer mit Ihren Preisen.
+        </p>
+        <div class="hp-hero__cta">
+          <a href="{{ contact_url }}" class="hp-btn hp-btn--primary">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            Partner-Anfrage starten
+          </a>
+          <a href="mailto:{{ email_raw }}?subject=Musterpaket%20anfordern" class="hp-btn hp-btn--outline">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 2L7.2 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.2L15 2H9z"/></svg>
+            Musterpaket anfordern
+          </a>
+        </div>
+        <div class="hp-hero__trust">
+          <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Baustellen-Direktversand</div>
+          <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Kein Lagerrisiko</div>
+          <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Eigene Marge kalkulieren</div>
+          <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Made in Germany</div>
+        </div>
+      </div>
+
+      <aside class="hp-hero__box" aria-label="Partner-Konditionen auf einen Blick">
+        <div class="hp-hero__box-title">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14l-6-4.5h7.5z"/></svg>
+          Ihre Partner-Vorteile
+        </div>
+        <div class="hp-hero__facts">
+          <div class="hp-hero__fact">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.6-1.4 2.4c-.2.3-.2.7 0 1 .2.3.5.5.9.5H19v-2H6.4l1.1-2h7.5c.8 0 1.4-.4 1.7-1l3.6-6.5c.2-.3.2-.6 0-.9-.2-.3-.5-.5-.9-.5H5.2l-.9-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+            <span>Direktlieferung</span>
+            <span class="hp-hero__fact-num">Baustelle</span>
+          </div>
+          <div class="hp-hero__fact">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 2L7.2 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.2L15 2H9z"/></svg>
+            <span>Musterpaket</span>
+            <span class="hp-hero__fact-num">für Endkunden</span>
+          </div>
+          <div class="hp-hero__fact">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 15h8v2H8zm0-4h8v2H8z"/></svg>
+            <span>Verkaufsflyer</span>
+            <span class="hp-hero__fact-num">Ihre Preise</span>
+          </div>
+          <div class="hp-hero__fact">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 13l-4-4h3V7h2v6h3l-4 4z"/></svg>
+            <span>Staffelpreise</span>
+            <span class="hp-hero__fact-num">ab 25 St.</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- VORTEILE -->
+  <section class="hp-section hp-section--white" aria-labelledby="hd-benefits-title">
+    <div class="hp-wrap">
+      <span class="hp-section-label">Warum Blechziegel.de</span>
+      <h2 class="hp-section-title" id="hd-benefits-title">Ein Partner, der mitdenkt</h2>
+      <p class="hp-section-sub">Sie verkaufen, wir liefern. Sie kalkulieren Ihre Marge, wir kümmern uns um Produktion, Logistik und Verkaufsunterlagen.</p>
+      <div class="hp-benefits">
+        <article class="hp-benefit">
+          <div class="hp-benefit__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.6-1.4 2.4c-.2.3-.2.7 0 1 .2.3.5.5.9.5H19v-2H6.4l1.1-2h7.5c.8 0 1.4-.4 1.7-1l3.6-6.5c.2-.3.2-.6 0-.9-.2-.3-.5-.5-.9-.5H5.2l-.9-2H1z"/></svg></div>
+          <h3>Baustellen-Direktversand</h3>
+          <p>Ihre Bestellung geht direkt an die Baustelle Ihres Endkunden — kein Zwischen-Handling in Ihrem Lager, keine Umetikettierung. Sie sparen Lagerplatz, Handling-Zeit und Transportkosten.</p>
+        </article>
+        <article class="hp-benefit">
+          <div class="hp-benefit__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5-7h3V9h-2.5c-.28 0-.5.22-.5.5V12zm-4 0H7V9h3v3zm4 4h3v-2.5c0-.28-.22-.5-.5-.5H14v3zm-4 0H7v-3h3v3z"/></svg></div>
+          <h3>Musterpakete für Endkunden</h3>
+          <p>Wir senden kostenfreie Musterpakete — direkt an Sie oder zu Ihrem Kunden. Ein echter Blechziegel in der Hand überzeugt mehr als jedes Datenblatt.</p>
+        </article>
+        <article class="hp-benefit">
+          <div class="hp-benefit__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 12h8v2H8zm0 4h8v2H8zm0-8h4v2H8z"/></svg></div>
+          <h3>Verkaufsflyer mit Ihren Preisen</h3>
+          <p>Wir gestalten Verkaufsflyer mit Ihrem Logo, Ihrer Adresse und <strong>Ihren kalkulierten Endkundenpreisen</strong>. Druckfertig als PDF oder direkt von uns produziert und geliefert.</p>
+        </article>
+        <article class="hp-benefit">
+          <div class="hp-benefit__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 13l-4-4h3V7h2v6h3l-4 4z"/></svg></div>
+          <h3>Staffelpreise ohne Mindestabnahme</h3>
+          <p>Mengenstaffel ab 25, 50 und 100+ Stück pro Bestellung — keine Jahres-Mindestabnahme, kein Rahmenvertragszwang. Bestellen Sie genau dann, wenn der Endkunde das Produkt braucht.</p>
+        </article>
+        <article class="hp-benefit">
+          <div class="hp-benefit__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l9 4v6c0 5-3.8 9.5-9 10-5.2-.5-9-5-9-10V6l9-4zm-1 14l7-7-1.4-1.4L11 13.2 7.4 9.6 6 11l5 5z"/></svg></div>
+          <h3>Made in Germany</h3>
+          <p>Produktion in Deutschland, pulverbeschichtetes Aluminium mit 1,0 mm Materialstärke, 25+ Jahre Lebensdauer. Starkes Verkaufsargument gegenüber Billig-Importware.</p>
+        </article>
+        <article class="hp-benefit">
+          <div class="hp-benefit__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-9 14l-5-5 1.4-1.4L11 13.2l6.6-6.6L19 8l-8 8z"/></svg></div>
+          <h3>Persönlicher Ansprechpartner</h3>
+          <p>Ein fester Kontakt bei uns für alle Anfragen — kein Ticket-System, keine Warteschleife. Antwort auf Modell-Identifikation, Sonderfertigung und Angebote binnen 24 Stunden.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES (split-layout, großflächig) -->
+  <section class="hp-section hp-section--gray" aria-labelledby="hd-features-title">
+    <div class="hp-wrap">
+      <span class="hp-section-label">Die drei Services, die Händler lieben</span>
+      <h2 class="hp-section-title" id="hd-features-title">So machen wir Ihr Verkaufen einfacher</h2>
+      <p class="hp-section-sub">Keine leeren Versprechen — konkrete Services, die Sie vom ersten Tag der Partnerschaft nutzen.</p>
+
+      <!-- Feature 1: Direktlieferung -->
+      <div class="hp-feature">
+        <div class="hp-feature__visual">
+          <div class="hp-feature__visual-label">Service 01</div>
+          <div class="hp-feature__visual-title">Direkt auf die <span>Baustelle.</span></div>
+          <ul class="hp-feature__visual-bullets">
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Versand ab Werk an die Zielanschrift Ihres Kunden</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Lieferschein und Rechnung separat an Sie</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>DHL-Paket oder Palettenversand nach Menge</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Kommissionierung nach Dachseite auf Wunsch</li>
+          </ul>
+        </div>
+        <div class="hp-feature__content">
+          <h3>Kein Lagerrisiko, kein Handling</h3>
+          <p>
+            Sie nehmen die Bestellung Ihres Kunden entgegen, wir produzieren und versenden direkt
+            zur Baustelle. Ihr Lager bleibt frei, Ihr Kunde bekommt die Ware termingerecht, und
+            auf dem Lieferschein steht <strong>Ihr Firmenname</strong> — nicht unserer.
+          </p>
+          <p>
+            Die Rechnung kommt separat zu Ihnen, Sie fakturieren an Ihren Kunden weiter. So bleibt
+            die Geschäftsbeziehung bei Ihnen, und wir sind nur der stille Produzent im Hintergrund.
+            Auch bei Großprojekten (200+ Stück) organisieren wir Palettenversand mit Spedition,
+            direkt zum Baustart.
+          </p>
+        </div>
+      </div>
+
+      <!-- Feature 2: Musterpakete -->
+      <div class="hp-feature hp-feature--reverse">
+        <div class="hp-feature__visual">
+          <div class="hp-feature__visual-label">Service 02</div>
+          <div class="hp-feature__visual-title">Musterpaket für <span>Ihre Kunden.</span></div>
+          <ul class="hp-feature__visual-bullets">
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Echter Blechziegel in der gewünschten Farbe</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Dachhaken-Muster und Montage-Hinweise</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Produkt-Datenblatt und Montageanleitung</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Versand an Sie oder direkt zum Endkunden</li>
+          </ul>
+        </div>
+        <div class="hp-feature__content">
+          <h3>Verkaufen, weil Ihre Kunden es anfassen</h3>
+          <p>
+            Ein Blechziegel in der Hand überzeugt mehr als ein Prospekt. Deshalb schicken wir Ihnen
+            <strong>kostenfreie Musterpakete</strong> mit echtem Aluminium-Ersatzziegel, passendem
+            Dachhaken und der Montageanleitung. So kann Ihr Kunde die Haptik, die Materialstärke
+            und die Verarbeitungsqualität direkt prüfen.
+          </p>
+          <p>
+            Wir versenden die Muster entweder an Ihre Adresse (für Ihren Showroom) oder — noch
+            effizienter — <strong>direkt an den Endkunden</strong>, mit Ihrem Firmennamen als
+            Absender. So wirkt das Paket, als hätten Sie es selbst zusammengestellt.
+          </p>
+        </div>
+      </div>
+
+      <!-- Feature 3: Verkaufsflyer -->
+      <div class="hp-feature">
+        <div class="hp-feature__visual">
+          <div class="hp-feature__visual-label">Service 03</div>
+          <div class="hp-feature__visual-title">Verkaufsflyer mit <span>Ihren Preisen.</span></div>
+          <ul class="hp-feature__visual-bullets">
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Ihr Logo, Ihre Adresse, Ihre Kontaktdaten</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Sie nennen die Endkundenpreise — wir setzen sie</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Druckfertige PDF oder gedruckt geliefert</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Beispiel-Flyer erstellen wir als Vorschau</li>
+          </ul>
+        </div>
+        <div class="hp-feature__content">
+          <h3>Verkaufs­unter­lagen, die wie Ihre eigenen aussehen</h3>
+          <p>
+            Sie kennen Ihren Markt, Sie kennen Ihre Zielgruppe. Deshalb legen <strong>Sie</strong>
+            die Endkundenpreise fest — wir setzen sie in einen professionellen Verkaufsflyer
+            mit <strong>Ihrem Branding</strong>: Logo, Adresse, Telefonnummer, Firmenfarben.
+          </p>
+          <p>
+            Inhaltlich deckt der Flyer alles Relevante ab: Modell-Übersicht, Kompatibilität zu
+            den gängigen PV-Montagesystemen, Vorteile gegenüber gebohrten Tonziegeln, Farben
+            und technische Daten. Ausgeliefert wird er als druckfertiges PDF — oder auf Wunsch
+            direkt von unserer Druckerei gedruckt und an Ihre Adresse geliefert.
+          </p>
+          <p>
+            <strong>Beispiel-Flyer:</strong> Auf Anfrage erstellen wir einen individuellen
+            Vorschau-Flyer mit Ihren Daten — unverbindlich und kostenfrei, damit Sie sehen,
+            wie das Ergebnis aussieht, bevor Sie sich entscheiden.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROZESS -->
+  <section class="hp-section hp-section--white" aria-labelledby="hd-process-title">
+    <div class="hp-wrap">
+      <span class="hp-section-label">So läuft die Partnerschaft</span>
+      <h2 class="hp-section-title" id="hd-process-title">In vier Schritten zum Händler-Partner</h2>
+      <p class="hp-section-sub">Keine Rahmenverträge, keine Mindestabnahmen, kein Papierkram. Ein Anruf oder eine Mail reicht, damit es losgeht.</p>
+      <ol class="hp-steps">
+        <li class="hp-step">
+          <span class="hp-step__num" aria-hidden="true">1</span>
+          <div class="hp-step__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
+          <h3>Kontakt aufnehmen</h3>
+          <p>Kurze Mail oder Anruf mit Firmenname, Branche und typischem Projektumfang. Wir rufen zurück oder antworten noch am selben Tag.</p>
+        </li>
+        <li class="hp-step">
+          <span class="hp-step__num" aria-hidden="true">2</span>
+          <div class="hp-step__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5-7h3V9h-2.5c-.28 0-.5.22-.5.5V12z"/></svg></div>
+          <h3>Musterpaket erhalten</h3>
+          <p>Kostenfreies Musterpaket mit echtem Blechziegel, Dachhaken, Datenblatt und Montageanleitung — Lieferung innerhalb 1–3 Werktagen.</p>
+        </li>
+        <li class="hp-step">
+          <span class="hp-step__num" aria-hidden="true">3</span>
+          <div class="hp-step__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg></div>
+          <h3>Flyer-Vorschau</h3>
+          <p>Sie geben uns Ihr Logo und Ihre Endkundenpreise, wir senden eine druckfertige PDF-Vorschau. Änderungen bis zur Freigabe kostenfrei.</p>
+        </li>
+        <li class="hp-step">
+          <span class="hp-step__num" aria-hidden="true">4</span>
+          <div class="hp-step__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.6-1.4 2.4c-.2.3-.2.7 0 1 .2.3.5.5.9.5H19v-2H6.4l1.1-2h7.5c.8 0 1.4-.4 1.7-1l3.6-6.5c.2-.3.2-.6 0-.9-.2-.3-.5-.5-.9-.5H5.2l-.9-2H1z"/></svg></div>
+          <h3>Erste Bestellung</h3>
+          <p>Sie verkaufen, wir liefern direkt zur Baustelle. Ab dem ersten Auftrag gelten unsere Staffelpreise — ohne Mindestabnahme, ohne Rahmenvertrag.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="hp-section hp-section--gray" aria-labelledby="hd-faq-title">
+    <div class="hp-wrap">
+      <div class="hp-faq-layout">
+        <div>
+          <span class="hp-section-label">Häufige Fragen</span>
+          <h2 class="hp-section-title" id="hd-faq-title">Was Händler vorab wissen wollen</h2>
+          <p class="hp-section-sub">Antworten auf die Fragen, die im ersten Gespräch fast immer kommen.</p>
+        </div>
+        <div class="hp-faq-list">
+          <details class="hp-faq-item"><summary class="hp-faq-item__q">Brauche ich einen Rahmenvertrag oder eine Mindestabnahme?<span class="hp-faq-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="hp-faq-item__a">Nein. Keine Jahres-Mindestabnahme, kein Rahmenvertrag. Sie bestellen pro Projekt — die Mengenstaffel greift ab 25 Stück pro Bestellung automatisch.</div></details>
+          <details class="hp-faq-item"><summary class="hp-faq-item__q">Wie funktioniert die Baustellen-Direktlieferung genau?<span class="hp-faq-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="hp-faq-item__a">Sie geben bei der Bestellung eine abweichende Lieferadresse an. Die Ware geht direkt dorthin — mit neutralem Lieferschein, ohne unseren Absender auf dem Paket. Rechnung erhalten Sie separat per Mail.</div></details>
+          <details class="hp-faq-item"><summary class="hp-faq-item__q">Was kostet das Musterpaket?<span class="hp-faq-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="hp-faq-item__a">Das erste Musterpaket pro Händler ist kostenfrei inklusive Versand. Weitere Musterpakete für Endkunden-Termine: auf Anfrage, in der Regel gegen kleine Aufwandspauschale.</div></details>
+          <details class="hp-faq-item"><summary class="hp-faq-item__q">Kann der Flyer komplett in unserer CI gestaltet werden?<span class="hp-faq-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="hp-faq-item__a">Ja. Wir nehmen Ihr Logo, Ihre Farben, Ihre Schrift (falls gewünscht) und Ihre Kontaktdaten. Ein Beispiel-Flyer mit Ihren Angaben bekommen Sie als unverbindliche Vorschau — <a href="{{ contact_url }}">einfach anfragen</a>.</div></details>
+          <details class="hp-faq-item"><summary class="hp-faq-item__q">Wie lange dauert die Produktion bei Sonderanfertigungen?<span class="hp-faq-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="hp-faq-item__a">Lagerware geht in 1–3 Werktagen raus. Sonderanfertigungen für selteneres Profile benötigen 1–3 Wochen — konkrete Lieferzeit bekommen Sie mit dem Angebot.</div></details>
+          <details class="hp-faq-item"><summary class="hp-faq-item__q">Welche Zahlungsbedingungen bieten Sie?<span class="hp-faq-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="hp-faq-item__a">Für Gewerbekunden nach erster Bestellung: Rechnung auf 30 Tage nach kurzer Bonitätsprüfung. Alternativ Vorkasse oder SEPA-Lastschrift — Skonto bei Vorkasse auf Anfrage.</div></details>
+          <details class="hp-faq-item"><summary class="hp-faq-item__q">Gibt es exklusive Gebietsschutz-Verträge?<span class="hp-faq-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="hp-faq-item__a">Nicht pauschal, aber bei entsprechendem Volumen und Exklusiv-Interesse besprechen wir das individuell. Kurze Mail mit Ihrem Markt und geplantem Umsatz genügt.</div></details>
+          <details class="hp-faq-item"><summary class="hp-faq-item__q">Werden Retouren akzeptiert?<span class="hp-faq-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="hp-faq-item__a">Lagerware: ja, 14 Tage Rückgaberecht bei unbeschädigter Originalverpackung. Sonderanfertigungen nach Maß sind in der Regel vom Rückgaberecht ausgeschlossen — das klären wir aber immer fair im Einzelfall.</div></details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="hp-section hp-section--navy" aria-labelledby="hd-cta-title">
+    <div class="hp-wrap hp-cta-final">
+      <span class="hp-section-label">Nächster Schritt</span>
+      <h2 class="hp-section-title" id="hd-cta-title">Partner werden — in unter 5 Minuten angefragt</h2>
+      <p class="hp-section-sub">Kurze Mail reicht: Firmenname, Branche, Ansprechpartner. Wir melden uns binnen 24 Stunden mit Musterpaket und Beispiel-Flyer.</p>
+      <div class="hp-cta-final__buttons">
+        <a href="mailto:{{ email_raw }}?subject=H%C3%A4ndler-Partnerschaft%20anfragen" class="hp-btn hp-btn--primary">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          Partner-Anfrage per Mail
+        </a>
+        <a href="{{ contact_url }}" class="hp-btn hp-btn--outline">
+          Kontaktformular nutzen
+        </a>
+      </div>
+      <div class="hp-cta-final__contact">
+        <div class="hp-cta-final__contact-item">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/></svg>
+          {{ email_raw }}
+        </div>
+        <div class="hp-cta-final__contact-item">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+          Allersberger Straße 185, 90461 Nürnberg
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  (function(){
+    var items = document.querySelectorAll('.hp-faq-item');
+    items.forEach(function(el){
+      el.addEventListener('toggle', function(){
+        if (el.open) el.classList.add('open'); else el.classList.remove('open');
+      });
+    });
+  })();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Startseite", "item": "{{ shop.url }}/" },
+      { "@type": "ListItem", "position": 2, "name": "Für Händler", "item": "{{ canonical }}" }
+    ]},
+    { "@type": "WebPage", "@id": "{{ canonical }}#webpage", "url": "{{ canonical }}",
+      "name": "Für Händler — Blechziegel-Partner werden · Baustellen-Direktversand, Musterpakete, Custom-Flyer",
+      "description": "Fachhandels-Partnerschaft mit Blechziegel.de: Direktversand zur Baustelle, kostenfreie Musterpakete für Endkunden und individuelle Verkaufsflyer mit Ihren Preisen und Ihrem Branding. Ohne Rahmenvertrag, ohne Mindestabnahme.",
+      "inLanguage": "de-DE",
+      "isPartOf": { "@type": "WebSite", "url": "{{ shop.url }}/", "name": "{{ shop.name | escape }}" },
+      "audience": { "@type": "BusinessAudience", "audienceType": "Baustoffhandel, Bedachungsfachhandel, Solartechnik-Händler" }
+    },
+    { "@type": "Organization", "name": "Blechziegel.de", "url": "{{ shop.url }}/", "email": "{{ email_raw }}",
+      "address": { "@type": "PostalAddress", "streetAddress": "Allersberger Straße 185", "postalCode": "90461", "addressLocality": "Nürnberg", "addressCountry": "DE" } },
+    { "@type": "Service", "name": "Händler-Partnerschaft Blechziegel.de", "provider": { "@type": "Organization", "name": "Blechziegel.de" },
+      "serviceType": "Fachhandel-Partnerschaft", "areaServed": "DE",
+      "hasOfferCatalog": { "@type": "OfferCatalog", "name": "Partner-Services", "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Baustellen-Direktversand" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Musterpakete für Endkunden" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Individuelle Verkaufsflyer mit Händler-Branding" } }
+      ]}
+    },
+    { "@type": "FAQPage", "mainEntity": [
+      { "@type": "Question", "name": "Brauche ich einen Rahmenvertrag oder eine Mindestabnahme?", "acceptedAnswer": { "@type": "Answer", "text": "Nein. Keine Jahres-Mindestabnahme, kein Rahmenvertrag. Mengenstaffel greift ab 25 Stück pro Bestellung." } },
+      { "@type": "Question", "name": "Wie funktioniert die Baustellen-Direktlieferung?", "acceptedAnswer": { "@type": "Answer", "text": "Abweichende Lieferadresse angeben, Ware geht direkt dorthin mit neutralem Lieferschein. Rechnung separat an den Händler." } },
+      { "@type": "Question", "name": "Was kostet das Musterpaket?", "acceptedAnswer": { "@type": "Answer", "text": "Das erste Musterpaket pro Händler ist kostenfrei inkl. Versand." } },
+      { "@type": "Question", "name": "Kann der Flyer komplett in unserer CI gestaltet werden?", "acceptedAnswer": { "@type": "Answer", "text": "Ja. Logo, Farben, Schrift und Kontaktdaten werden übernommen. Beispiel-Flyer als Vorschau auf Anfrage." } },
+      { "@type": "Question", "name": "Wie lange dauert die Produktion bei Sonderanfertigungen?", "acceptedAnswer": { "@type": "Answer", "text": "Lagerware 1–3 Werktage, Sonderanfertigungen 1–3 Wochen." } },
+      { "@type": "Question", "name": "Welche Zahlungsbedingungen bieten Sie?", "acceptedAnswer": { "@type": "Answer", "text": "Für Gewerbekunden Rechnung auf 30 Tage nach Bonitätsprüfung, alternativ Vorkasse oder SEPA." } },
+      { "@type": "Question", "name": "Gibt es Gebietsschutz-Verträge?", "acceptedAnswer": { "@type": "Answer", "text": "Nicht pauschal, aber bei entsprechendem Volumen individuell besprechbar." } },
+      { "@type": "Question", "name": "Werden Retouren akzeptiert?", "acceptedAnswer": { "@type": "Answer", "text": "Lagerware mit 14 Tagen Rückgaberecht bei unbeschädigter Originalverpackung. Sonderanfertigungen im Einzelfall." } }
+    ]}
+  ]
+}
+</script>
