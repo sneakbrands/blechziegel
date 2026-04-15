@@ -102,7 +102,14 @@
   font-size:13px; color:var(--bz-text-light);
 }
 .hp-legal__meta strong { color:var(--bz-navy); font-family:var(--bz-head); font-weight:700; }
-.hp-legal__body { font-size:15px; line-height:1.75; color:var(--bz-text); }
+.hp-legal__body { font-size:15px; line-height:1.75; color:var(--bz-text);
+  overflow-wrap:anywhere; word-break:break-word; }
+.hp-legal__body a { overflow-wrap:anywhere; word-break:break-word; }
+.hp-legal__body table { display:block; max-width:100%; overflow-x:auto;
+  -webkit-overflow-scrolling:touch; border-collapse:collapse; }
+.hp-legal__body img, .hp-legal__body iframe { max-width:100%; height:auto; }
+.hp-legal__body pre, .hp-legal__body code { max-width:100%; overflow-x:auto;
+  white-space:pre-wrap; word-break:break-word; }
 .hp-legal__body h1,
 .hp-legal__body h2,
 .hp-legal__body h3,
@@ -174,13 +181,41 @@
   .hp-toc { position:static; }
   .hp-info-bar { grid-template-columns:1fr; }
 }
+@media (max-width:1024px) and (min-width:641px) {
+  .hp-info-bar { grid-template-columns:repeat(2,1fr); }
+}
 @media (max-width:640px) {
-  .hp-hero { padding:48px 16px 56px; }
-  .hp-hero h1 { font-size:26px; }
-  .hp-section { padding:48px 0; }
-  .hp-legal { padding:28px 22px; }
-  .hp-legal__body { font-size:14.5px; }
+  .hp-hero { padding:40px 16px 44px; }
+  .hp-hero h1 { font-size:24px; line-height:1.2; }
+  .hp-hero__sub { font-size:14.5px; }
+  .hp-hero__trust { gap:10px 14px; }
+  .hp-hero__trust-item { font-size:12px; }
+  .hp-section { padding:36px 0; }
+  .hp-section-title { font-size:22px; }
+  .hp-section-sub { font-size:14px; }
+  .hp-wrap { padding:0 16px; }
+  .hp-toc { padding:16px 16px 12px; border-radius:10px; }
+  .hp-toc__title { font-size:11px; margin-bottom:10px; padding-bottom:8px; }
+  .hp-toc__link { font-size:13px; padding:7px 9px; }
+  .hp-legal { padding:22px 18px; border-radius:10px; }
+  .hp-legal__meta { gap:6px 14px; padding-bottom:14px; margin-bottom:18px; font-size:12px; }
+  .hp-legal__body { font-size:14.5px; line-height:1.7; }
+  .hp-legal__body h1 { font-size:20px; }
+  .hp-legal__body h2 { font-size:17px; margin:24px 0 10px; padding-bottom:6px; }
+  .hp-legal__body h3 { font-size:15.5px; margin:20px 0 8px; }
+  .hp-legal__body h4 { font-size:14px; }
+  .hp-legal__body table th, .hp-legal__body table td { padding:7px 9px; font-size:12.5px; }
+  .hp-legal__body blockquote { padding:10px 14px; font-size:14px; }
+  .hp-info-bar { grid-template-columns:1fr; gap:14px; margin-top:28px; }
+  .hp-info-card { padding:18px 18px; }
   .hp-cta-final__buttons .hp-btn { width:100%; }
+}
+@media (max-width:380px) {
+  .hp-hero h1 { font-size:22px; }
+  .hp-legal { padding:18px 14px; }
+  .hp-legal__body { font-size:14px; }
+  .hp-legal__body h1 { font-size:18px; }
+  .hp-legal__body h2 { font-size:16px; }
 }
 </style>
 
