@@ -159,8 +159,9 @@
   }
 
   /* Feature-Cards (Projektpreise, Montageanleitungen) — Gewerbe-Style */
+  .bz-feature-cards-wrap { max-width: 1280px; margin: 40px auto 60px; padding: 0 20px; }
   .bz-feature-cards { display: grid; grid-template-columns: repeat(2, 1fr);
-    gap: 20px; margin: 36px 0 8px; }
+    gap: 24px; margin: 0; }
   .bz-fcard { background: linear-gradient(160deg, #0a2240 0%, #163660 100%);
     border: 1px solid rgba(255,165,0,.18); border-radius: 14px;
     padding: 26px 28px; color: #fff; position: relative; overflow: hidden;
@@ -203,7 +204,8 @@
   .bz-fcard__cta svg { transition: transform .18s; }
   .bz-fcard__cta:hover svg { transform: translateX(3px); }
   @media (max-width: 900px) {
-    .bz-feature-cards { grid-template-columns: 1fr; gap: 14px; margin: 28px 0 4px; }
+    .bz-feature-cards-wrap { margin: 28px auto 40px; padding: 0 16px; }
+    .bz-feature-cards { grid-template-columns: 1fr; gap: 14px; }
     .bz-fcard { padding: 22px 20px; border-radius: 12px; }
     .bz-fcard__badge { font-size: 10.5px; margin-bottom: 14px; padding: 5px 10px; }
     .bz-fcard__title { font-size: 19px; margin-bottom: 14px; }
@@ -1291,63 +1293,65 @@
           </div>
         </div>
 
-        {%- comment -%}══ FEATURE-CARDS (Profi-Projektpreise + Montageanleitungen) ══{%- endcomment -%}
-        <div class="bz-feature-cards">
-
-          <article class="bz-fcard" aria-labelledby="bz-fcard-1">
-            <span class="bz-fcard__badge">Service 01</span>
-            <h3 class="bz-fcard__title" id="bz-fcard-1">Projektpreise für <span>Profis.</span></h3>
-            <ul class="bz-fcard__list">
-              <li>Individuelle Konditionen ab 50 Stück</li>
-              <li>Rahmenverträge für Dachdecker und PV-Betriebe</li>
-              <li>Persönlicher Ansprechpartner für Ihr Projekt</li>
-              <li>Angebot innerhalb von 24 Stunden</li>
-            </ul>
-            <a href="{{ routes.root_url }}pages/gewerbe" class="bz-fcard__cta">
-              Projekt-Konditionen anfragen
-              <svg aria-hidden="true" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M13 6l6 6-6 6M5 12h14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-          </article>
-
-          {%- liquid
-            assign pdf_mit = product.metafields.custom.montageanleitung_mit_haken
-            assign pdf_ohne = product.metafields.custom.montageanleitung_ohne_haken
-            assign pdf_mit_url = pdf_mit.value.url
-            assign pdf_ohne_url = pdf_ohne.value.url
-          -%}
-          <article class="bz-fcard" aria-labelledby="bz-fcard-2">
-            <span class="bz-fcard__badge">Service 02</span>
-            <h3 class="bz-fcard__title" id="bz-fcard-2">Montage­anleitungen <span>zum Download.</span></h3>
-            <ul class="bz-fcard__list">
-              <li>Schritt-für-Schritt-Anleitung für Dachdecker und Heimwerker</li>
-              <li>Varianten mit und ohne integriertem Dachhaken</li>
-              <li>Materialzertifikate und Datenblätter auf Anfrage</li>
-              <li>Support bei Modell-Identifikation per Foto</li>
-            </ul>
-            <div class="bz-fcard__downloads">
-              {%- if pdf_mit_url != blank -%}
-                <a href="{{ pdf_mit_url }}" class="bz-fcard__dl" target="_blank" rel="noopener" download>
-                  <svg aria-hidden="true" viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zm-7-8h3l-4 4-4-4h3V9h2v3z"/></svg>
-                  Mit Dachhaken (PDF)
-                </a>
-              {%- endif -%}
-              {%- if pdf_ohne_url != blank -%}
-                <a href="{{ pdf_ohne_url }}" class="bz-fcard__dl" target="_blank" rel="noopener" download>
-                  <svg aria-hidden="true" viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zm-7-8h3l-4 4-4-4h3V9h2v3z"/></svg>
-                  Ohne Dachhaken (PDF)
-                </a>
-              {%- endif -%}
-            </div>
-            <a href="{{ routes.root_url }}pages/montageanleitung-mit-dachhaken" class="bz-fcard__cta">
-              Alle Montageanleitungen ansehen
-              <svg aria-hidden="true" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M13 6l6 6-6 6M5 12h14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-          </article>
-
-        </div>
-
       </div>
     </div>
+  </div>
+</div>
+
+{%- comment -%}══ FEATURE-CARDS (full-width unter dem Produkt-Layout) ══{%- endcomment -%}
+<div class="bz-feature-cards-wrap">
+  <div class="bz-feature-cards">
+
+    <article class="bz-fcard" aria-labelledby="bz-fcard-1">
+      <span class="bz-fcard__badge">Service 01</span>
+      <h3 class="bz-fcard__title" id="bz-fcard-1">Projektpreise für <span>Profis.</span></h3>
+      <ul class="bz-fcard__list">
+        <li>Individuelle Konditionen ab 50 Stück</li>
+        <li>Rahmenverträge für Dachdecker und PV-Betriebe</li>
+        <li>Persönlicher Ansprechpartner für Ihr Projekt</li>
+        <li>Angebot innerhalb von 24 Stunden</li>
+      </ul>
+      <a href="{{ routes.root_url }}pages/gewerbe" class="bz-fcard__cta">
+        Projekt-Konditionen anfragen
+        <svg aria-hidden="true" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M13 6l6 6-6 6M5 12h14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </article>
+
+    {%- liquid
+      assign pdf_mit = product.metafields.custom.montageanleitung_mit_haken
+      assign pdf_ohne = product.metafields.custom.montageanleitung_ohne_haken
+      assign pdf_mit_url = pdf_mit.value.url
+      assign pdf_ohne_url = pdf_ohne.value.url
+    -%}
+    <article class="bz-fcard" aria-labelledby="bz-fcard-2">
+      <span class="bz-fcard__badge">Service 02</span>
+      <h3 class="bz-fcard__title" id="bz-fcard-2">Montage­anleitungen <span>zum Download.</span></h3>
+      <ul class="bz-fcard__list">
+        <li>Schritt-für-Schritt-Anleitung für Dachdecker und Heimwerker</li>
+        <li>Varianten mit und ohne integriertem Dachhaken</li>
+        <li>Materialzertifikate und Datenblätter auf Anfrage</li>
+        <li>Support bei Modell-Identifikation per Foto</li>
+      </ul>
+      <div class="bz-fcard__downloads">
+        {%- if pdf_mit_url != blank -%}
+          <a href="{{ pdf_mit_url }}" class="bz-fcard__dl" target="_blank" rel="noopener" download>
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zm-7-8h3l-4 4-4-4h3V9h2v3z"/></svg>
+            Mit Dachhaken (PDF)
+          </a>
+        {%- endif -%}
+        {%- if pdf_ohne_url != blank -%}
+          <a href="{{ pdf_ohne_url }}" class="bz-fcard__dl" target="_blank" rel="noopener" download>
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zm-7-8h3l-4 4-4-4h3V9h2v3z"/></svg>
+            Ohne Dachhaken (PDF)
+          </a>
+        {%- endif -%}
+      </div>
+      <a href="{{ routes.root_url }}pages/montageanleitung-mit-dachhaken" class="bz-fcard__cta">
+        Alle Montageanleitungen ansehen
+        <svg aria-hidden="true" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M13 6l6 6-6 6M5 12h14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </article>
+
   </div>
 </div>
 
