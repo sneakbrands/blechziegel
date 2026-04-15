@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "hersteller": {
+      "type": "blechziegel-hersteller",
+      "settings": {
+        "email": "web@blechziegel.de",
+        "contact_url": "/pages/contact",
+        "catalog_url": "/collections/pv-dachziegel"
+      }
+    }
+  },
+  "order": ["hersteller"]
+}
