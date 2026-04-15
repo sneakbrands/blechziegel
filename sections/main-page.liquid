@@ -10,6 +10,8 @@
   {% render 'blechziegel-montage' %}
 {%- elsif page.handle == 'agb' or request.path contains '/pages/agb' -%}
   {% render 'blechziegel-agb' %}
+{%- elsif page.handle == 'impressum' or request.path contains '/pages/impressum' -%}
+  {% render 'blechziegel-impressum' %}
 {%- elsif page.handle == 'haendler' or request.path contains '/pages/haendler' -%}
   {% render 'blechziegel-haendler' %}
 {%- else -%}
