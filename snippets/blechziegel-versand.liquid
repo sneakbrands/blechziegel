@@ -217,9 +217,6 @@
     assign express_rates = ship_rates | where: 'name', 'Express'
   endif
 
-  capture versand_body
-    render 'bz-versand-content'
-  endcapture
 -%}
 
 <div class="hp">
@@ -416,25 +413,6 @@
           <span class="hp-bank-row__value" style="font-size:13.5px; color:var(--bz-text); font-weight:600;">Bitte stets Ihre Bestellnummer (z.&nbsp;B. <em>BZ-12345</em>) angeben.</span>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- POLICY-TEXT -->
-  <section class="hp-section hp-section--white" aria-labelledby="vd-policy-title">
-    <div class="hp-wrap">
-      <span class="hp-section-label">Vollständige Versandrichtlinie</span>
-      <h2 class="hp-section-title" id="vd-policy-title">Rechtsverbindliche Versandbedingungen</h2>
-      <p class="hp-section-sub">Nachstehend die offizielle Shopify-Versandrichtlinie (synchronisiert aus Admin → Einstellungen → Richtlinien → Versand).</p>
-
-      <article class="hp-legal">
-        <div class="hp-legal__body">
-          {%- if versand_body != blank -%}
-            {{ versand_body }}
-          {%- else -%}
-            <p><strong>Hinweis:</strong> Die Versandrichtlinie wird aus den Shopify-Richtlinien geladen. Bitte im Admin ergänzen und <code>sync-agb.js shipping-policy</code> ausführen.</p>
-          {%- endif -%}
-        </div>
-      </article>
     </div>
   </section>
 
