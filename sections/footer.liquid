@@ -382,9 +382,9 @@
             <tr>
               <td>
                 {%- if r.max -%}
-                  bis {{ r.max | round: 2 | replace: '.', ',' }}&nbsp;&euro;
+                  bis {{ r.max | money_without_currency }}&nbsp;&euro;
                 {%- elsif r.min and r.min > 0 -%}
-                  ab {{ r.min | round: 2 | replace: '.', ',' }}&nbsp;&euro;
+                  ab {{ r.min | money_without_currency }}&nbsp;&euro;
                 {%- else -%}
                   Standard
                 {%- endif -%}
@@ -393,7 +393,7 @@
                 {%- if r.price == 0 -%}
                   Kostenlos&nbsp;&#10003;
                 {%- else -%}
-                  {{ r.price | round: 2 | replace: '.', ',' }}&nbsp;&euro;
+                  {{ r.price | money_without_currency }}&nbsp;&euro;
                 {%- endif -%}
               </td>
             </tr>
