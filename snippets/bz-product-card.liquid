@@ -1,0 +1,66 @@
+{%- comment -%}
+  Usage:
+    {% render 'bz-product-card', product: product, show_bestseller: forloop.first %}
+    {% render 'bz-product-card', product: product, is_hersteller: true, hersteller_name: 'Braas' %}
+
+  Params:
+    product          (required) product object
+    show_bestseller  (bool) render orange "Bestseller" badge on image
+    is_hersteller    (bool) render dachtyp chip + "Passend für X" pill
+    hersteller_name  (string) name shown in "Passend für …" pill
+{%- endcomment -%}
+
+{%- assign dachtyp = product.metafields.custom.dachziegel_typ | default: '' -%}
+
+<div class="bz-product-card">
+  <a href="{{ product.url }}" class="bz-product-img-link" aria-label="{{ product.title | escape }}">
+    <div class="bz-product-img">
+      {%- if product.featured_image -%}
+        {{ product.featured_image | image_url: width: 600 | image_tag:
+          loading: 'lazy',
+          width: 600,
+          height: 450,
+          alt: product.featured_image.alt | default: product.title
+        }}
+      {%- else -%}
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      {%- endif -%}
+      {%- if show_bestseller -%}<span class="bz-product-badge">Bestseller</span>{%- endif -%}
+    </div>
+  </a>
+  <div class="bz-product-body">
+    {%- if is_hersteller and dachtyp != blank -%}
+      <span class="bz-product-dachtyp">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        {{ dachtyp }}
+      </span>
+    {%- endif -%}
+
+    <a href="{{ product.url }}" class="bz-product-name-link">
+      <div class="bz-product-name">{{ product.title }}</div>
+    </a>
+
+    {%- if is_hersteller and hersteller_name != blank -%}
+      <span class="bz-product-passend">Passend für {{ hersteller_name }}</span>
+    {%- endif -%}
+
+    <div class="bz-product-desc">{{ product.description | strip_html | truncate: 100 }}</div>
+
+    <div>
+      <div class="bz-product-price">ab {{ product.price_min | money }}</div>
+      <div class="bz-product-price-sub">inkl. MwSt. &middot; zzgl. Versand</div>
+    </div>
+
+    <div class="bz-product-trustline" aria-label="Produktvorteile">
+      <span class="bz-product-trustitem">Passgenau</span>
+      <span class="bz-product-trustdot">&bull;</span>
+      <span class="bz-product-trustitem">Made in Germany</span>
+      <span class="bz-product-trustdot">&bull;</span>
+      <span class="bz-product-trustitem">1&ndash;3 Werktage</span>
+    </div>
+
+    <div class="bz-product-cta">
+      <a href="{{ product.url }}" class="bz-btn bz-btn-primary" style="width:100%;justify-content:center;">Jetzt kaufen</a>
+    </div>
+  </div>
+</div>
