@@ -41,18 +41,6 @@
     margin-right: 2px;
     letter-spacing: 1px;
   }
-  .bz-countdown { color: #ffe8b8 !important; font-weight: 600; }
-  .bz-countdown svg { color: #f5a623; }
-  .bz-countdown__time { color: #ffffff; font-variant-numeric: tabular-nums; }
-  .bz-countdown__star { color: #f5a623; margin-left: 2px; font-weight: 700; }
-  .bz-announcement-note {
-    text-align: center;
-    font-size: 10.5px;
-    color: rgba(255,255,255,.55);
-    padding: 2px 20px 6px;
-    letter-spacing: .01em;
-    font-family: var(--font-body-family, sans-serif);
-  }
   @media (max-width: 640px) {
     .bz-announcement-bar li {
       padding: 3px 10px;
@@ -61,19 +49,11 @@
     .bz-announcement-bar li:last-child {
       display: none;
     }
-    .bz-announcement-note { font-size: 10px; padding: 2px 10px 5px; }
   }
 {% endstyle %}
 
 <div class="bz-announcement-bar">
   <ul>
-    <li class="bz-countdown" data-bz-countdown hidden>
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="10"/>
-        <path d="M12 6v6l4 2"/>
-      </svg>
-      <span>Noch <span class="bz-countdown__time" data-bz-countdown-time>--</span> bis Versand heute<span class="bz-countdown__star">*</span></span>
-    </li>
     <li>
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <rect x="1" y="3" width="15" height="13" rx="1"/>
@@ -97,57 +77,7 @@
       {{ section.settings.item_3 | default: 'Trusted Shops · 4,9 / 5' }}
     </li>
   </ul>
-  <div class="bz-announcement-note" data-bz-countdown-note hidden>* garantiert bei Bestellungen unter 100 Ziegeln</div>
 </div>
-
-<script>
-  (function () {
-    var item = document.querySelector('[data-bz-countdown]');
-    var timeEl = document.querySelector('[data-bz-countdown-time]');
-    var noteEl = document.querySelector('[data-bz-countdown-note]');
-    if (!item || !timeEl) return;
-
-    function berlinNow() {
-      var parts = new Intl.DateTimeFormat('en-GB', {
-        timeZone: 'Europe/Berlin',
-        hour12: false,
-        year: 'numeric', month: '2-digit', day: '2-digit',
-        hour: '2-digit', minute: '2-digit', second: '2-digit',
-        weekday: 'short'
-      }).formatToParts(new Date());
-      var p = {};
-      parts.forEach(function (x) { p[x.type] = x.value; });
-      return {
-        h: parseInt(p.hour, 10),
-        m: parseInt(p.minute, 10),
-        s: parseInt(p.second, 10),
-        weekday: p.weekday
-      };
-    }
-
-    function update() {
-      var t = berlinNow();
-      var isWeekend = t.weekday === 'Sat' || t.weekday === 'Sun';
-      var cutoffMin = 12 * 60;
-      var nowMin = t.h * 60 + t.m;
-      if (isWeekend || nowMin >= cutoffMin) {
-        item.hidden = true;
-        if (noteEl) noteEl.hidden = true;
-        return;
-      }
-      var remaining = cutoffMin - nowMin;
-      var hh = Math.floor(remaining / 60);
-      var mm = remaining % 60;
-      var label = hh > 0 ? hh + ' Std ' + mm + ' Min' : mm + ' Min';
-      timeEl.textContent = label;
-      item.hidden = false;
-      if (noteEl) noteEl.hidden = false;
-    }
-
-    update();
-    setInterval(update, 30000);
-  })();
-</script>
 
 {% schema %}
 {
