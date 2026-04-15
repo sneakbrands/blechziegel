@@ -249,6 +249,7 @@
         {% if show_country == true %}
           <span class="language-selector__label">{{ 'content.language' | t }}</span>
         {% endif %}
+        <span class="bz-flag bz-flag--current" aria-hidden="true">{%- render 'bz-flag', code: localization.language.iso_code -%}</span>
         <select
           id="{{ localization_style }}Select"
           class="localization-form__select"
@@ -258,7 +259,6 @@
           on:change="/changeLanguage"
         >
           {%- for language in localization.available_languages -%}
-            {%- capture lang_flag -%}{%- render 'bz-flag', code: language.iso_code -%}{%- endcapture -%}
             <option
               value="{{ language.iso_code }}"
               lang="{{ language.iso_code }}"
@@ -266,7 +266,7 @@
                 selected
               {% endif %}
             >
-              {{ lang_flag }} {{ language.endonym_name | capitalize }}
+              {{ language.endonym_name | capitalize }}
             </option>
           {%- endfor -%}
         </select>
@@ -299,6 +299,11 @@
     flex-shrink: 0;
     user-select: none;
   }
+  .bz-flag--current {
+    margin-inline-end: 6px;
+    font-size: 1.15em;
+  }
+  .language-selector { display: inline-flex; align-items: center; }
 
   .localization-form__select {
     font-family: "Twemoji Country Flags", var(--font-primary--family, inherit), sans-serif;
