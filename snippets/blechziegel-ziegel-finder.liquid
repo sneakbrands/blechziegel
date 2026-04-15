@@ -5,17 +5,17 @@
   Layout-DNA: Gewerbe-Seite (hp-* Navy/Orange, Montserrat/Open Sans)
   Eingebunden via sections/main-page.liquid wenn page.handle == 'ziegel-finder'
 
-  DATEN-ARCHITEKTUR:
-    1) PRODUKTE: aus collection "pv-dachziegel" via Liquid +
-       ihrer Metafields custom.laenge/custom.breite/
-       custom.passende_hersteller → dynamisch.
-    2) STAMMDATEN-MATRIX: Dachziegel-Profile + Standard-Maße je
-       Hersteller (öffentliche Hersteller-Specs, aus /pages/hersteller
-       übernommen) — hartcodiert im JS-Block unten, weil
-       nicht-Lagerware ohnehin in Beratung mündet.
-
-  MATCHING:
-    Hersteller → Profil → exakter product_handle | null (=Beratung)
+  DATEN-ARCHITEKTUR (metafield-only):
+    Quelle: collections.pv-dachziegel.products
+    Produkt-Metafields:
+      - custom.laenge              (number_integer, mm)
+      - custom.breite              (number_integer, mm)
+      - custom.passende_hersteller (list.single_line_text_field,
+                                    Format "Profil (Hersteller)")
+    Der Finder leitet SHOPIFY_PRODUCTS → MFR_MAP ab.
+    Keine hartcodierten Hersteller-, Profil- oder Maß-Stammdaten.
+    Ergebnis basiert ausschließlich auf echten Produktdaten.
+    Nicht abgedeckte Hersteller → Beratungs-CTA (/pages/ziegel-anfrage).
   ============================================================
 {% endcomment %}
 
@@ -259,8 +259,8 @@
         </a>
       </div>
       <div class="hp-hero__trust">
-        <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>10 Hersteller</div>
-        <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>3 Standard-Farben</div>
+        <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Passendes Produkt direkt finden</div>
+        <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Auswahl nach Hersteller &amp; Maß</div>
         <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Sonderanfertigungen möglich</div>
         <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Beratung binnen 24 Std.</div>
       </div>
@@ -272,7 +272,7 @@
     <div class="hp-wrap">
       <span class="hp-section-label">Schritt für Schritt</span>
       <h2 class="hp-section-title" id="zf-finder-title">Ihren Blechziegel finden</h2>
-      <p class="hp-section-sub">Hersteller und Modell stehen meistens auf der Unterseite eines Dachziegels. Die Finder-Daten basieren auf Standard-Abmessungen der deutschen Dachziegel-Hersteller.</p>
+      <p class="hp-section-sub">Hersteller und Modell stehen meistens auf der Unterseite eines Dachziegels. Der Finder zeigt Hersteller und Profile, die aus unseren aktuell gepflegten Produktdaten ableitbar sind. Für nicht gelistete Profile: Beratung per Foto-Anfrage.</p>
 
       <div class="zf-shell" role="region" aria-label="Ziegel Finder">
         <nav class="zf-steps" aria-label="Finder-Fortschritt">
@@ -696,7 +696,7 @@
     ]},
     { "@type": "WebPage", "@id": "{{ canonical }}#webpage", "url": "{{ canonical }}",
       "name": "Ziegel Finder — Passenden Blechziegel für Ihr Dach finden",
-      "description": "Finden Sie den passenden Aluminium-Blechziegel nach Hersteller und Maßen. Für Braas, Bramac, Creaton, Nelskamp und weitere Dachziegel-Hersteller — inklusive Standard-Profile wie Frankfurter Pfanne.",
+      "description": "Finden Sie den passenden Aluminium-Blechziegel nach Hersteller und Maßen. Der Finder basiert auf den aktuell gepflegten Produktdaten im Shop. Für nicht gelistete Profile bieten wir Beratung per Foto-Anfrage.",
       "inLanguage": "de-DE",
       "isPartOf": { "@type": "WebSite", "url": "{{ shop.url }}/", "name": "{{ shop.name | escape }}" },
       "potentialAction": { "@type": "SearchAction",
