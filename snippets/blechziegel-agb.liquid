@@ -189,7 +189,10 @@
   assign impressum_url = '/policies/legal-notice'
   assign widerruf_url = '/policies/refund-policy'
   assign datenschutz_url = '/policies/privacy-policy'
-  assign agb_body = shop.metafields.blechziegel.agb_body.value.body
+  assign agb_body = shop.metafields.blechziegel.agb_body.value
+  if agb_body == blank
+    assign agb_body = shop.metafields.blechziegel.agb_body
+  endif
   if agb_body == blank
     for policy in shop.policies
       if policy.handle == 'terms-of-service'
