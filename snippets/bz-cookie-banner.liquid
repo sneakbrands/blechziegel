@@ -17,22 +17,15 @@
     font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
   }
 
-  /* ═══ BANNER WRAPPER (bottom-fixed) ═══ */
-  #shopify-pc__banner {
+  /* ═══ BANNER WRAPPER (bottom-fixed) — direkt weiß ═══ */
+  #shopify-pc__banner,
+  #shopify-pc__banner[role="dialog"] {
     inset-inline: 16px !important;
     inset-block-end: 16px !important;
     max-width: 560px !important;
     margin-inline: auto !important;
-    padding: 0 !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    z-index: 9999 !important;
-  }
-
-  /* Dialog */
-  #shopify-pc__banner__dialog,
-  .shopify-pc__banner__dialog {
     background: #ffffff !important;
+    background-color: #ffffff !important;
     border-radius: 14px !important;
     border: 1px solid var(--bz-pc-border) !important;
     border-top: 3px solid var(--bz-pc-orange) !important;
@@ -40,7 +33,15 @@
                 0 6px 16px rgba(10, 34, 64, 0.08) !important;
     padding: 22px 24px !important;
     color: var(--bz-pc-text) !important;
-    max-width: 100% !important;
+    z-index: 9999 !important;
+  }
+  /* Falls Shopify ein inneres Dialog-Element hat */
+  #shopify-pc__banner__dialog,
+  .shopify-pc__banner__dialog,
+  #shopify-pc__banner > div {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: var(--bz-pc-text) !important;
   }
 
   /* Title */
