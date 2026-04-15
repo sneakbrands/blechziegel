@@ -13,12 +13,12 @@
 
   /* ── Haupt-Footer Grid ── */
   .bz-footer-main {
-    max-width: 1160px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 52px 20px 40px;
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1.5fr;
-    gap: 40px;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+    gap: 32px;
   }
 
   /* ── Spalte 1: Marke ── */
@@ -274,13 +274,19 @@
   }
 
   /* ── Responsive ── */
-  @media (max-width: 900px) {
+  @media (max-width: 1100px) {
     .bz-footer-main {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 28px;
     }
     .bz-footer-brand {
       grid-column: 1 / -1;
+    }
+  }
+  @media (max-width: 720px) {
+    .bz-footer-main {
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
     }
   }
   @media (max-width: 520px) {
@@ -350,7 +356,18 @@
       </ul>
     </div>
 
-    <!-- Spalte 3: Rechtliches -->
+    <!-- Spalte 3: Informationen -->
+    <div class="bz-footer-col">
+      <div class="bz-footer-col-title">Informationen</div>
+      <ul>
+        <li><a href="{{ routes.root_url }}pages/gewerbe">F&uuml;r Dachdecker</a></li>
+        <li><a href="{{ routes.root_url }}pages/solar-installateure">F&uuml;r Solar-Installateure</a></li>
+        <li><a href="{{ routes.root_url }}pages/ratgeber">Ratgeber</a></li>
+        <li><a href="{{ routes.root_url }}pages/hersteller">Hersteller-&Uuml;bersicht</a></li>
+      </ul>
+    </div>
+
+    <!-- Spalte 4: Rechtliches -->
     <div class="bz-footer-col">
       <div class="bz-footer-col-title">Rechtliches</div>
       <ul>
@@ -362,7 +379,7 @@
       </ul>
     </div>
 
-    <!-- Spalte 4: Versandkosten & Zahlung -->
+    <!-- Spalte 5: Versandkosten & Zahlung -->
     <div class="bz-footer-col">
       <div class="bz-footer-table-title">
         <span>Versandkosten</span>
