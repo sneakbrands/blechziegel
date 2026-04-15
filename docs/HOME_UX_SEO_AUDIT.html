@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Home UX + SEO Audit · blechziegel.de</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --navy:#0a2240; --navy-lt:#163660; --orange:#ffa500; --orange-dk:#e69400;
+           --text:#222; --muted:#5a6271; --border:#e5e7eb; --bg-soft:#f8f9fb; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; padding:0; font-family:'Open Sans',sans-serif;
+    color:var(--text); font-size:10.5pt; line-height:1.55; }
+  .page { max-width:790px; margin:0 auto; padding:42px 50px 50px; }
+  .brand { display:flex; align-items:center; justify-content:space-between;
+    padding-bottom:16px; margin-bottom:28px; border-bottom:3px solid var(--orange); }
+  .brand__name { font-family:'Montserrat',sans-serif; font-weight:800;
+    font-size:16pt; color:var(--navy); letter-spacing:-0.01em; }
+  .brand__name em { color:var(--orange); font-style:normal; }
+  .brand__meta { font-size:8.5pt; color:var(--muted); text-align:right;
+    font-family:'Montserrat',sans-serif; font-weight:600; }
+  h1 { font-family:'Montserrat',sans-serif; font-weight:800;
+    font-size:20pt; color:var(--navy); line-height:1.18;
+    margin:6pt 0 14pt; padding-bottom:8pt; border-bottom:2px solid var(--orange);
+    display:inline-block; }
+  h2 { font-family:'Montserrat',sans-serif; font-weight:800;
+    font-size:13pt; color:var(--navy); margin:22pt 0 8pt;
+    padding-bottom:4pt; border-bottom:1px solid var(--border); }
+  h3 { font-family:'Montserrat',sans-serif; font-weight:700;
+    font-size:11pt; color:var(--navy); margin:14pt 0 4pt; }
+  p { margin:0 0 8pt; }
+  strong { color:var(--navy); font-weight:700; }
+  code { background:var(--bg-soft); border:1px solid var(--border);
+    border-radius:3px; padding:1px 6px; font-size:9.5pt;
+    font-family:'Consolas','Courier New',monospace; color:var(--navy); }
+  ul,ol { margin:4pt 0 10pt; padding-left:20pt; }
+  li { margin-bottom:3pt; }
+  table { width:100%; border-collapse:collapse; margin:8pt 0 14pt;
+    font-size:9.5pt; }
+  th,td { text-align:left; padding:6pt 8pt; vertical-align:top;
+    border-bottom:1px solid var(--border); }
+  th { background:var(--navy); color:#fff; font-family:'Montserrat',sans-serif;
+    font-weight:700; font-size:9pt; text-transform:uppercase;
+    letter-spacing:0.04em; border-bottom:none; }
+  tr:nth-child(even) td { background:var(--bg-soft); }
+  hr { border:none; border-top:1px solid var(--border); margin:20pt 0; }
+  a { color:var(--orange-dk); text-decoration:none; }
+  blockquote { border-left:3px solid var(--orange); padding:6pt 14pt;
+    margin:10pt 0; background:var(--bg-soft); color:var(--muted); }
+  @page { size:A4; margin:16mm 14mm 18mm 14mm; }
+  @page:first { margin-top:0mm; }
+  .footer-note { margin-top:28pt; padding-top:14pt;
+    border-top:1px solid var(--border); font-size:8.5pt;
+    color:var(--muted); text-align:center; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="brand">
+    <div class="brand__name">blechziegel<em>.</em>de</div>
+    <div class="brand__meta">Enterprise UX + SEO Audit<br>Stand: 15.04.2026</div>
+  </div>
+  <h1 id="enterprise-ux-seo-audit-startseite-blechziegelde">Enterprise UX + SEO Audit · Startseite blechziegel.de</h1>
+<p><strong>Branch:</strong> <code>feat/ziegel-finder-enterprise</code>
+<strong>Master-Referenz:</strong> <code>/pages/gewerbe</code>
+<strong>Analysierte Datei:</strong> <code>sections/blechziegel-home.liquid</code>
+<strong>Datum:</strong> 2026-04-15</p>
+<hr />
+<h2 id="1-ist-analyse-aktuelle-startseitenstruktur">1. Ist-Analyse — aktuelle Startseitenstruktur</h2>
+<p>Tatsächliche Block-Reihenfolge (verifiziert via grep):</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Block</th>
+<th>Rolle</th>
+<th>H-Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Hero</strong> (Z. 509)</td>
+<td>Brand + Haupt-CTA „Passenden Blechziegel finden" → /pages/ziegel-finder</td>
+<td>H1</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Finder-Teaser</strong> (Z. 574)</td>
+<td>3-Step-Einstieg → /pages/ziegel-finder</td>
+<td>H2</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Dachtypen-Filter</strong> (Z. 623)</td>
+<td>„Nach Dachtyp filtern"</td>
+<td>H2</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>USP-Block</strong> „Warum Blechziegel.de" (Z. 672)</td>
+<td>Marken-USP</td>
+<td>H2</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Bestseller</strong> (Z. 690)</td>
+<td>Produkt-Liste</td>
+<td>H2</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Problem/Lösung bz-pvl</strong> (Z. 708)</td>
+<td>Argumentation</td>
+<td>H2</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Social Proof / Kundenstimmen</strong> (Z. 743)</td>
+<td>4,9/Trusted · 500+ · 15+ Dachziegeltypen + 4 Reviews</td>
+<td>H2</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>How-it-works 4 Steps</strong> (Z. 762)</td>
+<td>Montage-Ablauf</td>
+<td>H2</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>Service</strong> (Z. 775)</td>
+<td>Beratung/Support</td>
+<td>H2</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>FAQ</strong> (Z. 817)</td>
+<td>Frage-Block</td>
+<td>H2</td>
+</tr>
+<tr>
+<td>11</td>
+<td><strong>CTA-Banner</strong> (Z. 855)</td>
+<td>Abschluss-CTA</td>
+<td>H2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="starken">Stärken</h3>
+<ul>
+<li>Hero-CTA sauber auf den Finder verlinkt (Commit <code>8b1435c</code>)</li>
+<li>Finder-Teaser direkt unter Hero (Commit <code>ceabaa9</code>) — der entscheidende Enterprise-Schritt ist bereits gemacht</li>
+<li>Produkt-Content (Bestseller) inhaltlich vorhanden</li>
+<li>Saubere semantische H1/H2-Struktur, keine doppelten H1</li>
+</ul>
+<h3 id="schwachen">Schwächen</h3>
+<ol>
+<li><strong>Nach dem neuen Finder-Teaser folgt noch der alte „Nach Dachtyp filtern"-Block</strong> — zweiter Filter-Einstieg direkt nach dem Finder-Teaser. Verwässerung: der User hat gerade einen Finder-CTA gesehen, muss sich jetzt zwischen „Finder" und „Dachtyp-Kacheln" entscheiden.</li>
+<li><strong>Trust-Claim „Trusted Shops 4,9/5 · 500+ Projekte · 15+ Dachziegeltypen"</strong> — diese drei Zahlen stehen auf der Home, während wir sie von der Produktseite bewusst entfernt haben. „500+ Projekte" und „15+ Dachziegeltypen" sind nicht belegt und widersprechen dem Metafield-only-Finder, der aktuell 4 Hersteller/7 Profile zeigt.</li>
+<li><strong>Fake-Review-Namen „Thomas K.", „Markus W.", „Andreas M.", „Stefan B."</strong> — anonymisierte Testimonials, die als echte Kundenstimmen präsentiert werden. Hoch-Risiko für Vertrauen, UWG, und Trusted-Shops-Review-Consistency.</li>
+<li><strong>„Meistgekaufte PV-Dachziegel"-Bestseller-Block</strong> bei nur 1 aktiven Produkt — führt faktisch eine leere oder triviale Liste aus.</li>
+<li><strong>Dachtypen-Filter</strong> versucht den Nutzer via Dachziegel-Profil zum Produkt zu führen — macht genau das, was der Finder besser macht. Redundanz.</li>
+<li><strong>Keine Trennung B2B vs. Privatkunde</strong> — das Hero adressiert „Dachdecker, PV-Installateure und Privatkunden" in einem Satz. <code>/pages/gewerbe</code> adressiert gezielt Dachdecker; diese Segmentierung fehlt auf der Home.</li>
+</ol>
+<hr />
+<h2 id="2-vergleich-mit-pagesgewerbe">2. Vergleich mit <code>/pages/gewerbe</code></h2>
+<h3 id="was-dort-besser-ist">Was dort besser ist</h3>
+<ul>
+<li><strong>Zielgruppen-Fokus</strong>: klar B2B, keine Vermischung mit Privatkunden</li>
+<li><strong>Fact-Tiles im Hero</strong> (Mengenstaffel · Versand ab 100 € · Lieferzeit · Lebensdauer) — harte, prüfbare Zahlen statt Marketing-Claims</li>
+<li><strong>Feature-Splits mit Orange-Bulletpoints</strong> — klare Argumente-Architektur</li>
+<li><strong>8-Item FAQ kaufnah</strong> + Navy-CTA mit NAP — direkter Handlungspfad</li>
+<li><strong>Konsistentes hp-* Designsystem</strong> (Navy <code>#0a2240</code>, Orange <code>#ffa500</code>, Montserrat)</li>
+<li>Keine anonymisierten Testimonials — Testimonial-Kacheln mit Rollen-/Region-Kontext</li>
+</ul>
+<h3 id="ubertragbar-auf-home">Übertragbar auf Home</h3>
+<ul>
+<li><strong>Fact-Tiles-Muster</strong> im Hero statt Trust-Items</li>
+<li><strong>Saubere CTA-Hierarchie</strong>: 1 primärer + 1 sekundärer, keine konkurrierenden Tertiär-Pfade</li>
+<li><strong>Strukturelle Sections</strong> mit klarer Aufgabe (nicht kategoriegetrieben, sondern entscheidungsgetrieben)</li>
+<li><strong>Navy-CTA mit NAP als verlässlicher Abschluss</strong></li>
+</ul>
+<h3 id="nicht-ubertragbar">Nicht übertragbar</h3>
+<ul>
+<li>Gewerbe ist eine Zielgruppen-Landingpage, Home muss breiter bleiben (Privat + B2B). Ein 1:1 Copy würde Privatkunden verlieren.</li>
+<li>Mengenstaffel 25/50/100 gehört nicht ins Hero der Home.</li>
+</ul>
+<hr />
+<h2 id="3-ux-audit">3. UX-Audit</h2>
+<table>
+<thead>
+<tr>
+<th>Kriterium</th>
+<th>Bewertung</th>
+<th>Begründung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Erster Schritt nach Hero optimal?</td>
+<td>Teilweise</td>
+<td>Finder-Teaser ist richtig. Aber Dachtypen-Filter direkt danach ist doppelter Einstieg</td>
+</tr>
+<tr>
+<td>Versteht Nutzer sofort, wie er zum Produkt kommt?</td>
+<td>Ja, durch Finder-Teaser</td>
+<td>Klar führend</td>
+</tr>
+<tr>
+<td>Zu kategorie-/kaufschwer?</td>
+<td>Bestseller bei 1 Produkt = schwach</td>
+<td></td>
+</tr>
+<tr>
+<td>Unnötige Reibung?</td>
+<td>Ja</td>
+<td>Dachtypen-Filter + Finder-Teaser = 2 konkurrierende Einstiege</td>
+</tr>
+<tr>
+<td>Zu viel Vorwissen verlangt?</td>
+<td>Nein</td>
+<td></td>
+</tr>
+<tr>
+<td>Informationsreihenfolge ideal?</td>
+<td>Nein</td>
+<td>Problem/Lösung kommt erst auf Position 6 — sollte früher für Privatkunden-Nutzen</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-seo-audit">4. SEO-Audit</h2>
+<table>
+<thead>
+<tr>
+<th>Kriterium</th>
+<th>Bewertung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H1-Hierarchie</td>
+<td>OK — 1× H1, sauber</td>
+</tr>
+<tr>
+<td>H2-Sequenz</td>
+<td>OK — konsistent</td>
+</tr>
+<tr>
+<td>Thin Content</td>
+<td>„Bestseller"-Block zeigt bei 1 aktiven Produkt wenig Content-Wert</td>
+</tr>
+<tr>
+<td>Suchintentionen (Blechziegel / PV Dachziegel / Frankfurter Pfanne)</td>
+<td>Im Hero + im Finder-Teaser + FAQ gut vertreten</td>
+</tr>
+<tr>
+<td>Interne Verlinkung</td>
+<td>Finder-Teaser ist gut, aber keine direkten Links zu Hersteller-Seiten (<code>/pages/hersteller</code>, <code>/pages/ratgeber</code>)</td>
+</tr>
+<tr>
+<td>Keyword-Stuffing</td>
+<td>Keine Überladung</td>
+</tr>
+<tr>
+<td>Strukturierte Daten auf Home</td>
+<td><strong>Keine Organization-/WebSite-Schema JSON-LD gefunden</strong> (geprüft per grep)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="5-conversion-audit">5. Conversion-Audit</h2>
+<table>
+<thead>
+<tr>
+<th>Hebel</th>
+<th>Zustand</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Haupt-Conversion-Pfad</td>
+<td>Hero-CTA → Finder (sauber seit letztem Fix)</td>
+</tr>
+<tr>
+<td>Primärer CTA der stärkste?</td>
+<td>Ja (Finder)</td>
+</tr>
+<tr>
+<td>Konkurrierende CTAs im Hero</td>
+<td>Nur 2 (Finder + Beratung) — akzeptabel</td>
+</tr>
+<tr>
+<td>Beratung ausreichend integriert?</td>
+<td>Nur im Hero sekundär + „Service"-Sektion tief unten. Finder-Teaser hat Beratungs-Link (gut)</td>
+</tr>
+<tr>
+<td>Schneller Entscheidungs-Einstieg?</td>
+<td>Ja durch Finder-Teaser</td>
+</tr>
+<tr>
+<td>Trust-Claims belastbar?</td>
+<td><strong>Nein</strong> — „500+ Projekte" + „15+ Dachziegeltypen" nicht belegt; Trusted-Shops 4,9 aus Markenseite möglich aber nicht auf Produkt-Ebene spiegelbar; Reviews anonymisiert → UWG-Risiko</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="6-antworten-auf-die-10-strategischen-fragen">6. Antworten auf die 10 strategischen Fragen</h2>
+<p><strong>1. Ist der aktuelle erste Block nach dem Hero der richtige?</strong>
+Ja, der Finder-Teaser. Er ist seit Commit <code>ceabaa9</code> direkt unter dem Hero.</p>
+<p><strong>2. Sollte der Ziegel Finder direkt unter den Hero?</strong>
+Ist bereits erledigt. Der aktuelle Teaser-Block (kompakte 3-Step-Version, nicht der Full-Finder) ist die richtige Lösung. Kein Full-Finder auf Home notwendig.</p>
+<p><strong>3. Sollte „Nach Dachtyp filtern" später kommen oder umgebaut werden?</strong>
+Ja. Zwei Optionen:
+- <strong>A (empfohlen, P1)</strong>: Block entfernen — der Finder deckt den gleichen Zweck besser ab, strukturierter, metafield-basiert.
+- <strong>B (P2)</strong>: Umbenennen zu „Beliebte Dachziegel-Profile" und als SEO-gerichtete Link-Liste zu Hersteller-Sammelseiten positionieren (Braas, Bramac, Creaton, Nelskamp → <code>/collections/xyz</code>). Kein Filter mehr, sondern Hub-Links.</p>
+<p><strong>4. Ist die Hero-CTA-Strategie optimal?</strong>
+Ja, seit Fix auf <code>/pages/ziegel-finder</code>. Sekundärer CTA „Beratung anfordern" → <code>/pages/contact</code> sollte auf <code>/pages/ziegel-anfrage</code> umgelenkt werden (stärkerer Conversion-Pfad: Foto+Maße statt leerem Kontakt-Formular).</p>
+<p><strong>5. Die 3 größten UX-Probleme aktuell</strong></p>
+<ol>
+<li>Redundanz Finder-Teaser ↔ Dachtypen-Filter (direkt nebeneinander, zwei Einstiege, ein Ziel)</li>
+<li>Bestseller bei 1 Produkt wirkt leer/unprofessionell</li>
+<li>Problem/Lösung erst auf Position 6 — der Kern-Verkaufsgrund („kein Ziegelbruch") kommt zu spät</li>
+</ol>
+<p><strong>6. Die 3 größten SEO-Hebel</strong></p>
+<ol>
+<li>Organization- + WebSite-JSON-LD auf Home ergänzen (fehlt komplett)</li>
+<li>Interne Links aus Home zu <code>/pages/hersteller</code>, <code>/pages/ratgeber</code>, <code>/pages/gewerbe</code>, <code>/pages/solar-installateure</code> systematisch platzieren</li>
+<li>Dachtypen-Block zu einer Hub-Linkliste zu den Hersteller-Collections umbauen — bessere SEO-Relevanz-Signale</li>
+</ol>
+<p><strong>7. Die 3 größten Conversion-Hebel</strong></p>
+<ol>
+<li>Fake-/unbelegte Trust-Claims (500+, 15+, anonyme Reviews) entfernen oder belegen — UWG-Risiko + Glaubwürdigkeits-Boost</li>
+<li>Sekundärer Hero-CTA von <code>/pages/contact</code> auf <code>/pages/ziegel-anfrage</code> umstellen</li>
+<li>Problem/Lösung (Zeile 708, „Ziegelbruch bei PV-Montagen") direkt nach dem Finder-Teaser auf Position 3 vorziehen — emotionaler Kauf-Anker vor dem Produkt-Content</li>
+</ol>
+<p><strong>8. Welche Claims / Trust-Elemente sollten geprüft oder entschärft werden?</strong></p>
+<ul>
+<li><strong>„500+ Projekte abgeschlossen"</strong> — nicht belegbar aus Shop-Daten</li>
+<li><strong>„15+ Dachziegeltypen"</strong> — widerspricht dem aktuellen Produkt-/Metafield-Stand (aktuell 7 Profile via <code>passende_hersteller</code>)</li>
+<li><strong>Trusted-Shops 4,9</strong> — nur zeigen, wenn aktives Trusted-Shops-Konto mit live-Widget vorhanden; sonst entfernen</li>
+<li><strong>4 anonymisierte Reviews</strong> — entweder durch echte (mit Quellen-Beleg) ersetzen oder entfernen. Aktueller Stand ist UWG-angreifbar</li>
+</ul>
+<p><strong>9. Welche Blöcke sollten in der Reihenfolge verändert werden?</strong>
+Siehe Punkt 7 (Soll-Architektur).</p>
+<p><strong>10. Welche Teile von <code>/pages/gewerbe</code> sollten als Muster übernommen werden?</strong></p>
+<ul>
+<li>Fact-Tiles statt Trust-Text-Line im Hero (harte Zahlen: Cutoff 13 Uhr · Versand ab 55 € · 25+ Jahre · DHL Tracking)</li>
+<li>Orange-Bullet-Argumente im Problem/Lösung-Block (ruhiger, weniger Kacheln)</li>
+<li>Navy-Final-CTA mit NAP — ersetzt den aktuellen bz-cta-banner</li>
+</ul>
+<hr />
+<h2 id="7-empfohlene-neue-block-reihenfolge">7. Empfohlene neue Block-Reihenfolge</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Block</th>
+<th>Rolle</th>
+<th>Warum hier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Hero</strong> mit Fact-Tiles (Gewerbe-Muster)</td>
+<td>Marken-Setzung + Finder-CTA + Beratungs-CTA → <code>/pages/ziegel-anfrage</code></td>
+<td>Schnelle Entscheidung, harte Zahlen statt weiche Claims</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Finder-Teaser</strong> (bestehend)</td>
+<td>Haupt-Conversion-Einstieg</td>
+<td>Bereits optimal positioniert</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Problem/Lösung „Kein Ziegelbruch"</strong> (vorgezogen aus Pos. 6)</td>
+<td>Kern-Verkaufsgrund frühzeitig</td>
+<td>Emotionaler Anker nach dem Entscheidungsangebot</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>USP-Block „Warum Blechziegel.de"</strong></td>
+<td>Marken-Stärken</td>
+<td>Unterstützt das gerade gesehene Problem/Lösung</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Hersteller-Hub</strong> (ersetzt Dachtypen-Filter)</td>
+<td>Deep-Links zu <code>/pages/hersteller</code>, Collections, Ratgeber</td>
+<td>SEO-Boost + sekundärer Einstieg für Nutzer, die Hersteller bereits kennen</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Social Proof — überarbeitet</strong></td>
+<td>Trust mit belegbaren Zahlen (Trusted Shops via Live-Widget) + entweder echte Reviews oder weg</td>
+<td>Trust-Aufbau nach Argumentation</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Bestseller / Produkt-Grid</strong></td>
+<td>Produkt-Pfad</td>
+<td>Macht Sinn, sobald mehr Produkte im Shop sind; aktuell zurückhaltender</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>How-it-works 4 Steps</strong></td>
+<td>Montage-Demo</td>
+<td>Senkt Kaufbarriere</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>Service / Beratung</strong></td>
+<td>B2B-Pfad</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>FAQ</strong></td>
+<td>Long-tail SEO + letzter Einwand</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td><strong>Final-CTA</strong> (Gewerbe-Muster: Navy mit NAP)</td>
+<td>Finaler Conversion-Push</td>
+<td>Ersetzt den aktuellen bz-cta-banner</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="8-priorisierte-empfehlungen">8. Priorisierte Empfehlungen</h2>
+<h3 id="p1-groter-hebel">P1 — Größter Hebel</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Problem</th>
+<th>Empfehlung</th>
+<th>Nutzen</th>
+<th>Risiko/Aufwand</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P1.1</td>
+<td>Fake-Trust-Claims (500+, 15+, anonyme Reviews)</td>
+<td>Unbelegte Zahlen entfernen. Reviews entweder durch echte mit Quelle oder komplett weg.</td>
+<td>Glaubwürdigkeit ↑, UWG-Risiko ↓</td>
+<td>Gering / 30 min</td>
+</tr>
+<tr>
+<td>P1.2</td>
+<td>Sekundärer Hero-CTA „Beratung anfordern" → <code>/pages/contact</code></td>
+<td>Umlenken auf <code>/pages/ziegel-anfrage</code></td>
+<td>Conversion ↑ (Foto+Maße-Funnel)</td>
+<td>Gering / 5 min</td>
+</tr>
+<tr>
+<td>P1.3</td>
+<td>Dachtypen-Filter als redundanter Einstieg</td>
+<td><strong>Option A</strong>: entfernen. <strong>Option B</strong>: umbauen zu Hersteller-Hub mit Links</td>
+<td>UX-Klarheit, SEO-Boost</td>
+<td>Mittel / 1–2 h</td>
+</tr>
+<tr>
+<td>P1.4</td>
+<td>Organization + WebSite JSON-LD fehlen</td>
+<td>Ergänzen im Home-<code>&lt;script type="application/ld+json"&gt;</code></td>
+<td>SEO Rich-Result-Fähigkeit</td>
+<td>Gering / 20 min</td>
+</tr>
+</tbody>
+</table>
+<h3 id="p2-wichtig-nach-p1">P2 — Wichtig nach P1</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Problem</th>
+<th>Empfehlung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P2.1</td>
+<td>Problem/Lösung auf Pos. 6</td>
+<td>Auf Position 3 vorziehen (nach Finder-Teaser)</td>
+</tr>
+<tr>
+<td>P2.2</td>
+<td>Hero-Trust-Zeile ohne harte Zahlen</td>
+<td>Fact-Tiles-Muster aus Gewerbe übernehmen (Cutoff, Versand-Schwelle, Lebensdauer, DHL)</td>
+</tr>
+<tr>
+<td>P2.3</td>
+<td>Final-Banner generisch</td>
+<td>Durch Navy-CTA mit NAP (Gewerbe-Muster) ersetzen</td>
+</tr>
+</tbody>
+</table>
+<h3 id="p3-feinschliff">P3 — Feinschliff</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Problem</th>
+<th>Empfehlung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P3.1</td>
+<td>Bestseller bei 1 Produkt</td>
+<td>Auf „Unsere PV-Dachziegel" umbenennen, bis mehr Produkte gepflegt sind</td>
+</tr>
+<tr>
+<td>P3.2</td>
+<td>Stilistische Varianz zwischen Home (<code>.bz-*</code>) und anderen Pages (<code>.hp-*</code>)</td>
+<td>Auf langfristige Konvergenz zu einem CSS-System planen — nicht akut</td>
+</tr>
+<tr>
+<td>P3.3</td>
+<td>FAQ ohne Schema</td>
+<td>FAQPage JSON-LD ergänzen</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="9-optionaler-umsetzungsplan">9. Optionaler Umsetzungsplan</h2>
+<p><strong>Betroffene Dateien (alle Änderungen auf Home):</strong></p>
+<ul>
+<li><code>sections/blechziegel-home.liquid</code> — einziger Edit-Scope</li>
+</ul>
+<p><strong>Phase A — P1 Quick-Wins (1 Commit, risikoarm)</strong></p>
+<ol>
+<li>Unbelegte Zahlen entfernen (Z. 748–750, 4,9 ggf. behalten nur wenn Trusted-Shops-Live-Integration bestätigt)</li>
+<li>Anonyme Reviews entfernen oder durch 2 verifizierte ersetzen</li>
+<li>Sekundäres Hero-CTA-Default <code>/pages/contact</code> → <code>/pages/ziegel-anfrage</code></li>
+<li>Organization + WebSite JSON-LD direkt vor <code>{% schema %}</code> ergänzen</li>
+</ol>
+<p><strong>Phase B — P1/P2 Strukturelle Änderung (1 Commit)</strong></p>
+<ol start="5">
+<li>Dachtypen-Block (Z. 623–670) entfernen oder umbauen zu Hersteller-Hub (6 Cards → Braas, Bramac, Creaton, Nelskamp, <code>/pages/hersteller</code>, <code>/pages/ratgeber</code>)</li>
+<li>Problem/Lösung (<code>bz-pvl</code>, Z. 708) nach vorne ziehen (zwischen Finder-Teaser und USP-Block)</li>
+</ol>
+<p><strong>Phase C — P2 Premium-Anheben (1 Commit)</strong></p>
+<ol start="7">
+<li>Hero-Trust-Zeile auf Fact-Tiles umbauen (Gewerbe-Muster)</li>
+<li>Final-CTA-Banner durch Navy-NAP-Section ersetzen</li>
+</ol>
+<p><strong>Phase D — P3 (separater Branch)</strong></p>
+<ol start="9">
+<li>FAQPage-Schema ergänzen</li>
+<li>Konvergenz bz-<em> / hp-</em> (langfristig)</li>
+</ol>
+<hr />
+<h2 id="10-ich-kann-das-nicht-bestatigen">10. „Ich kann das nicht bestätigen"</h2>
+<ul>
+<li><strong>Trusted-Shops 4,9/5</strong> — ob ein aktives Trusted-Shops-Abo mit Live-Widget-Integration besteht oder der Score manuell gepflegt ist, habe ich nicht geprüft. Vor P1.1-Umsetzung im Admin verifizieren.</li>
+<li><strong>500+ Projekte</strong> — keine Quelle im Repo gefunden. Möglicherweise dokumentiert im CRM/Analytics, aber nicht öffentlich belegbar aus dem Shop-Code.</li>
+<li><strong>„15+ Dachziegeltypen"</strong> — aktueller <code>custom.passende_hersteller</code>-Stand: 7 Einträge auf einem Produkt. 15+ ist aktuell nicht belegbar.</li>
+</ul>
+  <div class="footer-note">
+    blechziegel.de · TiWi Trade GmbH · Branch feat/ziegel-finder-enterprise<br>
+    Master-Referenz für Design-DNA: /pages/gewerbe
+  </div>
+</div>
+</body>
+</html>
