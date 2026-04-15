@@ -2,6 +2,13 @@
   box-sizing: border-box;
 }
 
+/* /pages/gewerbe: match homepage content width (1160px, 20px side padding) */
+body.page-gewerbe .page-width-content {
+  --page-content-width: 72.5rem;
+  --page-margin: 20px;
+  --page-width: calc(var(--page-content-width) + (var(--page-margin) * 2));
+}
+
 body {
   color: var(--color-foreground);
   background: var(--color-background);
