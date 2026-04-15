@@ -10,6 +10,12 @@ body.page-hersteller .page-width-content {
   --page-width: calc(var(--page-content-width) + (var(--page-margin) * 2));
 }
 
+/* Release inline max-width on block content so layout follows the page container */
+body.page-gewerbe .section-content-wrapper [style*="max-width"],
+body.page-hersteller .section-content-wrapper [style*="max-width"] {
+  max-width: 100% !important;
+}
+
 body {
   color: var(--color-foreground);
   background: var(--color-background);
