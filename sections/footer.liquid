@@ -84,6 +84,25 @@
     text-transform: uppercase;
     letter-spacing: .08em;
     margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .bz-footer-dhl-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 22px;
+    padding: 3px 8px;
+    background: #ffcc00;
+    border-radius: 3px;
+    font-family: 'Montserrat', 'Arial Black', sans-serif;
+    font-weight: 900;
+    font-size: 13px;
+    color: #d40511;
+    letter-spacing: 0.02em;
+    line-height: 1;
   }
   .bz-footer-table {
     width: 100%;
@@ -166,10 +185,10 @@
   .bz-footer-badge--dhl {
     background: #ffcc00;
     color: #d40511;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat', 'Arial Black', sans-serif;
     font-size: 13px;
-    font-weight: 800;
-    letter-spacing: 0.05em;
+    font-weight: 900;
+    letter-spacing: 0.03em;
     padding: 6px 12px;
   }
   @media (max-width: 640px) {
@@ -345,11 +364,44 @@
 
     <!-- Spalte 4: Versandkosten & Zahlung -->
     <div class="bz-footer-col">
-      <div class="bz-footer-table-title">Versandkosten &middot; DHL</div>
-      <table class="bz-footer-table">
-        <tr><td>bis 49,99 &euro;</td><td>4,99 &euro;</td></tr>
-        <tr><td>50,00 &ndash; 99,99 &euro;</td><td>3,99 &euro;</td></tr>
-        <tr><td>ab 100,00 &euro;</td><td>Kostenlos &#10003;</td></tr>
+      <div class="bz-footer-table-title">
+        <span>Versandkosten</span>
+        <span class="bz-footer-dhl-logo" aria-label="DHL Versand">DHL</span>
+      </div>
+      {%- liquid
+        assign ship_data = shop.metafields.blechziegel.shipping_rates.value
+        assign ship_rates = ship_data.rates | default: empty
+        assign standard_rates = empty
+        if ship_rates != empty
+          assign standard_rates = ship_rates | where: 'name', 'Standard'
+        endif
+      -%}
+      <table class="bz-footer-table" aria-label="Versandkosten Deutschland">
+        {%- if standard_rates != empty and standard_rates.size > 0 -%}
+          {%- for r in standard_rates -%}
+            <tr>
+              <td>
+                {%- if r.max -%}
+                  bis {{ r.max | round: 2 | replace: '.', ',' }}&nbsp;&euro;
+                {%- elsif r.min and r.min > 0 -%}
+                  ab {{ r.min | round: 2 | replace: '.', ',' }}&nbsp;&euro;
+                {%- else -%}
+                  Standard
+                {%- endif -%}
+              </td>
+              <td>
+                {%- if r.price == 0 -%}
+                  Kostenlos&nbsp;&#10003;
+                {%- else -%}
+                  {{ r.price | round: 2 | replace: '.', ',' }}&nbsp;&euro;
+                {%- endif -%}
+              </td>
+            </tr>
+          {%- endfor -%}
+        {%- else -%}
+          <tr><td>bis 54,99&nbsp;&euro;</td><td>5,99&nbsp;&euro;</td></tr>
+          <tr><td>ab 55,00&nbsp;&euro;</td><td>Kostenlos&nbsp;&#10003;</td></tr>
+        {%- endif -%}
       </table>
 
       <div class="bz-footer-sub-title">Zahlungsarten</div>
