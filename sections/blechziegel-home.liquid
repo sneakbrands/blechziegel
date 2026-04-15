@@ -9,6 +9,19 @@
   assign hero_image = section.settings.hero_image
   assign hero_image_mobile = section.settings.hero_image_mobile
   assign bestseller_collection = collections[section.settings.bestseller_collection] | default: collections['all']
+
+  comment
+    Zentrale Commerce-Fakten - eine Quelle, mehrere Ausgabestellen.
+    Werte werden im Theme-Editor unter "Commerce-Fakten" gepflegt.
+    Leere Felder werden NICHT ausgegeben (kein erfundener Claim).
+  endcomment
+  assign cf_stock_label = section.settings.cf_stock_label | default: 'Lagerware'
+  assign cf_lead_time = section.settings.cf_lead_time | default: '1–3 Werktage'
+  assign cf_cutoff_hour = section.settings.cf_cutoff_hour | default: 13
+  assign cf_carrier = section.settings.cf_carrier | default: 'DHL'
+  assign cf_origin = section.settings.cf_origin | default: 'In Deutschland gelasert'
+  assign cf_free_threshold = section.settings.cf_free_threshold
+  assign cf_return_days = section.settings.cf_return_days
 -%}
 
 {% style %}
@@ -553,18 +566,24 @@
         </a>
       </div>
       <div class="bz-hero-trust">
+        {%- if cf_stock_label != blank -%}
         <span class="bz-hero-trust-item">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
-          Für alle gängigen Dachtypen
+          {{ cf_stock_label }}
         </span>
+        {%- endif -%}
+        {%- if cf_cutoff_hour != blank -%}
         <span class="bz-hero-trust-item">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
-          Gratis Versand ab 100 &euro;
+          Vor {{ cf_cutoff_hour }} Uhr bestellt - Versand am selben Werktag
         </span>
+        {%- endif -%}
+        {%- if cf_origin != blank -%}
         <span class="bz-hero-trust-item">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
-          30 Tage Rückgabe
+          {{ cf_origin }}
         </span>
+        {%- endif -%}
       </div>
     </div>
   </div>
@@ -619,13 +638,84 @@
   </div>
 </section>
 
-{%- comment -%}══ 2. DACHTYPEN ══{%- endcomment -%}
+{%- comment -%}══ 2. PROBLEM vs LÖSUNG (Kernschmerz direkt nach Finder) ══{%- endcomment -%}
+<section class="bz-section bz-pvl">
+  <div class="bz-wrap">
+    <div class="bz-pvl-head">
+      <span class="bz-label" style="color:var(--bz-orange)">Das Problem kennen Sie</span>
+      <h2>Ziegelbruch bei PV-Montagen ist kein Schicksal</h2>
+      <p>Tonziegel brechen, Kosten steigen, Haftung bleibt. Der Aluminium-Blechziegel löst das dauerhaft.</p>
+    </div>
+    <div class="bz-pvl-grid">
+      <div class="bz-pvl-col problem">
+        <div class="bz-pvl-col-head"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f08080" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><span class="bz-pvl-col-label">Ohne Blechziegel</span></div>
+        <ul class="bz-pvl-list">
+          <li><span class="ico">&#10007;</span> Tonziegel brechen beim Bohren oder Belasten</li>
+          <li><span class="ico">&#10007;</span> Aufwendiges Sägen und Umrüsten auf der Baustelle</li>
+          <li><span class="ico">&#10007;</span> Wassereintritt durch undichte Kabelführung</li>
+          <li><span class="ico">&#10007;</span> Optisch uneinheitliches Ergebnis durch Flicken</li>
+          <li><span class="ico">&#10007;</span> Haftungsrisiko bei Folgeschäden</li>
+          <li><span class="ico">&#10007;</span> Hohe Kosten für Ersatz-Tonziegel</li>
+        </ul>
+      </div>
+      <div class="bz-pvl-col solution">
+        <div class="bz-pvl-col-head"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f5a623" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><span class="bz-pvl-col-label">Mit Blechziegel</span></div>
+        <ul class="bz-pvl-list">
+          <li><span class="ico" style="color:#f5a623">&#10003;</span> Aluminium-Ersatzziegel ersetzt Tonziegel vollständig</li>
+          <li><span class="ico" style="color:#f5a623">&#10003;</span> Dachhaken integriert – kein Bohren nötig</li>
+          <li><span class="ico" style="color:#f5a623">&#10003;</span> Dichtes Kabelführungssystem, wetterfest</li>
+          <li><span class="ico" style="color:#f5a623">&#10003;</span> Farblich passend – optisch unauffällig</li>
+          <li><span class="ico" style="color:#f5a623">&#10003;</span> Rechtssicher: kein Eingriff in Dachstruktur</li>
+          <li><span class="ico" style="color:#f5a623">&#10003;</span> Günstiger und langlebiger als Tonziegel-Ersatz</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- comment -%}══ 3. USPS ══{%- endcomment -%}
+<section class="bz-section">
+  <div class="bz-wrap">
+    <div class="bz-usp-head">
+      <span class="bz-label">Warum Blechziegel.de</span>
+      <h2>Profi-Qualität. Einfache Montage.<br>Made in Germany.</h2>
+    </div>
+    <div class="bz-usp-grid">
+      <div class="bz-usp-card"><div class="bz-usp-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>Passgenau gefertigt</h3><p>Exakt auf jeden Dachziegeltyp abgestimmt – kein Sägen, kein Nacharbeiten, kein Bruchrisiko.</p></div>
+      <div class="bz-usp-card"><div class="bz-usp-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><h3>Montage in Minuten</h3><p>Einsetzen, einhängen, fertig. Kein Spezialwerkzeug. Spart Zeit auf jeder Baustelle.</p></div>
+      <div class="bz-usp-card"><div class="bz-usp-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div><h3>Aluminium – 25+ Jahre</h3><p>Korrosionsbeständig, pulverbeschichtet, witterungsstabil. Gleiche Lebensdauer wie Ihre PV-Anlage.</p></div>
+      <div class="bz-usp-card"><div class="bz-usp-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div><h3>Optisch integriert</h3><p>Alu blank, Anthrazit, Ziegelrot – kein Fremdkörper im Dachbild.</p></div>
+      <div class="bz-usp-card"><div class="bz-usp-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><h3>Lieferung {{ cf_lead_time }}</h3><p>{{ cf_stock_label }}. Bestellungen vor {{ cf_cutoff_hour }}:00 Uhr gehen noch am selben Werktag raus{%- if cf_free_threshold != blank %} - versandkostenfrei ab {{ cf_free_threshold }}{% endif -%}. Versand mit {{ cf_carrier }}.</p></div>
+      <div class="bz-usp-card"><div class="bz-usp-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><h3>Made in Germany</h3><p>Produziert in Deutschland. Geprüfte Maßhaltigkeit, sofort versandfertig.</p></div>
+    </div>
+  </div>
+</section>
+
+{%- comment -%}══ 4. BESTSELLER ══{%- endcomment -%}
+<section class="bz-section bz-bestseller">
+  <div class="bz-wrap">
+    <div class="bz-bestseller-head">
+      <span class="bz-label">Bestseller</span>
+      <h2>Die meistgekauften PV-Dachziegel</h2>
+    </div>
+    <div class="bz-products-grid">
+      {%- for product in bestseller_collection.products limit: 3 -%}
+        {% render 'bz-product-card', product: product, show_bestseller: forloop.first %}
+      {%- endfor -%}
+    </div>
+    <div class="bz-products-more">
+      <a href="{{ routes.collections_url }}/all" class="bz-btn bz-btn-navy">Alle Produkte ansehen <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+  </div>
+</section>
+
+{%- comment -%}══ 7. DACHTYPEN - sek. Orientierungshub ══{%- endcomment -%}
 <section class="bz-section bz-dachtypen">
   <div class="bz-wrap">
     <div class="bz-dach-intro">
-      <span class="bz-label">Nach Dachtyp filtern</span>
-      <h2>Den richtigen PV-Dachziegel für Ihr Dach</h2>
-      <p>Jeder Blechziegel ist exakt auf einen Dachziegeltyp gefertigt. Wählen Sie Ihr Profil &ndash; und finden Sie sofort den passenden Ersatzziegel PV.</p>
+      <span class="bz-label">Auch nach Profil stöbern</span>
+      <h2>Beliebte Dachziegel-Profile</h2>
+      <p>Sekundärer Einstieg für alle, die direkt nach Profil stöbern wollen. Der schnellste Weg bleibt der <a href="/pages/ziegel-finder" style="color:var(--bz-orange);font-weight:600;">Ziegel Finder</a>.</p>
     </div>
     <div class="bz-dach-grid">
       <a href="{{ routes.collections_url }}/frankfurter-pfanne" class="bz-dach-card">
@@ -664,77 +754,6 @@
         <div class="bz-dach-desc">Nicht sicher? Alle Produkte ansehen oder Beratung anfragen.</div>
         <div class="bz-dach-link">Alle Produkte <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
       </a>
-    </div>
-  </div>
-</section>
-
-{%- comment -%}══ 3. USPS ══{%- endcomment -%}
-<section class="bz-section">
-  <div class="bz-wrap">
-    <div class="bz-usp-head">
-      <span class="bz-label">Warum Blechziegel.de</span>
-      <h2>Profi-Qualität. Einfache Montage.<br>Made in Germany.</h2>
-    </div>
-    <div class="bz-usp-grid">
-      <div class="bz-usp-card"><div class="bz-usp-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>Passgenau gefertigt</h3><p>Exakt auf jeden Dachziegeltyp abgestimmt – kein Sägen, kein Nacharbeiten, kein Bruchrisiko.</p></div>
-      <div class="bz-usp-card"><div class="bz-usp-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><h3>Montage in Minuten</h3><p>Einsetzen, einhängen, fertig. Kein Spezialwerkzeug. Spart Zeit auf jeder Baustelle.</p></div>
-      <div class="bz-usp-card"><div class="bz-usp-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div><h3>Aluminium – 25+ Jahre</h3><p>Korrosionsbeständig, pulverbeschichtet, witterungsstabil. Gleiche Lebensdauer wie Ihre PV-Anlage.</p></div>
-      <div class="bz-usp-card"><div class="bz-usp-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div><h3>Optisch integriert</h3><p>Alu blank, Anthrazit, Ziegelrot – kein Fremdkörper im Dachbild.</p></div>
-      <div class="bz-usp-card"><div class="bz-usp-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><h3>Lieferung 1–3 Werktage</h3><p>Lagerware. Bestellungen bis 12:00 Uhr gehen noch am selben Tag raus – gratis ab 100 €.</p></div>
-      <div class="bz-usp-card"><div class="bz-usp-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><h3>Made in Germany</h3><p>Produziert in Deutschland. Geprüfte Maßhaltigkeit, sofort versandfertig.</p></div>
-    </div>
-  </div>
-</section>
-
-{%- comment -%}══ 4. BESTSELLER ══{%- endcomment -%}
-<section class="bz-section bz-bestseller">
-  <div class="bz-wrap">
-    <div class="bz-bestseller-head">
-      <span class="bz-label">Bestseller</span>
-      <h2>Die meistgekauften PV-Dachziegel</h2>
-    </div>
-    <div class="bz-products-grid">
-      {%- for product in bestseller_collection.products limit: 3 -%}
-        {% render 'bz-product-card', product: product, show_bestseller: forloop.first %}
-      {%- endfor -%}
-    </div>
-    <div class="bz-products-more">
-      <a href="{{ routes.collections_url }}/all" class="bz-btn bz-btn-navy">Alle Produkte ansehen <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-    </div>
-  </div>
-</section>
-
-{%- comment -%}══ 5. PROBLEM vs LÖSUNG ══{%- endcomment -%}
-<section class="bz-section bz-pvl">
-  <div class="bz-wrap">
-    <div class="bz-pvl-head">
-      <span class="bz-label" style="color:var(--bz-orange)">Das Problem kennen Sie</span>
-      <h2>Ziegelbruch bei PV-Montagen ist kein Schicksal</h2>
-      <p>Tonziegel brechen, Kosten steigen, Haftung bleibt. Der Aluminium-Blechziegel löst das dauerhaft.</p>
-    </div>
-    <div class="bz-pvl-grid">
-      <div class="bz-pvl-col problem">
-        <div class="bz-pvl-col-head"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f08080" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><span class="bz-pvl-col-label">Ohne Blechziegel</span></div>
-        <ul class="bz-pvl-list">
-          <li><span class="ico">&#10007;</span> Tonziegel brechen beim Bohren oder Belasten</li>
-          <li><span class="ico">&#10007;</span> Aufwendiges Sägen und Umrüsten auf der Baustelle</li>
-          <li><span class="ico">&#10007;</span> Wassereintritt durch undichte Kabelführung</li>
-          <li><span class="ico">&#10007;</span> Optisch uneinheitliches Ergebnis durch Flicken</li>
-          <li><span class="ico">&#10007;</span> Haftungsrisiko bei Folgeschäden</li>
-          <li><span class="ico">&#10007;</span> Hohe Kosten für Ersatz-Tonziegel</li>
-        </ul>
-      </div>
-      <div class="bz-pvl-col solution">
-        <div class="bz-pvl-col-head"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f5a623" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><span class="bz-pvl-col-label">Mit Blechziegel</span></div>
-        <ul class="bz-pvl-list">
-          <li><span class="ico" style="color:#f5a623">&#10003;</span> Aluminium-Ersatzziegel ersetzt Tonziegel vollständig</li>
-          <li><span class="ico" style="color:#f5a623">&#10003;</span> Dachhaken integriert – kein Bohren nötig</li>
-          <li><span class="ico" style="color:#f5a623">&#10003;</span> Dichtes Kabelführungssystem, wetterfest</li>
-          <li><span class="ico" style="color:#f5a623">&#10003;</span> Farblich passend – optisch unauffällig</li>
-          <li><span class="ico" style="color:#f5a623">&#10003;</span> Rechtssicher: kein Eingriff in Dachstruktur</li>
-          <li><span class="ico" style="color:#f5a623">&#10003;</span> Günstiger und langlebiger als Tonziegel-Ersatz</li>
-        </ul>
-      </div>
     </div>
   </div>
 </section>
@@ -984,6 +1003,55 @@
       "type": "url",
       "id": "hero_cta_secondary_url",
       "label": "CTA 2 – Link"
+    },
+    {
+      "type": "header",
+      "content": "Commerce-Fakten (zentrale Quelle)"
+    },
+    {
+      "type": "paragraph",
+      "content": "Werden an mehreren Stellen der Startseite ausgegeben (Hero-Trust, USP-Card 'Lieferung'). Leere Felder erscheinen nicht."
+    },
+    {
+      "type": "text",
+      "id": "cf_stock_label",
+      "label": "Lagerstatus-Label",
+      "default": "Lagerware"
+    },
+    {
+      "type": "text",
+      "id": "cf_lead_time",
+      "label": "Lieferzeit-Text",
+      "default": "1–3 Werktage"
+    },
+    {
+      "type": "number",
+      "id": "cf_cutoff_hour",
+      "label": "Cutoff-Stunde (Same-Day-Versand bis ... Uhr)",
+      "default": 13
+    },
+    {
+      "type": "text",
+      "id": "cf_carrier",
+      "label": "Versanddienstleister",
+      "default": "DHL"
+    },
+    {
+      "type": "text",
+      "id": "cf_origin",
+      "label": "Herkunfts-/Fertigungs-Label",
+      "default": "In Deutschland gelasert"
+    },
+    {
+      "type": "text",
+      "id": "cf_free_threshold",
+      "label": "Versandkostenfrei ab (z. B. '100 €' oder leer lassen)",
+      "info": "Leer lassen, falls nicht verifiziert."
+    },
+    {
+      "type": "number",
+      "id": "cf_return_days",
+      "label": "Rückgabefrist in Tagen (optional)"
     },
     {
       "type": "header",
