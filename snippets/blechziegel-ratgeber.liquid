@@ -1,0 +1,541 @@
+{% comment %}
+  ============================================================
+  BLECHZIEGEL.DE — Ratgeber
+  Snippet: blechziegel-ratgeber.liquid
+  Layout-DNA: hp-* (Navy/Orange), erweitert um Artikel-Styling
+  Ziel: ~2000 Wörter redaktioneller Content rund um PV & Blechziegel
+  Eingebunden via main-page.liquid wenn handle == 'ratgeber'
+  ============================================================
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+.hp {
+  --bz-navy:#0a2240; --bz-navy-light:#0d2d54;
+  --bz-orange:#ffa500; --bz-orange-dark:#e69400; --bz-orange-bg:rgba(255,165,0,.12);
+  --bz-white:#fff; --bz-gray:#f5f5f5; --bz-gray-mid:#e8eaed;
+  --bz-text:#333; --bz-text-light:#666; --bz-border:#e5e7eb;
+  --bz-green:#16a34a; --bz-green-bg:#f0fdf4;
+  --bz-head:'Montserrat',sans-serif; --bz-body:'Open Sans',sans-serif;
+  --bz-radius:8px; --bz-radius-lg:14px; --bz-max:1200px;
+  --bz-shadow:0 4px 20px rgba(10,34,64,.10);
+  --bz-shadow-lg:0 12px 40px rgba(10,34,64,.18);
+  font-family:var(--bz-body); color:var(--bz-text);
+}
+.hp *, .hp *::before, .hp *::after { box-sizing:border-box; margin:0; padding:0; }
+.hp a { text-decoration:none; color:inherit; }
+.hp img { max-width:100%; display:block; }
+.hp ul { list-style:none; }
+.hp-wrap { max-width:var(--bz-max); margin:0 auto; padding:0 20px; }
+
+/* HERO */
+.hp-hero { background:linear-gradient(135deg,var(--bz-navy) 0%,#163660 100%);
+  color:var(--bz-white); padding:72px 20px 64px; position:relative; overflow:hidden; }
+.hp-hero::before { content:''; position:absolute; inset:0; pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
+.hp-hero__inner { position:relative; max-width:var(--bz-max); margin:0 auto; text-align:left; }
+.hp-kicker { display:inline-flex; align-items:center; gap:8px;
+  background:var(--bz-orange-bg); border:1px solid rgba(255,165,0,.35);
+  color:var(--bz-orange); font-family:var(--bz-head);
+  font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.1em;
+  padding:5px 13px; border-radius:20px; margin-bottom:20px; }
+.hp-kicker svg { width:12px; height:12px; fill:var(--bz-orange); }
+.hp-hero h1 { font-family:var(--bz-head); font-size:clamp(28px,4vw,46px);
+  font-weight:800; line-height:1.15; margin-bottom:18px; color:var(--bz-white); max-width:820px; }
+.hp-hero h1 span { color:var(--bz-orange); }
+.hp-hero__sub { font-size:17px; line-height:1.7; color:rgba(255,255,255,.85); margin-bottom:24px; max-width:720px; }
+.hp-hero__meta { display:flex; flex-wrap:wrap; gap:22px; font-size:13px; color:rgba(255,255,255,.7); font-family:var(--bz-head); font-weight:600; text-transform:uppercase; letter-spacing:.08em; }
+.hp-hero__meta-item { display:inline-flex; align-items:center; gap:7px; }
+.hp-hero__meta-item svg { width:14px; height:14px; fill:var(--bz-orange); }
+
+/* SECTIONS */
+.hp-section { padding:56px 0; }
+.hp-section--gray { background:var(--bz-gray); }
+.hp-section--white { background:var(--bz-white); }
+.hp-section--navy { background:var(--bz-navy); color:var(--bz-white); }
+
+/* ARTICLE LAYOUT (TOC sidebar + content) */
+.hp-article-layout { display:grid; grid-template-columns:260px 1fr; gap:56px; align-items:start; }
+.hp-toc { position:sticky; top:24px; background:var(--bz-white);
+  border:1.5px solid var(--bz-border); border-radius:var(--bz-radius-lg); padding:22px 20px;
+  box-shadow:var(--bz-shadow); }
+.hp-toc__title { font-family:var(--bz-head); font-size:11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.1em; color:var(--bz-orange); margin-bottom:14px; display:block; }
+.hp-toc ol { list-style:none; counter-reset:toc; display:flex; flex-direction:column; gap:3px; }
+.hp-toc li { counter-increment:toc; }
+.hp-toc a { display:flex; align-items:flex-start; gap:10px;
+  padding:8px 10px; border-radius:8px; font-size:13.5px; line-height:1.45; color:var(--bz-text);
+  transition:background .16s ease, color .16s ease; font-weight:500; }
+.hp-toc a::before { content:counter(toc,decimal-leading-zero); font-family:var(--bz-head);
+  font-size:11px; font-weight:800; color:var(--bz-orange); flex-shrink:0; margin-top:2px; }
+.hp-toc a:hover { background:var(--bz-orange-bg); color:var(--bz-navy); }
+
+/* ARTICLE CONTENT */
+.hp-article { max-width:780px; }
+.hp-article > section { margin-bottom:48px; scroll-margin-top:20px; }
+.hp-article h2 { font-family:var(--bz-head); font-size:clamp(22px,2.4vw,28px);
+  font-weight:800; color:var(--bz-navy); line-height:1.25; margin-bottom:14px;
+  padding-bottom:10px; border-bottom:2px solid var(--bz-orange); display:inline-block; }
+.hp-article h3 { font-family:var(--bz-head); font-size:18px; font-weight:700;
+  color:var(--bz-navy); line-height:1.3; margin-top:28px; margin-bottom:10px; }
+.hp-article p { font-size:15.5px; line-height:1.78; color:var(--bz-text);
+  margin-bottom:16px; }
+.hp-article p strong { color:var(--bz-navy); font-weight:700; }
+.hp-article ul.hp-list { display:flex; flex-direction:column; gap:10px; margin:8px 0 20px;
+  padding-left:0; }
+.hp-article ul.hp-list li { position:relative; padding-left:28px; font-size:15px; line-height:1.7; color:var(--bz-text); }
+.hp-article ul.hp-list li::before { content:''; position:absolute; left:0; top:7px; width:16px; height:16px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffa500'%3E%3Cpath d='M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-size:contain; }
+.hp-article a { color:var(--bz-orange); font-weight:700; text-decoration:underline; text-underline-offset:2px; }
+
+/* KEYBOX — highlight for important facts */
+.hp-keybox { background:linear-gradient(180deg,#fff9ee 0%,#fff 100%);
+  border:1.5px solid rgba(255,165,0,.45); border-left:4px solid var(--bz-orange);
+  border-radius:var(--bz-radius-lg); padding:20px 24px; margin:20px 0 24px;
+  display:flex; gap:14px; align-items:flex-start; }
+.hp-keybox__icon { width:32px; height:32px; background:var(--bz-orange); border-radius:8px;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.hp-keybox__icon svg { width:18px; height:18px; fill:var(--bz-navy); }
+.hp-keybox__body { flex:1; }
+.hp-keybox__label { font-family:var(--bz-head); font-size:10.5px; font-weight:800;
+  text-transform:uppercase; letter-spacing:.1em; color:var(--bz-orange); margin-bottom:4px; }
+.hp-keybox__title { font-family:var(--bz-head); font-size:15.5px; font-weight:800;
+  color:var(--bz-navy); margin-bottom:4px; line-height:1.3; }
+.hp-keybox__text { font-size:14px; line-height:1.65; color:var(--bz-text); }
+
+/* CTA */
+.hp-section--navy .hp-section-title { color:var(--bz-white); font-family:var(--bz-head);
+  font-size:clamp(22px,2.8vw,32px); font-weight:800; line-height:1.25; margin-bottom:12px; }
+.hp-section-label { font-family:var(--bz-head); font-size:11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.12em; color:var(--bz-orange); margin-bottom:8px; display:block; }
+.hp-section--navy .hp-section-sub { font-size:15px; line-height:1.72; color:rgba(255,255,255,.72); max-width:640px; margin:0 auto 28px; }
+.hp-cta-final { text-align:center; }
+.hp-cta-final__buttons { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+.hp-btn { display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:14px 26px; border-radius:var(--bz-radius);
+  font-family:var(--bz-head); font-size:14px; font-weight:700;
+  cursor:pointer; transition:all .2s; border:2px solid transparent; white-space:nowrap; }
+.hp-btn svg { width:16px; height:16px; fill:currentColor; flex-shrink:0; }
+.hp-btn--primary { background:var(--bz-orange); color:var(--bz-navy); border-color:var(--bz-orange); }
+.hp-btn--primary:hover { background:var(--bz-orange-dark); border-color:var(--bz-orange-dark); transform:translateY(-1px); box-shadow:0 6px 20px rgba(255,165,0,.3); }
+.hp-btn--outline { background:transparent; color:var(--bz-white); border-color:rgba(255,255,255,.4); }
+.hp-btn--outline:hover { border-color:var(--bz-white); background:rgba(255,255,255,.08); }
+
+/* FAQ (gleich wie auf anderen Seiten) */
+.hp-faq-layout { display:grid; grid-template-columns:1fr 2fr; gap:56px; align-items:start; }
+.hp-section-title { font-family:var(--bz-head); font-size:clamp(22px,2.8vw,32px);
+  font-weight:800; color:var(--bz-navy); line-height:1.25; margin-bottom:12px; }
+.hp-section-sub { font-size:15px; line-height:1.72; color:var(--bz-text-light); max-width:640px; margin-bottom:40px; }
+.hp-faq-list { display:flex; flex-direction:column; gap:12px; }
+.hp-faq-item { background:var(--bz-white); border:1.5px solid var(--bz-border);
+  border-radius:var(--bz-radius); overflow:hidden; transition:border-color .18s; }
+.hp-faq-item[open] { border-color:var(--bz-orange); }
+.hp-faq-item__q { display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:18px 20px; cursor:pointer; font-family:var(--bz-head); font-size:14.5px; font-weight:700;
+  color:var(--bz-navy); user-select:none; list-style:none; }
+.hp-faq-item__q::-webkit-details-marker { display:none; }
+.hp-faq-item__q:hover, .hp-faq-item[open] .hp-faq-item__q { background:var(--bz-gray); }
+.hp-faq-item__icon { width:22px; height:22px; background:var(--bz-orange-bg);
+  border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:transform .25s; }
+.hp-faq-item[open] .hp-faq-item__icon { transform:rotate(45deg); background:var(--bz-orange); }
+.hp-faq-item__icon svg { width:12px; height:12px; fill:var(--bz-orange); }
+.hp-faq-item[open] .hp-faq-item__icon svg { fill:var(--bz-navy); }
+.hp-faq-item__a { padding:0 20px 18px; font-size:14px; line-height:1.7; color:var(--bz-text-light); }
+.hp-faq-item__a a { color:var(--bz-orange); font-weight:700; text-decoration:underline; }
+
+/* RESPONSIVE */
+@media (max-width:1024px) {
+  .hp-article-layout { grid-template-columns:1fr; gap:28px; }
+  .hp-toc { position:static; }
+  .hp-faq-layout { grid-template-columns:1fr; gap:24px; }
+}
+@media (max-width:640px) {
+  .hp-hero { padding:48px 16px 56px; }
+  .hp-section { padding:40px 0; }
+  .hp-article h2 { font-size:20px; }
+  .hp-article h3 { font-size:16px; }
+  .hp-article p { font-size:15px; }
+  .hp-keybox { flex-direction:column; padding:18px; }
+  .hp-cta-final__buttons .hp-btn { width:100%; }
+}
+</style>
+
+{%- liquid
+  assign email_raw = 'web@blechziegel.de'
+  assign contact_url = '/pages/contact'
+  assign catalog_url = '/collections/pv-dachziegel'
+  assign hersteller_url = '/pages/hersteller'
+  assign gewerbe_url = '/pages/gewerbe'
+  assign solar_url = '/pages/solar-installateure'
+  assign canonical = shop.url | append: '/pages/ratgeber'
+-%}
+
+<div class="hp">
+
+  <!-- HERO -->
+  <section class="hp-hero" aria-labelledby="rg-hero-title">
+    <div class="hp-wrap hp-hero__inner">
+      <div class="hp-kicker">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 2H6c-1.1 0-2 .9-2 2v16l8-3 8 3V4c0-1.1-.9-2-2-2z"/></svg>
+        Ratgeber
+      </div>
+      <h1 id="rg-hero-title">Blechziegel für <span>PV & Solar.</span><br>Alles, was Bauherren und Profis wissen sollten.</h1>
+      <p class="hp-hero__sub">
+        Ein kompletter Leitfaden: Material, Passform, Dachhaken-Integration, Kompatibilität
+        mit PV-Montagesystemen, Mengenplanung und die häufigsten Fehler. 10 Minuten Lesezeit —
+        und Sie vermeiden teure Überraschungen auf der Baustelle.
+      </p>
+      <div class="hp-hero__meta">
+        <span class="hp-hero__meta-item">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z"/></svg>
+          ca. 10 Min Lesezeit
+        </span>
+        <span class="hp-hero__meta-item">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14l-6-4.5h7.5z"/></svg>
+          Praxiswissen
+        </span>
+        <span class="hp-hero__meta-item">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l9 4v6c0 5-3.8 9.5-9 10-5.2-.5-9-5-9-10V6l9-4z"/></svg>
+          Dachdecker & PV geprüft
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARTIKEL -->
+  <section class="hp-section hp-section--white">
+    <div class="hp-wrap">
+      <div class="hp-article-layout">
+
+        <!-- TOC -->
+        <aside class="hp-toc" aria-label="Inhaltsverzeichnis">
+          <span class="hp-toc__title">Inhalt</span>
+          <ol>
+            <li><a href="#was-sind-blechziegel">Was sind Blechziegel?</a></li>
+            <li><a href="#warum-statt-bohren">Warum Blechziegel statt gebohrter Ziegel?</a></li>
+            <li><a href="#material">Material & Lebensdauer</a></li>
+            <li><a href="#passform">Passform & Hersteller-Profile</a></li>
+            <li><a href="#dachhaken">Dachhaken-Integration</a></li>
+            <li><a href="#pv-systeme">Kompatibilität mit PV-Systemen</a></li>
+            <li><a href="#mengenplanung">Mengenplanung für PV-Projekte</a></li>
+            <li><a href="#montage">Montage & Praxis-Tipps</a></li>
+            <li><a href="#farben">Farben & Denkmalschutz</a></li>
+            <li><a href="#fehler">Häufige Fehler</a></li>
+            <li><a href="#fazit">Fazit</a></li>
+          </ol>
+        </aside>
+
+        <!-- CONTENT -->
+        <article class="hp-article">
+
+          <section id="was-sind-blechziegel">
+            <h2>Was sind Blechziegel?</h2>
+            <p>
+              <strong>Blechziegel</strong> — auch Aluminium-Ersatzziegel oder PV-Dachziegel genannt — sind
+              passgenaue Ersatzbauteile aus pulverbeschichtetem Aluminium, die einen originalen Tonziegel
+              im Bereich der PV-Dachhaken-Montage ersetzen. Ihre Form bildet das Profil des Original-Ziegels
+              exakt nach — Falz, Überlappung und Seitenmaße sind millimetergenau auf den jeweiligen Hersteller
+              abgestimmt. An der Stelle, an der das Montagesystem der PV-Anlage den Dachhaken durchführen muss,
+              ist der Blechziegel mit einer Aussparung versehen, die den Hakenwurzel-Bereich wasserdicht ummantelt.
+            </p>
+            <p>
+              Der zentrale Vorteil: Der Dachhaken sitzt nicht auf dem Ziegel, sondern wird unter dem Ziegel
+              direkt am Dachsparren oder an der Konterlattung verschraubt. Der Blechziegel deckt diese
+              Montagestelle wasserdicht ab. Das Ergebnis ist eine Verbindung, die genauso dicht ist wie
+              das Originaldach — ohne gebohrte oder gefräste Tonziegel.
+            </p>
+          </section>
+
+          <section id="warum-statt-bohren">
+            <h2>Warum Blechziegel statt gebohrter Ziegel?</h2>
+            <p>
+              Bis vor wenigen Jahren war die gängige Praxis, den Tonziegel an der Durchführungsstelle
+              einfach zu bohren oder mit dem Winkelschleifer auszusparen, damit der Dachhaken durchpasst.
+              Das funktioniert, hat aber drei systematische Schwachstellen:
+            </p>
+            <ul class="hp-list">
+              <li><strong>Dichtigkeit:</strong> Jeder Bohrung am Tonziegel ist eine potenzielle Leckstelle. Silikon altert innerhalb weniger Jahre, Kapillarwirkung zieht Feuchtigkeit unter das Dach.</li>
+              <li><strong>Statik:</strong> Gebrochene oder angeschliffene Ziegel verlieren deutlich an Biege- und Druckfestigkeit. Bei Hagel, Schneelast oder Begehung platzen sie eher.</li>
+              <li><strong>Gewährleistung:</strong> Viele Dachziegel-Hersteller lehnen Gewährleistungsansprüche ab, sobald der Originalziegel bearbeitet wurde. Das kann bei einem späteren Dachschaden teuer werden.</li>
+              <li><strong>Denkmalschutz & Optik:</strong> Gebohrte Ziegel sehen von nahem unsauber aus. Blechziegel in Ziegelrot oder Anthrazit fallen optisch kaum auf.</li>
+            </ul>
+            <div class="hp-keybox">
+              <div class="hp-keybox__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l9 4v6c0 5-3.8 9.5-9 10-5.2-.5-9-5-9-10V6l9-4zm-1 14l7-7-1.4-1.4L11 13.2 7.4 9.6 6 11l5 5z"/></svg></div>
+              <div class="hp-keybox__body">
+                <div class="hp-keybox__label">Merke</div>
+                <div class="hp-keybox__title">Blechziegel sind heute die Norm für PV-Installationen.</div>
+                <div class="hp-keybox__text">Die meisten Sachverständigen und Dachdecker-Innungen empfehlen inzwischen ausdrücklich Blechziegel anstelle bearbeiteter Tonziegel — aus Gründen der Dichtigkeit und Gewährleistung.</div>
+              </div>
+            </div>
+          </section>
+
+          <section id="material">
+            <h2>Material & Lebensdauer</h2>
+            <p>
+              Qualitätsblechziegel bestehen aus <strong>Aluminium mit 1,0 mm Materialstärke</strong>,
+              beidseitig pulverbeschichtet. Die Pulverbeschichtung ist UV-stabil, witterungs- und
+              temperaturbeständig (−40 °C bis +80 °C) und verhindert dauerhaft Korrosion. Aluminium
+              bildet auf der Oberfläche eine natürliche Oxidschicht, die das Grundmaterial zusätzlich
+              schützt — selbst wenn die Beschichtung nach Jahrzehnten Abnutzung Kratzer bekommt, bleibt
+              die Funktion erhalten.
+            </p>
+            <p>
+              <strong>Lebensdauer:</strong> Hochwertige Aluminium-Blechziegel halten 25 Jahre und mehr.
+              Das deckt die typische Lebensdauer einer PV-Anlage vollständig ab. Einige Hersteller geben
+              Garantien auf Farbechtheit bis zu 10 Jahren und auf Material bis 25 Jahren. Im Gegensatz zu
+              verzinkten Stahlblechen gibt es kein Rostproblem bei Kratzern oder Kantenschnitten.
+            </p>
+            <p>
+              Achtung bei Billigprodukten aus verzinktem oder lediglich lackiertem Stahl: Die Anfangsoptik
+              ist ähnlich, die Langzeit-Performance ist deutlich schlechter. Wer einmal ein Ziegeldach
+              geöffnet hat, will es nicht nach sechs Jahren wegen durchgerosteter Stahlziegel erneut
+              öffnen müssen.
+            </p>
+          </section>
+
+          <section id="passform">
+            <h2>Passform & Hersteller-Profile</h2>
+            <p>
+              Jeder Dachziegel-Hersteller fertigt sein eigenes Profil — mit individuellen Maßen, Falzen
+              und Überlappungen. <strong>Ein Blechziegel muss exakt zum Originalprofil passen</strong>, sonst
+              entsteht entweder ein Spalt (= Leck) oder ein Stau (= Wasser läuft rückwärts). Auf dem deutschen
+              Markt sind vor allem diese Profile relevant:
+            </p>
+            <ul class="hp-list">
+              <li><strong>Braas:</strong> Frankfurter Pfanne, Harzer Pfanne, Tegalit, Rubin</li>
+              <li><strong>Bramac:</strong> Montero, Classic, Römer, Donau</li>
+              <li><strong>Creaton:</strong> Heidelberger, Futura, Balance, MZ3</li>
+              <li><strong>Nelskamp:</strong> Sigma Pfanne, Finkenberger, F10, H2</li>
+              <li><strong>Weitere auf Anfrage:</strong> Wienerberger, Erlus, Röben, Walther, Jacobi, Meyer-Holsen</li>
+            </ul>
+            <p>
+              Wie erkennt man den eigenen Hersteller? Auf der Unterseite fast jedes Ziegels ist der
+              Hersteller- und Modellname eingeprägt. Wer keinen Ersatzziegel zum Umdrehen zur Hand hat,
+              kann ein Foto der Ober- und Unterseite per Mail an einen Blechziegel-Spezialisten schicken —
+              in der Regel kommt die Identifikation innerhalb eines Tages zurück. Eine komplette Übersicht
+              aller unterstützten Profile steht unter <a href="{{ hersteller_url }}">Hersteller-Übersicht</a>.
+            </p>
+          </section>
+
+          <section id="dachhaken">
+            <h2>Dachhaken-Integration</h2>
+            <p>
+              Der Dachhaken ist das Bindeglied zwischen Dachsparren und PV-Modulrahmen. Er wird mit zwei
+              bis vier Schrauben direkt am tragenden Sparren befestigt, führt durch die Ziegel-Ebene und
+              nimmt oben die Montagesystem-Schiene auf. Bei klassischer Montage wird der Tonziegel dafür
+              bearbeitet — bei Blechziegel-Montage wird der Tonziegel entnommen und komplett durch den
+              Blechziegel ersetzt, in dem die Dachhaken-Aussparung fabrikseitig sauber ausgelegt ist.
+            </p>
+            <h3>Zwei Integrations-Varianten</h3>
+            <p>
+              <strong>Variante 1 — Blechziegel mit separatem Dachhaken:</strong> Der Blechziegel wird
+              getrennt vom Dachhaken geliefert. Der Monteur setzt zuerst den Dachhaken am Sparren,
+              dann den Blechziegel darüber. Gut, wenn der Dachhaken-Hersteller (K2, Schletter etc.)
+              frei gewählt werden soll.
+            </p>
+            <p>
+              <strong>Variante 2 — Blechziegel mit integriertem Dachhaken:</strong> Der Dachhaken ist
+              ab Werk bereits mit dem Blechziegel verbunden. Ein Handgriff, eine Montagestelle, weniger
+              Fehlerquellen auf dem Dach. Diese Variante empfehlen wir für Serien-PV-Projekte ab
+              50 Stück, weil sie die Montagezeit pro Modul um ca. 30–50 % reduziert.
+            </p>
+            <div class="hp-keybox">
+              <div class="hp-keybox__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14l-6-4.5h7.5z"/></svg></div>
+              <div class="hp-keybox__body">
+                <div class="hp-keybox__label">Praxis-Tipp</div>
+                <div class="hp-keybox__title">Dachhaken früh im Projekt festlegen.</div>
+                <div class="hp-keybox__text">Die Aussparung im Blechziegel wird auf das konkrete Dachhaken-Modell ausgelegt. Wer zwischen K2 und Schletter wechselt, braucht im Worst-Case neue Blechziegel. Montagesystem am besten vor der Blechziegel-Bestellung wählen.</div>
+              </div>
+            </div>
+          </section>
+
+          <section id="pv-systeme">
+            <h2>Kompatibilität mit PV-Montagesystemen</h2>
+            <p>
+              Die großen PV-Montagesysteme am deutschen Markt lassen sich alle mit Blechziegeln
+              kombinieren — die Aussparung wird auf den jeweiligen Dachhaken angepasst. Für Solarteure
+              und PV-Installateure sind die folgenden Systeme relevant:
+            </p>
+            <ul class="hp-list">
+              <li><strong>K2 Systems:</strong> SingleHook, MultiRail, CrossRail — einer der am weitesten verbreiteten Anbieter im Wohnbau</li>
+              <li><strong>Schletter:</strong> FixZ, Rapid2+, AluGrid — deutscher Hersteller mit langer Historie, starker im Gewerbe-Segment</li>
+              <li><strong>IBC SolMount:</strong> Flat, Basic, Top Fix — oft bei Aufdach-Serien eingesetzt</li>
+              <li><strong>Renusol:</strong> VS, MetaSole, ConSole — gut dokumentierte Systeme, viele Bauartzulassungen</li>
+              <li><strong>Esdec:</strong> FlatFix, ClickFit EVO — aus den Niederlanden, stark wachsend</li>
+            </ul>
+            <p>
+              Wichtig zu wissen: Auch Nischensysteme wie <strong>Alumero, Mounting Systems oder Van der Valk</strong>
+              lassen sich in den meisten Fällen problemlos mit Blechziegeln kombinieren. Dafür genügt in der Regel
+              ein Blatt mit den Maßen des Dachhakens oder ein Foto. Eine laufend aktualisierte Kompatibilitäts-
+              Übersicht für Solarteure steht unter <a href="{{ solar_url }}">Für Solar-Installateure</a>.
+            </p>
+          </section>
+
+          <section id="mengenplanung">
+            <h2>Mengenplanung für PV-Projekte</h2>
+            <p>
+              Wie viele Blechziegel braucht man für eine typische PV-Anlage? Die Antwort hängt von
+              Moduldichte und Dachhaken-Raster ab. Faustregel aus der Praxis:
+            </p>
+            <ul class="hp-list">
+              <li><strong>Einfamilienhaus (10 kWp, ca. 25 Module):</strong> typisch 40–60 Dachhaken = 40–60 Blechziegel</li>
+              <li><strong>Mehrfamilienhaus (30 kWp, ca. 75 Module):</strong> typisch 120–160 Blechziegel</li>
+              <li><strong>Gewerbedach (100 kWp, ca. 250 Module):</strong> typisch 400–500 Blechziegel</li>
+            </ul>
+            <p>
+              Diese Zahlen sind Richtwerte — die tatsächliche Menge ergibt sich aus der Statik-Berechnung
+              des Montagesystemherstellers. Jeder Dachhaken braucht einen Blechziegel. <strong>Planen Sie
+              5–10 % Reserve ein</strong>: Ein Blechziegel kann beim Transport beschädigt werden, ein
+              Sparren sitzt nicht an der geplanten Stelle, eine Modulreihe verschiebt sich um eine Ziegelreihe.
+              Eine Nachbestellung kostet Zeit (in der Regel 1–3 Werktage) — und der Kran steht am Bautag
+              fertig, bevor der Ziegel nachgeliefert ist.
+            </p>
+            <p>
+              Für alle Projekte ab 25 Stück greifen automatisch Mengenstaffelpreise. Details und aktuelle
+              Konditionen für Dachdecker- und PV-Betriebe finden Sie auf der Seite
+              <a href="{{ gewerbe_url }}">Für Dachdecker</a>.
+            </p>
+          </section>
+
+          <section id="montage">
+            <h2>Montage & Praxis-Tipps</h2>
+            <p>
+              Blechziegel ersetzen Tonziegel 1:1 — die Montage erfolgt in derselben Reihenfolge wie bei
+              der ursprünglichen Dacheindeckung, von unten nach oben, mit seitlicher Überlappung.
+              Ein paar Details aus der Praxis, die häufig unterschätzt werden:
+            </p>
+            <ul class="hp-list">
+              <li><strong>Temperatur:</strong> Aluminium dehnt sich bei Hitze stärker als Ton. Im Hochsommer bei direkter Sonne können Blechziegel zum Arbeiten zu heiß werden — besser früh morgens oder am späten Nachmittag montieren.</li>
+              <li><strong>Werkzeug:</strong> Normale Dachdecker-Schere reicht für Zuschnitte. Kein Winkelschleifer nötig — der würde Metall-Staub erzeugen, der Dachfolie und Unterdach verschmutzt.</li>
+              <li><strong>Handschuhe:</strong> Kanten sind konstruktionsbedingt relativ scharf. Dachdecker-Handschuhe verhindern Schnittverletzungen.</li>
+              <li><strong>Kontrolle:</strong> Nach der Montage eines Blechziegels einmal die Hand unter den Ziegel schieben und fühlen, ob der Dachhaken korrekt eingefasst ist. Spalte größer als 2 mm müssen nachgebessert werden.</li>
+            </ul>
+          </section>
+
+          <section id="farben">
+            <h2>Farben & Denkmalschutz</h2>
+            <p>
+              Standardmäßig verfügbar sind drei Farben: <strong>Aluminium blank</strong> (unbeschichtet,
+              silberfarben), <strong>Anthrazit (RAL 7016)</strong> und <strong>Ziegelrot (RAL 8004)</strong>.
+              Für 90 % aller Dacheindeckungen in Deutschland ist eine dieser drei Farben die optisch
+              unauffällige Wahl. Wer ein sehr spezifisches Rot, Braun oder Grün hat (z. B. bei Altziegeln
+              aus den 70er-Jahren), kann Sonderfarben aus dem RAL-System nachbestellen — Lieferzeit
+              typischerweise 2–3 Wochen.
+            </p>
+            <p>
+              In <strong>Denkmalschutz-Gebieten</strong> gibt es oft Vorgaben, dass die PV-Anlage optisch
+              „zurückhaltend" sein muss. Blechziegel in Ziegelrot sind in solchen Fällen meist genehmigungsfähig —
+              ein normaler Tonziegel mit aufgesetztem Dachhaken dagegen nicht. Bei Unsicherheit empfiehlt
+              sich die Rücksprache mit der Unteren Denkmalschutzbehörde vor der Bestellung.
+            </p>
+          </section>
+
+          <section id="fehler">
+            <h2>Häufige Fehler</h2>
+            <p>
+              Aus fünf Jahren Praxis — die drei häufigsten Fehler, die bei Blechziegel-Projekten auftreten:
+            </p>
+            <ul class="hp-list">
+              <li><strong>Falsches Modell bestellt.</strong> Fehlidentifikation des Hersteller-Profils. Lösung: vor jeder Bestellung ein Foto von Ober- und Unterseite schicken — wir identifizieren das Modell kostenlos.</li>
+              <li><strong>Zu wenig bestellt.</strong> Die Statik-Planung passt nicht exakt zum ausgelieferten Raster. Puffern Sie 5–10 % ein; nicht verbaute Blechziegel lassen sich problemlos für das nächste Projekt aufheben.</li>
+              <li><strong>Dachhaken vorher nicht festgelegt.</strong> Die Blechziegel-Aussparung ist auf ein konkretes Dachhaken-Modell ausgelegt. Wechsel mitten im Projekt = neue Bestellung. Erst das Montagesystem wählen, dann die Blechziegel.</li>
+            </ul>
+          </section>
+
+          <section id="fazit">
+            <h2>Fazit</h2>
+            <p>
+              Für jede PV-Anlage auf einem Ziegeldach ist die Frage heute nicht mehr <em>„bohren oder
+              Blechziegel"</em>, sondern nur noch <em>„welcher Blechziegel passt"</em>. Die Antwort hängt
+              an drei Parametern: <strong>Dachziegel-Hersteller &amp; Modell, PV-Montagesystem, Dachhaken-Typ</strong>.
+              Wer diese drei Punkte früh im Projekt klärt und 5–10 % Reserve einplant, vermeidet die
+              typischen Baustellen-Überraschungen und hält seine Montagezeit kurz.
+            </p>
+            <p>
+              Sie sind sich bei der Modell- oder Systemwahl unsicher? Foto oder Skizze reichen — wir
+              identifizieren und beraten innerhalb von 24 Stunden. Für Dachdecker- und PV-Betriebe mit
+              laufenden Projekten lohnt der Blick auf <a href="{{ gewerbe_url }}">Für Dachdecker</a> und
+              <a href="{{ solar_url }}">Für Solar-Installateure</a> — dort finden Sie Staffelpreise,
+              Rechnungskauf und Projektkonditionen.
+            </p>
+          </section>
+
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="hp-section hp-section--gray" aria-labelledby="rg-faq-title">
+    <div class="hp-wrap">
+      <div class="hp-faq-layout">
+        <div>
+          <span class="hp-section-label">Häufige Fragen</span>
+          <h2 class="hp-section-title" id="rg-faq-title">Kurz &amp; knapp beantwortet</h2>
+          <p class="hp-section-sub">Die Quintessenz aus dem Ratgeber in sechs Antworten.</p>
+        </div>
+        <div class="hp-faq-list">
+          <details class="hp-faq-item"><summary class="hp-faq-item__q">Brauche ich für PV wirklich Blechziegel — oder reicht Bohren?<span class="hp-faq-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="hp-faq-item__a">Bohren funktioniert, ist aber nicht mehr Stand der Technik. Blechziegel sind dichter, statisch unbedenklich und erhalten die Gewährleistung des Dachziegel-Herstellers. Bei neuen PV-Projekten ist Blechziegel heute die Empfehlung.</div></details>
+          <details class="hp-faq-item"><summary class="hp-faq-item__q">Wie finde ich heraus, welchen Ziegel ich habe?<span class="hp-faq-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="hp-faq-item__a">Hersteller und Modell sind auf der Unterseite eines Tonziegels eingeprägt. Alternativ Foto an <strong>{{ email_raw }}</strong> — Identifikation in 24 Stunden.</div></details>
+          <details class="hp-faq-item"><summary class="hp-faq-item__q">Wie lange halten Aluminium-Blechziegel?<span class="hp-faq-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="hp-faq-item__a">Bei Qualitätsware aus 1,0 mm pulverbeschichtetem Aluminium: 25 Jahre und mehr. Das deckt die gesamte Lebensdauer einer PV-Anlage ab.</div></details>
+          <details class="hp-faq-item"><summary class="hp-faq-item__q">Sind Blechziegel mit meinem PV-System kompatibel?<span class="hp-faq-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="hp-faq-item__a">In der Regel ja: K2, Schletter, IBC, Renusol, Esdec und fast alle Nischensysteme werden unterstützt. Die Aussparung wird auf das konkrete Dachhaken-Modell ausgelegt.</div></details>
+          <details class="hp-faq-item"><summary class="hp-faq-item__q">Wie viele brauche ich pro kWp?<span class="hp-faq-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="hp-faq-item__a">Richtwert: 4–6 Blechziegel pro kWp, abhängig von Modul-Anzahl und Dachhaken-Raster. Genaue Menge ergibt sich aus der Statik-Planung. 5–10 % Reserve einplanen.</div></details>
+          <details class="hp-faq-item"><summary class="hp-faq-item__q">Welche Farbe passt optisch?<span class="hp-faq-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></summary><div class="hp-faq-item__a">Bei rotem Ziegeldach: Ziegelrot (RAL 8004). Bei dunklem Ziegeldach: Anthrazit (RAL 7016). Sonderfarben aus dem RAL-System auf Anfrage.</div></details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="hp-section hp-section--navy" aria-labelledby="rg-cta-title">
+    <div class="hp-wrap hp-cta-final">
+      <span class="hp-section-label">Nächster Schritt</span>
+      <h2 class="hp-section-title" id="rg-cta-title">Frage übrig? Wir identifizieren Ihr Modell in 24 Stunden.</h2>
+      <p class="hp-section-sub">Foto oder Skizze reicht. Antwort mit Modell, verfügbarer Lieferzeit und Netto-Preis — binnen eines Arbeitstages.</p>
+      <div class="hp-cta-final__buttons">
+        <a href="{{ contact_url }}" class="hp-btn hp-btn--primary">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          Kontakt aufnehmen
+        </a>
+        <a href="{{ hersteller_url }}" class="hp-btn hp-btn--outline">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z"/></svg>
+          Hersteller-Übersicht
+        </a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Startseite", "item": "{{ shop.url }}/" },
+      { "@type": "ListItem", "position": 2, "name": "Ratgeber", "item": "{{ canonical }}" }
+    ]},
+    { "@type": "Article",
+      "headline": "Blechziegel für PV & Solar — Ratgeber für Bauherren und Profis",
+      "description": "Kompletter Leitfaden zu Aluminium-Blechziegeln für PV-Installationen: Material, Passform, Dachhaken-Integration, Kompatibilität mit PV-Montagesystemen, Mengenplanung, Montage-Tipps und häufige Fehler.",
+      "author": { "@type": "Organization", "name": "Blechziegel.de" },
+      "publisher": { "@type": "Organization", "name": "Blechziegel.de", "url": "{{ shop.url }}/" },
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "{{ canonical }}" },
+      "inLanguage": "de-DE",
+      "articleSection": ["PV", "Solar", "Dachdeckung", "Blechziegel"],
+      "keywords": "Blechziegel, PV-Dachziegel, Aluminium-Ersatzziegel, Dachhaken, PV-Montage, Solar, Frankfurter Pfanne, K2, Schletter"
+    },
+    { "@type": "FAQPage", "mainEntity": [
+      { "@type": "Question", "name": "Brauche ich für PV wirklich Blechziegel oder reicht Bohren?", "acceptedAnswer": { "@type": "Answer", "text": "Bohren ist nicht mehr Stand der Technik. Blechziegel sind dichter, statisch unbedenklich und erhalten die Gewährleistung des Dachziegel-Herstellers." } },
+      { "@type": "Question", "name": "Wie finde ich heraus, welchen Ziegel ich habe?", "acceptedAnswer": { "@type": "Answer", "text": "Hersteller und Modell sind auf der Unterseite eines Tonziegels eingeprägt. Alternativ Foto an web@blechziegel.de — Identifikation in 24 Stunden." } },
+      { "@type": "Question", "name": "Wie lange halten Aluminium-Blechziegel?", "acceptedAnswer": { "@type": "Answer", "text": "Bei Qualitätsware aus 1,0 mm pulverbeschichtetem Aluminium: 25 Jahre und mehr." } },
+      { "@type": "Question", "name": "Sind Blechziegel mit meinem PV-System kompatibel?", "acceptedAnswer": { "@type": "Answer", "text": "In der Regel ja: K2, Schletter, IBC, Renusol, Esdec und fast alle Nischensysteme werden unterstützt." } },
+      { "@type": "Question", "name": "Wie viele brauche ich pro kWp?", "acceptedAnswer": { "@type": "Answer", "text": "Richtwert 4–6 Blechziegel pro kWp, abhängig von Modul-Anzahl und Dachhaken-Raster. 5–10 % Reserve einplanen." } },
+      { "@type": "Question", "name": "Welche Farbe passt optisch?", "acceptedAnswer": { "@type": "Answer", "text": "Bei rotem Ziegeldach Ziegelrot RAL 8004, bei dunklem Dach Anthrazit RAL 7016. Sonderfarben aus dem RAL-System auf Anfrage." } }
+    ]}
+  ]
+}
+</script>

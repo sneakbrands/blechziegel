@@ -4,6 +4,8 @@
   {% render 'blechziegel-gewerbe' %}
 {%- elsif page.handle == 'solar-installateure' or request.path contains '/pages/solar-installateure' -%}
   {% render 'blechziegel-solar-installateure' %}
+{%- elsif page.handle == 'ratgeber' or request.path contains '/pages/ratgeber' -%}
+  {% render 'blechziegel-ratgeber' %}
 {%- else -%}
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <div class="section page-width-content color-{{ section.settings.color_scheme }}">
