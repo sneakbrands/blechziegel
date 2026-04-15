@@ -119,6 +119,63 @@
     font-size: 13.5px;
     color: rgba(255, 255, 255, 0.65);
   }
+
+  /* ══ Payment & Shipping Icons ══ */
+  .bz-footer-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .bz-footer-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 10px;
+    background: #ffffff;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    min-height: 34px;
+  }
+  .bz-footer-badge:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  }
+  .bz-footer-badge svg {
+    height: 20px;
+    width: auto;
+    max-width: 48px;
+    display: block;
+  }
+  .bz-footer-badge--label {
+    gap: 6px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #0a2240;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .bz-footer-badge--label svg {
+    height: 16px;
+    width: 16px;
+    max-width: none;
+    fill: #0a2240;
+  }
+  .bz-footer-badge--dhl {
+    background: #ffcc00;
+    color: #d40511;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    padding: 6px 12px;
+  }
+  @media (max-width: 640px) {
+    .bz-footer-badge { padding: 5px 8px; min-height: 30px; }
+    .bz-footer-badge svg { height: 16px; max-width: 40px; }
+  }
   .bz-footer-odr {
     margin-top: 16px;
     padding-top: 14px;
@@ -296,16 +353,37 @@
       </table>
 
       <div class="bz-footer-sub-title">Zahlungsarten</div>
-      <div class="bz-footer-sub-list">
-        <span>Vorkasse</span>
-        <span>Rechnung</span>
-        <span>SEPA</span>
+      <div class="bz-footer-badges" role="list" aria-label="Akzeptierte Zahlungsarten">
+        {%- for type in shop.enabled_payment_types -%}
+          <span class="bz-footer-badge" role="listitem" aria-label="{{ type | replace: '_', ' ' | capitalize }}">
+            {{ type | payment_type_svg_tag: class: 'bz-footer-badge__svg' }}
+          </span>
+        {%- endfor -%}
+        <span class="bz-footer-badge bz-footer-badge--label" role="listitem" aria-label="Rechnungskauf">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 15h8v2H8zm0-4h8v2H8z"/></svg>
+          Rechnung
+        </span>
+        <span class="bz-footer-badge bz-footer-badge--label" role="listitem" aria-label="Vorkasse">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm0 2v3h16V6H4zm0 5v7h16v-7H4zm2 3h4v2H6v-2z"/></svg>
+          Vorkasse
+        </span>
       </div>
 
       <div class="bz-footer-sub-title">Versand &amp; Sicherheit</div>
-      <div class="bz-footer-sub-list">
-        <span>DHL</span>
-        <span>SSL gesichert</span>
+      <div class="bz-footer-badges" role="list" aria-label="Versand und Sicherheit">
+        <span class="bz-footer-badge bz-footer-badge--dhl" role="listitem" aria-label="DHL Versand">DHL</span>
+        <span class="bz-footer-badge bz-footer-badge--label" role="listitem" aria-label="SSL-verschlüsselt">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8h-1V6A5 5 0 007 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6a3 3 0 016 0v2H9V6zm9 14H6V10h12v10zm-6-3a2 2 0 100-4 2 2 0 000 4z"/></svg>
+          SSL
+        </span>
+        <span class="bz-footer-badge bz-footer-badge--label" role="listitem" aria-label="Trusted Shops">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14l-6-4.5h7.5z"/></svg>
+          Trusted Shops
+        </span>
+        <span class="bz-footer-badge bz-footer-badge--label" role="listitem" aria-label="Made in Germany">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l9 4v6c0 5-3.8 9.5-9 10-5.2-.5-9-5-9-10V6l9-4zm-1 14l7-7-1.4-1.4L11 13.2 7.4 9.6 6 11l5 5z"/></svg>
+          Made in Germany
+        </span>
       </div>
 
       <div class="bz-footer-odr">
