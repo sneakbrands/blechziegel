@@ -1,0 +1,352 @@
+{% comment %}
+  ============================================================
+  BLECHZIEGEL.DE — AGB-Seite (Allgemeine Geschäftsbedingungen)
+  Snippet: blechziegel-agb.liquid
+  Layout-DNA: Dachdecker/Hersteller (hp-* class system)
+  Content: shop.policies.terms_of_service.body (live aus Shopify-Admin)
+  Eingebunden via sections/main-page.liquid wenn page.handle == 'agb'
+  ============================================================
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+.hp {
+  --bz-navy:#0a2240; --bz-navy-light:#0d2d54;
+  --bz-orange:#ffa500; --bz-orange-dark:#e69400; --bz-orange-bg:rgba(255,165,0,.12);
+  --bz-white:#fff; --bz-gray:#f5f5f5; --bz-gray-mid:#e8eaed;
+  --bz-text:#333; --bz-text-light:#666; --bz-border:#e5e7eb;
+  --bz-green:#16a34a;
+  --bz-head:'Montserrat',sans-serif; --bz-body:'Open Sans',sans-serif;
+  --bz-radius:8px; --bz-radius-lg:14px; --bz-max:1200px;
+  --bz-shadow:0 4px 20px rgba(10,34,64,.10);
+  --bz-shadow-lg:0 12px 40px rgba(10,34,64,.18);
+  font-family:var(--bz-body); color:var(--bz-text);
+}
+.hp *, .hp *::before, .hp *::after { box-sizing:border-box; margin:0; padding:0; }
+.hp a { text-decoration:none; color:inherit; }
+.hp ul, .hp ol { list-style:none; }
+.hp-wrap { max-width:var(--bz-max); margin:0 auto; padding:0 20px; }
+
+.hp-hero {
+  background:linear-gradient(135deg,var(--bz-navy) 0%,#163660 100%);
+  color:var(--bz-white); padding:72px 20px 64px; position:relative; overflow:hidden;
+}
+.hp-hero::before {
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.hp-hero__inner { position:relative; max-width:var(--bz-max); margin:0 auto; }
+.hp-kicker {
+  display:inline-flex; align-items:center; gap:8px;
+  background:var(--bz-orange-bg); border:1px solid rgba(255,165,0,.35);
+  color:var(--bz-orange); font-family:var(--bz-head);
+  font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.1em;
+  padding:5px 13px; border-radius:20px; margin-bottom:20px;
+}
+.hp-kicker svg { width:12px; height:12px; fill:var(--bz-orange); }
+.hp-hero h1 {
+  font-family:var(--bz-head); font-size:clamp(26px,3.8vw,44px);
+  font-weight:800; line-height:1.2; margin-bottom:18px; color:var(--bz-white);
+}
+.hp-hero h1 span { color:var(--bz-orange); }
+.hp-hero__sub { font-size:16px; line-height:1.75; color:rgba(255,255,255,.82); margin-bottom:28px; max-width:720px; }
+.hp-hero__trust { display:flex; flex-wrap:wrap; gap:20px; }
+.hp-hero__trust-item { display:flex; align-items:center; gap:7px;
+  font-size:12.5px; color:rgba(255,255,255,.72); font-weight:600; }
+.hp-hero__trust-item svg { width:14px; height:14px; fill:var(--bz-green); flex-shrink:0; }
+
+.hp-section { padding:64px 0; }
+.hp-section--gray { background:var(--bz-gray); }
+.hp-section--white { background:var(--bz-white); }
+.hp-section--navy { background:var(--bz-navy); color:var(--bz-white); }
+.hp-section-label { font-family:var(--bz-head); font-size:11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.12em; color:var(--bz-orange);
+  margin-bottom:8px; display:block; }
+.hp-section-title { font-family:var(--bz-head); font-size:clamp(22px,2.8vw,32px);
+  font-weight:800; color:var(--bz-navy); line-height:1.25; margin-bottom:12px; }
+.hp-section--navy .hp-section-title { color:var(--bz-white); }
+.hp-section-sub { font-size:15px; line-height:1.72; color:var(--bz-text-light); max-width:720px; margin-bottom:32px; }
+.hp-section--navy .hp-section-sub { color:rgba(255,255,255,.72); }
+
+/* 2-spaltiges Layout: TOC + Content */
+.hp-legal-layout { display:grid; grid-template-columns:260px 1fr; gap:48px; align-items:start; }
+.hp-toc {
+  position:sticky; top:24px; background:var(--bz-white); border:1.5px solid var(--bz-border);
+  border-radius:var(--bz-radius-lg); padding:22px 22px 18px; box-shadow:var(--bz-shadow);
+}
+.hp-toc__title {
+  font-family:var(--bz-head); font-size:12px; font-weight:800; color:var(--bz-navy);
+  text-transform:uppercase; letter-spacing:.1em; margin-bottom:14px;
+  padding-bottom:12px; border-bottom:1.5px solid var(--bz-border);
+}
+.hp-toc__list { display:flex; flex-direction:column; gap:4px; }
+.hp-toc__link {
+  display:block; padding:8px 10px; border-radius:6px;
+  font-size:13.5px; line-height:1.4; color:var(--bz-text); font-weight:500;
+  transition:background .15s, color .15s, padding-left .15s;
+  border-left:2px solid transparent;
+}
+.hp-toc__link:hover { background:var(--bz-orange-bg); color:var(--bz-navy); border-left-color:var(--bz-orange); padding-left:14px; }
+.hp-toc__link.is-active { background:var(--bz-orange-bg); color:var(--bz-navy); border-left-color:var(--bz-orange); font-weight:700; }
+
+.hp-legal {
+  background:var(--bz-white); border:1.5px solid var(--bz-border);
+  border-radius:var(--bz-radius-lg); padding:44px 48px;
+  box-shadow:var(--bz-shadow);
+}
+.hp-legal__meta {
+  display:flex; flex-wrap:wrap; gap:14px 24px; align-items:center;
+  padding-bottom:20px; margin-bottom:28px; border-bottom:1.5px solid var(--bz-border);
+  font-size:13px; color:var(--bz-text-light);
+}
+.hp-legal__meta strong { color:var(--bz-navy); font-family:var(--bz-head); font-weight:700; }
+.hp-legal__body { font-size:15px; line-height:1.75; color:var(--bz-text); }
+.hp-legal__body h1,
+.hp-legal__body h2,
+.hp-legal__body h3,
+.hp-legal__body h4 {
+  font-family:var(--bz-head); color:var(--bz-navy); line-height:1.3;
+  margin:36px 0 14px; font-weight:800; scroll-margin-top:24px;
+}
+.hp-legal__body h1 { font-size:24px; margin-top:0; }
+.hp-legal__body h2 { font-size:20px;
+  padding-bottom:8px; border-bottom:2px solid var(--bz-orange-bg); }
+.hp-legal__body h3 { font-size:17px; }
+.hp-legal__body h4 { font-size:15px; text-transform:uppercase; letter-spacing:.05em; }
+.hp-legal__body p { margin:0 0 14px; }
+.hp-legal__body ul,
+.hp-legal__body ol { margin:0 0 16px; padding-left:22px; list-style:disc; }
+.hp-legal__body ol { list-style:decimal; }
+.hp-legal__body li { margin-bottom:8px; }
+.hp-legal__body strong { color:var(--bz-navy); font-weight:700; }
+.hp-legal__body a { color:var(--bz-orange-dark); font-weight:600; text-decoration:underline; text-underline-offset:2px; }
+.hp-legal__body a:hover { color:var(--bz-orange); }
+.hp-legal__body hr { border:none; border-top:1.5px solid var(--bz-border); margin:32px 0; }
+.hp-legal__body blockquote {
+  margin:16px 0; padding:14px 18px; background:var(--bz-gray);
+  border-left:3px solid var(--bz-orange); border-radius:0 var(--bz-radius) var(--bz-radius) 0;
+  font-style:italic; color:var(--bz-text);
+}
+.hp-legal__body table { width:100%; border-collapse:collapse; margin:18px 0; font-size:14px; }
+.hp-legal__body th,
+.hp-legal__body td { padding:10px 12px; border:1px solid var(--bz-border); text-align:left; }
+.hp-legal__body th { background:var(--bz-gray); font-family:var(--bz-head); color:var(--bz-navy); }
+
+.hp-legal__fallback {
+  padding:24px; background:var(--bz-orange-bg); border:1.5px solid rgba(255,165,0,.35);
+  border-radius:var(--bz-radius); color:var(--bz-navy); font-size:14.5px; line-height:1.7;
+}
+
+/* Info-Leiste am Ende */
+.hp-info-bar { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-top:44px; }
+.hp-info-card {
+  background:var(--bz-white); border:1.5px solid var(--bz-border);
+  border-radius:var(--bz-radius-lg); padding:24px 22px; transition:all .2s;
+}
+.hp-info-card:hover { border-color:var(--bz-orange); box-shadow:var(--bz-shadow-lg); transform:translateY(-3px); }
+.hp-info-card__icon { width:40px; height:40px; background:var(--bz-orange-bg); border-radius:10px;
+  display:flex; align-items:center; justify-content:center; margin-bottom:14px; }
+.hp-info-card__icon svg { width:20px; height:20px; fill:var(--bz-orange); }
+.hp-info-card h3 { font-family:var(--bz-head); font-size:15px; font-weight:800; color:var(--bz-navy); margin-bottom:6px; }
+.hp-info-card p { font-size:13.5px; line-height:1.65; color:var(--bz-text-light); }
+.hp-info-card a { color:var(--bz-orange-dark); font-weight:700; text-decoration:underline; }
+
+/* Final CTA */
+.hp-cta-final { text-align:center; }
+.hp-cta-final .hp-section-sub { margin-left:auto; margin-right:auto; }
+.hp-btn {
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:14px 26px; border-radius:var(--bz-radius);
+  font-family:var(--bz-head); font-size:14px; font-weight:700;
+  cursor:pointer; transition:all .2s; border:2px solid transparent; white-space:nowrap;
+}
+.hp-btn svg { width:16px; height:16px; fill:currentColor; flex-shrink:0; }
+.hp-btn--primary { background:var(--bz-orange); color:var(--bz-navy); border-color:var(--bz-orange); }
+.hp-btn--primary:hover { background:var(--bz-orange-dark); border-color:var(--bz-orange-dark); transform:translateY(-1px); box-shadow:0 6px 20px rgba(255,165,0,.3); }
+.hp-btn--outline { background:transparent; color:var(--bz-white); border-color:rgba(255,255,255,.4); }
+.hp-btn--outline:hover { border-color:var(--bz-white); background:rgba(255,255,255,.08); }
+.hp-cta-final__buttons { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:28px; }
+
+@media (max-width:1024px) {
+  .hp-legal-layout { grid-template-columns:1fr; gap:28px; }
+  .hp-toc { position:static; }
+  .hp-info-bar { grid-template-columns:1fr; }
+}
+@media (max-width:640px) {
+  .hp-hero { padding:48px 16px 56px; }
+  .hp-hero h1 { font-size:26px; }
+  .hp-section { padding:48px 0; }
+  .hp-legal { padding:28px 22px; }
+  .hp-legal__body { font-size:14.5px; }
+  .hp-cta-final__buttons .hp-btn { width:100%; }
+}
+</style>
+
+{%- liquid
+  assign contact_url = '/pages/contact'
+  assign impressum_url = '/policies/legal-notice'
+  assign widerruf_url = '/policies/refund-policy'
+  assign datenschutz_url = '/policies/privacy-policy'
+  assign agb_body = shop.policies.terms_of_service.body
+-%}
+
+<div class="hp">
+
+  <!-- HERO -->
+  <section class="hp-hero" aria-labelledby="agb-hero-title">
+    <div class="hp-hero__inner">
+      <div class="hp-kicker">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L4 6v6c0 5 3.4 9.5 8 10 4.6-.5 8-5 8-10V6l-8-4z"/></svg>
+        Rechtliches
+      </div>
+      <h1 id="agb-hero-title">Allgemeine <span>Geschäftsbedingungen</span></h1>
+      <p class="hp-hero__sub">
+        Verbindliche Vertragsbedingungen für alle Bestellungen über blechziegel.de.
+        Transparent, DSGVO-konform und in deutscher Sprache — für Verbraucher wie Gewerbekunden.
+      </p>
+      <div class="hp-hero__trust">
+        <div class="hp-hero__trust-item">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>
+          Rechtsstand {{ 'now' | date: '%Y' }}
+        </div>
+        <div class="hp-hero__trust-item">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>
+          TiWi Trade GmbH
+        </div>
+        <div class="hp-hero__trust-item">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>
+          Deutsches Recht
+        </div>
+        <div class="hp-hero__trust-item">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>
+          Widerrufsrecht inkl.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AGB CONTENT -->
+  <section class="hp-section hp-section--gray">
+    <div class="hp-wrap">
+      <span class="hp-section-label">§ Vertragsbedingungen</span>
+      <h2 class="hp-section-title">AGB im Überblick</h2>
+      <p class="hp-section-sub">
+        Nachstehend die vollständigen Allgemeinen Geschäftsbedingungen der TiWi Trade GmbH.
+        Nutze das Inhaltsverzeichnis links zur schnellen Navigation zwischen den Paragraphen.
+      </p>
+
+      <div class="hp-legal-layout">
+        <aside class="hp-toc" aria-label="Inhaltsverzeichnis">
+          <div class="hp-toc__title">Inhalt</div>
+          <nav class="hp-toc__list" data-bz-agb-toc>
+            <!-- TOC wird via JS aus h2/h3 generiert -->
+          </nav>
+        </aside>
+
+        <article class="hp-legal">
+          <div class="hp-legal__meta">
+            <span><strong>Stand:</strong> {{ 'now' | date: '%d.%m.%Y' }}</span>
+            <span><strong>Anbieter:</strong> TiWi Trade GmbH</span>
+            <span><strong>Shop:</strong> blechziegel.de</span>
+          </div>
+          <div class="hp-legal__body" data-bz-agb-body>
+            {%- if agb_body != blank -%}
+              {{ agb_body }}
+            {%- else -%}
+              <div class="hp-legal__fallback">
+                <strong>Hinweis:</strong> Die AGB werden direkt aus den Shopify-Richtlinien geladen
+                (Admin → Einstellungen → Richtlinien → AGB). Aktuell ist dort noch kein Text hinterlegt.
+                Bitte AGB im Admin-Bereich ergänzen — die Seite aktualisiert sich dann automatisch.
+              </div>
+            {%- endif -%}
+          </div>
+        </article>
+      </div>
+
+      <!-- Info-Leiste: verwandte Rechtstexte -->
+      <div class="hp-info-bar">
+        <a href="{{ widerruf_url }}" class="hp-info-card">
+          <div class="hp-info-card__icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5V1L7 6l5 5V7c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6H4c0 4.4 3.6 8 8 8s8-3.6 8-8-3.6-8-8-8z"/></svg>
+          </div>
+          <h3>Widerrufsrecht</h3>
+          <p>Widerrufsbelehrung inkl. Muster-Formular — 14 Tage Widerrufsfrist.</p>
+        </a>
+        <a href="{{ datenschutz_url }}" class="hp-info-card">
+          <div class="hp-info-card__icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5l-9-4z"/></svg>
+          </div>
+          <h3>Datenschutzerklärung</h3>
+          <p>DSGVO-konforme Information zur Verarbeitung personenbezogener Daten.</p>
+        </a>
+        <a href="{{ impressum_url }}" class="hp-info-card">
+          <div class="hp-info-card__icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+          </div>
+          <h3>Impressum</h3>
+          <p>Anbieterkennzeichnung nach § 5 TMG — Anschrift, Geschäftsführung, USt-ID.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="hp-section hp-section--navy">
+    <div class="hp-wrap hp-cta-final">
+      <span class="hp-section-label">Fragen?</span>
+      <h2 class="hp-section-title">Noch Unklarheiten zu den AGB?</h2>
+      <p class="hp-section-sub">
+        Unser Team beantwortet Fragen zu Bestellung, Widerruf oder Rechnungskauf innerhalb von 24 Stunden.
+      </p>
+      <div class="hp-cta-final__buttons">
+        <a href="{{ contact_url }}" class="hp-btn hp-btn--primary">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          Kontakt aufnehmen
+        </a>
+        <a href="mailto:web@blechziegel.de" class="hp-btn hp-btn--outline">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm8 7L4 6v12h16V6l-8 5z"/></svg>
+          web@blechziegel.de
+        </a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  (function () {
+    var body = document.querySelector('[data-bz-agb-body]');
+    var toc = document.querySelector('[data-bz-agb-toc]');
+    if (!body || !toc) return;
+
+    var headings = body.querySelectorAll('h1, h2, h3');
+    if (!headings.length) { toc.parentElement.style.display = 'none'; return; }
+
+    var links = [];
+    headings.forEach(function (h, i) {
+      if (!h.id) {
+        h.id = 'agb-' + i + '-' + (h.textContent || '').toLowerCase()
+          .replace(/[^a-z0-9äöüß]+/g, '-').replace(/^-|-$/g, '').slice(0, 40);
+      }
+      var a = document.createElement('a');
+      a.href = '#' + h.id;
+      a.className = 'hp-toc__link';
+      a.textContent = h.textContent;
+      if (h.tagName === 'H3') a.style.paddingLeft = '20px';
+      toc.appendChild(a);
+      links.push({ id: h.id, link: a });
+    });
+
+    function onScroll() {
+      var y = window.scrollY + 120;
+      var active = null;
+      for (var i = 0; i < headings.length; i++) {
+        if (headings[i].offsetTop <= y) active = headings[i].id;
+      }
+      links.forEach(function (l) { l.link.classList.toggle('is-active', l.id === active); });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+</script>

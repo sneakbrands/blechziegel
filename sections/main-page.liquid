@@ -8,6 +8,8 @@
   {% render 'blechziegel-ratgeber' %}
 {%- elsif page.handle == 'montageanleitung-mit-dachhaken' or page.handle == 'montageanleitung-ohne-dachhaken' or request.path contains '/pages/montageanleitung-' -%}
   {% render 'blechziegel-montage' %}
+{%- elsif page.handle == 'agb' or request.path contains '/pages/agb' -%}
+  {% render 'blechziegel-agb' %}
 {%- elsif page.handle == 'haendler' or request.path contains '/pages/haendler' -%}
   {% render 'blechziegel-haendler' %}
 {%- else -%}
