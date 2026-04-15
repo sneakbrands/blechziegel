@@ -213,6 +213,7 @@
                 <span class="svg-wrapper icon-checkmark">
                   {{- 'icon-checkmark.svg' | inline_asset_content -}}
                 </span>
+                <span class="bz-flag" aria-hidden="true">{%- render 'bz-flag', code: country.iso_code -%}</span>
                 <span class="country">{{- country.name }}</span>
                 <span
                   class="localization-form__currency"
@@ -257,6 +258,7 @@
           on:change="/changeLanguage"
         >
           {%- for language in localization.available_languages -%}
+            {%- capture lang_flag -%}{%- render 'bz-flag', code: language.iso_code -%}{%- endcapture -%}
             <option
               value="{{ language.iso_code }}"
               lang="{{ language.iso_code }}"
@@ -264,7 +266,7 @@
                 selected
               {% endif %}
             >
-              {{ language.endonym_name | capitalize }}
+              {{ lang_flag }} {{ language.endonym_name | capitalize }}
             </option>
           {%- endfor -%}
         </select>
@@ -277,6 +279,31 @@
 </localization-form-component>
 
 {% stylesheet %}
+  /* Flag-Emoji Support (Windows-Chrome Fallback via Twemoji-Country-Flags Font) */
+  @font-face {
+    font-family: "Twemoji Country Flags";
+    unicode-range: U+1F1E6-1F1FF, U+1F3F4, U+E0062-E007F;
+    src: url("https://cdn.jsdelivr.net/npm/country-flag-emoji-polyfill@0.1.8/dist/TwemojiCountryFlags.woff2") format("woff2");
+    font-display: swap;
+  }
+
+  .bz-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.5em;
+    font-family: "Twemoji Country Flags", "Apple Color Emoji", "Segoe UI Emoji",
+                 "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+    font-size: 1.1em;
+    line-height: 1;
+    flex-shrink: 0;
+    user-select: none;
+  }
+
+  .localization-form__select {
+    font-family: "Twemoji Country Flags", var(--font-primary--family, inherit), sans-serif;
+  }
+
   /* Localization */
   localization-form-component {
     display: flex;

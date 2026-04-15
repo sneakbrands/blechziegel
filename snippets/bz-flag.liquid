@@ -1,0 +1,53 @@
+{%- comment -%}
+  Render a flag emoji for an ISO 3166-1 alpha-2 country code.
+  Used in localization-form for visual country/language picker.
+  Fallback: returns the code in uppercase if no mapping.
+  @param {string} code - e.g. "DE", "de", "en", "gb"
+{%- endcomment -%}
+{%- assign code_up = code | upcase -%}
+{%- case code_up -%}
+  {%- when 'DE' -%}🇩🇪
+  {%- when 'AT' -%}🇦🇹
+  {%- when 'CH' -%}🇨🇭
+  {%- when 'LI' -%}🇱🇮
+  {%- when 'BE' -%}🇧🇪
+  {%- when 'LU' -%}🇱🇺
+  {%- when 'NL' -%}🇳🇱
+  {%- when 'FR' -%}🇫🇷
+  {%- when 'IT' -%}🇮🇹
+  {%- when 'ES' -%}🇪🇸
+  {%- when 'PT' -%}🇵🇹
+  {%- when 'GB' or 'UK' -%}🇬🇧
+  {%- when 'EN' -%}🇬🇧
+  {%- when 'US' -%}🇺🇸
+  {%- when 'CA' -%}🇨🇦
+  {%- when 'IE' -%}🇮🇪
+  {%- when 'DK' -%}🇩🇰
+  {%- when 'SE' -%}🇸🇪
+  {%- when 'NO' -%}🇳🇴
+  {%- when 'FI' -%}🇫🇮
+  {%- when 'IS' -%}🇮🇸
+  {%- when 'PL' -%}🇵🇱
+  {%- when 'CZ' -%}🇨🇿
+  {%- when 'SK' -%}🇸🇰
+  {%- when 'HU' -%}🇭🇺
+  {%- when 'RO' -%}🇷🇴
+  {%- when 'BG' -%}🇧🇬
+  {%- when 'HR' -%}🇭🇷
+  {%- when 'SI' -%}🇸🇮
+  {%- when 'GR' -%}🇬🇷
+  {%- when 'TR' -%}🇹🇷
+  {%- when 'RU' -%}🇷🇺
+  {%- when 'UA' -%}🇺🇦
+  {%- when 'JP' -%}🇯🇵
+  {%- when 'CN' or 'ZH' -%}🇨🇳
+  {%- when 'KR' or 'KO' -%}🇰🇷
+  {%- when 'IN' or 'HI' -%}🇮🇳
+  {%- when 'AU' -%}🇦🇺
+  {%- when 'NZ' -%}🇳🇿
+  {%- when 'BR' -%}🇧🇷
+  {%- when 'MX' -%}🇲🇽
+  {%- when 'AR' -%}🇦🇷
+  {%- when 'ZA' -%}🇿🇦
+  {%- else -%}{{ code_up }}
+{%- endcase -%}
