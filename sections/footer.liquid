@@ -310,28 +310,9 @@
 
   <div class="bz-footer-main">
 
-    <!-- Spalte 1: Marke & Adresse -->
+    <!-- Spalte 1: Über uns -->
     <div class="bz-footer-brand">
-      <div class="bz-footer-logo">
-        <a href="{{ routes.root_url }}">
-          {%- if section.settings.footer_logo != blank -%}
-            {{ section.settings.footer_logo | image_url: width: 200 | image_tag:
-              alt: shop.name,
-              width: 160,
-              height: 40,
-              loading: 'lazy'
-            }}
-          {%- else -%}
-            <img
-              src="https://blechziegel.de/cdn/shop/files/blechziegel-de-logo-header-transparent.png?v=1774273454&width=270"
-              alt="{{ shop.name }}"
-              width="160"
-              height="40"
-              loading="lazy"
-            >
-          {%- endif -%}
-        </a>
-      </div>
+      <div class="bz-footer-col-title">Über uns</div>
       <p class="bz-footer-desc">
         {{ section.settings.footer_desc | default: 'Ihr Spezialist für PV-Ersatzziegel aus Aluminium. Passende Ersatzziegel für alle gängigen Dachziegeltypen – für eine sichere und optisch einwandfreie Photovoltaik-Montage.' }}
       </p>
