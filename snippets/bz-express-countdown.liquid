@@ -9,7 +9,7 @@
 {% style %}
   .bz-express {
     position: fixed;
-    left: 16px;
+    right: 16px;
     bottom: 16px;
     z-index: 1040;
     width: min(340px, calc(100vw - 32px));
@@ -164,6 +164,7 @@
       width: auto;
       padding: 14px 16px 16px;
     }
+    /* Bottom spacing gegen Cookie-Banner (links unten) */
     .bz-express__digit {
       min-width: 24px;
       font-size: 19px;
@@ -180,6 +181,7 @@
   hidden
   data-cutoff-hour="12"
   data-cutoff-min="0"
+  data-show-from-hour="8"
   data-hide-days="1"
 >
   <div class="bz-express__header">
@@ -241,6 +243,17 @@
     var hideDays = parseInt(el.dataset.hideDays || '1', 10);
     var cutoffH = parseInt(el.dataset.cutoffHour || '12', 10);
     var cutoffM = parseInt(el.dataset.cutoffMin || '0', 10);
+    var showFromH = parseInt(el.dataset.showFromHour || '8', 10);
+
+    // Nur Montag–Freitag, 08:00–12:00 lokal anzeigen
+    function inWindow(){
+      var d = new Date();
+      var dow = d.getDay();             // 0=So, 1-5=Mo-Fr, 6=Sa
+      if (dow < 1 || dow > 5) return false;
+      var hm = d.getHours() * 60 + d.getMinutes();
+      return hm >= showFromH * 60 && hm < cutoffH * 60 + cutoffM;
+    }
+    if (!inWindow()) return;
 
     function getCookie(n){
       var m = document.cookie.match(new RegExp('(?:^|;\\s*)' + n + '=([^;]*)'));
@@ -322,6 +335,13 @@
       el.classList.add('is-visible');
     }, 800);
 
-    setInterval(render, 1000);
+    setInterval(function(){
+      if (!inWindow()) {
+        el.classList.remove('is-visible');
+        setTimeout(function(){ el.hidden = true; }, 400);
+        return;
+      }
+      render();
+    }, 1000);
   })();
 </script>
