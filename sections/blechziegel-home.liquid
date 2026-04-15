@@ -104,6 +104,46 @@
   .bz-hero-trust-item { display: flex; align-items: center; gap: 7px; font-size: 13px; color: rgba(255,255,255,.65); }
   .bz-hero-trust-item svg { color: var(--bz-orange); flex-shrink: 0; }
 
+  /* ── 1b. ZIEGEL-FINDER-TEASER ── */
+  .bz-finder-teaser { background: #fff; border-top: 1px solid #e9ecef;
+    border-bottom: 1px solid #e9ecef; padding: 44px 0; }
+  .bz-finder-teaser__inner { display: grid; grid-template-columns: 1fr; gap: 28px;
+    max-width: 1120px; margin: 0 auto; }
+  .bz-finder-teaser__head { max-width: 640px; }
+  .bz-finder-teaser__title { color: var(--bz-navy); margin: 8px 0 10px;
+    font-size: clamp(22px, 2.4vw, 28px); font-weight: 800; line-height: 1.22; }
+  .bz-finder-teaser__title em { font-style: normal; color: var(--bz-orange); }
+  .bz-finder-teaser__sub { color: #5a5955; font-size: 15px; line-height: 1.65; margin: 0; }
+  .bz-finder-teaser__steps { list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .bz-finder-teaser__step { display: flex; gap: 14px; align-items: flex-start;
+    padding: 18px 20px; background: #f8f9fb; border: 1px solid #e9ecef;
+    border-radius: 10px; border-left: 3px solid var(--bz-orange);
+    transition: background .18s, transform .18s; }
+  .bz-finder-teaser__step:hover { background: #fff; transform: translateY(-1px); }
+  .bz-finder-teaser__num { display: inline-flex; align-items: center; justify-content: center;
+    width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
+    background: var(--bz-orange); color: var(--bz-navy);
+    font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 800; }
+  .bz-finder-teaser__step-title { font-family: 'Montserrat', sans-serif;
+    font-size: 14.5px; font-weight: 800; color: var(--bz-navy); margin-bottom: 3px; }
+  .bz-finder-teaser__step-desc { font-size: 13px; line-height: 1.55; color: #5a5955; }
+  .bz-finder-teaser__ctas { display: flex; gap: 18px; flex-wrap: wrap;
+    align-items: center; margin-top: 6px; }
+  .bz-finder-teaser__help { font-family: 'Montserrat', sans-serif; font-size: 13.5px;
+    font-weight: 600; color: var(--bz-navy); text-decoration: none;
+    transition: color .15s; }
+  .bz-finder-teaser__help span { color: var(--bz-orange); font-weight: 700;
+    text-decoration: underline; text-underline-offset: 2px; }
+  .bz-finder-teaser__help:hover span { color: var(--bz-navy); }
+  @media (max-width: 820px) {
+    .bz-finder-teaser { padding: 32px 0; }
+    .bz-finder-teaser__steps { grid-template-columns: 1fr; gap: 10px; }
+    .bz-finder-teaser__step { padding: 14px 16px; }
+    .bz-finder-teaser__ctas { gap: 14px; }
+    .bz-finder-teaser__help { font-size: 13px; }
+  }
+
   /* ── 2. DACHTYPEN ── */
   .bz-dachtypen { background: #f8f8f6; }
   .bz-dach-intro { max-width: 620px; margin-bottom: 44px; }
@@ -526,6 +566,55 @@
           30 Tage Rückgabe
         </span>
       </div>
+    </div>
+  </div>
+</section>
+
+{%- comment -%}══ 1b. ZIEGEL-FINDER-TEASER ══{%- endcomment -%}
+<section class="bz-section bz-finder-teaser" aria-labelledby="bz-finder-teaser-title">
+  <div class="bz-wrap">
+    <div class="bz-finder-teaser__inner">
+
+      <div class="bz-finder-teaser__head">
+        <span class="bz-label">Ziegel Finder</span>
+        <h2 id="bz-finder-teaser-title" class="bz-finder-teaser__title">Passenden Blechziegel <em>schneller finden.</em></h2>
+        <p class="bz-finder-teaser__sub">Auswahl nach Hersteller und Maß führt direkt zum passenden Produkt. Bei Unsicherheit — Beratung per Foto-Anfrage.</p>
+      </div>
+
+      <ol class="bz-finder-teaser__steps" aria-label="So funktioniert der Finder">
+        <li class="bz-finder-teaser__step">
+          <span class="bz-finder-teaser__num" aria-hidden="true">1</span>
+          <div>
+            <div class="bz-finder-teaser__step-title">Hersteller wählen</div>
+            <div class="bz-finder-teaser__step-desc">Braas, Bramac, Creaton, Nelskamp &amp; weitere — direkt aus unseren Produktdaten.</div>
+          </div>
+        </li>
+        <li class="bz-finder-teaser__step">
+          <span class="bz-finder-teaser__num" aria-hidden="true">2</span>
+          <div>
+            <div class="bz-finder-teaser__step-title">Länge prüfen</div>
+            <div class="bz-finder-teaser__step-desc">Längere Seite des Ziegels in Millimetern, dann ggf. Breite.</div>
+          </div>
+        </li>
+        <li class="bz-finder-teaser__step">
+          <span class="bz-finder-teaser__num" aria-hidden="true">3</span>
+          <div>
+            <div class="bz-finder-teaser__step-title">Passendes Produkt finden</div>
+            <div class="bz-finder-teaser__step-desc">Direkt zum Blechziegel oder Beratung bei Sonderprofilen.</div>
+          </div>
+        </li>
+      </ol>
+
+      <div class="bz-finder-teaser__ctas">
+        <a href="{{ routes.root_url }}pages/ziegel-finder" class="bz-btn bz-btn--primary">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 5 1.5-1.5-5-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"/></svg>
+          Ziegel Finder starten
+        </a>
+        <a href="{{ routes.root_url }}pages/ziegel-anfrage" class="bz-finder-teaser__help">
+          Hersteller nicht dabei? <span>Beratung anfragen →</span>
+        </a>
+      </div>
+
     </div>
   </div>
 </section>
