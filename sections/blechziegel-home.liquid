@@ -544,7 +544,7 @@
       <h1>{{ section.settings.hero_headline | default: 'Kein Ziegelbruch<br>bei der <em>PV-Montage.</em>' }}</h1>
       <p class="bz-hero-sub">{{ section.settings.hero_sub | default: 'Aluminium-Ersatzziegel passgenau für alle gängigen Dachziegeltypen – für Dachdecker, PV-Installateure und Privatkunden.' }}</p>
       <div class="bz-hero-ctas">
-        <a href="{{ section.settings.hero_cta_primary_url | default: routes.collections_url | append: '/all' }}" class="bz-btn bz-btn-primary">
+        <a href="{{ section.settings.hero_cta_primary_url | default: '/pages/ziegel-finder' }}" class="bz-btn bz-btn-primary">
           {{ section.settings.hero_cta_primary_text | default: 'Passenden Blechziegel finden' }}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
