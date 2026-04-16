@@ -63,6 +63,34 @@
     {% endif %}
 
     {{ content_for_header }}
+
+    {%- comment -%}
+      Fallback Meta-Description fuer Collection-Seiten ohne admin-gepflegte
+      collection.description. Erzeugt eine sachliche, brand-spezifische
+      Beschreibung aus dem im Theme gepflegten hersteller_blurb.
+      Schreibt nur, wenn content_for_header noch keine description enthaelt.
+    {%- endcomment -%}
+    {%- if request.page_type == 'collection' and collection.handle != blank -%}
+      {%- assign __coll_desc = collection.metafields.global.description_tag | default: collection.description -%}
+      {%- if __coll_desc == blank -%}
+        {%- case collection.handle -%}
+          {%- when 'braas' -%}
+            {%- assign __coll_meta = 'PV-Dachziegel passgenau für Braas-Profile (Frankfurter Pfanne, Harzer Pfanne). Aluminium-Ersatzziegel für die sichere PV-Montage — kein Bohren, kein Bruchrisiko. In Deutschland gefertigt.' -%}
+          {%- when 'bramac' -%}
+            {%- assign __coll_meta = 'PV-Dachziegel passgenau für Bramac-Profile (Bramac Montero, Classic). Aluminium-Ersatzziegel für die sichere PV-Montage — kein Bohren, kein Bruchrisiko. In Deutschland gefertigt.' -%}
+          {%- when 'creaton' -%}
+            {%- assign __coll_meta = 'PV-Dachziegel passgenau für Creaton-Profile (Heidelberger u. a.). Aluminium-Ersatzziegel für die sichere PV-Montage — kein Bohren, kein Bruchrisiko. In Deutschland gefertigt.' -%}
+          {%- when 'nelskamp' -%}
+            {%- assign __coll_meta = 'PV-Dachziegel passgenau für Nelskamp-Profile (Sigma Pfanne, Finkenberger). Aluminium-Ersatzziegel für die sichere PV-Montage — kein Bohren, kein Bruchrisiko. In Deutschland gefertigt.' -%}
+          {%- when 'pv-dachziegel' -%}
+            {%- assign __coll_meta = 'Aluminium-Blechziegel für die sichere PV-Montage — passgenau für alle gängigen Dachziegeltypen. Kein Bohren, kein Bruchrisiko. Lieferzeit 1–3 Werktage, Made in Germany.' -%}
+        {%- endcase -%}
+        {%- if __coll_meta != blank -%}
+          <meta name="description" content="{{ __coll_meta | escape }}">
+          <meta property="og:description" content="{{ __coll_meta | escape }}">
+        {%- endif -%}
+      {%- endif -%}
+    {%- endif -%}
   </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }} template-{{ request.page_type | handle }}{% if page.handle %} page-{{ page.handle }}{% endif %}">
