@@ -134,6 +134,12 @@
   font-size:13px; color:var(--bz-text); }
 .hp-file-multi__item-name { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:600; }
 .hp-file-multi__item-size { color:var(--bz-text-light); font-size:12px; }
+.hp-file-multi__meter { display:flex; align-items:center; gap:12px; margin-top:10px; font-size:12.5px; color:var(--bz-text-light); }
+.hp-file-multi__meter-text { white-space:nowrap; }
+.hp-file-multi__meter-text strong { color:var(--bz-navy); font-weight:700; }
+.hp-file-multi__meter-bar { flex:1; height:6px; background:var(--bz-gray-mid); border-radius:4px; overflow:hidden; }
+.hp-file-multi__meter-fill { display:block; height:100%; width:0%; background:var(--bz-orange); transition:width .2s, background .2s; }
+.hp-file-multi__meter.is-over .hp-file-multi__meter-fill { background:var(--bz-red); }
 
 .hp-form__check { display:flex; align-items:flex-start; gap:10px; font-size:13.5px;
   line-height:1.6; color:var(--bz-text); }
@@ -293,15 +299,39 @@
                   </select>
                 </div>
 
+                <div class="hp-form__group" id="pa-projektart-sonstiges-wrap" hidden>
+                  <label class="hp-form__label" for="pa-projektart-sonstiges">Projektart — bitte kurz beschreiben<span class="hp-opt">(nur bei „Sonstiges")</span></label>
+                  <input class="hp-form__input" id="pa-projektart-sonstiges" name="Projektart_Sonstiges" type="text" placeholder="z. B. Dachbegrünung, gewerbliche Dachdurchführung, Sonderkonstruktion …">
+                </div>
+
+                <div class="hp-form__group hp-form__grid-2">
+                  <div>
+                    <label class="hp-form__label" for="pa-menge">Bedarfsmenge (ungefähr)<span class="hp-req">*</span></label>
+                    <select class="hp-form__select" id="pa-menge" name="Bedarfsmenge" required>
+                      <option value="">Bitte wählen …</option>
+                      <option>bis 25 Stück</option>
+                      <option>25 – 100 Stück</option>
+                      <option>100 – 500 Stück</option>
+                      <option>500 – 2.000 Stück</option>
+                      <option>2.000+ Stück</option>
+                      <option>noch unklar</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="hp-form__label" for="pa-dachflaeche">Dachfläche in m²<span class="hp-opt">(optional)</span></label>
+                    <input class="hp-form__input" id="pa-dachflaeche" name="Dachflaeche_qm" type="number" min="1" max="100000" step="1" inputmode="numeric" placeholder="z. B. 120">
+                    <div class="hp-form__hint">Hilft bei der Mengeneinschätzung.</div>
+                  </div>
+                </div>
+
                 <div class="hp-form__group">
-                  <label class="hp-form__label" for="pa-menge">Bedarfsmenge (ungefähr)<span class="hp-req">*</span></label>
-                  <select class="hp-form__select" id="pa-menge" name="Bedarfsmenge" required>
+                  <label class="hp-form__label" for="pa-projektstart">Geplanter Projektstart / Liefertermin<span class="hp-opt">(optional)</span></label>
+                  <select class="hp-form__select" id="pa-projektstart" name="Projektstart">
                     <option value="">Bitte wählen …</option>
-                    <option>bis 25 Stück</option>
-                    <option>25 – 100 Stück</option>
-                    <option>100 – 500 Stück</option>
-                    <option>500 – 2.000 Stück</option>
-                    <option>2.000+ Stück</option>
+                    <option>sofort / kurzfristig</option>
+                    <option>in 2–4 Wochen</option>
+                    <option>in 1–3 Monaten</option>
+                    <option>später / flexibel</option>
                     <option>noch unklar</option>
                   </select>
                 </div>
@@ -380,8 +410,12 @@
                   <label class="hp-form__label">Unterlagen hochladen<span class="hp-opt">(optional)</span></label>
                   <div class="hp-file-multi" id="pa-file-drop">
                     <div class="hp-file-multi__title">Foto · Zeichnung · Datenblatt · PDF</div>
-                    <div class="hp-file-multi__hint">Mehrfach-Upload möglich · max. 12&nbsp;MB gesamt · Foto bei Sonderprofil: Ober- und Unterseite hilft</div>
+                    <div class="hp-file-multi__hint">Erlaubt: JPG · PNG · HEIC · PDF · DWG · DXF · SVG · Mehrfach-Upload möglich · Foto bei Sonderprofil: Ober- und Unterseite hilft</div>
                     <input type="file" id="pa-files" name="attachment" accept="image/*,.heic,.heif,.pdf,.dwg,.dxf,.svg" multiple>
+                  </div>
+                  <div class="hp-file-multi__meter" id="pa-file-meter" aria-live="polite">
+                    <span class="hp-file-multi__meter-text"><span id="pa-file-used">0 B</span> von <strong>12&nbsp;MB</strong> genutzt</span>
+                    <span class="hp-file-multi__meter-bar"><span class="hp-file-multi__meter-fill" id="pa-file-fill"></span></span>
                   </div>
                   <div class="hp-file-multi__list" id="pa-file-list"></div>
                 </div>
@@ -521,6 +555,10 @@
     }
     function clearStatus(){ status.className = 'hp-form-status'; status.textContent = ''; }
 
+    var meter = document.getElementById('pa-file-meter');
+    var used  = document.getElementById('pa-file-used');
+    var fill  = document.getElementById('pa-file-fill');
+
     function renderList(){
       list.innerHTML = '';
       var files = input.files ? Array.from(input.files) : [];
@@ -534,11 +572,29 @@
         row.querySelector('.hp-file-multi__item-size').textContent = fmt(f.size);
         list.appendChild(row);
       });
+      if (used) used.textContent = fmt(total);
+      if (fill) fill.style.width = Math.min(100, Math.round((total / MAX_TOTAL) * 100)) + '%';
+      if (meter) meter.classList.toggle('is-over', total > MAX_TOTAL);
       if (total > MAX_TOTAL) {
         showError('Summe der Anhänge ist zu groß (' + fmt(total) + '). Maximal 12 MB.');
       } else {
         clearStatus();
       }
+    }
+
+    // Sonstiges-Follow-up: Freitextfeld ein-/ausblenden
+    var projektartEl = document.getElementById('pa-projektart');
+    var sonstigesWrap = document.getElementById('pa-projektart-sonstiges-wrap');
+    var sonstigesInput = document.getElementById('pa-projektart-sonstiges');
+    function syncProjektartFollowup(){
+      if (!projektartEl || !sonstigesWrap) return;
+      var on = projektartEl.value === 'Sonstiges';
+      sonstigesWrap.hidden = !on;
+      if (sonstigesInput && !on) sonstigesInput.value = '';
+    }
+    if (projektartEl) {
+      projektartEl.addEventListener('change', syncProjektartFollowup);
+      syncProjektartFollowup();
     }
 
     // CC-Sync: Nutzer erhält Kopie seiner Projektanfrage (FormSubmit _cc)
