@@ -229,7 +229,6 @@
 </style>
 
 {%- liquid
-  assign contact_url = '/pages/contact'
   assign anfrage_url = '/pages/ziegel-anfrage'
   assign hersteller_url = '/pages/hersteller'
   assign canonical = shop.url | append: '/pages/ziegel-finder'
@@ -261,7 +260,7 @@
         <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Passendes Produkt direkt finden</div>
         <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Auswahl nach Hersteller &amp; Maß</div>
         <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Sonderanfertigungen möglich</div>
-        <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Beratung binnen 24 Std.</div>
+        <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Rückmeldung in der Regel in 24 Std. (Werktage)</div>
       </div>
     </div>
   </section>
@@ -317,7 +316,7 @@
         <div class="zf-tip">
           <div class="zf-tip__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 2L7.2 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.2L15 2H9zm3 15a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/></svg></div>
           <div class="zf-tip__title">Unsicher? Foto senden</div>
-          <div class="zf-tip__text">Foto von Ober- und Unterseite per <a href="{{ anfrage_url }}" style="color:var(--bz-orange-dark);font-weight:700;">Anfrage-Formular</a> — Antwort in 24 Stunden.</div>
+          <div class="zf-tip__text">Foto von Ober- und Unterseite per <a href="{{ anfrage_url }}" style="color:var(--bz-orange-dark);font-weight:700;">Anfrage-Formular</a> — Rückmeldung in der Regel innerhalb von 24 Stunden (Werktage).</div>
         </div>
       </div>
 
@@ -329,11 +328,11 @@
     <div class="hp-wrap">
       <span class="hp-section-label">Unsicher?</span>
       <h2 class="hp-section-title" id="zf-consult-title">Persönliche Beratung statt Finder</h2>
-      <p class="hp-section-sub">Sie haben einen Ziegel, den Sie nicht eindeutig zuordnen können? Kein Problem — wir identifizieren das Profil anhand eines Fotos und melden uns binnen 24 Stunden.</p>
+      <p class="hp-section-sub">Sie haben einen Ziegel, den Sie nicht eindeutig zuordnen können? Kein Problem — wir identifizieren das Profil anhand eines Fotos und melden uns in der Regel innerhalb von 24 Stunden (Werktage).</p>
       <div class="zf-help">
         <div class="zf-help__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
         <div>
-          <div class="zf-help__title">Ihr Ziegel in 24 Stunden identifiziert</div>
+          <div class="zf-help__title">Ihr Ziegel per Foto identifizieren lassen</div>
           <div class="zf-help__sub">Foto von Ober- und Unterseite + Maße genügen. Wir nennen Ihnen Hersteller/Modell und passenden Blechziegel.</div>
         </div>
         <a class="zf-help__cta" href="{{ anfrage_url }}">
@@ -641,7 +640,7 @@
         '<div class="zf-help__icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></div>'+
         '<div>'+
           '<div class="zf-help__title">Unsicher, ob das Profil wirklich passt?</div>'+
-          '<div class="zf-help__sub">Foto von Ober- und Unterseite reicht uns — wir identifizieren das Modell binnen 24 Stunden.</div>'+
+          '<div class="zf-help__sub">Foto von Ober- und Unterseite reicht uns — Rückmeldung in der Regel innerhalb von 24 Stunden (Werktage).</div>'+
         '</div>'+
         '<a class="zf-help__cta" href="{{ anfrage_url }}">Foto senden</a>'+
       '</div>';
