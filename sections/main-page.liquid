@@ -20,6 +20,8 @@
   {% render 'blechziegel-ziegel-finder' %}
 {%- elsif page.handle == 'ziegel-anfrage' or request.path contains '/pages/ziegel-anfrage' -%}
   {% render 'blechziegel-anfrage' %}
+{%- elsif page.handle == 'projekt-anfrage' or request.path contains '/pages/projekt-anfrage' -%}
+  {% render 'blechziegel-projekt-anfrage' %}
 {%- elsif page.handle == 'haendler' or request.path contains '/pages/haendler' -%}
   {% render 'blechziegel-haendler' %}
 {%- else -%}
