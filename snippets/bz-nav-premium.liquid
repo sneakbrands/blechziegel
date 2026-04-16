@@ -595,4 +595,110 @@
     }
     .mega-menu__link { padding: 11px 13px !important; font-size: 13.5px; }
   }
+
+  /* ═══════════════════════════════════════════════════════════════
+     NAV-2 POLISH — visuelle Priorität nach neuer Funnel-Struktur.
+     Targeting per href, damit keine Theme-Block-Änderung nötig ist.
+  ═══════════════════════════════════════════════════════════════ */
+
+  /* Mega-Menu etwas breiter für die neue Struktur (Ziegel-finden hat 6 Sub-Items). */
+  .mega-menu { max-width: 520px !important; }
+
+  /* Primär-Pfad "Ziegel finden" dezent hervorheben (Top-Level Desktop) */
+  .menu-list__link[href="/pages/ziegel-finder"] .menu-list__link-title,
+  .menu-list__link[href$="/pages/ziegel-finder"] .menu-list__link-title {
+    position: relative;
+    padding-left: 14px;
+  }
+  .menu-list__link[href="/pages/ziegel-finder"] .menu-list__link-title::before,
+  .menu-list__link[href$="/pages/ziegel-finder"] .menu-list__link-title::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 6px; height: 6px;
+    margin-top: -3px;
+    border-radius: 50%;
+    background: var(--bz-nav-orange);
+    box-shadow: 0 0 0 2px rgba(255,165,0,0.18);
+    transition: transform 0.2s ease;
+  }
+  .menu-list__link[href$="/pages/ziegel-finder"]:hover .menu-list__link-title::before {
+    transform: scale(1.15);
+  }
+
+  /* Sekundärer Menüpfad "Ratgeber" sanft zurücknehmen */
+  .menu-list__link[href$="/pages/ratgeber"] .menu-list__link-title {
+    color: rgba(10, 34, 64, 0.72);
+    font-weight: 600;
+  }
+  .menu-list__link[href$="/pages/ratgeber"]:hover .menu-list__link-title {
+    color: var(--bz-nav-orange);
+  }
+
+  /* Mega-Menu: Primär-Eintrag innerhalb des Dropdowns (Finder, Ziegel-Anfrage,
+     Projekt-Anfrage, Gewerbe) etwas stärker, Kollektions-Hersteller-Links bleiben
+     nachrangig. "Alle Hersteller" als Meta-Link mit Top-Separator. */
+  .mega-menu__link[href="/pages/ziegel-finder"],
+  .mega-menu__link[href="/pages/ziegel-anfrage"],
+  .mega-menu__link[href="/pages/projekt-anfrage"] {
+    font-weight: 800 !important;
+  }
+  .mega-menu__link[href="/pages/ziegel-finder"]::after,
+  .mega-menu__link[href="/pages/ziegel-anfrage"]::after,
+  .mega-menu__link[href="/pages/projekt-anfrage"]::after {
+    content: "▸";
+    margin-left: auto;
+    color: var(--bz-nav-orange);
+    font-size: 12px;
+    opacity: 0.75;
+  }
+
+  /* "Alle Hersteller" als Abschluss-/Meta-Ziel im Submenu: kleine Trennlinie oben,
+     leicht zurückgenommenes Gewicht. */
+  .mega-menu__link[href="/pages/hersteller"] {
+    margin-top: 6px !important;
+    padding-top: 14px !important;
+    border-top: 1px solid var(--bz-nav-border);
+    font-size: 13px !important;
+    color: rgba(10, 34, 64, 0.7) !important;
+    font-weight: 600 !important;
+  }
+  .mega-menu__link[href="/pages/hersteller"]:hover {
+    color: var(--bz-nav-orange) !important;
+  }
+
+  /* Anfrage-Qualifier (" — Foto & Maße prüfen" etc.) schwächer rendern,
+     damit der Kern-Titel trägt. Per em-Dash als Bruchstelle. */
+  .mega-menu__link[href="/pages/ziegel-anfrage"],
+  .mega-menu__link[href="/pages/projekt-anfrage"] {
+    white-space: normal;
+    line-height: 1.35;
+  }
+
+  /* ─── Mobile-Drawer-Polish ─── */
+  @media (max-width: 749px) {
+    /* Primär-Finder-Item im Drawer ebenfalls mit Orange-Dot */
+    .menu-drawer__menu-item[href$="/pages/ziegel-finder"]::before,
+    .menu-drawer a[href$="/pages/ziegel-finder"]::before {
+      content: "";
+      display: inline-block;
+      width: 7px; height: 7px;
+      margin-right: 10px;
+      border-radius: 50%;
+      background: var(--bz-nav-orange);
+      vertical-align: middle;
+    }
+    /* Sekundär-Ziele (Ratgeber) sanft zurückgenommen im Drawer */
+    .menu-drawer__menu-item[href$="/pages/ratgeber"],
+    .menu-drawer a[href$="/pages/ratgeber"] {
+      color: rgba(10, 34, 64, 0.72) !important;
+      font-weight: 600 !important;
+    }
+    /* Etwas mehr Luft zwischen Top-Level-Parents im Drawer */
+    .menu-drawer details + details,
+    .menu-drawer__menu-item--mainlist + .menu-drawer__menu-item--mainlist {
+      border-top: 1px solid rgba(10,34,64,0.06);
+    }
+  }
 {% endstyle %}
