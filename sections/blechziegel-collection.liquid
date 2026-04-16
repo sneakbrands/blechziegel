@@ -1002,6 +1002,16 @@
     font-weight: 600;
   }
   .bz-col-breadcrumb__sep { color: rgba(10,34,64,0.35); }
+  .bz-col-hero-hublink {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 18px;
+    font-size: 13px; font-weight: 600;
+    color: rgba(255,255,255,.72);
+    text-decoration: none;
+    transition: color .15s;
+  }
+  .bz-col-hero-hublink:hover { color: #fff; }
+  .bz-col-hero-hublink svg { flex-shrink: 0; }
   @media (max-width: 640px) {
     .bz-col-breadcrumb { padding: 10px 16px 0; }
     .bz-col-breadcrumb__list { font-size: 11.5px; gap: 4px; }
@@ -1113,6 +1123,12 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
         Made in Germany
       </span>
+    {%- if is_hersteller -%}
+      <a class="bz-col-hero-hublink" href="{{ routes.root_url }}pages/hersteller">
+        <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Alle Hersteller anzeigen
+      </a>
+    {%- endif -%}
     </div>
   </div>
 </section>
