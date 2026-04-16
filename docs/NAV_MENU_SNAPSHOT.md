@@ -1,72 +1,68 @@
-# Navigation — Menu Snapshot nach NAV-1
+# Navigation — Menu Snapshot nach Phase H1
 
 **Branch:** `feat/ziegel-finder-enterprise`
-**Stand:** 2026-04-16
+**Stand:** 2026-04-16 (Phase H1 — Hersteller-Strategie)
 **Quelle:** `~/blechziegel-admin-tools/menu.json` (extern zum Theme-Repo, via `set-menu.js` nach Shopify `main-menu` synct)
 
 ---
 
-## Live-Struktur
+## Live-Struktur nach H1
 
 ```
 Hauptmenü
-├─ Ziegel finden                         → /pages/ziegel-finder
-│  ├─ Ziegel-Finder starten              → /pages/ziegel-finder
-│  ├─ Braas                              → /collections/braas
-│  ├─ Bramac                             → /collections/bramac
-│  ├─ Creaton                            → /collections/creaton
-│  ├─ Nelskamp                           → /collections/nelskamp
-│  └─ Alle Hersteller                    → /pages/hersteller
-├─ Produkte                              → /collections/pv-dachziegel
-│  ├─ PV Dachziegel                      → /collections/pv-dachziegel
-│  └─ Alle Produkte                      → /collections/all
-├─ Anfrage                               → /pages/ziegel-anfrage
-│  ├─ Ziegel-Anfrage — Foto & Maße prüfen → /pages/ziegel-anfrage
+├─ Ziegel finden                            → /pages/ziegel-finder   (direkter Link, kein Submenu)
+├─ Hersteller                               → /pages/hersteller
+│  ├─ Braas                                 → /collections/braas
+│  ├─ Bramac                                → /collections/bramac
+│  ├─ Creaton                               → /collections/creaton
+│  ├─ Nelskamp                              → /collections/nelskamp
+│  ├─ Alle Hersteller                       → /pages/hersteller
+│  └─ Alle Produkte                         → /collections/all
+├─ Anfrage                                  → /pages/ziegel-anfrage
+│  ├─ Ziegel-Anfrage — Foto & Maße prüfen   → /pages/ziegel-anfrage
 │  └─ Projekt-Anfrage — B2B, Mengen, Sonderprofile → /pages/projekt-anfrage
-├─ Für Profis                            → /pages/gewerbe
-│  ├─ Gewerbe                            → /pages/gewerbe
-│  ├─ Solar-Installateure                → /pages/solar-installateure
-│  ├─ Für Händler                        → /pages/haendler
-│  └─ Projekt-Anfrage                    → /pages/projekt-anfrage
-└─ Ratgeber                              → /pages/ratgeber
+├─ Für Profis                               → /pages/gewerbe
+│  ├─ Gewerbe                               → /pages/gewerbe
+│  ├─ Solar-Installateure                   → /pages/solar-installateure
+│  ├─ Für Händler                           → /pages/haendler
+│  └─ Projekt-Anfrage                       → /pages/projekt-anfrage
+└─ Ratgeber                                 → /pages/ratgeber
 ```
 
-**Top-Level = 5 Einträge.** Alle Parent-Links navigieren auf die Flaggschiff-Seite der Kategorie — Submenu ergänzt um weitere Einstiege.
+**Top-Level = 5 Einträge.**
 
-## Entfernt
+## Änderungen gegenüber Vorphase (NAV-1)
 
-- „Startseite" (Logo-Klick ersetzt den Eintrag)
-- „Kontakt" (Footer-Pfad, nicht mehr im Top-Level; kollidierte mit Anfrage-Funnel)
-- „Alle Hersteller"-Redundanz auf Top-Level (jetzt nur im Finder-Submenu)
+| Element | Vor H1 | Nach H1 |
+|---|---|---|
+| Top-Level „Produkte" | vorhanden | **entfernt** |
+| Top-Level „Hersteller" | nur Submenu-Eintrag unter „Ziegel finden" | **eigenes Top-Level** |
+| Hersteller-Brands (Braas/Bramac/…) | unter „Ziegel finden" | **unter „Hersteller"** |
+| „Ziegel-Finder starten" Submenu | ja | entfernt (Top-Level-Link selbst navigiert auf Finder) |
+| „Alle Hersteller" | unter „Ziegel finden" | unter „Hersteller" |
+| „Alle Produkte" (Catalog-Link) | unter „Produkte" | **unter „Hersteller" als letztes Item** |
 
-## Priorisierungs-Logik (Funnel-Alignment)
+## Rollen-Klärung
 
-| Nutzer-Intent | Menü-Pfad |
+| Element | Rolle |
 |---|---|
-| „Welcher Ziegel passt?" | Ziegel finden → Finder |
-| „Hersteller suchen" | Ziegel finden → Braas/Bramac/Creaton/Nelskamp |
-| „Direkt kaufen" | Produkte → PV Dachziegel |
-| „Unsicher, Foto prüfen lassen" | Anfrage → Ziegel-Anfrage |
-| „Projekt, Menge, Sonderprofil" | Anfrage → Projekt-Anfrage **oder** Für Profis → Projekt-Anfrage |
-| „Dachdecker / PV-Betrieb" | Für Profis → Gewerbe |
-| „Solarbetrieb" | Für Profis → Solar-Installateure |
-| „Baustoffhandel" | Für Profis → Für Händler |
-| „Info / Beratung lesen" | Ratgeber |
+| Ziegel finden (Top-Level) | **UX-Problemlöser** — unsichere Nutzer, direkter Finder-Einstieg |
+| Hersteller (Top-Level) | **Tragende Marken-Achse** — Hub + 4 Brand-Collections + Catalog-Fallback |
+| Anfrage (Top-Level) | 2-Funnel-Anfrage (Ziegel + Projekt) |
+| Für Profis (Top-Level) | B2B-Landings |
+| Ratgeber (Top-Level) | Content/Ressource |
 
-## Mobile-Verhalten
+## „Produkte"-Abfang
 
-Drawer nutzt dieselbe Struktur. Accordion expandiert Submenus — B2B + beide Anfrage-Pfade sind **eine Tap-Ebene tief**, nicht versteckt. Parent-Links sind direkt klickbar (navigieren auf Flaggschiff-Seite).
+Direkter Produkte-Katalog (`/collections/all`) bleibt über **Hersteller > Alle Produkte** erreichbar. Keine dedizierte Top-Level-„Produkte"-Seite mehr, kein Verlust einer Zugangsroute.
 
-**Mobile-Reihenfolge entspricht Desktop-Reihenfolge.** Theme-Architektur erzwingt dieselbe Ordnung für beide Varianten.
+## NAV-2-Polish (unverändert übernommen)
 
-## Grenzen / Not verifiable
+- Orange-Dot vor „Ziegel finden" bleibt — bestätigt sich weiterhin als UX-Akzent auf dem Problem-Löser-Einstieg. **Bewusst nicht** auf „Hersteller" verschoben.
+- Ratgeber weiterhin softer (Weight 600)
+- Mega-Menu-Breite 520 px, Meta-Link-Styling für „Alle Hersteller" (= `/pages/hersteller` Selfhref) weiterhin aktiv
 
-- Visueller Top-Level-Gewichts-Unterschied („Ziegel finden" optisch prominenter als „Ratgeber") ist **nicht** Teil von NAV-1 — bewusst kein Design-Refactor. **Ich kann das nicht bestätigen**, ob das ohne zusätzliche CSS-Mikro-Anpassungen optisch schon ausreichend wirkt.
-- Projekt-Anfrage erscheint bewusst **zweimal** (unter „Anfrage" und unter „Für Profis") — redundante Navigation, gewollt, weil beide Intents sinnvoll dorthin führen.
-- Mega-Menu-Breite (460 px) wurde in NAV-1 **nicht** verändert — steht als P2 im Navigation-Audit. Mit 7 Items im „Ziegel finden"-Submenu kann es optisch knapp werden — **Ich kann das nicht bestätigen** ohne Live-Check.
-- Ob die bestehende Mobile-Drawer-Accordion-JS die Parent-Link-Navigation auf Touch sauber von Expand-Tap trennt — **Ich kann das nicht bestätigen** ohne Device-Test.
-
-## Sync-Befehl (zur Wiederherstellung)
+## Sync-Befehl
 
 ```bash
 cd ~/blechziegel-admin-tools
@@ -74,3 +70,8 @@ node set-menu.js
 ```
 
 Schreibt die Struktur aus `menu.json` idempotent nach Shopify `main-menu`.
+
+## Nicht verifizierbar
+
+- SEO-Effekt der Top-Level-Umbenennung („Produkte" raus) auf bestehende Rankings → **„Ich kann das nicht bestätigen."**
+- Ob „Alle Hersteller" + „Alle Produkte" als zwei ähnliche Meta-Links im Submenu Nutzer verwirren → **„Ich kann das nicht bestätigen"** ohne A/B-Test.

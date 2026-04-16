@@ -52,7 +52,7 @@ async function deskTest() {
   await shoot(page, 'desktop-00-header-rest');
 
   // 1) For each top-level: move mouse off, then hover the title's bbox center via page.mouse
-  const tops = ['Ziegel finden', 'Produkte', 'Anfrage', 'Für Profis', 'Ratgeber'];
+  const tops = ['Ziegel finden', 'Hersteller', 'Anfrage', 'Für Profis', 'Ratgeber'];
   for (let i = 0; i < tops.length; i++) {
     const label = tops[i];
     try {
