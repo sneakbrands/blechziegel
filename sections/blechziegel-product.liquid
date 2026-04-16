@@ -5,6 +5,19 @@
   Optimiert für: Dachdecker, PV-Installateure, B2B + Privatkunden
 {% endcomment %}
 
+{%- liquid
+  comment
+    Zentrale Commerce-Fakten – identisch zur Home-Section.
+    Eine Quelle, mehrere Ausgabestellen. Leere Felder rendern nichts.
+  endcomment
+  assign cf_stock_label = section.settings.cf_stock_label | default: 'Lagerware'
+  assign cf_lead_time = section.settings.cf_lead_time | default: '1–3 Werktage'
+  assign cf_cutoff_hour = section.settings.cf_cutoff_hour | default: 13
+  assign cf_carrier = section.settings.cf_carrier | default: 'DHL'
+  assign cf_origin = section.settings.cf_origin | default: 'In Deutschland gelasert'
+  assign cf_free_threshold = section.settings.cf_free_threshold
+-%}
+
 {% style %}
   :root {
     --bz-navy: #0d1e35;
@@ -212,7 +225,7 @@
     .bz-fcard__list li { font-size: 14px; }
   }
 
-  /* USP direkt unter Lager/Lieferzeit (Gratis Versand + Made in Germany) */
+  /* USP direkt unter Lager/Lieferzeit (konditional aus cf_*) */
   .bz-price-usps {
     list-style: none; margin: 0 0 12px; padding: 0;
     display: flex; flex-wrap: wrap; gap: 8px 16px;
@@ -922,10 +935,14 @@
     <div class="bz-product-info">
 
       <!-- Tag -->
+      {%- if cf_origin != blank or cf_stock_label != blank -%}
       <div class="bz-product-tag">
         <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor"><circle cx="4" cy="4" r="4"/></svg>
-        Made in Germany &middot; Auf Lager
+        {%- if cf_origin != blank %}{{ cf_origin }}{% endif -%}
+        {%- if cf_origin != blank and cf_stock_label != blank %} &middot; {% endif -%}
+        {%- if cf_stock_label != blank %}{{ cf_stock_label }}{% endif -%}
       </div>
+      {%- endif -%}
 
       <!-- Titel -->
       <h1 class="bz-product-title">{{ product.title }}</h1>
@@ -972,26 +989,30 @@
            data-available="{{ stock_available }}"
            id="bz-stock-line">
         <span class="bz-stock-dot" aria-hidden="true"></span>
-        <span class="bz-stock-label" id="bz-stock-label">
-          {%- if stock_available -%}Auf Lager{%- else -%}Derzeit nicht verfügbar{%- endif -%}
+        <span class="bz-stock-label" id="bz-stock-label" data-label-available="{{ cf_stock_label | default: 'Auf Lager' | escape }}">
+          {%- if stock_available -%}{{ cf_stock_label | default: 'Auf Lager' }}{%- else -%}Derzeit nicht verfügbar{%- endif -%}
         </span>
         <span class="bz-stock-sep" aria-hidden="true">·</span>
-        <span class="bz-stock-delivery" id="bz-stock-delivery">Lieferzeit 1–3 Werktage</span>
+        {%- if cf_lead_time != blank -%}<span class="bz-stock-delivery" id="bz-stock-delivery">Lieferzeit {{ cf_lead_time }}</span>{%- endif -%}
       </div>
 
       {%- comment -%}
         ── USP direkt unter Lager/Lieferzeit ──
-        Gratis Versand + Made in Germany (G).
+        Versandschwelle (wenn gesetzt) + Herkunft, konditional aus cf_*.
       {%- endcomment -%}
       <ul class="bz-price-usps" aria-label="Produktvorteile">
+        {%- if cf_free_threshold != blank -%}
         <li class="bz-price-usp">
           <svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm12 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm-1-5.5V9.5h2.5l1.96 2.5H17z"/></svg>
-          <span>Gratis Versand ab 100 €</span>
+          <span>Versandkostenfrei ab {{ cf_free_threshold }}</span>
         </li>
+        {%- endif -%}
+        {%- if cf_origin != blank -%}
         <li class="bz-price-usp">
           <svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2l9 4v6c0 5-3.8 9.5-9 10-5.2-.5-9-5-9-10V6l9-4zm-1 14l7-7-1.4-1.4L11 13.2 7.4 9.6 6 11l5 5z"/></svg>
-          <span>Made in Germany</span>
+          <span>{{ cf_origin }}</span>
         </li>
+        {%- endif -%}
       </ul>
 
       <hr class="bz-divider">
@@ -1112,7 +1133,7 @@
         </div>
 
         <p class="bz-beratung-link">
-          Nicht sicher welche Variante? <a href="{{ routes.root_url }}pages/contact">Beratung anfordern &rarr;</a>
+          Nicht sicher welche Variante? <a href="{{ routes.root_url }}pages/ziegel-anfrage">Beratung anfordern &rarr;</a>
         </p>
 
       </form>
@@ -1134,7 +1155,7 @@
         </div>
         <div class="bz-mini-usp">
           <span class="ico">&#10003;</span>
-          <span><strong style="color:var(--bz-navy)">25+ Jahre Lebensdauer</strong> – korrosionsbeständiges Aluminium, pulverbeschichtet</span>
+          <span><strong style="color:var(--bz-navy)">Aluminium, witterungsstabil</strong> – korrosionsbeständig, pulverbeschichtet, UV-stabil</span>
         </div>
       </div>
 
@@ -1194,11 +1215,11 @@
               <tr><td>Gewicht</td><td>ca. 0,8 kg</td></tr>
               <tr><td>Farben</td><td>Aluminium blank · Anthrazit RAL 7016 · Ziegelrot RAL 8004</td></tr>
               <tr><td>Ausführung</td><td>Mit integriertem Dachhaken / Ohne Haken</td></tr>
-              <tr><td>Herkunft</td><td>Made in Germany &#127465;&#127466;</td></tr>
+              <tr><td>Herkunft</td><td>{{ cf_origin | default: 'In Deutschland gelasert' }}</td></tr>
               <tr><td>Lieferumfang</td><td>1 Stück PV-Blechziegel</td></tr>
               <tr><td>Einsatzbereich</td><td>PV-Montage, Solarthermie, Dachsanierung</td></tr>
-              <tr><td>Lebensdauer</td><td>25–30 Jahre (korrosionsbeständig)</td></tr>
-              <tr><td>Lieferzeit</td><td>1–3 Werktage per DHL</td></tr>
+              <tr><td>Material</td><td>Korrosionsbeständig, pulverbeschichtet, UV-stabil</td></tr>
+              <tr><td>Lieferzeit</td><td>{%- if cf_lead_time != blank -%}{{ cf_lead_time }}{%- endif -%}{%- if cf_lead_time != blank and cf_carrier != blank %} per {% endif -%}{%- if cf_carrier != blank -%}{{ cf_carrier }}{%- endif -%}</td></tr>
             </table>
             <p style="font-size:12.5px;color:#888;margin-top:14px;">Bitte Dachtyp vor Bestellung prüfen. Montage durch Fachpersonal empfohlen. Statik, Schneelast und projektspezifische Anforderungen müssen bauseits berücksichtigt werden.</p>
           </div>
@@ -1255,13 +1276,13 @@
           </div>
           <div class="bz-usp-card-sm">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-            <h4>25+ Jahre Lebensdauer</h4>
-            <p>Aluminium – wartungsfrei, korrosionsbeständig.</p>
+            <h4>Aluminium, witterungsstabil</h4>
+            <p>Korrosionsbeständig, pulverbeschichtet, UV-stabil. Ausgelegt auf die Lebensdauer einer PV-Anlage.</p>
           </div>
           <div class="bz-usp-card-sm">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <h4>Made in Germany</h4>
-            <p>Produziert und geprüft in Deutschland.</p>
+            <h4>{{ cf_origin | default: 'In Deutschland gelasert' }}</h4>
+            <p>Präzise gelasert statt gepresst. Geprüfte Maßhaltigkeit, sofort versandfertig.</p>
           </div>
         </div>
 
@@ -1378,9 +1399,9 @@
       <div class="bz-sticky-trustline" aria-label="Produktvorteile">
         <span class="bz-sticky-trustitem">Passgenau</span>
         <span class="bz-sticky-trustdot">&bull;</span>
-        <span class="bz-sticky-trustitem">Made in Germany</span>
+        {%- if cf_origin != blank -%}<span class="bz-sticky-trustitem">{{ cf_origin }}</span>{%- endif -%}
         <span class="bz-sticky-trustdot">&bull;</span>
-        <span class="bz-sticky-trustitem">1–3 Werktage</span>
+        {%- if cf_lead_time != blank -%}<span class="bz-sticky-trustitem">{{ cf_lead_time }}</span>{%- endif -%}
       </div>
     </div>
 
@@ -1533,7 +1554,7 @@
     if (stockLine && stockLabel && matched) {
       var isAvail = matched.available === true;
       stockLine.dataset.available = isAvail ? 'true' : 'false';
-      stockLabel.textContent = isAvail ? 'Auf Lager' : 'Derzeit nicht verfügbar';
+      stockLabel.textContent = isAvail ? (stockLabel.dataset.labelAvailable || 'Auf Lager') : 'Derzeit nicht verfügbar';
     }
 
     if (matched) {
@@ -1698,7 +1719,52 @@
   "name": "Blechziegel Produktseite",
   "tag": "section",
   "class": "bz-main-product",
-  "settings": [],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Commerce-Fakten (zentrale Quelle)"
+    },
+    {
+      "type": "paragraph",
+      "content": "Werden an mehreren Stellen der Produktseite ausgegeben (Hero-Badge, Stock-Line, USP-Leiste, Tech-Tabelle, Sticky-ATC). Leere Felder erscheinen nicht."
+    },
+    {
+      "type": "text",
+      "id": "cf_stock_label",
+      "label": "Lagerstatus-Label",
+      "default": "Lagerware"
+    },
+    {
+      "type": "text",
+      "id": "cf_lead_time",
+      "label": "Lieferzeit-Text",
+      "default": "1–3 Werktage"
+    },
+    {
+      "type": "number",
+      "id": "cf_cutoff_hour",
+      "label": "Cutoff-Stunde (Same-Day-Versand bis ... Uhr)",
+      "default": 13
+    },
+    {
+      "type": "text",
+      "id": "cf_carrier",
+      "label": "Versanddienstleister",
+      "default": "DHL"
+    },
+    {
+      "type": "text",
+      "id": "cf_origin",
+      "label": "Herkunfts-/Fertigungs-Label",
+      "default": "In Deutschland gelasert"
+    },
+    {
+      "type": "text",
+      "id": "cf_free_threshold",
+      "label": "Versandkostenfrei ab (z. B. '100 €' oder leer lassen)",
+      "info": "Leer lassen, falls nicht verifiziert."
+    }
+  ],
   "presets": [
     {
       "name": "Blechziegel Produktseite"
