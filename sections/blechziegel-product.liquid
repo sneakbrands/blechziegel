@@ -366,6 +366,17 @@
     gap: 8px;
     margin-top: 14px;
   }
+  .bz-tier-project-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 14px;
+    font-size: 13px; font-weight: 600;
+    color: var(--bz-navy);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(13,30,53,.2);
+    padding-bottom: 2px;
+    transition: color .15s, border-color .15s;
+  }
+  .bz-tier-project-link:hover { color: var(--bz-orange-dark); border-color: var(--bz-orange); }
   .bz-tier-btn {
     appearance: none;
     -webkit-appearance: none;
@@ -576,6 +587,34 @@
     color: var(--bz-orange);
     font-weight: 600;
     text-decoration: none;
+  }
+
+  /* Service-Pfade unter ATC — zwei klare Wege */
+  .bz-service-paths {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    margin: 18px 0 22px;
+  }
+  .bz-service-path {
+    display: flex; flex-direction: column; gap: 3px;
+    padding: 12px 14px;
+    border: 1px solid var(--bz-border);
+    border-radius: var(--bz-r);
+    background: #fafaf6;
+    text-decoration: none;
+    transition: border-color .15s, background .15s;
+  }
+  .bz-service-path:hover { border-color: var(--bz-orange); background: #fff; }
+  .bz-service-path__label {
+    font-size: 11px; font-weight: 600; letter-spacing: .04em;
+    text-transform: uppercase; color: #8a8982;
+  }
+  .bz-service-path__cta {
+    font-size: 13.5px; font-weight: 600; color: var(--bz-navy);
+    line-height: 1.35;
+  }
+  .bz-service-path:hover .bz-service-path__cta { color: var(--bz-orange-dark); }
+  @media (max-width: 480px) {
+    .bz-service-paths { grid-template-columns: 1fr; }
   }
   .bz-beratung-link a:hover { text-decoration: underline; }
 
@@ -1072,7 +1111,7 @@
       <div class="bz-tier-pricing" aria-label="Staffelpreise">
         <div class="bz-tier-pricing-head">
           <strong>Mengenpreise für Projekte</strong>
-          <span class="bz-tier-pricing-sub">Richtwerte für Dachdecker und PV-Installateure</span>
+          <span class="bz-tier-pricing-sub">Richtwerte für Dachdecker, PV-Installateure und Betriebe. Verbindliche Konditionen per Projektanfrage.</span>
         </div>
 
         <div class="bz-tier-pricing-table">
@@ -1091,7 +1130,7 @@
         </div>
 
         <div class="bz-tier-hint">
-          Richtwerte · Projektpreise auf Anfrage. Für größere Dachflächen lohnen sich höhere Mengen.
+          Richtwerte · Projektpreise auf Anfrage. Größere Mengen, Rahmenverträge und Sonderprofile werden individuell kalkuliert.
         </div>
 
         <div class="bz-tier-actions">
@@ -1099,6 +1138,11 @@
           <button type="button" class="bz-tier-btn" data-tier-set="50" aria-label="Menge auf 50 Stück setzen">50</button>
           <button type="button" class="bz-tier-btn" data-tier-set="100" aria-label="Menge auf 100 Stück setzen">100</button>
         </div>
+
+        <a href="{{ routes.root_url }}pages/ziegel-anfrage" class="bz-tier-project-link">
+          <span>Projekt-Konditionen anfragen</span>
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
       </div>
 
       {%- comment -%}── Varianten Form ──{%- endcomment -%}
@@ -1193,9 +1237,16 @@
           </button>
         </div>
 
-        <p class="bz-beratung-link">
-          Nicht sicher welche Variante? <a href="{{ routes.root_url }}pages/ziegel-anfrage">Beratung anfordern &rarr;</a>
-        </p>
+        <div class="bz-service-paths" role="group" aria-label="Beratungs- und Projektpfad">
+          <a class="bz-service-path" href="{{ routes.root_url }}pages/ziegel-anfrage">
+            <span class="bz-service-path__label">Variante unsicher?</span>
+            <span class="bz-service-path__cta">Prüfung per Foto anfragen &rarr;</span>
+          </a>
+          <a class="bz-service-path" href="{{ routes.root_url }}pages/ziegel-anfrage">
+            <span class="bz-service-path__label">Projekt oder Sonderprofil?</span>
+            <span class="bz-service-path__cta">Projekt-Konditionen anfragen &rarr;</span>
+          </a>
+        </div>
 
       </form>
 
@@ -1388,12 +1439,12 @@
       <span class="bz-fcard__badge">Service 01</span>
       <h3 class="bz-fcard__title" id="bz-fcard-1">Projektpreise für <span>Profis.</span></h3>
       <ul class="bz-fcard__list">
-        <li>Individuelle Konditionen ab 50 Stück</li>
-        <li>Rahmenverträge für Dachdecker und PV-Betriebe</li>
-        <li>Persönlicher Ansprechpartner für Ihr Projekt</li>
-        <li>Angebot innerhalb von 24 Stunden</li>
+        <li>Individuelle Konditionen für Dachdecker und PV-Betriebe</li>
+        <li>Rahmenverträge für wiederkehrende Projektmengen</li>
+        <li>Persönlicher Ansprechpartner pro Projekt</li>
+        <li>Angebot auf Basis Ihrer Projekt- und Mengenangaben</li>
       </ul>
-      <a href="{{ routes.root_url }}pages/gewerbe" class="bz-fcard__cta">
+      <a href="{{ routes.root_url }}pages/ziegel-anfrage" class="bz-fcard__cta">
         Projekt-Konditionen anfragen
         <svg aria-hidden="true" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M13 6l6 6-6 6M5 12h14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
