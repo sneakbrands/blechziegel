@@ -429,6 +429,43 @@
     border-color: var(--bz-orange);
   }
 
+  /* Segmented Control für "Bestellung als" */
+  .bz-segment {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    background: #f4f2ec;
+    border: 1px solid var(--bz-border);
+    border-radius: var(--bz-r);
+    padding: 4px;
+    margin-bottom: 18px;
+  }
+  .bz-segment-input { position: absolute; opacity: 0; pointer-events: none; }
+  .bz-segment-label {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 10px 12px;
+    font-size: 14px; font-weight: 600;
+    color: #5a5955;
+    cursor: pointer;
+    border-radius: calc(var(--bz-r) - 2px);
+    transition: background .15s, color .15s, box-shadow .15s;
+    text-align: center;
+    line-height: 1.25;
+  }
+  .bz-segment-sub {
+    display: block; font-size: 11px; font-weight: 500; color: #8a8982;
+    letter-spacing: .02em; margin-top: 2px;
+  }
+  .bz-segment-input:checked + .bz-segment-label {
+    background: #fff; color: var(--bz-navy);
+    box-shadow: 0 1px 3px rgba(13,30,53,.08);
+  }
+  .bz-segment-input:checked + .bz-segment-label .bz-segment-sub { color: var(--bz-orange-dark); }
+  .bz-segment-input:focus-visible + .bz-segment-label {
+    outline: 2px solid var(--bz-orange);
+    outline-offset: 2px;
+  }
+
   /* Farb-Swatches */
   .bz-color-swatches {
     display: flex;
@@ -952,12 +989,22 @@
         Kein Ziegelbruch. Kein Bohren. Einfach den Tonziegel entnehmen, Blechziegel einsetzen – fertig.
       </p>
 
-      <!-- Bewertung -->
-      <div class="bz-product-rating">
-        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-        <span class="rating-text">4,9 / 5</span>
-        <a href="#bz-reviews">Kundenbewertungen ansehen</a>
+      {%- comment -%}
+        Bewertung nur rendern, wenn dafür eine verifizierte Metafield-Datenquelle
+        gepflegt ist (custom.rating_value + custom.rating_count). Ohne Daten:
+        kein Trust-Signal ohne Grundlage.
+      {%- endcomment -%}
+      {%- assign rating_value = product.metafields.custom.rating_value -%}
+      {%- assign rating_count = product.metafields.custom.rating_count -%}
+      {%- if rating_value != blank and rating_value != 0 -%}
+      <div class="bz-product-rating" itemscope itemtype="https://schema.org/AggregateRating">
+        <span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <span class="rating-text"><span itemprop="ratingValue">{{ rating_value }}</span> / 5</span>
+        {%- if rating_count != blank and rating_count != 0 -%}
+          <span class="rating-count">(<span itemprop="reviewCount">{{ rating_count }}</span>)</span>
+        {%- endif -%}
       </div>
+      {%- endif -%}
 
       <!-- Preis -->
       <div class="bz-price-wrap">
@@ -1059,6 +1106,32 @@
         <input type="hidden" name="id" id="bz-variant-id" value="{{ product.selected_or_first_available_variant.id }}">
 
         {%- for option in product.options_with_values -%}
+          {%- if option.name == 'Bestellung als' -%}
+            <div class="bz-variant-label">Ich bestelle als</div>
+            <div class="bz-segment" role="radiogroup" aria-label="Kundentyp wählen">
+              {%- for value in option.values -%}
+                {%- if value != 'Privatkunde' and value != 'Gewerbekunde' -%}{%- continue -%}{%- endif -%}
+                {%- assign seg_id = 'bz-seg-' | append: option.position | append: '-' | append: forloop.index -%}
+                <input
+                  type="radio"
+                  class="bz-segment-input"
+                  id="{{ seg_id }}"
+                  name="option{{ option.position }}"
+                  value="{{ value }}"
+                  data-customer-type-select
+                  {% if option.selected_value == value %}checked{% endif %}
+                  onchange="bzUpdateVariant()">
+                <label for="{{ seg_id }}" class="bz-segment-label">
+                  {{ value }}
+                  {%- if value == 'Privatkunde' -%}
+                    <span class="bz-segment-sub">inkl. 0% USt. (§ 12 Abs. 3 UStG)</span>
+                  {%- elsif value == 'Gewerbekunde' -%}
+                    <span class="bz-segment-sub">inkl. 19% USt.</span>
+                  {%- endif -%}
+                </label>
+              {%- endfor -%}
+            </div>
+          {%- else -%}
           <div class="bz-variant-label">
             {{ option.name }}
             {%- if option.name == 'Farbe' or option.name == 'Ausführung' -%}
@@ -1088,32 +1161,20 @@
               {%- endfor -%}
             </div>
           {%- else -%}
-            {%- comment -%}
-              Bei "Bestellung als" nur Privatkunde/Gewerbekunde zulassen (defensiv,
-              falls im Admin später weitere Werte hinzugefügt würden).
-            {%- endcomment -%}
-            <select name="option{{ option.position }}" class="bz-select"
-                    {% if option.name == 'Bestellung als' %}data-customer-type-select{% endif %}
-                    onchange="bzUpdateVariant()">
+            <select name="option{{ option.position }}" class="bz-select" onchange="bzUpdateVariant()">
               {%- for value in option.values -%}
-                {%- if option.name == 'Bestellung als' and value != 'Privatkunde' and value != 'Gewerbekunde' -%}
-                  {%- continue -%}
-                {%- endif -%}
                 <option value="{{ value }}" {% if option.selected_value == value %}selected{% endif %}>
                   {%- if value == 'mit Haken' -%}
                     Mit integriertem Dachhaken (für PV-Montage)
                   {%- elsif value == 'ohne Haken' -%}
                     Ohne Haken (reiner Ersatzziegel)
-                  {%- elsif value == 'Privatkunde' -%}
-                    Privatkunde
-                  {%- elsif value == 'Gewerbekunde' -%}
-                    Gewerbekunde
                   {%- else -%}
                     {{ value }}
                   {%- endif -%}
                 </option>
               {%- endfor -%}
             </select>
+          {%- endif -%}
           {%- endif -%}
         {%- endfor -%}
 
@@ -1532,6 +1593,10 @@
     document.querySelectorAll('.bz-select').forEach(sel => {
       var match = sel.name.match(/option(\d+)/);
       if (match) opts[parseInt(match[1])] = sel.value;
+    });
+    document.querySelectorAll('.bz-segment-input:checked').forEach(r => {
+      var m = r.name.match(/option(\d+)/);
+      if (m) opts[parseInt(m[1])] = r.value;
     });
 
     var variants = {{ product.variants | json }};
