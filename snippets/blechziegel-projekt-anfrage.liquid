@@ -258,6 +258,7 @@
               <input type="hidden" name="_template" value="table">
               <input type="hidden" name="_next" value="{{ shop.url }}/pages/anfrage-erfolg">
               <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;">
+              <input type="hidden" name="_cc" id="pa-cc" value="">
 
               <!-- Block 1: Projekt / Menge -->
               <div class="hp-form__block">
@@ -499,6 +500,20 @@
       }
     }
 
+    // CC-Sync: Nutzer erhält Kopie seiner Projektanfrage (FormSubmit _cc)
+    var emailEl = document.getElementById('pa-email');
+    var ccEl    = document.getElementById('pa-cc');
+    var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    function syncCcFromEmail(){
+      if (!emailEl || !ccEl) return;
+      var v = (emailEl.value || '').trim();
+      ccEl.value = EMAIL_RE.test(v) ? v : '';
+    }
+    if (emailEl) {
+      emailEl.addEventListener('input', syncCcFromEmail);
+      emailEl.addEventListener('change', syncCcFromEmail);
+    }
+
     input.addEventListener('change', renderList);
 
     ['dragover','dragenter'].forEach(function(ev){
@@ -516,6 +531,7 @@
 
     form.addEventListener('submit', function(e){
       clearStatus();
+      syncCcFromEmail();
       if (!form.checkValidity()) {
         e.preventDefault();
         showError('Bitte alle Pflichtfelder ausfüllen und Datenschutz bestätigen.');

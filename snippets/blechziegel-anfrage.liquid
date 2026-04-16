@@ -281,6 +281,7 @@
               <input type="hidden" name="_template" value="table">
               <input type="hidden" name="_next" value="{{ shop.url }}/pages/anfrage-erfolg">
               <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;">
+              <input type="hidden" name="_cc" id="af-cc" value="">
 
               <!-- Block 1: Foto + Maße (Trigger-first) -->
               <div class="hp-form__group">
@@ -519,6 +520,20 @@
       prev.classList.add('is-visible');
     }
 
+    // CC-Sync: Nutzer erhält Kopie seiner Anfrage (FormSubmit _cc)
+    var emailEl = document.getElementById('af-email');
+    var ccEl    = document.getElementById('af-cc');
+    var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    function syncCcFromEmail(){
+      if (!emailEl || !ccEl) return;
+      var v = (emailEl.value || '').trim();
+      ccEl.value = EMAIL_RE.test(v) ? v : '';
+    }
+    if (emailEl) {
+      emailEl.addEventListener('input', syncCcFromEmail);
+      emailEl.addEventListener('change', syncCcFromEmail);
+    }
+
     input.addEventListener('change', function(){ handleFile(input.files[0]); });
     remove.addEventListener('click', function(){
       input.value = ''; prev.classList.remove('is-visible');
@@ -541,6 +556,7 @@
 
     form.addEventListener('submit', function(e){
       clearStatus();
+      syncCcFromEmail();
       var ok = form.checkValidity();
       if (!ok) {
         e.preventDefault();
