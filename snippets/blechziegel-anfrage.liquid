@@ -117,6 +117,15 @@
   color:var(--bz-navy); margin-bottom:4px; }
 .hp-file-drop__hint { font-size:12.5px; color:var(--bz-text-light); line-height:1.45; }
 .hp-file-drop__hint strong { color:var(--bz-orange); font-weight:700; }
+.hp-file-drop__types { color:var(--bz-text-light); font-weight:600; font-size:12.5px; white-space:nowrap; }
+.hp-file-preview__ok { display:inline-flex; align-items:center; gap:5px; margin-top:4px;
+  font-size:11.5px; font-weight:700; color:var(--bz-green); letter-spacing:.02em; }
+.hp-file-preview__ok svg { fill:var(--bz-green); flex-shrink:0; }
+.hp-form__preflight { margin:6px 0 10px; text-align:center; font-size:12.5px;
+  color:var(--bz-text-light); line-height:1.5; }
+.hp-form__footer-note { margin-top:14px; text-align:center; font-size:13px; line-height:1.55;
+  color:var(--bz-text-light); }
+.hp-form__footer-note strong { color:var(--bz-navy); font-weight:700; }
 .hp-file-preview { display:none; margin-top:14px; display:none;
   align-items:center; gap:14px; padding:12px 14px;
   background:var(--bz-white); border:1.5px solid var(--bz-border); border-radius:var(--bz-radius); }
@@ -290,8 +299,8 @@
                   <div class="hp-file-drop__icon">
                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
                   </div>
-                  <div class="hp-file-drop__title">Foto hier ablegen oder <strong>auswählen</strong></div>
-                  <div class="hp-file-drop__hint">JPG, PNG oder HEIC · max. 8&nbsp;MB · <strong>Ober- und Unterseite</strong> hilft bei der Identifikation</div>
+                  <div class="hp-file-drop__title">Foto ablegen <span class="hp-file-drop__types">(JPG · PNG · HEIC)</span> oder <strong>auswählen</strong></div>
+                  <div class="hp-file-drop__hint">max. 8&nbsp;MB · <strong>Ober- und Unterseite</strong> hilft bei der Identifikation</div>
                   <input type="file" id="af-bild" name="attachment" accept="image/*,.heic,.heif" required>
                 </div>
                 <div class="hp-file-preview" id="hp-file-preview">
@@ -299,6 +308,10 @@
                   <div class="hp-file-preview__meta">
                     <div class="hp-file-preview__name" id="hp-file-name"></div>
                     <div class="hp-file-preview__size" id="hp-file-size"></div>
+                    <div class="hp-file-preview__ok">
+                      <svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>
+                      Foto übernommen
+                    </div>
                   </div>
                   <button type="button" class="hp-file-preview__remove" id="hp-file-remove" aria-label="Datei entfernen">×</button>
                 </div>
@@ -362,13 +375,18 @@
                 </label>
               </div>
 
+              <p class="hp-form__preflight" id="hp-form-preflight">
+                Alle Pflichtfelder ausgefüllt? Dann geht's weiter zur Prüfung Ihres Ziegels.
+              </p>
+
               <button type="submit" class="hp-btn hp-btn--primary" id="hp-form-submit">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                 Anfrage absenden
               </button>
 
-              <p class="hp-form__hint" style="margin-top:12px; text-align:center;">
-                Kein Spam. Rückmeldung an Ihre E-Mail — in der Regel innerhalb von 24 Stunden (Werktage).
+              <p class="hp-form__footer-note">
+                Kein Spam. Rückmeldung an Ihre E-Mail<br>
+                <strong>in der Regel innerhalb von 24 Stunden (Werktage)</strong>.
               </p>
             </form>
           </div>
@@ -588,7 +606,21 @@
       "description": "Individuelles Angebot für Aluminium-Blechziegel: Foto, Maße und Kontaktdaten senden — Rückmeldung in der Regel innerhalb von 24 Stunden (Werktage) mit Angebot und Lieferzeit.",
       "isPartOf": { "@type": "WebSite", "url": "{{ shop.url }}/", "name": "{{ shop.name | escape }}" }
     },
-    { "@type": "Organization", "name": "Blechziegel.de", "url": "{{ shop.url }}/", "email": "{{ email_raw }}" }
+    {
+      "@type": "Organization",
+      "name": "Blechziegel.de",
+      "url": "{{ shop.url }}/",
+      "email": "{{ email_raw }}",
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "{{ email_raw }}",
+          "availableLanguage": ["de"],
+          "areaServed": "DE"
+        }
+      ]
+    }
   ]
 }
 </script>
