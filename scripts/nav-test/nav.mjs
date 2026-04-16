@@ -4,7 +4,7 @@ import { chromium, devices } from 'playwright';
 import { mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 
-const SITE = 'https://blechziegel.de/';
+const SITE = 'https://blechziegel.de/?nv=' + Date.now();
 const OUT  = new URL('./screenshots/', import.meta.url).pathname.replace(/^\//, '');
 mkdirSync(OUT, { recursive: true });
 
