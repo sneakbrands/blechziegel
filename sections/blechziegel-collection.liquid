@@ -979,6 +979,33 @@
     .bz-filter-drawer-cb:checked ~ .bz-filter-sidebar { display: block; }
     .bz-filter-sidebar-inner { padding: 16px 16px 6px; }
   }
+
+  /* Breadcrumb (oberhalb Hero, dezent) */
+  .bz-col-breadcrumb {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 14px 20px 0;
+  }
+  .bz-col-breadcrumb__list {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+    list-style: none; margin: 0; padding: 0;
+    font-size: 12.5px; color: var(--bz-gray-text, #666);
+  }
+  .bz-col-breadcrumb__item a {
+    color: var(--bz-gray-text, #666);
+    text-decoration: none;
+    transition: color .15s;
+  }
+  .bz-col-breadcrumb__item a:hover { color: var(--bz-orange, #ffa500); }
+  .bz-col-breadcrumb__item--current {
+    color: var(--bz-navy, #0a2240);
+    font-weight: 600;
+  }
+  .bz-col-breadcrumb__sep { color: rgba(10,34,64,0.35); }
+  @media (max-width: 640px) {
+    .bz-col-breadcrumb { padding: 10px 16px 0; }
+    .bz-col-breadcrumb__list { font-size: 11.5px; gap: 4px; }
+  }
 {% endstyle %}
 
 {%- liquid
@@ -1019,6 +1046,22 @@
       assign hersteller_blurb = ''
   endcase
 -%}
+
+{%- comment -%}══ 1a. BREADCRUMB ══{%- endcomment -%}
+<nav class="bz-col-breadcrumb" aria-label="Brotkrumen">
+  <ol class="bz-col-breadcrumb__list">
+    <li class="bz-col-breadcrumb__item"><a href="{{ routes.root_url }}">Startseite</a></li>
+    <li class="bz-col-breadcrumb__sep" aria-hidden="true">›</li>
+    {%- if is_hersteller -%}
+      <li class="bz-col-breadcrumb__item"><a href="{{ routes.root_url }}pages/hersteller">Hersteller</a></li>
+      <li class="bz-col-breadcrumb__sep" aria-hidden="true">›</li>
+    {%- else -%}
+      <li class="bz-col-breadcrumb__item"><a href="{{ routes.collections_url }}/pv-dachziegel">Produkte</a></li>
+      <li class="bz-col-breadcrumb__sep" aria-hidden="true">›</li>
+    {%- endif -%}
+    <li class="bz-col-breadcrumb__item bz-col-breadcrumb__item--current" aria-current="page">{{ collection.title }}</li>
+  </ol>
+</nav>
 
 {%- comment -%}══ 1. HERO ══{%- endcomment -%}
 <section class="bz-col-hero{% if is_hersteller %} bz-col-hero--hersteller{% endif %}">
@@ -1370,26 +1413,6 @@
   </div>
 </section>
 
-{%- comment -%}══ 5c. JSON-LD · CollectionPage ══{%- endcomment -%}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  "name": {{ 'PV-Dachziegel ' | append: hersteller_name | json }},
-  "description": {{ collection.description | default: 'Aluminium-Blechziegel für die PV-Montage auf Dächern mit ' | append: hersteller_name | append: '-Dachziegeln.' | json }},
-  "url": {{ shop.url | append: collection.url | json }},
-  "about": {
-    "@type": "Brand",
-    "name": {{ hersteller_name | json }}
-  },
-  "isPartOf": {
-    "@type": "WebSite",
-    "name": {{ shop.name | json }},
-    "url": {{ shop.url | json }}
-  }
-}
-</script>
-
 {%- else -%}
 {%- comment -%}══ 5. SEO TEXT (Standard, Nicht-Hersteller) ══{%- endcomment -%}
 <section class="bz-col-seo">
@@ -1401,6 +1424,46 @@
   </div>
 </section>
 {%- endif -%}
+
+{%- comment -%}══ 6. JSON-LD · CollectionPage + BreadcrumbList (vereinheitlicht) ══{%- endcomment -%}
+{%- liquid
+  assign coll_url = shop.url | append: collection.url
+  if is_hersteller
+    assign coll_name = 'PV-Dachziegel ' | append: hersteller_name
+    assign coll_desc_fallback = 'Aluminium-Blechziegel für die PV-Montage auf Dächern mit ' | append: hersteller_name | append: '-Dachziegeln.'
+  else
+    assign coll_name = collection.title
+    assign coll_desc_fallback = 'Aluminium-Blechziegel für die sichere PV-Montage — passgenau für alle gängigen Dachziegeltypen.'
+  endif
+  assign coll_desc = collection.description | strip_html | strip_newlines | default: coll_desc_fallback
+-%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "name": {{ coll_name | json }},
+      "description": {{ coll_desc | json }},
+      "url": {{ coll_url | json }},
+      "isPartOf": { "@type": "WebSite", "name": {{ shop.name | json }}, "url": {{ shop.url | json }} }{%- if is_hersteller %},
+      "about": { "@type": "Brand", "name": {{ hersteller_name | json }} }{%- endif %}
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Startseite", "item": {{ shop.url | append: '/' | json }} },
+        {%- if is_hersteller -%}
+        { "@type": "ListItem", "position": 2, "name": "Hersteller", "item": {{ shop.url | append: '/pages/hersteller' | json }} },
+        {%- else -%}
+        { "@type": "ListItem", "position": 2, "name": "Produkte", "item": {{ shop.url | append: '/collections/pv-dachziegel' | json }} },
+        {%- endif -%}
+        { "@type": "ListItem", "position": 3, "name": {{ collection.title | json }}, "item": {{ coll_url | json }} }
+      ]
+    }
+  ]
+}
+</script>
 
 <script>
   function bzSort(val) {
