@@ -1,0 +1,193 @@
+{% comment %}
+  ============================================================
+  BLECHZIEGEL.DE — Anfrage-Erfolg (Success-Seite)
+  Snippet: blechziegel-anfrage-erfolg.liquid
+  Zweck: Markenkonsistenter Redirect-Endpunkt für beide Funnels
+         (/pages/ziegel-anfrage und /pages/projekt-anfrage) nach
+         erfolgreichem Submit via FormSubmit.co.
+  Eingebunden via sections/main-page.liquid wenn page.handle == 'anfrage-erfolg'
+  ============================================================
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+.hp {
+  --bz-navy:#0a2240; --bz-navy-light:#0d2d54;
+  --bz-orange:#ffa500; --bz-orange-dark:#e69400; --bz-orange-bg:rgba(255,165,0,.12);
+  --bz-white:#fff; --bz-gray:#f5f5f5; --bz-border:#e5e7eb;
+  --bz-text:#333; --bz-text-light:#666;
+  --bz-green:#16a34a;
+  --bz-head:'Montserrat',sans-serif; --bz-body:'Open Sans',sans-serif;
+  --bz-radius:8px; --bz-radius-lg:14px; --bz-max:860px;
+  --bz-shadow:0 4px 20px rgba(10,34,64,.10);
+  font-family:var(--bz-body); color:var(--bz-text);
+}
+.hp *, .hp *::before, .hp *::after { box-sizing:border-box; margin:0; padding:0; }
+.hp a { text-decoration:none; color:inherit; }
+.hp-wrap { max-width:var(--bz-max); margin:0 auto; padding:0 20px; }
+
+.hp-success { padding:72px 20px 80px; background:linear-gradient(180deg,var(--bz-gray) 0%, #fff 100%); }
+.hp-success__card {
+  max-width:var(--bz-max); margin:0 auto;
+  background:var(--bz-white); border:1.5px solid var(--bz-border);
+  border-radius:var(--bz-radius-lg); box-shadow:var(--bz-shadow);
+  padding:44px 40px 40px; text-align:center;
+}
+.hp-success__icon {
+  width:64px; height:64px; margin:0 auto 22px;
+  background:rgba(22,163,74,.12); border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+}
+.hp-success__icon svg { width:30px; height:30px; fill:var(--bz-green); }
+.hp-success__kicker {
+  display:inline-block; font-family:var(--bz-head); font-size:11px;
+  font-weight:800; text-transform:uppercase; letter-spacing:.12em;
+  color:var(--bz-orange); margin-bottom:10px;
+}
+.hp-success h1 {
+  font-family:var(--bz-head); font-size:clamp(24px,3.2vw,34px);
+  font-weight:800; color:var(--bz-navy); line-height:1.22; margin-bottom:12px;
+}
+.hp-success__lead {
+  font-size:16px; line-height:1.65; color:var(--bz-text-light);
+  max-width:580px; margin:0 auto 28px;
+}
+
+.hp-success__steps {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:14px;
+  margin:26px 0 28px; text-align:left;
+}
+.hp-success__step {
+  border:1px solid var(--bz-border); border-radius:var(--bz-radius-lg);
+  padding:16px 18px; background:#fafaf6;
+}
+.hp-success__step-num {
+  font-family:var(--bz-head); font-size:11px; font-weight:800;
+  color:var(--bz-orange); letter-spacing:.08em; text-transform:uppercase;
+  margin-bottom:4px;
+}
+.hp-success__step-title {
+  font-family:var(--bz-head); font-size:14px; font-weight:800;
+  color:var(--bz-navy); margin-bottom:4px;
+}
+.hp-success__step-desc {
+  font-size:13px; line-height:1.55; color:var(--bz-text-light);
+}
+
+.hp-success__meta {
+  padding:16px 18px; margin:0 auto 26px; max-width:540px;
+  border-left:3px solid var(--bz-orange); background:#fffdf6;
+  border-radius:8px; text-align:left;
+}
+.hp-success__meta-title {
+  font-family:var(--bz-head); font-size:12px; font-weight:800;
+  text-transform:uppercase; letter-spacing:.08em; color:var(--bz-orange);
+  margin-bottom:4px;
+}
+.hp-success__meta-text {
+  font-size:14px; line-height:1.55; color:var(--bz-text);
+}
+
+.hp-success__links { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:10px; }
+.hp-link-btn {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:10px 16px; border-radius:var(--bz-radius);
+  border:1.5px solid var(--bz-border); background:var(--bz-white);
+  font-family:var(--bz-head); font-size:13.5px; font-weight:700;
+  color:var(--bz-navy); transition:border-color .15s, background .15s;
+}
+.hp-link-btn:hover { border-color:var(--bz-orange); background:#fff7e6; }
+.hp-link-btn--primary {
+  background:var(--bz-orange); border-color:var(--bz-orange); color:var(--bz-navy);
+}
+.hp-link-btn--primary:hover { background:var(--bz-orange-dark); border-color:var(--bz-orange-dark); }
+
+@media (max-width:640px) {
+  .hp-success { padding:48px 16px 56px; }
+  .hp-success__card { padding:30px 22px 28px; }
+  .hp-success__steps { grid-template-columns:1fr; }
+}
+</style>
+
+{%- liquid
+  assign email_raw = 'web@blechziegel.de'
+  assign canonical = shop.url | append: '/pages/anfrage-erfolg'
+-%}
+
+<div class="hp">
+  <section class="hp-success" aria-labelledby="erf-title">
+    <div class="hp-wrap">
+      <div class="hp-success__card" role="status" aria-live="polite">
+        <div class="hp-success__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>
+        </div>
+
+        <span class="hp-success__kicker">Anfrage eingegangen</span>
+        <h1 id="erf-title">Danke — Ihre Anfrage ist bei uns.</h1>
+        <p class="hp-success__lead">
+          Wir haben Ihre Angaben erhalten und prüfen sie im nächsten Schritt. Sie müssen nichts weiter tun.
+        </p>
+
+        <div class="hp-success__meta">
+          <div class="hp-success__meta-title">Antwort-Erwartung</div>
+          <div class="hp-success__meta-text">
+            Rückmeldung typischerweise innerhalb von <strong>1–2 Werktagen</strong> nach Projektprüfung.
+            Bei Sonderprofilen oder größeren Mengen kann die Kalkulation etwas länger dauern — Sie hören in jedem Fall von uns.
+          </div>
+        </div>
+
+        <ol class="hp-success__steps" aria-label="Nächste Schritte">
+          <li class="hp-success__step">
+            <div class="hp-success__step-num">Schritt 1</div>
+            <div class="hp-success__step-title">Eingang bestätigt</div>
+            <div class="hp-success__step-desc">Ihre Angaben liegen uns vor. Eine Eingangsbestätigung geht bei aktiviertem Mail-Kopieweg an Ihre Adresse.</div>
+          </li>
+          <li class="hp-success__step">
+            <div class="hp-success__step-num">Schritt 2</div>
+            <div class="hp-success__step-title">Prüfung &amp; Kalkulation</div>
+            <div class="hp-success__step-desc">Wir prüfen Maße, Profil, Menge und Sonderanforderungen und kalkulieren die passenden Konditionen.</div>
+          </li>
+          <li class="hp-success__step">
+            <div class="hp-success__step-num">Schritt 3</div>
+            <div class="hp-success__step-title">Angebot &amp; Ansprechpartner</div>
+            <div class="hp-success__step-desc">Rückmeldung mit Angebot und persönlichem Ansprechpartner — bei offenen Punkten zuvor per Rückfrage.</div>
+          </li>
+        </ol>
+
+        <p class="hp-success__lead" style="margin-bottom:14px;">
+          Noch Informationen nachzureichen? Senden Sie sie gerne direkt an
+          <a href="mailto:{{ email_raw }}?subject=Nachtrag%20zur%20Anfrage" style="color:var(--bz-orange-dark);font-weight:700;">{{ email_raw }}</a>.
+        </p>
+
+        <div class="hp-success__links">
+          <a href="/" class="hp-link-btn">Zur Startseite</a>
+          <a href="/pages/gewerbe" class="hp-link-btn">Für Dachdecker &amp; PV</a>
+          <a href="/pages/haendler" class="hp-link-btn">Für Baustoffhandel</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Startseite", "item": "{{ shop.url }}/" },
+      { "@type": "ListItem", "position": 2, "name": "Anfrage eingegangen", "item": "{{ canonical }}" }
+    ]},
+    { "@type": "WebPage", "@id": "{{ canonical }}#webpage", "url": "{{ canonical }}",
+      "name": "Anfrage eingegangen — Blechziegel.de",
+      "description": "Bestätigungsseite nach dem Absenden einer Ziegel- oder Projekt-Anfrage bei Blechziegel.de.",
+      "inLanguage": "de-DE",
+      "isPartOf": { "@type": "WebSite", "url": "{{ shop.url }}/", "name": "{{ shop.name | escape }}" }
+    }
+  ]
+}
+</script>
+
+<!-- noindex, weil reine Funnel-Bestätigungsseite -->
+<meta name="robots" content="noindex,follow">

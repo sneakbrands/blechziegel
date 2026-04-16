@@ -22,6 +22,8 @@
   {% render 'blechziegel-anfrage' %}
 {%- elsif page.handle == 'projekt-anfrage' or request.path contains '/pages/projekt-anfrage' -%}
   {% render 'blechziegel-projekt-anfrage' %}
+{%- elsif page.handle == 'anfrage-erfolg' or request.path contains '/pages/anfrage-erfolg' -%}
+  {% render 'blechziegel-anfrage-erfolg' %}
 {%- elsif page.handle == 'haendler' or request.path contains '/pages/haendler' -%}
   {% render 'blechziegel-haendler' %}
 {%- else -%}
