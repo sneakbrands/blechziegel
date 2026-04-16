@@ -925,6 +925,27 @@
     .bz-sticky-trustitem { font-size: 11px; }
     .bz-sticky-btn { width: 100%; min-height: 52px; }
   }
+  /* Sichtbare Hersteller-Pill nahe H1 (zusätzlich zum Breadcrumb) */
+  .bz-product-brand-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin: 8px 0 10px;
+    padding: 4px 10px;
+    background: var(--bz-orange-light, #fff4e0);
+    border: 1px solid rgba(245, 166, 35, 0.32);
+    border-radius: 999px;
+    font-size: 12.5px; font-weight: 600;
+    color: var(--bz-navy, #0d1e35);
+    text-decoration: none;
+    line-height: 1.2;
+    transition: background .15s, border-color .15s;
+  }
+  .bz-product-brand-link:hover {
+    background: #ffe8b3;
+    border-color: rgba(245, 166, 35, 0.55);
+  }
+  .bz-product-brand-link strong { color: var(--bz-navy); font-weight: 700; }
+  .bz-product-brand-link svg { color: var(--bz-orange-dark, #d4891a); flex-shrink: 0; }
+
   /* PDP Breadcrumb (Hersteller-Achse, konsistent zum Collection-Breadcrumb) */
   .bz-pdp-breadcrumb { max-width: 1200px; margin: 0 auto; padding: 14px 20px 0; }
   .bz-pdp-breadcrumb__list {
@@ -1013,6 +1034,17 @@
         {%- if cf_origin != blank and cf_stock_label != blank %} &middot; {% endif -%}
         {%- if cf_stock_label != blank %}{{ cf_stock_label }}{% endif -%}
       </div>
+      {%- endif -%}
+
+      {%- comment -%}
+        Sichtbare Hersteller-Zuordnung nahe H1 (zusätzlich zum Breadcrumb).
+        Quelle: brand_handle aus Tag-Match; renderung nur bei sicherem Treffer.
+      {%- endcomment -%}
+      {%- if brand_handle != blank -%}
+        <a class="bz-product-brand-link" href="{{ routes.collections_url }}/{{ brand_handle }}" rel="tag" aria-label="Alle Produkte für {{ brand_name }}">
+          Passend für <strong>{{ brand_name }}</strong>
+          <svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
       {%- endif -%}
 
       <!-- Titel -->
