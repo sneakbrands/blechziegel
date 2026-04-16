@@ -178,6 +178,21 @@
 .hp-cta-final { text-align:center; }
 .hp-cta-final__buttons { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:24px; }
 
+/* So läuft die Projektanfrage (3 Steps) */
+.hp-process { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-top:28px; list-style:none; padding:0; }
+.hp-process__step { position:relative; background:var(--bz-white); border:1.5px solid var(--bz-border);
+  border-radius:var(--bz-radius-lg); padding:30px 24px 24px; transition:border-color .2s, box-shadow .2s; }
+.hp-process__step:hover { border-color:var(--bz-orange); box-shadow:var(--bz-shadow); }
+.hp-process__num { position:absolute; top:-14px; left:24px;
+  width:32px; height:32px; border-radius:50%;
+  background:var(--bz-orange); color:var(--bz-navy);
+  font-family:var(--bz-head); font-size:14px; font-weight:800;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 12px rgba(255,165,0,.3); }
+.hp-process__title { font-family:var(--bz-head); font-size:15.5px; font-weight:800;
+  color:var(--bz-navy); margin-bottom:8px; line-height:1.3; }
+.hp-process__text { font-size:13.5px; line-height:1.6; color:var(--bz-text-light); }
+
 @media (max-width:1024px) {
   .hp-form-layout { grid-template-columns:1fr; gap:28px; }
   .hp-info-stack { position:static; }
@@ -197,6 +212,7 @@
   .hp-form__radio-group { grid-template-columns:1fr; }
   .hp-info-box { padding:18px 20px; }
   .hp-cta-final__buttons .hp-btn { width:100%; }
+  .hp-process { grid-template-columns:1fr; gap:28px; }
 }
 </style>
 
@@ -386,7 +402,7 @@
                 </button>
 
                 <p class="hp-form__hint" style="margin-top:12px; text-align:center;">
-                  Rückmeldung durch einen persönlichen Ansprechpartner auf Basis Ihrer Projektangaben.
+                  Rückmeldung typischerweise innerhalb von <strong>1–2 Werktagen</strong> nach Projektprüfung — durch einen persönlichen Ansprechpartner auf Basis Ihrer Projektangaben.
                 </p>
               </div>
             </form>
@@ -435,6 +451,31 @@
         </aside>
 
       </div>
+    </div>
+  </section>
+
+  <section class="hp-section hp-section--white" aria-labelledby="pa-process-title" style="border-top:1px solid var(--bz-border);">
+    <div class="hp-wrap">
+      <span class="hp-section-label">So läuft die Projektanfrage</span>
+      <h2 class="hp-section-title" id="pa-process-title">Von der Anfrage bis zum persönlichen Ansprechpartner</h2>
+      <p class="hp-section-sub">Drei Schritte — ruhig, sachlich, ohne Verkaufsdruck. Verbindliche Konditionen entstehen nach Projektprüfung.</p>
+      <ol class="hp-process" aria-label="Ablauf der Projektanfrage">
+        <li class="hp-process__step">
+          <span class="hp-process__num" aria-hidden="true">1</span>
+          <h3 class="hp-process__title">Projektangaben senden</h3>
+          <p class="hp-process__text">Projektart, Menge, Sonderprofil und optionale Unterlagen (Foto, Zeichnung, Datenblatt, PDF) übermitteln.</p>
+        </li>
+        <li class="hp-process__step">
+          <span class="hp-process__num" aria-hidden="true">2</span>
+          <h3 class="hp-process__title">Projektprüfung &amp; Kalkulation</h3>
+          <p class="hp-process__text">Wir prüfen Maße, Profil-Passung, Menge und besondere Anforderungen und kalkulieren projektspezifische Konditionen.</p>
+        </li>
+        <li class="hp-process__step">
+          <span class="hp-process__num" aria-hidden="true">3</span>
+          <h3 class="hp-process__title">Angebot &amp; Ansprechpartner</h3>
+          <p class="hp-process__text">Rückmeldung mit Angebot, Lieferzeit und einem persönlichen Ansprechpartner für das Projekt — typischerweise innerhalb von 1–2 Werktagen nach Projektprüfung.</p>
+        </li>
+      </ol>
     </div>
   </section>
 
@@ -564,7 +605,30 @@
       "description": "B2B-Projektanfrage für Dachdecker, PV-Installateure und Betriebe: Mengen, Sonderprofile und Rahmenverträge — individuelle Konditionen auf Basis Ihrer Projektangaben.",
       "isPartOf": { "@type": "WebSite", "url": "{{ shop.url }}/", "name": "{{ shop.name | escape }}" }
     },
-    { "@type": "Organization", "name": "Blechziegel.de", "url": "{{ shop.url }}/", "email": "{{ email_raw }}" }
+    {
+      "@type": "Organization",
+      "name": "Blechziegel.de",
+      "url": "{{ shop.url }}/",
+      "email": "{{ email_raw }}",
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "sales",
+          "email": "{{ email_raw }}",
+          "availableLanguage": ["de"],
+          "areaServed": "DE"
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "name": "Projektkalkulation Aluminium-Blechziegel",
+      "serviceType": "Individuelle Projektkalkulation für Dachdecker, PV-Installateure und Betriebe",
+      "description": "Projektbezogene Kalkulation für Aluminium-Blechziegel: Mengen, Sonderprofile und Rahmenverträge. Individuelle Konditionen auf Basis der eingereichten Projektangaben, persönlicher Ansprechpartner pro Projekt.",
+      "areaServed": "DE",
+      "provider": { "@type": "Organization", "name": "Blechziegel.de", "url": "{{ shop.url }}/" },
+      "audience": { "@type": "BusinessAudience", "audienceType": "Dachdecker, PV-Installateure, Baustoffhandel" }
+    }
   ]
 }
 </script>
