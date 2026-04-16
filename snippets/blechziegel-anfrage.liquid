@@ -235,18 +235,16 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6h-2.18c.11-.31.18-.65.18-1a2.996 2.996 0 0 0-5.5-1.65l-.5.67-.5-.68C11 2.51 10.04 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 11 8.76l1-1.36 1 1.36L15.38 12 17 10.83 14.92 8H20v6z"/></svg>
         Ziegel-Anfrage
       </div>
-      <h1 id="an-hero-title">Ihr Ziegel, <span>unsere Fertigung.</span><br>Foto schicken, Angebot erhalten.</h1>
+      <h1 id="an-hero-title">Ihren Ziegel <span>per Foto</span><br>prüfen lassen.</h1>
       <p class="hp-hero__sub">
-        Sie haben einen speziellen Tonziegel auf dem Dach und wissen nicht, ob ein
-        passender Blechziegel verfügbar ist? Senden Sie uns Foto und Maße — wir
-        identifizieren das Profil und melden uns innerhalb 24 Stunden mit Angebot
-        und Lieferzeit.
+        Foto und Maße senden — wir identifizieren das passende Profil und melden uns
+        mit Angebot und Lieferzeit. Kein Kauf-Druck, keine Registrierung.
       </p>
       <div class="hp-hero__trust">
-        <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Antwort binnen 24 Std.</div>
-        <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Auch Sonderanfertigungen</div>
-        <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Kostenfrei & unverbindlich</div>
-        <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Made in Germany</div>
+        <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>In der Regel Antwort in 24 Std. (Werktage)</div>
+        <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Kostenfrei &amp; unverbindlich</div>
+        <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Prüfung per Foto</div>
+        <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>In Deutschland gelasert</div>
       </div>
     </div>
   </section>
@@ -284,34 +282,24 @@
               <input type="hidden" name="_next" value="{{ shop.url }}/pages/anfrage-erfolg">
               <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;">
 
-              <div class="hp-form__group hp-form__grid-2">
-                <div>
-                  <label class="hp-form__label" for="af-vorname">Vorname<span class="hp-req">*</span></label>
-                  <input class="hp-form__input" id="af-vorname" name="Vorname" type="text" required autocomplete="given-name">
-                </div>
-                <div>
-                  <label class="hp-form__label" for="af-nachname">Nachname<span class="hp-req">*</span></label>
-                  <input class="hp-form__input" id="af-nachname" name="Nachname" type="text" required autocomplete="family-name">
-                </div>
-              </div>
-
+              <!-- Block 1: Foto + Maße (Trigger-first) -->
               <div class="hp-form__group">
-                <label class="hp-form__label" for="af-strasse">Straße &amp; Hausnummer<span class="hp-req">*</span></label>
-                <input class="hp-form__input" id="af-strasse" name="Strasse" type="text" required autocomplete="street-address" placeholder="z. B. Musterweg 12">
-              </div>
-
-              <div class="hp-form__group hp-form__grid-3">
-                <div>
-                  <label class="hp-form__label" for="af-plz">PLZ<span class="hp-req">*</span></label>
-                  <input class="hp-form__input" id="af-plz" name="PLZ" type="text" required autocomplete="postal-code" pattern="[0-9]{5}" inputmode="numeric" placeholder="90461">
+                <label class="hp-form__label" for="af-bild">Foto des Ziegels<span class="hp-req">*</span></label>
+                <div class="hp-file-drop" id="hp-file-drop">
+                  <div class="hp-file-drop__icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                  </div>
+                  <div class="hp-file-drop__title">Foto hier ablegen oder <strong>auswählen</strong></div>
+                  <div class="hp-file-drop__hint">JPG, PNG oder HEIC · max. 8&nbsp;MB · <strong>Ober- und Unterseite</strong> hilft bei der Identifikation</div>
+                  <input type="file" id="af-bild" name="attachment" accept="image/*,.heic,.heif" required>
                 </div>
-                <div>
-                  <label class="hp-form__label" for="af-ort">Ort<span class="hp-req">*</span></label>
-                  <input class="hp-form__input" id="af-ort" name="Ort" type="text" required autocomplete="address-level2" placeholder="Nürnberg">
-                </div>
-                <div>
-                  <label class="hp-form__label" for="af-email">E-Mail<span class="hp-req">*</span></label>
-                  <input class="hp-form__input" id="af-email" name="E-Mail" type="email" required autocomplete="email" placeholder="name@beispiel.de">
+                <div class="hp-file-preview" id="hp-file-preview">
+                  <div class="hp-file-preview__thumb" id="hp-file-thumb" aria-hidden="true"></div>
+                  <div class="hp-file-preview__meta">
+                    <div class="hp-file-preview__name" id="hp-file-name"></div>
+                    <div class="hp-file-preview__size" id="hp-file-size"></div>
+                  </div>
+                  <button type="button" class="hp-file-preview__remove" id="hp-file-remove" aria-label="Datei entfernen">×</button>
                 </div>
               </div>
 
@@ -333,28 +321,37 @@
               </div>
 
               <div class="hp-form__group">
-                <label class="hp-form__label" for="af-bild">Foto des Ziegels<span class="hp-req">*</span></label>
-                <div class="hp-file-drop" id="hp-file-drop">
-                  <div class="hp-file-drop__icon">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                  </div>
-                  <div class="hp-file-drop__title">Foto hier ablegen oder <strong>auswählen</strong></div>
-                  <div class="hp-file-drop__hint">JPG, PNG oder HEIC · max. 8&nbsp;MB · Foto von Ober- und Unterseite hilft bei der Identifikation</div>
-                  <input type="file" id="af-bild" name="attachment" accept="image/*,.heic,.heif" required>
+                <label class="hp-form__label" for="af-hersteller">Hersteller / Profil <span style="color:var(--bz-text-light);font-weight:600;text-transform:none;letter-spacing:0;font-size:11px;">(optional, falls bekannt)</span></label>
+                <input class="hp-form__input" id="af-hersteller" name="Hersteller_Profil" type="text" placeholder="z. B. Braas Frankfurter Pfanne">
+                <div class="hp-form__hint">Steht meistens auf der Unterseite des Ziegels.</div>
+              </div>
+
+              <!-- Block 2: Kontakt -->
+              <div class="hp-form__group hp-form__grid-2">
+                <div>
+                  <label class="hp-form__label" for="af-vorname">Vorname<span class="hp-req">*</span></label>
+                  <input class="hp-form__input" id="af-vorname" name="Vorname" type="text" required autocomplete="given-name">
                 </div>
-                <div class="hp-file-preview" id="hp-file-preview">
-                  <div class="hp-file-preview__thumb" id="hp-file-thumb" aria-hidden="true"></div>
-                  <div class="hp-file-preview__meta">
-                    <div class="hp-file-preview__name" id="hp-file-name"></div>
-                    <div class="hp-file-preview__size" id="hp-file-size"></div>
-                  </div>
-                  <button type="button" class="hp-file-preview__remove" id="hp-file-remove" aria-label="Datei entfernen">×</button>
+                <div>
+                  <label class="hp-form__label" for="af-nachname">Nachname<span class="hp-req">*</span></label>
+                  <input class="hp-form__input" id="af-nachname" name="Nachname" type="text" required autocomplete="family-name">
+                </div>
+              </div>
+
+              <div class="hp-form__group hp-form__grid-2">
+                <div>
+                  <label class="hp-form__label" for="af-email">E-Mail<span class="hp-req">*</span></label>
+                  <input class="hp-form__input" id="af-email" name="E-Mail" type="email" required autocomplete="email" placeholder="name@beispiel.de">
+                </div>
+                <div>
+                  <label class="hp-form__label" for="af-tel">Telefon <span style="color:var(--bz-text-light);font-weight:600;text-transform:none;letter-spacing:0;font-size:11px;">(optional)</span></label>
+                  <input class="hp-form__input" id="af-tel" name="Telefon" type="tel" autocomplete="tel" placeholder="für Rückfragen">
                 </div>
               </div>
 
               <div class="hp-form__group">
-                <label class="hp-form__label" for="af-nachricht">Nachricht (optional)</label>
-                <textarea class="hp-form__textarea" id="af-nachricht" name="Nachricht" placeholder="Dachziegel-Hersteller (falls bekannt), benötigte Menge, Liefertermin, sonstige Hinweise …"></textarea>
+                <label class="hp-form__label" for="af-nachricht">Kurze Nachricht (optional)</label>
+                <textarea class="hp-form__textarea" id="af-nachricht" name="Nachricht" placeholder="Sonstige Hinweise — etwa gewünschter Liefertermin oder Menge bis 25 Stück."></textarea>
               </div>
 
               <div class="hp-form__group">
@@ -370,7 +367,7 @@
               </button>
 
               <p class="hp-form__hint" style="margin-top:12px; text-align:center;">
-                Kein Spam. Antwort binnen 24 Stunden an Ihre E-Mail-Adresse.
+                Kein Spam. Rückmeldung an Ihre E-Mail — in der Regel innerhalb von 24 Stunden (Werktage).
               </p>
             </form>
           </div>
@@ -400,6 +397,16 @@
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Hersteller-Prägung (meist unten) sichtbar</li>
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Gutes Licht, scharfer Fokus</li>
             </ul>
+          </div>
+
+          <div class="hp-info-box" style="border-left-color:var(--bz-navy);">
+            <div class="hp-info-box__label" style="color:var(--bz-navy);">Projekt oder größere Menge?</div>
+            <div class="hp-info-box__title">Projekt-Anfrage</div>
+            <div class="hp-info-box__text">
+              Für Dachdecker, PV-Installateure, Großmengen oder Sonderprofile läuft die Anfrage besser über die
+              <a href="/pages/projekt-anfrage" style="color:var(--bz-orange-dark);font-weight:700;">Projekt-Anfrage</a> —
+              mit Mengen-, Projekt- und Firmenkontext.
+            </div>
           </div>
 
           <div class="hp-info-box">
@@ -434,7 +441,7 @@
           <span class="hp-step__num" aria-hidden="true">2</span>
           <div class="hp-step__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 5 1.5-1.5-5-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"/></svg></div>
           <h3>Identifikation &amp; Angebot</h3>
-          <p>Wir identifizieren Hersteller und Modell anhand von Foto und Maßen, schicken Angebot mit Preis und Lieferzeit binnen 24 Stunden.</p>
+          <p>Wir identifizieren Hersteller und Modell anhand von Foto und Maßen und melden uns mit Angebot und Lieferzeit — in der Regel innerhalb von 24 Stunden (Werktage).</p>
         </li>
         <li class="hp-step">
           <span class="hp-step__num" aria-hidden="true">3</span>
@@ -451,7 +458,7 @@
     <div class="hp-wrap hp-cta-final">
       <span class="hp-section-label">Noch Fragen?</span>
       <h2 class="hp-section-title" id="an-cta-title">Wir helfen vor, während und nach der Bestellung</h2>
-      <p class="hp-section-sub">Persönlicher Ansprechpartner bei Blechziegel.de — Mo-Fr 8:00–17:00 Uhr. Antwort auf Mails innerhalb 24 Stunden.</p>
+      <p class="hp-section-sub">Persönlicher Ansprechpartner bei Blechziegel.de — Mo–Fr 8:00–17:00 Uhr. Antwort in der Regel innerhalb von 24 Stunden (Werktage).</p>
       <div class="hp-cta-final__buttons">
         <a href="mailto:{{ email_raw }}" class="hp-btn hp-btn--primary" style="width:auto;">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
