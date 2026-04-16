@@ -2,35 +2,36 @@
 
 **Branch:** `feat/ziegel-finder-enterprise`
 **Datei:** [`sections/blechziegel-home.liquid`](../sections/blechziegel-home.liquid)
-**Stand:** 2026-04-16
+**Stand:** 2026-04-16 (re-verified)
 **Nach:** Phase 1 (Trust-Cleanup + JSON-LD) · Phase 2 (Reihenfolge + Commerce-Fakten zentralisiert) · Phase 3 (Hero-Fact-Tiles + Navy-Final-CTA)
 
 ---
 
 ## 1) Kurzbewertung
 
-**Nahezu enterprise-ready, aber nicht sauber fertig.** Die Architektur steht — die verbleibenden Punkte sind konkrete **Copy-Widersprüche** zur `cf_*`-Entscheidung und zwei **„Made in Germany"-Claims**, die härter sind als der verifizierte „In Deutschland **gelasert**"-Wortlaut aus dem Trust-Block. Ohne diese Korrekturen ist die Seite intern inkonsistent.
+**Fast enterprise-ready, aber nicht fertig.** Architektur + Visuals stehen sauber. Es bleiben **konkrete Copy-Inkonsistenzen** rund um Herkunfts-Claims und einen hardcoded Versand-Satz im FAQ, der der zentralen `cf_*`-Logik direkt widerspricht. Ohne diese Korrekturen ist die Seite intern widersprüchlich.
 
 ---
 
-## 2) Offene Punkte
+## 2) Offene Punkte (verifiziert via grep)
 
-| # | Fundstelle | Problem |
-|---|---|---|
-| 1 | [blechziegel-home.liquid:941](../sections/blechziegel-home.liquid#L941) FAQ „Versand/Rabatte" | Hardcoded: **„Ab 100 Euro Bestellwert kostenlos"** — widerspricht direkt `cf_free_threshold` (leer gelassen, weil nicht verifiziert). Muss konditional aus zentraler Quelle kommen. |
-| 2 | [blechziegel-home.liquid:624](../sections/blechziegel-home.liquid#L624) Hero-Tag | „Made in Germany · Lagerware" — „Lagerware" gehört an `cf_stock_label`; „Made in Germany" ist härter als der verifizierte „gelasert"-Wortlaut. |
-| 3 | [blechziegel-home.liquid:761](../sections/blechziegel-home.liquid#L761) USP-Card „Made in Germany" | „Produziert in Deutschland" — widerspricht dem Trust-Block, der bewusst nur „gelasert, nicht gepresst" behauptet. **Ich kann „produziert in Deutschland" nicht bestätigen.** |
-| 4 | [blechziegel-home.liquid:753](../sections/blechziegel-home.liquid#L753) USP-Headline | „Made in Germany" in H2 — gleiche Thematik. |
-| 5 | [blechziegel-home.liquid:758](../sections/blechziegel-home.liquid#L758) USP-Card „Aluminium 25+ Jahre" | Zahl nicht durch Datenblatt im Repo belegt. **Ich kann das nicht bestätigen.** |
-| 6 | CSS `.bz-cta-banner` (tot seit Phase 3) | Harmlos, aber unnötiger Restartefakt. |
+| # | Fundstelle | Problem | Prio |
+|---|---|---|---|
+| 1 | [blechziegel-home.liquid:941](../sections/blechziegel-home.liquid#L941) FAQ | Hardcoded „Lieferung per DHL in 1–3 Werktagen. Ab 100 Euro Bestellwert kostenlos." — widerspricht `cf_free_threshold=leer` (bewusst unverifiziert). `cf_carrier`/`cf_lead_time` werden ignoriert. | **P1** |
+| 2 | [blechziegel-home.liquid:624](../sections/blechziegel-home.liquid#L624) Hero-Tag | „Made in Germany · Lagerware" — härter als der im Trust-Block bewusst gewählte „gelasert". „Lagerware" sollte `cf_stock_label` nutzen. | **P1** |
+| 3 | [blechziegel-home.liquid:761](../sections/blechziegel-home.liquid#L761) USP-Card | Headline „Made in Germany" + Body „Produziert in Deutschland" — **Ich kann nicht bestätigen**, dass das komplette Produkt in DE produziert wird. Trust-Block sagt nur „gelasert". | **P1** |
+| 4 | [blechziegel-home.liquid:753](../sections/blechziegel-home.liquid#L753) USP-H2 | „Profi-Qualität. Einfache Montage. Made in Germany." — gleiche Thematik. | **P1** |
+| 5 | [blechziegel-home.liquid:758](../sections/blechziegel-home.liquid#L758) USP-Card | „Aluminium – 25+ Jahre" — Zahl nicht durch Datenblatt im Repo belegt. **Ich kann das nicht bestätigen.** | **P2** |
+| 6 | Stylesheet `.bz-cta-banner` | Tote CSS-Klasse seit Phase 3. | **P2** |
+| 7 | [blechziegel-home.liquid:593](../sections/blechziegel-home.liquid#L593) `hero_alt` Default | „Made in Germany" im Alt-Text — niedriger Impact, Konsistenz-Punkt. | **P2** |
 
 ---
 
 ## 3) Priorisierung
 
-- **P1** (jetzt): #1, #2, #3, #4 — echte Inkonsistenzen + unverifizierte Claims
-- **P2** (Feinschliff): #5 (sprachlich entschärfen), #6 (CSS-Aufräumen)
-- **P3** (später mit Produktbereich): USP-Grid-Trimmung, FAQ-Volltext-Review
+- **P1 (jetzt):** #1, #2, #3, #4 — Copy-Inkonsistenzen + unverifizierte Claims
+- **P2 (Feinschliff):** #5 entschärfen, #6 CSS-Aufräumen, #7 Alt-Text angleichen
+- **P3 (später mit Produktbereich):** USP-Grid von 6 auf 4 härter trimmen, FAQ-Volltext-Review, Bestseller-Copy
 
 ---
 
@@ -38,42 +39,39 @@
 
 ```text
 # CLAUDE CODE — HOMEPAGE POLISH P1+P2
-# Datei: sections/blechziegel-home.liquid
+# Datei: sections/blechziegel-home.liquid — keine weiteren.
 
-Aufgabe: Letzte Copy-Inkonsistenzen beseitigen. Kein Umbau.
+Aufgabe: Finale Copy-Inkonsistenzen beseitigen. Kein Umbau.
 
-## Änderungen
+1. FAQ-Antwort (L941) dynamisch aus cf_* zusammensetzen:
+   "Lieferung per {{ cf_carrier }} in {{ cf_lead_time }}.
+   {%- if cf_free_threshold != blank %} Versandkostenfrei ab {{ cf_free_threshold }}.{%- endif %}
+   Für Handwerksbetriebe und Großbestellungen sind individuelle Konditionen auf Anfrage möglich."
 
-1. FAQ-Antwort zu Versand/Rabatten (aktuell: „Lieferung per DHL in 1–3 Werktagen.
-   Ab 100 Euro Bestellwert kostenlos. …") vollständig aus cf_* zusammensetzen:
-   - cf_carrier statt "DHL"
-   - cf_lead_time statt "1–3 Werktagen"
-   - Versand-kostenlos-Satz NUR wenn cf_free_threshold gesetzt
-   - Satz zu Handwerk/Großbestellungen bleibt unverändert
+2. Hero-Tag (L624) ersetzen durch:
+   "{{ cf_origin }}{%- if cf_stock_label != blank %} · {{ cf_stock_label }}{%- endif %}"
 
-2. Hero-Tag "Made in Germany · Lagerware" ersetzen durch:
-   "{{ cf_origin }} · {{ cf_stock_label }}" (konditional, falls leer: nichts)
+3. USP-H2 (L753): "Made in Germany." → "In Deutschland gelasert."
 
-3. USP-Headline "Profi-Qualität. Einfache Montage. Made in Germany."
-   → "Profi-Qualität. Einfache Montage. In Deutschland gelasert."
+4. USP-Card "Made in Germany" (L761):
+   h3 → "{{ cf_origin | default: 'In Deutschland gelasert' }}"
+   p  → "Präzise gelasert statt gepresst. Geprüfte Maßhaltigkeit, sofort versandfertig."
 
-4. USP-Card "Made in Germany" / "Produziert in Deutschland":
-   Headline → "{{ cf_origin | default: 'In Deutschland gelasert' }}"
-   Body → "Präzise gelasert statt gepresst. Geprüfte Maßhaltigkeit, sofort versandfertig."
+5. USP-Card "Aluminium – 25+ Jahre" (L758):
+   h3 → "Aluminium, witterungsstabil"
+   p  → "Korrosionsbeständig, pulverbeschichtet, UV-stabil. Ausgelegt auf die Lebensdauer einer PV-Anlage."
 
-5. USP-Card "Aluminium – 25+ Jahre":
-   Body entschärfen auf belegbare Aussage — Zahl "25+ Jahre" entfernen,
-   stattdessen: "Korrosionsbeständig, pulverbeschichtet, witterungsstabil.
-   Ausgelegt auf die Lebensdauer einer PV-Anlage."
+6. hero_alt Default: "… – Made in Germany" → "… – in Deutschland gelasert"
 
-6. Tote CSS-Regel `.bz-cta-banner { … }` (alter orange Banner-Stil) entfernen.
+7. Tote CSS-Regel `.bz-cta-banner { … }` entfernen.
 
-## Validierung
-- grep "100 Euro|100 €" → 0 (außer im Schema-Label)
-- grep "Made in Germany" → 0 in <body>-Content; im hero_alt-Default erlaubt
-- grep "25\+" → 0
-- grep "bz-cta-banner" → 0
+## Validierung (grep in home.liquid)
+- "Made in Germany"           → 0
+- "100 Euro|100 €"             → 1 (nur Schema-Label erlaubt)
+- "25\+"                       → 0
+- "bz-cta-banner"              → 0
+- "Produziert in Deutschland"  → 0
 
 ## Commit
-refine(home): align faq shipping copy with central facts and tighten origin claims
+refine(home): align remaining copy with verified origin and central commerce facts
 ```
