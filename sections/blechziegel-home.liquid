@@ -112,10 +112,22 @@
     font-size: 16px; color: rgba(255,255,255,.72);
     margin-bottom: 28px; max-width: 480px; line-height: 1.7;
   }
-  .bz-hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 32px; }
-  .bz-hero-trust { display: flex; flex-wrap: wrap; gap: 18px; }
-  .bz-hero-trust-item { display: flex; align-items: center; gap: 7px; font-size: 13px; color: rgba(255,255,255,.65); }
-  .bz-hero-trust-item svg { color: var(--bz-orange); flex-shrink: 0; }
+  .bz-hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px; }
+  .bz-hero-facts {
+    display: grid; grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 0; border-top: 1px solid rgba(255,255,255,.16);
+    padding-top: 22px; max-width: 640px;
+  }
+  .bz-hero-fact { padding: 0 18px; border-left: 1px solid rgba(255,255,255,.12); }
+  .bz-hero-fact:first-child { padding-left: 0; border-left: 0; }
+  .bz-hero-fact__label {
+    font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--bz-orange); font-weight: 600; margin-bottom: 6px;
+  }
+  .bz-hero-fact__value {
+    font-size: 14px; line-height: 1.4; color: #fff; font-weight: 600;
+  }
+  .bz-hero-fact__sub { font-size: 12px; color: rgba(255,255,255,.6); margin-top: 3px; font-weight: 400; }
 
   /* ── 1b. ZIEGEL-FINDER-TEASER ── */
   .bz-finder-teaser { background: #fff; border-top: 1px solid #e9ecef;
@@ -467,11 +479,66 @@
   }
   .bz-svc-list li svg { flex: 0 0 auto; margin-top: 3px; color: var(--bz-orange); }
 
-  /* ── 9. CTA BANNER ── */
-  .bz-cta-banner { background: var(--bz-orange); text-align: center; padding: 56px 20px; }
-  .bz-cta-banner h2 { color: var(--bz-navy); margin-bottom: 12px; }
-  .bz-cta-banner p { color: rgba(13,30,53,.72); margin-bottom: 28px; font-size: 16px; }
-  .bz-cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  /* ── 9. FINAL CTA — Navy Premium Block ── */
+  .bz-final {
+    background: var(--bz-navy);
+    background-image: linear-gradient(180deg, var(--bz-navy) 0%, var(--bz-navy-mid) 100%);
+    padding: 80px 20px; color: #fff;
+    border-top: 1px solid rgba(255,255,255,.06);
+  }
+  .bz-final__inner { max-width: 980px; margin: 0 auto; }
+  .bz-final__eyebrow {
+    display: inline-block; font-size: 11px; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--bz-orange); font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .bz-final h2 {
+    color: #fff; font-size: clamp(1.6rem, 3vw, 2.2rem);
+    line-height: 1.2; margin: 0 0 14px; max-width: 720px;
+  }
+  .bz-final h2 em { font-style: normal; color: var(--bz-orange); }
+  .bz-final__lead {
+    font-size: 16px; line-height: 1.65; color: rgba(255,255,255,.72);
+    max-width: 620px; margin: 0 0 36px;
+  }
+  .bz-final__grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
+    margin-bottom: 28px;
+  }
+  .bz-final__card {
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: var(--bz-r-lg); padding: 26px 24px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .bz-final__card--primary {
+    background: rgba(245,166,35,.08);
+    border-color: rgba(245,166,35,.32);
+  }
+  .bz-final__card-label {
+    font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--bz-orange); font-weight: 700;
+  }
+  .bz-final__card-title {
+    font-size: 18px; color: #fff; font-weight: 700; margin: 0;
+  }
+  .bz-final__card-desc {
+    font-size: 14px; line-height: 1.55; color: rgba(255,255,255,.68);
+    margin: 0 0 auto;
+  }
+  .bz-final__card .bz-btn { margin-top: 14px; align-self: flex-start; }
+  .bz-final__meta {
+    display: flex; gap: 22px; flex-wrap: wrap;
+    padding-top: 22px; margin-top: 8px;
+    border-top: 1px solid rgba(255,255,255,.08);
+    font-size: 13px; color: rgba(255,255,255,.55);
+  }
+  .bz-final__meta span { display: flex; align-items: center; gap: 7px; }
+  .bz-final__meta svg { color: var(--bz-orange); flex-shrink: 0; }
+  @media (max-width: 720px) {
+    .bz-final { padding: 56px 20px; }
+    .bz-final__grid { grid-template-columns: 1fr; }
+  }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 860px) {
@@ -491,7 +558,9 @@
     .bz-hero h1 { font-size: 1.75rem; }
     .bz-hero-ctas { flex-direction: column; }
     .bz-hero-ctas .bz-btn { justify-content: center; }
-    .bz-hero-trust { flex-direction: column; gap: 10px; }
+    .bz-hero-facts { grid-template-columns: 1fr; gap: 0; padding-top: 18px; }
+    .bz-hero-fact { padding: 14px 0; border-left: 0; border-top: 1px solid rgba(255,255,255,.08); }
+    .bz-hero-fact:first-child { border-top: 0; padding-top: 0; }
     .bz-hero-content-inner { padding: 36px 0; }
     .bz-dach-grid { grid-template-columns: 1fr; }
     .bz-usp-grid { grid-template-columns: 1fr; }
@@ -565,24 +634,27 @@
           {{ section.settings.hero_cta_secondary_text | default: 'Beratung anfordern' }}
         </a>
       </div>
-      <div class="bz-hero-trust">
+      <div class="bz-hero-facts" role="list" aria-label="Service-Fakten">
         {%- if cf_stock_label != blank -%}
-        <span class="bz-hero-trust-item">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
-          {{ cf_stock_label }}
-        </span>
+        <div class="bz-hero-fact" role="listitem">
+          <div class="bz-hero-fact__label">Verfügbarkeit</div>
+          <div class="bz-hero-fact__value">{{ cf_stock_label }}</div>
+          {%- if cf_lead_time != blank -%}<div class="bz-hero-fact__sub">Lieferung {{ cf_lead_time }}</div>{%- endif -%}
+        </div>
         {%- endif -%}
         {%- if cf_cutoff_hour != blank -%}
-        <span class="bz-hero-trust-item">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
-          Vor {{ cf_cutoff_hour }} Uhr bestellt - Versand am selben Werktag
-        </span>
+        <div class="bz-hero-fact" role="listitem">
+          <div class="bz-hero-fact__label">Versand</div>
+          <div class="bz-hero-fact__value">Vor {{ cf_cutoff_hour }}:00 Uhr bestellt</div>
+          <div class="bz-hero-fact__sub">Noch am selben Werktag{%- if cf_carrier != blank %} · {{ cf_carrier }}{%- endif -%}</div>
+        </div>
         {%- endif -%}
         {%- if cf_origin != blank -%}
-        <span class="bz-hero-trust-item">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
-          {{ cf_origin }}
-        </span>
+        <div class="bz-hero-fact" role="listitem">
+          <div class="bz-hero-fact__label">Fertigung</div>
+          <div class="bz-hero-fact__value">{{ cf_origin }}</div>
+          <div class="bz-hero-fact__sub">Keine Pressung. Präzise gefertigt.</div>
+        </div>
         {%- endif -%}
       </div>
     </div>
@@ -877,13 +949,37 @@
 </section>
 
 {%- comment -%}══ 9. CTA BANNER ══{%- endcomment -%}
-<section class="bz-cta-banner">
-  <div class="bz-wrap">
-    <h2>Bereit für die nächste PV-Montage ohne Ziegelbruch?</h2>
-    <p>Passenden Ersatzziegel PV finden – lieferbar in 1–3 Werktagen.</p>
-    <div class="bz-cta-btns">
-      <a href="{{ routes.collections_url }}/all" class="bz-btn bz-btn-navy">Zum passenden Blechziegel <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      <a href="{{ routes.root_url }}pages/contact" class="bz-btn bz-btn-outline">Beratung anfordern</a>
+<section class="bz-final" aria-labelledby="bz-final-title">
+  <div class="bz-wrap bz-final__inner">
+    <span class="bz-final__eyebrow">Nächster Schritt</span>
+    <h2 id="bz-final-title">Passenden Blechziegel finden — oder <em>persönlich beraten</em> lassen.</h2>
+    <p class="bz-final__lead">Zwei saubere Wege: der Finder führt in 3 Schritten zum passenden Produkt. Bei Sonderprofilen oder größeren Projekten übernimmt unser Team die Prüfung per Foto oder Datenblatt.</p>
+
+    <div class="bz-final__grid">
+      <div class="bz-final__card bz-final__card--primary">
+        <span class="bz-final__card-label">Selbst finden</span>
+        <h3 class="bz-final__card-title">Ziegel Finder</h3>
+        <p class="bz-final__card-desc">Hersteller, Länge, Breite — direkter Match aus unseren Produktdaten. Ohne Beratungstermin.</p>
+        <a href="{{ routes.root_url }}pages/ziegel-finder" class="bz-btn bz-btn-primary">Finder starten <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+      <div class="bz-final__card">
+        <span class="bz-final__card-label">Beratung · B2B &amp; Sonderfälle</span>
+        <h3 class="bz-final__card-title">Prüfung per Foto oder Datenblatt</h3>
+        <p class="bz-final__card-desc">Für Dachdecker, PV-Installateure und unklare Profile. Antwort werktags zeitnah, inklusive Mengen- und Projektkonditionen.</p>
+        <a href="{{ routes.root_url }}pages/ziegel-anfrage" class="bz-btn bz-btn-outline">Anfrage stellen</a>
+      </div>
+    </div>
+
+    <div class="bz-final__meta">
+      {%- if cf_stock_label != blank -%}
+      <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>{{ cf_stock_label }}{%- if cf_lead_time != blank %} · Lieferung {{ cf_lead_time }}{%- endif -%}</span>
+      {%- endif -%}
+      {%- if cf_cutoff_hour != blank -%}
+      <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Bestellungen vor {{ cf_cutoff_hour }}:00 Uhr — Versand am selben Werktag</span>
+      {%- endif -%}
+      {%- if cf_origin != blank -%}
+      <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>{{ cf_origin }}</span>
+      {%- endif -%}
     </div>
   </div>
 </section>
