@@ -161,9 +161,7 @@
           ]
         }
       },
-      "block_order": [
-        "static-header"
-      ],
+      "block_order": [],
       "settings": {
         "collection": "zubehor",
         "layout_type": "grid",
