@@ -22,6 +22,7 @@
 - Vor Änderungen Status prüfen.
 - Diffs vor Commit prüfen.
 - Kein Push auf protected branches ohne Freigabe.
+- Nach jedem Commit + Push immer automatisch die vollständigen GitHub-Links senden: Blob-URL jeder geänderten Datei, Raw-URL des Hauptreports (für ChatGPT-Import), Commit-URLs (alle SHAs), Compare-URL gegen main. Nichts weglassen.
 
 ## Antwortstil im Projekt
 - Knapp, direkt, umsetzungsorientiert.
