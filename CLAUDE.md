@@ -19,6 +19,8 @@
 - **Store-Domain:** `blechziegel-de.myshopify.com`
 - **Auto-Sync:** GitHub `main` → Shopify ist aktiv. Pushes auf `main` deployen automatisch.
 - **Git-Push:** Immer direkt auf `main` pushen.
+- **NIEMALS `shopify theme push` verwenden.** GitHub ist der Master — Theme-Änderungen gehen NUR über Git nach GitHub, Shopify synct automatisch.
+- **Prüfung:** Theme-Code über CLI (`shopify theme check`) und API verifizieren. Playwright nur auf explizite Anweisung.
 - Theme-Dateien konsistent halten.
 - Keine produktiven Shop-Einstellungen ändern, wenn nicht explizit gefordert.
 - Bei Liquid-Änderungen auf bestehende Section-/Snippet-Struktur achten.
