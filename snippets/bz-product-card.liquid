@@ -12,15 +12,36 @@
 
 {%- assign dachtyp = product.metafields.custom.dachziegel_typ | default: '' -%}
 
+{%- comment -%} Variant-Bild bei aktivem Farbfilter zeigen {%- endcomment -%}
+{%- assign card_image = product.featured_image -%}
+{%- assign active_color_filter = '' -%}
+{%- for filter in collection.filters -%}
+  {%- assign fl = filter.label | downcase -%}
+  {%- if fl contains 'farbe' or fl contains 'color' -%}
+    {%- for val in filter.active_values -%}
+      {%- assign active_color_filter = val.label | downcase -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- if active_color_filter != '' -%}
+  {%- for variant in product.variants -%}
+    {%- assign vname = variant.title | downcase -%}
+    {%- if vname contains active_color_filter and variant.image -%}
+      {%- assign card_image = variant.image -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+
 <div class="bz-product-card">
-  <a href="{{ product.url }}" class="bz-product-img-link" aria-label="{{ product.title | escape }}">
+  <a href="{{ product.url }}{% if active_color_filter != '' %}?variant={{ variant.id }}{% endif %}" class="bz-product-img-link" aria-label="{{ product.title | escape }}">
     <div class="bz-product-img">
-      {%- if product.featured_image -%}
-        {{ product.featured_image | image_url: width: 600 | image_tag:
+      {%- if card_image -%}
+        {{ card_image | image_url: width: 600 | image_tag:
           loading: 'lazy',
           width: 600,
-          height: 450,
-          alt: product.featured_image.alt | default: product.title
+          height: 600,
+          alt: card_image.alt | default: product.title
         }}
       {%- else -%}
         <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>

@@ -860,6 +860,10 @@
     flex-shrink: 0;
     display: inline-block;
   }
+  .bz-filter-option--color .bz-filter-option-meta {
+    display: flex;
+    flex-direction: column;
+  }
   .bz-filter-option--color .bz-filter-option-label {
     color: var(--bz-navy);
     font-weight: 700;
@@ -869,7 +873,7 @@
   .bz-filter-option--color .bz-filter-ral {
     font-size: 11px;
     color: #888;
-    line-height: 1.2;
+    line-height: 1.3;
   }
   .bz-filter-option--color .bz-filter-option-count {
     margin-left: auto;
@@ -1332,24 +1336,17 @@
               <div class="bz-filter-options">
                 {%- for value in filter.values -%}
                   {%- assign swatch_color = '' -%}
-                  {%- assign swatch_ral = '' -%}
                   {%- if bz_is_color -%}
                     {%- assign vl = value.label | downcase -%}
-                    {%- if vl contains 'aluminium' or vl contains 'alu blank' -%}{%- assign swatch_ral = 'unbeschichtet' -%}
-                    {%- elsif vl contains 'anthrazit' -%}{%- assign swatch_ral = 'RAL 7016' -%}
-                    {%- elsif vl contains 'ziegelrot' or vl contains 'ziegel-rot' -%}{%- assign swatch_ral = 'RAL 8004' -%}
-                    {%- endif -%}
-                    {%- if value.swatch.color -%}
-                      {%- assign swatch_color = value.swatch.color -%}
-                    {%- else -%}
-                      {%- if vl contains 'aluminium' or vl contains 'alu blank' -%}{%- assign swatch_color = 'linear-gradient(135deg,#c7ccd1 0%,#a6abb2 100%)' -%}{%- assign swatch_ral = 'unbeschichtet' -%}
-                      {%- elsif vl contains 'anthrazit' -%}{%- assign swatch_color = '#383d42' -%}{%- assign swatch_ral = 'RAL 7016' -%}
-                      {%- elsif vl contains 'ziegelrot' or vl contains 'ziegel-rot' -%}{%- assign swatch_color = '#8b3a2b' -%}{%- assign swatch_ral = 'RAL 8004' -%}
-                      {%- elsif vl contains 'schwarz' -%}{%- assign swatch_color = '#111111' -%}
-                      {%- elsif vl contains 'weiß' or vl contains 'weiss' or vl contains 'white' -%}{%- assign swatch_color = '#f2f1ee' -%}
-                      {%- elsif vl contains 'grau' -%}{%- assign swatch_color = '#7a7a78' -%}
-                      {%- elsif vl contains 'braun' -%}{%- assign swatch_color = '#6b4a32' -%}
-                      {%- endif -%}
+                    {%- comment -%} CI-Farben haben Vorrang vor Shopify-Taxonomy-Farben {%- endcomment -%}
+                    {%- if vl contains 'aluminium' or vl contains 'alu blank' -%}{%- assign swatch_color = 'linear-gradient(135deg,#c7ccd1 0%,#a6abb2 100%)' -%}
+                    {%- elsif vl contains 'anthrazit' -%}{%- assign swatch_color = '#383d42' -%}
+                    {%- elsif vl contains 'ziegelrot' or vl contains 'ziegel-rot' -%}{%- assign swatch_color = '#8b3a2b' -%}
+                    {%- elsif vl contains 'schwarz' -%}{%- assign swatch_color = '#111111' -%}
+                    {%- elsif vl contains 'weiß' or vl contains 'weiss' or vl contains 'white' -%}{%- assign swatch_color = '#f2f1ee' -%}
+                    {%- elsif vl contains 'grau' -%}{%- assign swatch_color = '#7a7a78' -%}
+                    {%- elsif vl contains 'braun' -%}{%- assign swatch_color = '#6b4a32' -%}
+                    {%- elsif value.swatch.color -%}{%- assign swatch_color = value.swatch.color -%}
                     {%- endif -%}
                   {%- endif -%}
                   <label class="bz-filter-option{% if bz_is_color %} bz-filter-option--color{% endif %}">
