@@ -2103,15 +2103,23 @@
 }
 </script>
 
-{%- comment -%}══ ZUBEHÖR AUS COLLECTION ══{%- endcomment -%}
-{%- assign zubehoer_collection = collections['zubehor'] -%}
-{%- if zubehoer_collection != blank -%}
+{%- comment -%}══ ZUBEHÖR (direkt per Handle) ══{%- endcomment -%}
+{%- assign zubehoer_handles = 'haken,schrauben,versteifung' | split: ',' -%}
+{%- assign zubehoer_count = 0 -%}
+{%- for h in zubehoer_handles -%}
+  {%- assign zp = all_products[h] -%}
+  {%- if zp and zp.title != blank -%}{%- assign zubehoer_count = zubehoer_count | plus: 1 -%}{%- endif -%}
+{%- endfor -%}
+{%- if zubehoer_count > 0 -%}
 <section class="bz-zubehoer-section">
   <div class="bz-zubehoer-wrap">
     <h2 class="bz-zubehoer-title">Zubehör</h2>
     <div class="bz-zubehoer-grid">
-      {%- for p in zubehoer_collection.products limit: 4 -%}
-        {%- render 'bz-product-card', product: p -%}
+      {%- for h in zubehoer_handles -%}
+        {%- assign zp = all_products[h] -%}
+        {%- if zp and zp.title != blank -%}
+          {%- render 'bz-product-card', product: zp -%}
+        {%- endif -%}
       {%- endfor -%}
     </div>
   </div>
