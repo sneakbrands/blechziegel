@@ -1154,15 +1154,7 @@
     {%- comment -%}══ RECHTE SPALTE: PRODUKTINFO ══{%- endcomment -%}
     <div class="bz-product-info">
 
-      <!-- Tag -->
-      {%- if cf_origin != blank or cf_stock_label != blank -%}
-      <div class="bz-product-tag">
-        <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor"><circle cx="4" cy="4" r="4"/></svg>
-        {%- if cf_origin != blank %}{{ cf_origin }}{% endif -%}
-        {%- if cf_origin != blank and cf_stock_label != blank %} &middot; {% endif -%}
-        {%- if cf_stock_label != blank %}{{ cf_stock_label }}{% endif -%}
-      </div>
-      {%- endif -%}
+      {%- comment -%} Tag "In Deutschland gelasert · Lagerware" entfernt (H7.2) {%- endcomment -%}
 
       {%- comment -%}
         Sichtbare Hersteller-Zuordnung nahe H1 (zusätzlich zum Breadcrumb).
