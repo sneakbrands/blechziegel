@@ -9,6 +9,10 @@
 - Keine Änderungen außerhalb des Projektordners.
 
 ## Shopify
+- **Live-Theme:** `#193125220736` (blechziegel/main) — NUR dieses Theme verwenden. Alle anderen Themes ignorieren.
+- **Store-Domain:** `blechziegel-de.myshopify.com`
+- **Auto-Sync:** GitHub `main` → Shopify ist aktiv. Pushes auf `main` deployen automatisch.
+- **Git-Push:** Immer direkt auf `main` pushen.
 - Theme-Dateien konsistent halten.
 - Keine produktiven Shop-Einstellungen ändern, wenn nicht explizit gefordert.
 - Bei Liquid-Änderungen auf bestehende Section-/Snippet-Struktur achten.
@@ -19,9 +23,9 @@
 - Bevorzugt lokal: Theme-Check, vorhandene Linter, Playwright nur gezielt.
 
 ## Git
+- Immer direkt auf `main` pushen — keine Feature-Branches für Deployments.
 - Vor Änderungen Status prüfen.
 - Diffs vor Commit prüfen.
-- Kein Push auf protected branches ohne Freigabe.
 - Nach jedem Commit + Push immer automatisch die vollständigen GitHub-Links senden: Blob-URL jeder geänderten Datei, Raw-URL des Hauptreports (für ChatGPT-Import), Commit-URLs (alle SHAs), Compare-URL gegen main. Nichts weglassen.
 
 ## Antwortstil im Projekt
