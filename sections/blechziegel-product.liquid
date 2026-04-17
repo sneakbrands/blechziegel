@@ -1427,19 +1427,6 @@
 
       <hr class="bz-divider">
 
-      {%- comment -%}
-        ── Projekt-/Mengen-Hinweis ──
-        Kompakt, ohne Preisangaben. Verbindliche Konditionen laufen über den Anfragepfad.
-      {%- endcomment -%}
-      <div class="bz-project-note" role="note">
-        <strong class="bz-project-note__title">Projektpreise und Mengenkonditionen auf Anfrage</strong>
-        <span class="bz-project-note__sub">Sonderprofile, Rahmenverträge und größere Mengen werden individuell kalkuliert.</span>
-        <a href="{{ routes.root_url }}pages/projekt-anfrage" class="bz-project-note__cta">
-          Projekt-Konditionen anfragen
-          <svg aria-hidden="true" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-      </div>
-
       {%- comment -%}── Varianten Form ──{%- endcomment -%}
       <form action="{{ routes.cart_add_url }}" method="post" id="bz-product-form">
         <input type="hidden" name="id" id="bz-variant-id" value="{{ product.selected_or_first_available_variant.id }}">
@@ -1603,6 +1590,16 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
             In den Warenkorb
           </button>
+        </div>
+
+        {%- comment -%} Projekt-Note: nur sichtbar bei Gewerbekunde {%- endcomment -%}
+        <div class="bz-project-note" id="bz-project-note" role="note" style="display:none;">
+          <strong class="bz-project-note__title">Projektpreise und Mengenkonditionen auf Anfrage</strong>
+          <span class="bz-project-note__sub">Sonderprofile, Rahmenverträge und größere Mengen werden individuell kalkuliert.</span>
+          <a href="{{ routes.root_url }}pages/projekt-anfrage" class="bz-project-note__cta">
+            Projekt-Konditionen anfragen
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
         </div>
 
         <div class="bz-service-paths" role="group" aria-label="Beratungs- und Projektpfad">
@@ -2100,6 +2097,9 @@
     if (priv) priv.hidden = isBiz;
     if (biz)  biz.hidden = !isBiz;
     note.dataset.customerType = customerType || 'Privatkunde';
+    // Projekt-Note bei Gewerbekunde einblenden
+    var projNote = document.getElementById('bz-project-note');
+    if (projNote) projNote.style.display = isBiz ? '' : 'none';
   }
 
   // Variante aktualisieren
