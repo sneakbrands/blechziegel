@@ -1156,7 +1156,7 @@
         Sichtbare Hersteller-Zuordnung nahe H1 (zusätzlich zum Breadcrumb).
         Multi-Brand (H6): zeigt alle passenden Hersteller statt nur den ersten Match.
         1 Match  -> Pill verlinkt auf /collections/<handle>
-        2+ Match -> Pill verlinkt auf /pages/hersteller (Hersteller-Hub)
+        2+ Match -> jeder Brand einzeln als <a> auf /collections/<handle>
       {%- endcomment -%}
       {%- if matched_handles_arr.size == 1 and brand_handle != blank -%}
         <a class="bz-product-brand-link" href="{{ routes.collections_url }}/{{ brand_handle }}" rel="tag" aria-label="Alle Produkte für {{ brand_name }}">
