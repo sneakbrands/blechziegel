@@ -1,5 +1,11 @@
 # Projektregeln
 
+## Session-Start (Pflicht bei jedem Projektstart)
+- **Shopify CLI prüfen:** `"$APPDATA/npm/shopify" theme list --store blechziegel-de.myshopify.com` — muss Theme `#193125220736` zeigen.
+- **Shopify API prüfen:** `node scripts/shopify-api-check.mjs` — alle Checks müssen grün sein.
+- **GitHub prüfen:** `git remote -v` muss `https://github.com/sneakbrands/blechziegel.git` zeigen, `git fetch origin main` muss funktionieren.
+- Wenn eine Verbindung fehlt: zuerst fixen, bevor gearbeitet wird.
+
 ## Arbeitsweise
 - Erst analysieren, dann ändern.
 - Vor jeder größeren Änderung kurz den betroffenen Scope benennen.
