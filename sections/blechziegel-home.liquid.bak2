@@ -1,0 +1,743 @@
+{% comment %}
+  blechziegel.de – Startseite
+  Optimiert für: Shopify Horizon Theme
+  Datei: sections/blechziegel-home.liquid
+  Bilder: Shopify Admin → Inhalte → Dateien → hochladen
+{% endcomment %}
+
+{%- liquid
+  assign hero_image = section.settings.hero_image
+  assign hero_image_mobile = section.settings.hero_image_mobile
+  assign bestseller_collection = collections[section.settings.bestseller_collection] | default: collections['all']
+-%}
+
+{% style %}
+  /* ═══════════════════════════════════════════════
+     Horizon-kompatible CSS Custom Properties
+     Nutzt Horizon's --color-* und --font-* Variablen
+  ═══════════════════════════════════════════════ */
+  #shopify-section-{{ section.id }} {
+    --bz-orange: #f5a623;
+    --bz-orange-dark: #d4891a;
+    --bz-orange-light: #fff4e0;
+    --bz-navy: #0d1e35;
+    --bz-navy-mid: #152840;
+    --bz-r: 6px;
+    --bz-r-lg: 12px;
+  }
+
+  /* Typografie greift auf Horizon-Fonts zurück */
+  .bz-wrap { max-width: 1160px; margin: 0 auto; padding: 0 20px; }
+  .bz-section { padding: 72px 0; }
+  .bz-label {
+    font-size: 11px; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--bz-orange);
+    margin-bottom: 10px; display: block;
+  }
+  .bz h1, .bz h2, .bz h3 {
+    font-family: var(--font-heading-family, var(--font-body-family, inherit));
+    font-weight: var(--font-heading-weight, 700);
+    line-height: 1.15;
+  }
+  .bz h1 { font-size: clamp(1.9rem, 4.5vw, 3rem); }
+  .bz h2 { font-size: clamp(1.4rem, 3vw, 2.1rem); }
+  .bz h3 { font-size: 1.05rem; font-weight: 600; }
+  .bz p, .bz li, .bz span {
+    font-family: var(--font-body-family, inherit);
+  }
+
+  /* ── BUTTONS ── */
+  .bz-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 13px 24px; border-radius: var(--bz-r);
+    font-size: 15px; font-weight: 600; cursor: pointer;
+    text-decoration: none; transition: all .18s; border: 2px solid transparent;
+    white-space: nowrap; font-family: var(--font-body-family, inherit);
+  }
+  .bz-btn-primary { background: var(--bz-orange); color: var(--bz-navy); border-color: var(--bz-orange); }
+  .bz-btn-primary:hover { background: var(--bz-orange-dark); border-color: var(--bz-orange-dark); }
+  .bz-btn-ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,.4); }
+  .bz-btn-ghost:hover { border-color: #fff; background: rgba(255,255,255,.08); }
+  .bz-btn-navy { background: var(--bz-navy); color: #fff; border-color: var(--bz-navy); }
+  .bz-btn-navy:hover { background: var(--bz-navy-mid); }
+  .bz-btn-outline { background: transparent; color: var(--bz-navy); border-color: rgba(13,30,53,.3); }
+  .bz-btn-outline:hover { background: var(--bz-navy); color: #fff; }
+
+  /* ── 1. HERO ── */
+  .bz-hero { background: var(--bz-navy); position: relative; overflow: hidden; }
+  .bz-hero-img {
+    width: 100%; display: block;
+    max-height: 580px; object-fit: cover; object-position: center;
+  }
+  .bz-hero-img-placeholder {
+    width: 100%; height: 500px;
+    background: linear-gradient(135deg, #0d1e35 0%, #1e3a56 100%);
+  }
+  .bz-hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(13,30,53,.9) 0%, rgba(13,30,53,.6) 50%, rgba(13,30,53,.15) 100%);
+    pointer-events: none;
+  }
+  .bz-hero-overlay-mobile {
+    display: none;
+  }
+  .bz-hero-content {
+    position: absolute; inset: 0; display: flex; align-items: center; padding: 0 20px;
+  }
+  .bz-hero-content-inner {
+    max-width: 1160px; margin: 0 auto; width: 100%; padding: 48px 0;
+  }
+  .bz-hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(245,166,35,.18); border: 1px solid rgba(245,166,35,.4);
+    color: var(--bz-orange); font-size: 11.5px; font-weight: 600;
+    padding: 5px 14px; border-radius: 20px; margin-bottom: 18px; letter-spacing: .04em;
+  }
+  .bz-hero h1 { color: #fff; margin-bottom: 16px; max-width: 560px; }
+  .bz-hero h1 em { font-style: normal; color: var(--bz-orange); }
+  .bz-hero-sub {
+    font-size: 16px; color: rgba(255,255,255,.72);
+    margin-bottom: 28px; max-width: 480px; line-height: 1.7;
+  }
+  .bz-hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 32px; }
+  .bz-hero-trust { display: flex; flex-wrap: wrap; gap: 18px; }
+  .bz-hero-trust-item { display: flex; align-items: center; gap: 7px; font-size: 13px; color: rgba(255,255,255,.65); }
+  .bz-hero-trust-item svg { color: var(--bz-orange); flex-shrink: 0; }
+
+  /* ── 2. DACHTYPEN ── */
+  .bz-dachtypen { background: #f8f8f6; }
+  .bz-dach-intro { max-width: 620px; margin-bottom: 44px; }
+  .bz-dach-intro h2 { color: var(--bz-navy); margin-top: 8px; }
+  .bz-dach-intro p { margin-top: 12px; color: #5a5955; font-size: 15px; }
+  .bz-dach-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .bz-dach-card {
+    background: #fff; border: 1.5px solid #e2e0d8;
+    border-radius: var(--bz-r-lg); padding: 22px 18px;
+    display: flex; flex-direction: column; gap: 10px;
+    transition: all .18s; color: inherit; text-decoration: none;
+  }
+  .bz-dach-card:hover { border-color: var(--bz-orange); box-shadow: 0 4px 20px rgba(245,166,35,.12); transform: translateY(-2px); }
+  .bz-dach-icon { width: 42px; height: 42px; background: var(--bz-orange-light); border-radius: var(--bz-r); display: flex; align-items: center; justify-content: center; }
+  .bz-dach-icon svg { color: var(--bz-orange); }
+  .bz-dach-name { font-weight: 700; font-size: 14px; color: var(--bz-navy); }
+  .bz-dach-desc { font-size: 13px; color: #5a5955; line-height: 1.55; }
+  .bz-dach-link { font-size: 13px; color: var(--bz-orange); font-weight: 600; margin-top: auto; display: flex; align-items: center; gap: 4px; }
+
+  /* ── 3. USPS ── */
+  .bz-usp-head { max-width: 600px; margin-bottom: 44px; }
+  .bz-usp-head h2 { color: var(--bz-navy); margin-top: 8px; }
+  .bz-usp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .bz-usp-card { padding: 26px 22px; border: 1.5px solid #e2e0d8; border-radius: var(--bz-r-lg); background: #fff; transition: border-color .18s; }
+  .bz-usp-card:hover { border-color: var(--bz-orange); }
+  .bz-usp-icon { width: 46px; height: 46px; border-radius: var(--bz-r); background: var(--bz-orange-light); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; color: var(--bz-orange); }
+  .bz-usp-card h3 { color: var(--bz-navy); margin-bottom: 7px; }
+  .bz-usp-card p { font-size: 14px; color: #5a5955; line-height: 1.6; }
+
+  /* ── 4. BESTSELLER ── */
+  .bz-bestseller { background: #f8f8f6; }
+  .bz-bestseller-head { max-width: 600px; margin-bottom: 44px; }
+  .bz-bestseller-head h2 { color: var(--bz-navy); margin-top: 8px; }
+  .bz-products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+  /* Premium Produktkarte */
+  .bz-product-card {
+    background: #ffffff;
+    border: 1px solid rgba(13, 30, 53, 0.08);
+    border-radius: 22px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+    box-shadow: 0 8px 24px rgba(13, 30, 53, 0.05);
+  }
+  .bz-product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 42px rgba(13, 30, 53, 0.12);
+    border-color: rgba(245, 166, 35, 0.32);
+  }
+
+  /* Bildbereich hochwertiger und größer */
+  .bz-product-img {
+    aspect-ratio: 4 / 3;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background:
+      radial-gradient(circle at top left, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 32%),
+      linear-gradient(180deg, #f8f7f4 0%, #efede8 100%);
+    border-bottom: 1px solid rgba(13, 30, 53, 0.05);
+  }
+  .bz-product-img::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 45%);
+    pointer-events: none;
+  }
+  .bz-product-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 10px;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 16px 24px rgba(0, 0, 0, 0.08));
+    transition: transform .28s ease, filter .28s ease;
+  }
+  .bz-product-card:hover .bz-product-img img {
+    transform: scale(1.045);
+    filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.12));
+  }
+
+  /* Badge hochwertiger */
+  .bz-product-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: rgba(245, 166, 35, 0.96);
+    color: var(--bz-navy);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    box-shadow: 0 6px 14px rgba(245, 166, 35, 0.22);
+  }
+
+  /* Inhaltsbereich ruhiger und edler */
+  .bz-product-body {
+    padding: 20px 18px 18px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .bz-product-name {
+    color: var(--bz-navy);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    margin-bottom: 0;
+  }
+  .bz-product-desc {
+    font-size: 13px;
+    color: #5a5955;
+    flex: 1;
+    line-height: 1.55;
+  }
+
+  /* Preisblock mehr Fokus */
+  .bz-product-price {
+    color: var(--bz-navy);
+    font-size: clamp(1.55rem, 2vw, 1.9rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-family: var(--font-heading-family, inherit);
+  }
+  .bz-product-price-sub { font-size: 11.5px; color: #9a9890; margin-top: 4px; }
+  .bz-product-cta { margin-top: 6px; }
+
+  /* CTA stärker, aber markenkonform — nur innerhalb der Karte */
+  .bz-product-card .bz-btn-primary {
+    width: 100%;
+    justify-content: center;
+    min-height: 54px;
+    border-radius: 14px;
+    background: linear-gradient(180deg, #f5a623 0%, #eb9d1e 100%);
+    color: var(--bz-navy);
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    box-shadow: 0 10px 20px rgba(245, 166, 35, 0.18);
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+  }
+  .bz-product-card .bz-btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 24px rgba(245, 166, 35, 0.24);
+    background: linear-gradient(180deg, #f7ad34 0%, #eea225 100%);
+  }
+  .bz-products-more { text-align: center; margin-top: 36px; }
+
+  /* ── 5. PROBLEM / LÖSUNG ── */
+  .bz-pvl { background: var(--bz-navy); }
+  .bz-pvl-head { margin-bottom: 44px; }
+  .bz-pvl-head h2 { color: #fff; margin-top: 8px; }
+  .bz-pvl-head p { color: rgba(255,255,255,.6); margin-top: 12px; max-width: 560px; font-size: 15px; }
+  .bz-pvl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .bz-pvl-col { border-radius: var(--bz-r-lg); padding: 28px 24px; }
+  .bz-pvl-col.problem { background: rgba(220,53,53,.1); border: 1.5px solid rgba(220,53,53,.2); }
+  .bz-pvl-col.solution { background: rgba(245,166,35,.08); border: 1.5px solid rgba(245,166,35,.25); }
+  .bz-pvl-col-head { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+  .bz-pvl-col-label { font-size: 12px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; }
+  .bz-pvl-col.problem .bz-pvl-col-label { color: #f08080; }
+  .bz-pvl-col.solution .bz-pvl-col-label { color: var(--bz-orange); }
+  .bz-pvl-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+  .bz-pvl-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: rgba(255,255,255,.8); line-height: 1.5; }
+  .bz-pvl-list li .ico { flex-shrink: 0; margin-top: 1px; }
+
+  /* ── 6. SOCIAL PROOF ── */
+  .bz-proof-nums { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 36px; }
+  .bz-proof-num { text-align: center; padding: 24px; background: #f8f8f6; border-radius: var(--bz-r-lg); border: 1.5px solid #e2e0d8; }
+  .bz-proof-num-big { font-size: 2.2rem; font-weight: 700; color: var(--bz-orange); font-family: var(--font-heading-family, inherit); }
+  .bz-proof-num-label { font-size: 13px; color: #5a5955; margin-top: 4px; }
+  .bz-reviews-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .bz-review-card { border: 1.5px solid #e2e0d8; border-radius: var(--bz-r-lg); padding: 22px; background: #fff; }
+  .bz-review-stars { color: var(--bz-orange); font-size: 16px; letter-spacing: 2px; margin-bottom: 10px; }
+  .bz-review-text { font-size: 14px; color: #5a5955; line-height: 1.6; margin-bottom: 14px; }
+  .bz-review-author { font-size: 13px; font-weight: 700; color: var(--bz-navy); }
+  .bz-review-role { font-size: 12px; color: #9a9890; }
+
+  /* ── 7. SO FUNKTIONIERT'S ── */
+  .bz-how { background: #f8f8f6; }
+  .bz-how-head { max-width: 600px; margin-bottom: 48px; }
+  .bz-how-head h2 { color: var(--bz-navy); margin-top: 8px; }
+  .bz-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; position: relative; }
+  .bz-steps::before { content: ''; position: absolute; top: 27px; left: calc(12.5% + 4px); right: calc(12.5% + 4px); height: 2px; background: #e2e0d8; z-index: 0; }
+  .bz-step { position: relative; z-index: 1; text-align: center; }
+  .bz-step-num { width: 54px; height: 54px; border-radius: 50%; background: var(--bz-orange); color: var(--bz-navy); font-size: 20px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; border: 3px solid #f8f8f6; font-family: var(--font-heading-family, inherit); }
+  .bz-step h3 { color: var(--bz-navy); margin-bottom: 8px; font-size: 14px; }
+  .bz-step p { font-size: 13px; color: #5a5955; line-height: 1.55; }
+
+  /* ── 8. FAQ ── */
+  .bz-faq-wrap { max-width: 780px; }
+  .bz-faq-wrap h2 { color: var(--bz-navy); margin-top: 8px; margin-bottom: 36px; }
+  .bz-faq-item { border-bottom: 1px solid #e2e0d8; }
+  .bz-faq-q {
+    width: 100%; text-align: left; background: none; border: none;
+    padding: 18px 0; font-size: 15px; font-weight: 600; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    line-height: 1.4; color: #1a1a18;
+    font-family: var(--font-body-family, inherit);
+  }
+  .bz-faq-q:hover { color: var(--bz-orange); }
+  .bz-faq-icon { min-width: 20px; height: 20px; transition: transform .2s; color: var(--bz-orange); }
+  .bz-faq-item.open .bz-faq-icon { transform: rotate(45deg); }
+  .bz-faq-a { display: none; padding-bottom: 18px; font-size: 14.5px; color: #5a5955; line-height: 1.7; }
+  .bz-faq-item.open .bz-faq-a { display: block; }
+
+  /* ── 9. CTA BANNER ── */
+  .bz-cta-banner { background: var(--bz-orange); text-align: center; padding: 56px 20px; }
+  .bz-cta-banner h2 { color: var(--bz-navy); margin-bottom: 12px; }
+  .bz-cta-banner p { color: rgba(13,30,53,.72); margin-bottom: 28px; font-size: 16px; }
+  .bz-cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 860px) {
+    .bz-dach-grid { grid-template-columns: repeat(2, 1fr); }
+    .bz-usp-grid { grid-template-columns: repeat(2, 1fr); }
+    .bz-products-grid { grid-template-columns: repeat(2, 1fr); }
+    .bz-pvl-grid { grid-template-columns: 1fr; }
+    .bz-steps { grid-template-columns: repeat(2, 1fr); }
+    .bz-steps::before { display: none; }
+    .bz-proof-nums { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .bz-section { padding: 52px 0; }
+    .bz-hero-overlay { background: rgba(13,30,53,.82) !important; }
+    .bz-hero-img { max-height: 460px; object-position: 70% center; }
+    .bz-hero h1 { font-size: 1.75rem; }
+    .bz-hero-ctas { flex-direction: column; }
+    .bz-hero-ctas .bz-btn { justify-content: center; }
+    .bz-hero-trust { flex-direction: column; gap: 10px; }
+    .bz-hero-content-inner { padding: 36px 0; }
+    .bz-dach-grid { grid-template-columns: 1fr; }
+    .bz-usp-grid { grid-template-columns: 1fr; }
+    .bz-products-grid { grid-template-columns: 1fr; }
+    .bz-product-card { border-radius: 18px; }
+    .bz-product-img { padding: 12px; }
+    .bz-product-img img { padding: 8px; }
+    .bz-product-body { padding: 16px 14px 14px; }
+    .bz-product-card .bz-btn-primary { min-height: 50px; border-radius: 12px; }
+    .bz-product-price { font-size: 1.6rem; }
+    .bz-steps { grid-template-columns: 1fr; }
+    .bz-proof-nums { grid-template-columns: 1fr 1fr; }
+    .bz-reviews-grid { grid-template-columns: 1fr; }
+    .bz-cta-btns { flex-direction: column; align-items: stretch; }
+    .bz-cta-btns .bz-btn { justify-content: center; }
+  }
+  @media (max-width: 400px) {
+    .bz-proof-nums { grid-template-columns: 1fr; }
+  }
+{% endstyle %}
+
+<div class="bz" id="shopify-section-{{ section.id }}">
+
+{%- comment -%}══ 1. HERO ══{%- endcomment -%}
+<section class="bz-hero">
+  {%- if hero_image != blank -%}
+    {{ hero_image | image_url: width: 1920 | image_tag:
+      class: 'bz-hero-img',
+      loading: 'eager',
+      fetchpriority: 'high',
+      alt: hero_image.alt | default: 'PV-Blechziegel für Solaranlagen – Made in Germany'
+    }}
+  {%- else -%}
+    <div class="bz-hero-img-placeholder"></div>
+  {%- endif -%}
+  <div class="bz-hero-overlay"></div>
+  <div class="bz-hero-content">
+    <div class="bz-hero-content-inner">
+      <div class="bz-hero-tag">
+        <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor"><circle cx="4" cy="4" r="4"/></svg>
+        Made in Germany &middot; Lagerware
+      </div>
+      <h1>{{ section.settings.hero_headline | default: 'Kein Ziegelbruch<br>bei der <em>PV-Montage.</em>' }}</h1>
+      <p class="bz-hero-sub">{{ section.settings.hero_sub | default: 'Aluminium-Ersatzziegel passgenau für alle gängigen Dachziegeltypen – für Dachdecker, PV-Installateure und Privatkunden.' }}</p>
+      <div class="bz-hero-ctas">
+        <a href="{{ section.settings.hero_cta_primary_url | default: routes.collections_url | append: '/all' }}" class="bz-btn bz-btn-primary">
+          {{ section.settings.hero_cta_primary_text | default: 'Passenden Blechziegel finden' }}
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="{{ section.settings.hero_cta_secondary_url | default: routes.root_url | append: 'pages/contact' }}" class="bz-btn bz-btn-ghost">
+          {{ section.settings.hero_cta_secondary_text | default: 'Beratung anfordern' }}
+        </a>
+      </div>
+      <div class="bz-hero-trust">
+        <span class="bz-hero-trust-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+          Für alle gängigen Dachtypen
+        </span>
+        <span class="bz-hero-trust-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+          Gratis Versand ab 100 &euro;
+        </span>
+        <span class="bz-hero-trust-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+          30 Tage Rückgabe
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- comment -%}══ 2. DACHTYPEN ══{%- endcomment -%}
+<section class="bz-section bz-dachtypen">
+  <div class="bz-wrap">
+    <div class="bz-dach-intro">
+      <span class="bz-label">Nach Dachtyp filtern</span>
+      <h2>Den richtigen PV-Dachziegel für Ihr Dach</h2>
+      <p>Jeder Blechziegel ist exakt auf einen Dachziegeltyp gefertigt. Wählen Sie Ihr Profil &ndash; und finden Sie sofort den passenden Ersatzziegel PV.</p>
+    </div>
+    <div class="bz-dach-grid">
+      <a href="{{ routes.collections_url }}/frankfurter-pfanne" class="bz-dach-card">
+        <div class="bz-dach-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <div class="bz-dach-name">Frankfurter Pfanne</div>
+        <div class="bz-dach-desc">Meistverbreiteter Dachziegel in Deutschland. Mit/ohne Dachhaken, 3 Farben.</div>
+        <div class="bz-dach-link">Produkte ansehen <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </a>
+      <a href="{{ routes.collections_url }}/biberschwanz" class="bz-dach-card">
+        <div class="bz-dach-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg></div>
+        <div class="bz-dach-name">Biberschwanz</div>
+        <div class="bz-dach-desc">Fränkische &amp; bayerische Dachform. Präzise für PV-Durchführungen ohne Bruchrisiko.</div>
+        <div class="bz-dach-link">Produkte ansehen <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </a>
+      <a href="{{ routes.collections_url }}/hohlfalzziegel" class="bz-dach-card">
+        <div class="bz-dach-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 20 C6 12 10 8 12 8 C14 8 18 12 22 20"/></svg></div>
+        <div class="bz-dach-name">Hohlfalzziegel</div>
+        <div class="bz-dach-desc">S-Profil &amp; Hohlfalzdächer &ndash; dichte Kabelführung, kein Wassereintritt.</div>
+        <div class="bz-dach-link">Produkte ansehen <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </a>
+      <a href="{{ routes.collections_url }}/flachdachziegel" class="bz-dach-card">
+        <div class="bz-dach-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="8" width="20" height="8" rx="1"/><path d="M6 8V6M12 8V5M18 8V6"/></svg></div>
+        <div class="bz-dach-name">Flachdachziegel</div>
+        <div class="bz-dach-desc">Moderne Gebäude &ndash; saubere Kabelführung, kein Bruchrisiko.</div>
+        <div class="bz-dach-link">Produkte ansehen <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </a>
+      <a href="{{ routes.collections_url }}/krempziegel" class="bz-dach-card">
+        <div class="bz-dach-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20 Q8 8 12 8 Q16 8 20 20"/></svg></div>
+        <div class="bz-dach-name">Krempziegel</div>
+        <div class="bz-dach-desc">Gewellte Profilformen &ndash; Dachziegel Solar verhindert Undichtigkeiten.</div>
+        <div class="bz-dach-link">Produkte ansehen <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </a>
+      <a href="{{ routes.collections_url }}/all" class="bz-dach-card" style="border-style:dashed;background:transparent;">
+        <div class="bz-dach-icon" style="background:#f0efeb;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9a9890" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+        <div class="bz-dach-name" style="color:#888;">Alle Dachtypen</div>
+        <div class="bz-dach-desc">Nicht sicher? Alle Produkte ansehen oder Beratung anfragen.</div>
+        <div class="bz-dach-link">Alle Produkte <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+{%- comment -%}══ 3. USPS ══{%- endcomment -%}
+<section class="bz-section">
+  <div class="bz-wrap">
+    <div class="bz-usp-head">
+      <span class="bz-label">Warum Blechziegel.de</span>
+      <h2>Profi-Qualität. Einfache Montage.<br>Made in Germany.</h2>
+    </div>
+    <div class="bz-usp-grid">
+      <div class="bz-usp-card"><div class="bz-usp-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>Passgenau gefertigt</h3><p>Exakt auf jeden Dachziegeltyp abgestimmt – kein Sägen, kein Nacharbeiten, kein Bruchrisiko.</p></div>
+      <div class="bz-usp-card"><div class="bz-usp-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><h3>Montage in Minuten</h3><p>Einsetzen, einhängen, fertig. Kein Spezialwerkzeug. Spart Zeit auf jeder Baustelle.</p></div>
+      <div class="bz-usp-card"><div class="bz-usp-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div><h3>Aluminium – 25+ Jahre</h3><p>Korrosionsbeständig, pulverbeschichtet, witterungsstabil. Gleiche Lebensdauer wie Ihre PV-Anlage.</p></div>
+      <div class="bz-usp-card"><div class="bz-usp-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div><h3>Optisch integriert</h3><p>Alu blank, Anthrazit, Ziegelrot – kein Fremdkörper im Dachbild.</p></div>
+      <div class="bz-usp-card"><div class="bz-usp-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><h3>Lieferung 1–3 Werktage</h3><p>Lagerware. Bestellungen bis 12:00 Uhr gehen noch am selben Tag raus – gratis ab 100 €.</p></div>
+      <div class="bz-usp-card"><div class="bz-usp-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><h3>Made in Germany</h3><p>Produziert in Deutschland. Geprüfte Maßhaltigkeit, sofort versandfertig.</p></div>
+    </div>
+  </div>
+</section>
+
+{%- comment -%}══ 4. BESTSELLER ══{%- endcomment -%}
+<section class="bz-section bz-bestseller">
+  <div class="bz-wrap">
+    <div class="bz-bestseller-head">
+      <span class="bz-label">Bestseller</span>
+      <h2>Die meistgekauften PV-Dachziegel</h2>
+    </div>
+    <div class="bz-products-grid">
+      {%- for product in bestseller_collection.products limit: 3 -%}
+      <div class="bz-product-card">
+        <div class="bz-product-img">
+          {%- if product.featured_image -%}
+            {{ product.featured_image | image_url: width: 600 | image_tag:
+              loading: 'lazy',
+              width: 600,
+              height: 338,
+              alt: product.featured_image.alt | default: product.title
+            }}
+          {%- else -%}
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+          {%- endif -%}
+          {%- if forloop.first -%}<span class="bz-product-badge">Bestseller</span>{%- endif -%}
+        </div>
+        <div class="bz-product-body">
+          <div class="bz-product-name">{{ product.title }}</div>
+          <div class="bz-product-desc">{{ product.description | strip_html | truncate: 100 }}</div>
+          <div>
+            <div class="bz-product-price">ab {{ product.price_min | money }}</div>
+            <div class="bz-product-price-sub">inkl. MwSt. &middot; zzgl. Versand</div>
+          </div>
+          <div class="bz-product-cta">
+            <a href="{{ product.url }}" class="bz-btn bz-btn-primary" style="width:100%;justify-content:center;">Jetzt kaufen</a>
+          </div>
+        </div>
+      </div>
+      {%- endfor -%}
+    </div>
+    <div class="bz-products-more">
+      <a href="{{ routes.collections_url }}/all" class="bz-btn bz-btn-navy">Alle Produkte ansehen <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+  </div>
+</section>
+
+{%- comment -%}══ 5. PROBLEM vs LÖSUNG ══{%- endcomment -%}
+<section class="bz-section bz-pvl">
+  <div class="bz-wrap">
+    <div class="bz-pvl-head">
+      <span class="bz-label" style="color:var(--bz-orange)">Das Problem kennen Sie</span>
+      <h2>Ziegelbruch bei PV-Montagen ist kein Schicksal</h2>
+      <p>Tonziegel brechen, Kosten steigen, Haftung bleibt. Der Aluminium-Blechziegel löst das dauerhaft.</p>
+    </div>
+    <div class="bz-pvl-grid">
+      <div class="bz-pvl-col problem">
+        <div class="bz-pvl-col-head"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f08080" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><span class="bz-pvl-col-label">Ohne Blechziegel</span></div>
+        <ul class="bz-pvl-list">
+          <li><span class="ico">&#10007;</span> Tonziegel brechen beim Bohren oder Belasten</li>
+          <li><span class="ico">&#10007;</span> Aufwendiges Sägen und Umrüsten auf der Baustelle</li>
+          <li><span class="ico">&#10007;</span> Wassereintritt durch undichte Kabelführung</li>
+          <li><span class="ico">&#10007;</span> Optisch uneinheitliches Ergebnis durch Flicken</li>
+          <li><span class="ico">&#10007;</span> Haftungsrisiko bei Folgeschäden</li>
+          <li><span class="ico">&#10007;</span> Hohe Kosten für Ersatz-Tonziegel</li>
+        </ul>
+      </div>
+      <div class="bz-pvl-col solution">
+        <div class="bz-pvl-col-head"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f5a623" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><span class="bz-pvl-col-label">Mit Blechziegel</span></div>
+        <ul class="bz-pvl-list">
+          <li><span class="ico" style="color:#f5a623">&#10003;</span> Aluminium-Ersatzziegel ersetzt Tonziegel vollständig</li>
+          <li><span class="ico" style="color:#f5a623">&#10003;</span> Dachhaken integriert – kein Bohren nötig</li>
+          <li><span class="ico" style="color:#f5a623">&#10003;</span> Dichtes Kabelführungssystem, wetterfest</li>
+          <li><span class="ico" style="color:#f5a623">&#10003;</span> Farblich passend – optisch unauffällig</li>
+          <li><span class="ico" style="color:#f5a623">&#10003;</span> Rechtssicher: kein Eingriff in Dachstruktur</li>
+          <li><span class="ico" style="color:#f5a623">&#10003;</span> Günstiger und langlebiger als Tonziegel-Ersatz</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- comment -%}══ 6. SOCIAL PROOF ══{%- endcomment -%}
+<section class="bz-section">
+  <div class="bz-wrap">
+    <span class="bz-label">Kundenstimmen</span>
+    <h2 style="color:var(--bz-navy);margin-top:8px;margin-bottom:36px;">Von Dachdeckern und PV-Installateuren täglich eingesetzt</h2>
+    <div class="bz-proof-nums">
+      <div class="bz-proof-num"><div class="bz-proof-num-big">4,9</div><div class="bz-proof-num-label">von 5 &middot; Trusted Shops</div></div>
+      <div class="bz-proof-num"><div class="bz-proof-num-big">500+</div><div class="bz-proof-num-label">Projekte abgeschlossen</div></div>
+      <div class="bz-proof-num"><div class="bz-proof-num-big">15+</div><div class="bz-proof-num-label">Dachziegeltypen</div></div>
+    </div>
+    <div class="bz-reviews-grid">
+      <div class="bz-review-card"><div class="bz-review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="bz-review-text">„Wir setzen die Blechziegel jetzt standardmäßig ein. Kein Ziegelbruch mehr, saubere Optik, deutlich weniger Montagezeit."</p><div class="bz-review-author">Thomas K.</div><div class="bz-review-role">Dachdeckermeister, Bayern</div></div>
+      <div class="bz-review-card"><div class="bz-review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="bz-review-text">„Lieferung am nächsten Tag. Passt perfekt auf unsere Frankfurter Pfanne. Haben gleich 50 Stück nachbestellt."</p><div class="bz-review-author">Markus W.</div><div class="bz-review-role">PV-Installateur, Baden-Württemberg</div></div>
+      <div class="bz-review-card"><div class="bz-review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="bz-review-text">„Als Privatkunde war ich skeptisch. Montage war wirklich einfach. Kein Bohren, kein Risiko. Ergebnis wie vom Profi."</p><div class="bz-review-author">Andreas M.</div><div class="bz-review-role">Privatkunde, Nürnberg</div></div>
+      <div class="bz-review-card"><div class="bz-review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="bz-review-text">„Qualitativ hochwertig, sitzt perfekt. Wie der originale Tonziegel, nur stabiler, leichter und ohne Bruchrisiko."</p><div class="bz-review-author">Stefan B.</div><div class="bz-review-role">Elektriker / PV-Monteur, Sachsen</div></div>
+    </div>
+  </div>
+</section>
+
+{%- comment -%}══ 7. SO FUNKTIONIERT'S ══{%- endcomment -%}
+<section class="bz-section bz-how">
+  <div class="bz-wrap">
+    <div class="bz-how-head"><span class="bz-label">In 4 Schritten</span><h2>So einfach ist die Installation</h2></div>
+    <div class="bz-steps">
+      <div class="bz-step"><div class="bz-step-num">1</div><h3>Dachtyp bestimmen</h3><p>Ziegelform identifizieren und passendes Modell auswählen.</p></div>
+      <div class="bz-step"><div class="bz-step-num">2</div><h3>Online bestellen</h3><p>Lieferung in 1–3 Werktagen per DHL. Einzeln oder als Mengenbestellung.</p></div>
+      <div class="bz-step"><div class="bz-step-num">3</div><h3>Tonziegel entnehmen</h3><p>Vorhandenen Dachziegel herausnehmen – kein Bohren nötig.</p></div>
+      <div class="bz-step"><div class="bz-step-num">4</div><h3>Blechziegel einsetzen</h3><p>Einhängen, Dachhaken positionieren, Kabel führen – fertig.</p></div>
+    </div>
+  </div>
+</section>
+
+{%- comment -%}══ 8. FAQ ══{%- endcomment -%}
+<section class="bz-section">
+  <div class="bz-wrap">
+    <div class="bz-faq-wrap" itemscope itemtype="https://schema.org/FAQPage">
+      <span class="bz-label">FAQ</span>
+      <h2>Häufige Fragen zu PV-Dachziegeln</h2>
+      <div class="bz-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="bz-faq-q" itemprop="name">Was ist ein PV-Dachziegel und wozu dient er?<svg class="bz-faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+        <div class="bz-faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">Ein PV-Dachziegel – auch Blechziegel oder Ersatzziegel PV – ist ein Aluminium-Ersatz für Ton- oder Betonziegel. Er ermöglicht PV-Montage ohne Bohren und ohne Ziegelbruch.</div></div>
+      </div>
+      <div class="bz-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="bz-faq-q" itemprop="name">Für welche Dachziegeltypen gibt es Blechziegel?<svg class="bz-faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+        <div class="bz-faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">Frankfurter Pfanne, Biberschwanz, Hohlfalzziegel, Flachdachziegel, Krempziegel und weitere. Jedes Modell ist passgenau auf den jeweiligen Ziegeltyp abgestimmt.</div></div>
+      </div>
+      <div class="bz-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="bz-faq-q" itemprop="name">Was ist der Unterschied zwischen Ausführung mit und ohne Haken?<svg class="bz-faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+        <div class="bz-faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">Die Ausführung mit Haken enthält einen integrierten Dachhaken zur direkten PV-Modulbefestigung. Die Version ohne Haken eignet sich für Systeme mit separater Dachhaken-Montage oder als reiner Ersatzziegel für Kabelführungen.</div></div>
+      </div>
+      <div class="bz-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="bz-faq-q" itemprop="name">Wie langlebig ist ein Aluminium-Blechziegel?<svg class="bz-faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+        <div class="bz-faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">Aluminium ist korrosionsbeständig, UV-stabil und witterungsfest. Die Pulverbeschichtung schützt zusätzlich vor mechanischen Einflüssen. Die Lebensdauer beträgt typischerweise 25–30 Jahre – wartungsfrei.</div></div>
+      </div>
+      <div class="bz-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="bz-faq-q" itemprop="name">Kann ich den Blechziegel selbst montieren?<svg class="bz-faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+        <div class="bz-faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">Die Montage des Blechziegels selbst ist werkzeuglos möglich. Die Befestigung der PV-Anlage am Dachhaken sollte jedoch durch einen qualifizierten Fachbetrieb erfolgen.</div></div>
+      </div>
+      <div class="bz-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="bz-faq-q" itemprop="name">Wie schnell wird geliefert und gibt es Mengenrabatte?<svg class="bz-faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+        <div class="bz-faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">Lieferung per DHL in 1–3 Werktagen. Ab 100 Euro Bestellwert kostenlos. Für Handwerksbetriebe und Großbestellungen sind individuelle Konditionen auf Anfrage möglich.</div></div>
+      </div>
+      <div class="bz-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="bz-faq-q" itemprop="name">Welche Farben sind verfügbar?<svg class="bz-faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+        <div class="bz-faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">Die Blechziegel sind in drei Varianten erhältlich: Aluminium blank, Anthrazit RAL 7016 und Ziegelrot RAL 8004 – passend für die meisten deutschen Dachbilder.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- comment -%}══ 9. CTA BANNER ══{%- endcomment -%}
+<section class="bz-cta-banner">
+  <div class="bz-wrap">
+    <h2>Bereit für die nächste PV-Montage ohne Ziegelbruch?</h2>
+    <p>Passenden Ersatzziegel PV finden – lieferbar in 1–3 Werktagen.</p>
+    <div class="bz-cta-btns">
+      <a href="{{ routes.collections_url }}/all" class="bz-btn bz-btn-navy">Zum passenden Blechziegel <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="{{ routes.root_url }}pages/contact" class="bz-btn bz-btn-outline">Beratung anfordern</a>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<script>
+  document.querySelectorAll('.bz-faq-q').forEach(function(b) {
+    b.addEventListener('click', function() {
+      var i = b.parentElement, o = i.classList.contains('open');
+      document.querySelectorAll('.bz-faq-item').forEach(function(x) { x.classList.remove('open'); });
+      if (!o) i.classList.add('open');
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Blechziegel Startseite",
+  "tag": "section",
+  "class": "blechziegel-home",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero Bild"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero-Bild (Desktop)",
+      "info": "Empfohlen: 1920×580px. Datei hochladen unter: Inhalte → Dateien"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_mobile",
+      "label": "Hero-Bild (Mobil, optional)",
+      "info": "Empfohlen: 800×460px. Wird auf Smartphones angezeigt."
+    },
+    {
+      "type": "header",
+      "content": "Hero Text"
+    },
+    {
+      "type": "text",
+      "id": "hero_headline",
+      "label": "Headline",
+      "default": "Kein Ziegelbruch bei der PV-Montage."
+    },
+    {
+      "type": "text",
+      "id": "hero_sub",
+      "label": "Subheadline",
+      "default": "Aluminium-Ersatzziegel passgenau für alle gängigen Dachziegeltypen."
+    },
+    {
+      "type": "header",
+      "content": "Hero CTAs"
+    },
+    {
+      "type": "text",
+      "id": "hero_cta_primary_text",
+      "label": "CTA 1 – Text",
+      "default": "Passenden Blechziegel finden"
+    },
+    {
+      "type": "url",
+      "id": "hero_cta_primary_url",
+      "label": "CTA 1 – Link"
+    },
+    {
+      "type": "text",
+      "id": "hero_cta_secondary_text",
+      "label": "CTA 2 – Text",
+      "default": "Beratung anfordern"
+    },
+    {
+      "type": "url",
+      "id": "hero_cta_secondary_url",
+      "label": "CTA 2 – Link"
+    },
+    {
+      "type": "header",
+      "content": "Bestseller"
+    },
+    {
+      "type": "collection",
+      "id": "bestseller_collection",
+      "label": "Bestseller-Kollektion",
+      "info": "Die ersten 3 Produkte dieser Collection werden als Bestseller angezeigt."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blechziegel Startseite"
+    }
+  ]
+}
+{% endschema %}

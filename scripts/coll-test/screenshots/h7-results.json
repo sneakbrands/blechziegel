@@ -1,0 +1,278 @@
+[
+  {
+    "test": "Startseite laden",
+    "device": "Desktop",
+    "status": "OK",
+    "detail": "blechziegel.de | Dein Shop für PV-Montage am Dac – Blechziegel.de"
+  },
+  {
+    "test": "Hersteller H1",
+    "device": "Desktop",
+    "status": "OK",
+    "detail": "PV-Dachziegel nach Hersteller.Finde dein Modell in 3 Klicks."
+  },
+  {
+    "test": "Hersteller-Links",
+    "device": "Desktop",
+    "status": "OK",
+    "detail": "21 Links"
+  },
+  {
+    "test": "Collection braas H1",
+    "device": "Desktop",
+    "status": "OK",
+    "detail": "PV-Dachziegel für Braas"
+  },
+  {
+    "test": "Collection braas Produkte",
+    "device": "Desktop",
+    "status": "OK",
+    "detail": "1 Produkte"
+  },
+  {
+    "test": "Collection braas Hero",
+    "device": "Desktop",
+    "status": "OK",
+    "detail": "vorhanden"
+  },
+  {
+    "test": "Collection bramac H1",
+    "device": "Desktop",
+    "status": "OK",
+    "detail": "PV-Dachziegel für Bramac"
+  },
+  {
+    "test": "Collection bramac Produkte",
+    "device": "Desktop",
+    "status": "OK",
+    "detail": "1 Produkte"
+  },
+  {
+    "test": "Collection bramac Hero",
+    "device": "Desktop",
+    "status": "OK",
+    "detail": "vorhanden"
+  },
+  {
+    "test": "PDP Multi-Brand-Pill",
+    "device": "Desktop",
+    "status": "OK",
+    "detail": "Passend für Braas · Bramac · Creaton · Nelskamp"
+  },
+  {
+    "test": "PDP Brand-Links",
+    "device": "Desktop",
+    "status": "WARN",
+    "detail": "0 Links: "
+  },
+  {
+    "test": "PDP Titel",
+    "device": "Desktop",
+    "status": "OK",
+    "detail": "PV-Dachziegel Frankfurter Pfanne"
+  },
+  {
+    "test": "PDP Preis",
+    "device": "Desktop",
+    "status": "OK",
+    "detail": "7,79 €€10,99Spare €3,20 · 29%"
+  },
+  {
+    "test": "PDP Add-to-Cart Button",
+    "device": "Desktop",
+    "status": "OK",
+    "detail": "vorhanden"
+  },
+  {
+    "test": "PDP Zubehör-Block",
+    "device": "Desktop",
+    "status": "WARN",
+    "detail": "nicht gefunden — alternatives Selektor-Matching"
+  },
+  {
+    "test": "PDP Vendor \"BHE Metalle\" sichtbar",
+    "device": "Desktop",
+    "status": "OK",
+    "detail": "nicht sichtbar"
+  },
+  {
+    "test": "Cart vor ATC",
+    "device": "Desktop",
+    "status": "OK",
+    "detail": "0 Items"
+  },
+  {
+    "test": "ATC Ergebnis",
+    "device": "Desktop",
+    "status": "OK",
+    "detail": "0 → 1 Items"
+  },
+  {
+    "test": "Cart Items",
+    "device": "Desktop",
+    "status": "OK",
+    "detail": "33 Items"
+  },
+  {
+    "test": "Cart Vendor \"BHE Metalle\"",
+    "device": "Desktop",
+    "status": "OK",
+    "detail": "nicht sichtbar"
+  },
+  {
+    "test": "Cart Total",
+    "device": "Desktop",
+    "status": "OK",
+    "detail": "Rabatt\n\n              \n  \n  \n\n\n            \n\n     "
+  },
+  {
+    "test": "Finder Seite",
+    "device": "Desktop",
+    "status": "OK",
+    "detail": "/pages/ziegel-finder — Passenden Blechziegel finden.In drei Schritten zum richtigen Produkt."
+  },
+  {
+    "test": "Finder CTA",
+    "device": "Desktop",
+    "status": "OK",
+    "detail": "vorhanden"
+  },
+  {
+    "test": "Startseite laden",
+    "device": "Mobile",
+    "status": "OK",
+    "detail": "blechziegel.de | Dein Shop für PV-Montage am Dac – Blechziegel.de"
+  },
+  {
+    "test": "Hersteller H1",
+    "device": "Mobile",
+    "status": "OK",
+    "detail": "PV-Dachziegel nach Hersteller.Finde dein Modell in 3 Klicks."
+  },
+  {
+    "test": "Hersteller-Links",
+    "device": "Mobile",
+    "status": "OK",
+    "detail": "21 Links"
+  },
+  {
+    "test": "Collection braas H1",
+    "device": "Mobile",
+    "status": "OK",
+    "detail": "PV-Dachziegel für Braas"
+  },
+  {
+    "test": "Collection braas Produkte",
+    "device": "Mobile",
+    "status": "OK",
+    "detail": "1 Produkte"
+  },
+  {
+    "test": "Collection braas Hero",
+    "device": "Mobile",
+    "status": "OK",
+    "detail": "vorhanden"
+  },
+  {
+    "test": "Collection bramac H1",
+    "device": "Mobile",
+    "status": "OK",
+    "detail": "PV-Dachziegel für Bramac"
+  },
+  {
+    "test": "Collection bramac Produkte",
+    "device": "Mobile",
+    "status": "OK",
+    "detail": "1 Produkte"
+  },
+  {
+    "test": "Collection bramac Hero",
+    "device": "Mobile",
+    "status": "OK",
+    "detail": "vorhanden"
+  },
+  {
+    "test": "PDP Multi-Brand-Pill",
+    "device": "Mobile",
+    "status": "OK",
+    "detail": "Passend für Braas · Bramac · Creaton · Nelskamp"
+  },
+  {
+    "test": "PDP Brand-Links",
+    "device": "Mobile",
+    "status": "WARN",
+    "detail": "0 Links: "
+  },
+  {
+    "test": "PDP Titel",
+    "device": "Mobile",
+    "status": "OK",
+    "detail": "PV-Dachziegel Frankfurter Pfanne"
+  },
+  {
+    "test": "PDP Preis",
+    "device": "Mobile",
+    "status": "OK",
+    "detail": "7,79 €€10,99Spare €3,20 · 29%"
+  },
+  {
+    "test": "PDP Add-to-Cart Button",
+    "device": "Mobile",
+    "status": "OK",
+    "detail": "vorhanden"
+  },
+  {
+    "test": "PDP Zubehör-Block",
+    "device": "Mobile",
+    "status": "WARN",
+    "detail": "nicht gefunden — alternatives Selektor-Matching"
+  },
+  {
+    "test": "PDP Vendor \"BHE Metalle\" sichtbar",
+    "device": "Mobile",
+    "status": "OK",
+    "detail": "nicht sichtbar"
+  },
+  {
+    "test": "Cart vor ATC",
+    "device": "Mobile",
+    "status": "OK",
+    "detail": "0 Items"
+  },
+  {
+    "test": "ATC Test",
+    "device": "Mobile",
+    "status": "FAIL",
+    "detail": "elementHandle.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m  "
+  },
+  {
+    "test": "Cart Items",
+    "device": "Mobile",
+    "status": "OK",
+    "detail": "3 Items"
+  },
+  {
+    "test": "Cart Vendor \"BHE Metalle\"",
+    "device": "Mobile",
+    "status": "OK",
+    "detail": "nicht sichtbar"
+  },
+  {
+    "test": "Cart Total",
+    "device": "Mobile",
+    "status": "OK",
+    "detail": "Zwischensumme\n        0,00 €"
+  },
+  {
+    "test": "Finder Seite",
+    "device": "Mobile",
+    "status": "OK",
+    "detail": "/pages/ziegel-finder — Passenden Blechziegel finden.In drei Schritten zum richtigen Produkt."
+  },
+  {
+    "test": "Finder CTA",
+    "device": "Mobile",
+    "status": "OK",
+    "detail": "vorhanden"
+  }
+]

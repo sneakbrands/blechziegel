@@ -1,0 +1,1234 @@
+{% comment %}
+  blechziegel.de – Optimierte Produktseite
+  Datei: sections/main-product.liquid
+  Horizon Theme kompatibel
+  Optimiert für: Dachdecker, PV-Installateure, B2B + Privatkunden
+{% endcomment %}
+
+{% style %}
+  :root {
+    --bz-navy: #0d1e35;
+    --bz-navy-mid: #152840;
+    --bz-orange: #f5a623;
+    --bz-orange-dark: #d4891a;
+    --bz-orange-light: #fff4e0;
+    --bz-border: #e2e0d8;
+    --bz-gray-50: #f8f8f6;
+    --bz-gray-text: #5a5955;
+    --bz-r: 6px;
+    --bz-r-lg: 12px;
+  }
+
+  /* ── LAYOUT ── */
+  .bz-product-wrap {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  .bz-product-grid {
+    display: grid;
+    grid-template-columns: 1fr 480px;
+    gap: 60px;
+    align-items: start;
+    padding: 40px 0 60px;
+  }
+
+  /* ── GALERIE ── */
+  .bz-gallery { position: sticky; top: 90px; }
+  .bz-gallery-main {
+    border-radius: var(--bz-r-lg);
+    overflow: hidden;
+    background: var(--bz-gray-50);
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    border: 1.5px solid var(--bz-border);
+  }
+  .bz-gallery-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 16px;
+  }
+  .bz-gallery-thumbs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .bz-gallery-thumb {
+    width: 72px;
+    height: 72px;
+    border-radius: var(--bz-r);
+    overflow: hidden;
+    border: 1.5px solid var(--bz-border);
+    cursor: pointer;
+    background: var(--bz-gray-50);
+    transition: border-color .15s;
+    padding: 4px;
+  }
+  .bz-gallery-thumb:hover,
+  .bz-gallery-thumb.active {
+    border-color: var(--bz-orange);
+  }
+  .bz-gallery-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  /* ── RECHTE SPALTE ── */
+  .bz-product-info { display: flex; flex-direction: column; gap: 0; }
+
+  /* Tag */
+  .bz-product-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--bz-orange-light);
+    color: #854F0B;
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    width: fit-content;
+  }
+
+  /* Headline */
+  .bz-product-title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    color: var(--bz-navy);
+    line-height: 1.2;
+    margin-bottom: 6px;
+    font-family: var(--font-heading-family, inherit);
+  }
+
+  /* Nutzen-Subline */
+  .bz-product-subline {
+    font-size: 15px;
+    color: var(--bz-gray-text);
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+
+  /* Bewertung */
+  .bz-product-rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .bz-product-rating .stars { color: var(--bz-orange); font-size: 16px; letter-spacing: 1px; }
+  .bz-product-rating .rating-text { font-size: 13px; color: var(--bz-gray-text); }
+  .bz-product-rating a { color: var(--bz-orange); text-decoration: none; font-size: 13px; }
+
+  /* Preis */
+  .bz-price-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .bz-price-current {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--bz-navy);
+    font-family: var(--font-heading-family, inherit);
+  }
+  .bz-price-compare {
+    font-size: 1.1rem;
+    color: #aaa;
+    text-decoration: line-through;
+  }
+  .bz-price-save {
+    background: #E24B4A;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .bz-price-note {
+    font-size: 12px;
+    color: var(--bz-gray-text);
+    margin-bottom: 24px;
+  }
+
+  /* Divider */
+  .bz-divider {
+    border: none;
+    border-top: 1px solid var(--bz-border);
+    margin: 20px 0;
+  }
+
+  /* Varianten */
+  .bz-variant-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--bz-navy);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .bz-variant-label span {
+    font-weight: 400;
+    color: var(--bz-gray-text);
+  }
+  .bz-select {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid var(--bz-border);
+    border-radius: var(--bz-r);
+    font-size: 14px;
+    font-family: var(--font-body-family, inherit);
+    color: var(--bz-navy);
+    background: #fff;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%230d1e35' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    cursor: pointer;
+    transition: border-color .15s;
+    margin-bottom: 12px;
+  }
+  .bz-select:focus {
+    outline: none;
+    border-color: var(--bz-orange);
+  }
+
+  /* Farb-Swatches */
+  .bz-color-swatches {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .bz-swatch {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--bz-border);
+    cursor: pointer;
+    transition: border-color .15s, transform .15s;
+    position: relative;
+  }
+  .bz-swatch:hover { transform: scale(1.1); }
+  .bz-swatch.active { border-color: var(--bz-orange); border-width: 2.5px; }
+  .bz-swatch[data-color="alu"] { background: #c8c8c0; }
+  .bz-swatch[data-color="anthrazit"] { background: #383e42; }
+  .bz-swatch[data-color="ziegelrot"] { background: #8B3A2A; }
+
+  /* Menge + CTA */
+  .bz-qty-cta {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .bz-qty {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid var(--bz-border);
+    border-radius: var(--bz-r);
+    overflow: hidden;
+    height: 50px;
+    flex-shrink: 0;
+  }
+  .bz-qty button {
+    width: 40px;
+    height: 100%;
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: var(--bz-navy);
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .bz-qty button:hover { background: var(--bz-gray-50); }
+  .bz-qty input {
+    width: 48px;
+    height: 100%;
+    border: none;
+    border-left: 1px solid var(--bz-border);
+    border-right: 1px solid var(--bz-border);
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--bz-navy);
+    font-family: var(--font-body-family, inherit);
+  }
+  .bz-qty input:focus { outline: none; }
+  .bz-atc-btn {
+    flex: 1;
+    height: 50px;
+    background: var(--bz-navy);
+    color: #fff;
+    border: none;
+    border-radius: var(--bz-r);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background .18s;
+    font-family: var(--font-body-family, inherit);
+  }
+  .bz-atc-btn:hover { background: var(--bz-navy-mid); }
+  .bz-atc-btn svg { flex-shrink: 0; }
+
+  /* Beratungs-Link */
+  .bz-beratung-link {
+    text-align: center;
+    font-size: 13px;
+    color: var(--bz-gray-text);
+    margin-bottom: 20px;
+  }
+  .bz-beratung-link a {
+    color: var(--bz-orange);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .bz-beratung-link a:hover { text-decoration: underline; }
+
+  /* Trust Badges */
+  .bz-trust-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .bz-trust-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bz-gray-50);
+    border: 1px solid var(--bz-border);
+    border-radius: var(--bz-r);
+    padding: 10px 12px;
+    font-size: 12.5px;
+    color: var(--bz-navy);
+    font-weight: 500;
+  }
+  .bz-trust-item svg { color: var(--bz-orange); flex-shrink: 0; }
+
+  /* Mini-USPs */
+  .bz-mini-usps {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .bz-mini-usp {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13.5px;
+    color: var(--bz-gray-text);
+    line-height: 1.5;
+  }
+  .bz-mini-usp .ico {
+    color: var(--bz-orange);
+    flex-shrink: 0;
+    margin-top: 1px;
+    font-size: 15px;
+  }
+
+  /* ── BELOW THE FOLD SECTIONS ── */
+  .bz-below { border-top: 1px solid var(--bz-border); padding: 60px 0; }
+  .bz-below-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+  .bz-section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--bz-orange);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .bz-section-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--bz-navy);
+    margin-bottom: 20px;
+    line-height: 1.25;
+    font-family: var(--font-heading-family, inherit);
+  }
+
+  /* Tabs */
+  .bz-tabs { margin-bottom: 0; }
+  .bz-tab-nav {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid var(--bz-border);
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .bz-tab-btn {
+    background: none;
+    border: none;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--bz-gray-text);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: color .15s, border-color .15s;
+    font-family: var(--font-body-family, inherit);
+  }
+  .bz-tab-btn:hover { color: var(--bz-navy); }
+  .bz-tab-btn.active {
+    color: var(--bz-navy);
+    border-bottom-color: var(--bz-orange);
+  }
+  .bz-tab-panel { display: none; }
+  .bz-tab-panel.active { display: block; }
+
+  /* Beschreibung */
+  .bz-desc { font-size: 15px; color: var(--bz-gray-text); line-height: 1.75; }
+  .bz-desc h3 { color: var(--bz-navy); font-size: 1rem; margin: 20px 0 8px; }
+  .bz-desc ul { padding-left: 18px; display: flex; flex-direction: column; gap: 6px; margin: 8px 0; }
+  .bz-desc li { font-size: 14px; }
+  .bz-desc strong { color: var(--bz-navy); }
+
+  /* Technische Daten Tabelle */
+  .bz-tech-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .bz-tech-table tr { border-bottom: 1px solid var(--bz-border); }
+  .bz-tech-table tr:last-child { border-bottom: none; }
+  .bz-tech-table td { padding: 11px 8px; color: var(--bz-gray-text); }
+  .bz-tech-table td:first-child {
+    font-weight: 600;
+    color: var(--bz-navy);
+    width: 40%;
+    padding-right: 16px;
+  }
+  .bz-tech-table tr:nth-child(odd) td { background: var(--bz-gray-50); }
+
+  /* FAQ */
+  .bz-faq-list { display: flex; flex-direction: column; }
+  .bz-faq-item { border-bottom: 1px solid var(--bz-border); }
+  .bz-faq-item:first-child { border-top: 1px solid var(--bz-border); }
+  .bz-faq-q {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 16px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--bz-navy);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-family: var(--font-body-family, inherit);
+    line-height: 1.4;
+  }
+  .bz-faq-q:hover { color: var(--bz-orange); }
+  .bz-faq-icon { min-width: 18px; height: 18px; color: var(--bz-orange); transition: transform .2s; flex-shrink: 0; }
+  .bz-faq-item.open .bz-faq-icon { transform: rotate(45deg); }
+  .bz-faq-a { display: none; padding-bottom: 16px; font-size: 14px; color: var(--bz-gray-text); line-height: 1.7; }
+  .bz-faq-item.open .bz-faq-a { display: block; }
+
+  /* USP-Cards (Below Fold) */
+  .bz-usp-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  .bz-usp-card-sm {
+    background: #fff;
+    border: 1.5px solid var(--bz-border);
+    border-radius: var(--bz-r-lg);
+    padding: 18px 16px;
+  }
+  .bz-usp-card-sm svg { color: var(--bz-orange); margin-bottom: 8px; }
+  .bz-usp-card-sm h4 { font-size: 13.5px; font-weight: 700; color: var(--bz-navy); margin-bottom: 4px; }
+  .bz-usp-card-sm p { font-size: 12.5px; color: var(--bz-gray-text); line-height: 1.55; }
+
+  /* Problem / Lösung */
+  .bz-pvl-mini { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .bz-pvl-col {
+    border-radius: var(--bz-r-lg);
+    padding: 20px 18px;
+  }
+  .bz-pvl-col.problem {
+    background: rgba(220,53,53,.07);
+    border: 1.5px solid rgba(220,53,53,.18);
+  }
+  .bz-pvl-col.solution {
+    background: rgba(245,166,35,.07);
+    border: 1.5px solid rgba(245,166,35,.22);
+  }
+  .bz-pvl-head { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+  .bz-pvl-col.problem .bz-pvl-head { color: #A32D2D; }
+  .bz-pvl-col.solution .bz-pvl-head { color: #854F0B; }
+  .bz-pvl-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+  .bz-pvl-list li { font-size: 13px; color: #333; display: flex; align-items: flex-start; gap: 7px; line-height: 1.45; }
+  .bz-pvl-list li .ico { flex-shrink: 0; margin-top: 1px; font-size: 13px; }
+
+  /* Reviews */
+  .bz-reviews-strip { background: var(--bz-gray-50); border-radius: var(--bz-r-lg); padding: 24px; margin-top: 32px; }
+  .bz-reviews-strip-head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .bz-reviews-strip-score { font-size: 2rem; font-weight: 700; color: var(--bz-navy); font-family: var(--font-heading-family, inherit); }
+  .bz-reviews-strip-stars { color: var(--bz-orange); font-size: 18px; letter-spacing: 2px; }
+  .bz-reviews-strip-sub { font-size: 13px; color: var(--bz-gray-text); }
+  .bz-review-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .bz-review-card {
+    background: #fff;
+    border: 1px solid var(--bz-border);
+    border-radius: var(--bz-r);
+    padding: 16px;
+  }
+  .bz-review-stars-sm { color: var(--bz-orange); font-size: 13px; margin-bottom: 8px; letter-spacing: 1px; }
+  .bz-review-text { font-size: 13px; color: var(--bz-gray-text); line-height: 1.6; margin-bottom: 10px; font-style: italic; }
+  .bz-review-author { font-size: 12px; font-weight: 600; color: var(--bz-navy); }
+  .bz-review-role { font-size: 11px; color: #aaa; }
+
+  /* Sticky ATC Mobile — Ultra Premium */
+  .bz-sticky-atc {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 70;
+    display: none;
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-top: 1px solid rgba(13,30,53,0.08);
+    box-shadow: 0 -10px 30px rgba(13,30,53,0.10);
+  }
+  .bz-sticky-atc-inner {
+    max-width: 1160px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: center;
+  }
+  .bz-sticky-meta {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .bz-sticky-variant-context {
+    color: var(--bz-navy);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.25;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .bz-sticky-price-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    line-height: 1;
+  }
+  .bz-sticky-price-label {
+    color: #5a5955;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .bz-sticky-price {
+    color: var(--bz-navy);
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .bz-sticky-trustline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+    min-width: 0;
+  }
+  .bz-sticky-trustitem {
+    color: var(--bz-navy);
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+  .bz-sticky-trustdot {
+    color: rgba(245,166,35,0.95);
+    font-weight: 700;
+    line-height: 1;
+  }
+  .bz-sticky-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 160px;
+    min-height: 50px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(180deg, #f5a623 0%, #eb9d1e 100%);
+    color: var(--bz-navy);
+    font-family: var(--font-body-family, inherit);
+    font-size: 0.98rem;
+    font-weight: 700;
+    white-space: nowrap;
+    box-shadow: 0 10px 20px rgba(245,166,35,0.20);
+    transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease, background .18s ease;
+    cursor: pointer;
+  }
+  .bz-sticky-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 24px rgba(245,166,35,0.24);
+    background: linear-gradient(180deg, #f7ad34 0%, #eea225 100%);
+  }
+  .bz-sticky-btn:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  @media (min-width: 901px) {
+    .bz-sticky-atc { display: none !important; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .bz-product-grid { grid-template-columns: 1fr; gap: 32px; padding: 24px 0 40px; }
+    .bz-gallery { position: static; }
+    .bz-below-grid { grid-template-columns: 1fr; gap: 40px; }
+    .bz-review-cards { grid-template-columns: 1fr; }
+    .bz-usp-cards { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 580px) {
+    .bz-trust-grid { grid-template-columns: 1fr 1fr; }
+    .bz-usp-cards { grid-template-columns: 1fr; }
+    .bz-pvl-mini { grid-template-columns: 1fr; }
+    .bz-tab-btn { padding: 10px 14px; font-size: 13px; }
+    .bz-price-current { font-size: 1.7rem; }
+    .bz-product-grid { padding: 16px 0 32px; }
+    .bz-sticky-atc { padding: 10px 10px calc(10px + env(safe-area-inset-bottom)); }
+    .bz-sticky-atc-inner { grid-template-columns: 1fr; gap: 10px; }
+    .bz-sticky-meta { gap: 5px; }
+    .bz-sticky-variant-context { font-size: 11.5px; }
+    .bz-sticky-trustline { gap: 4px; }
+    .bz-sticky-trustitem { font-size: 11px; }
+    .bz-sticky-btn { width: 100%; min-height: 52px; }
+  }
+{% endstyle %}
+
+<div class="bz-product-wrap">
+  <div class="bz-product-grid">
+
+    {%- comment -%}══ LINKE SPALTE: GALERIE ══{%- endcomment -%}
+    <div class="bz-gallery">
+      <div class="bz-gallery-main" id="bz-main-img">
+        {%- if product.featured_image -%}
+          <img
+            id="bz-main-img-tag"
+            src="{{ product.featured_image | image_url: width: 800 }}"
+            alt="{{ product.featured_image.alt | default: product.title | escape }}"
+            width="800"
+            height="800"
+            loading="eager"
+            fetchpriority="high"
+          >
+        {%- endif -%}
+      </div>
+      {%- if product.images.size > 1 -%}
+        <div class="bz-gallery-thumbs">
+          {%- for image in product.images -%}
+            <div
+              class="bz-gallery-thumb {% if forloop.first %}active{% endif %}"
+              onclick="bzSetImg('{{ image | image_url: width: 800 }}', this)"
+            >
+              <img
+                src="{{ image | image_url: width: 120 }}"
+                alt="{{ image.alt | default: product.title | escape }}"
+                width="120"
+                height="120"
+                loading="lazy"
+              >
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%}══ RECHTE SPALTE: PRODUKTINFO ══{%- endcomment -%}
+    <div class="bz-product-info">
+
+      <!-- Tag -->
+      <div class="bz-product-tag">
+        <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor"><circle cx="4" cy="4" r="4"/></svg>
+        Made in Germany &middot; Auf Lager
+      </div>
+
+      <!-- Titel -->
+      <h1 class="bz-product-title">{{ product.title }}</h1>
+
+      <!-- Nutzen-Subline -->
+      <p class="bz-product-subline">
+        Kein Ziegelbruch. Kein Bohren. Einfach den Tonziegel entnehmen, Blechziegel einsetzen – fertig.
+      </p>
+
+      <!-- Bewertung -->
+      <div class="bz-product-rating">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <span class="rating-text">4,9 / 5</span>
+        <a href="#bz-reviews">Kundenbewertungen ansehen</a>
+      </div>
+
+      <!-- Preis -->
+      <div class="bz-price-wrap">
+        <span class="bz-price-current" id="bz-price">
+          {{ product.price_min | money }}
+        </span>
+        {%- if product.compare_at_price_min > product.price_min -%}
+          <span class="bz-price-compare">{{ product.compare_at_price_min | money }}</span>
+          {%- assign savings = product.compare_at_price_min | minus: product.price_min -%}
+          <span class="bz-price-save">{{ savings | money }} sparen</span>
+        {%- endif -%}
+      </div>
+      <p class="bz-price-note">inkl. MwSt. &middot; zzgl. <a href="{{ routes.root_url }}policies/shipping-policy" style="color:var(--bz-orange);">Versandkosten</a></p>
+
+      <hr class="bz-divider">
+
+      {%- comment -%}── Varianten Form ──{%- endcomment -%}
+      <form action="{{ routes.cart_add_url }}" method="post" id="bz-product-form">
+        <input type="hidden" name="id" id="bz-variant-id" value="{{ product.selected_or_first_available_variant.id }}">
+
+        {%- for option in product.options_with_values -%}
+          <div class="bz-variant-label">
+            {{ option.name }}
+            {%- if option.name == 'Farbe' or option.name == 'Ausführung' -%}
+              <span>Bitte auswählen</span>
+            {%- endif -%}
+          </div>
+
+          {%- if option.name == 'Farbe' -%}
+            <div class="bz-color-swatches" id="bz-swatches-{{ option.position }}">
+              {%- for value in option.values -%}
+                {%- assign swatch_data = value | downcase | replace: ' ', '-' -%}
+                {%- assign data_color = '' -%}
+                {%- if value contains 'Aluminium' -%}{%- assign data_color = 'alu' -%}
+                {%- elsif value contains 'Anthrazit' -%}{%- assign data_color = 'anthrazit' -%}
+                {%- elsif value contains 'Ziegelrot' -%}{%- assign data_color = 'ziegelrot' -%}
+                {%- endif -%}
+                <div
+                  class="bz-swatch {% if forloop.first %}active{% endif %}"
+                  data-color="{{ data_color }}"
+                  data-value="{{ value }}"
+                  data-option="{{ option.position }}"
+                  title="{{ value }}"
+                  onclick="bzSelectSwatch(this)"
+                ></div>
+              {%- endfor -%}
+            </div>
+          {%- else -%}
+            <select name="option{{ option.position }}" class="bz-select" onchange="bzUpdateVariant()">
+              {%- for value in option.values -%}
+                <option value="{{ value }}" {% if option.selected_value == value %}selected{% endif %}>
+                  {%- if value == 'mit Haken' -%}
+                    Mit integriertem Dachhaken (für PV-Montage)
+                  {%- elsif value == 'ohne Haken' -%}
+                    Ohne Haken (reiner Ersatzziegel)
+                  {%- elsif value == 'Privatkunde' -%}
+                    Privatkunde (inkl. MwSt.)
+                  {%- elsif value == 'Gewerbekunde' -%}
+                    Gewerbekunde (Netto-Preis)
+                  {%- else -%}
+                    {{ value }}
+                  {%- endif -%}
+                </option>
+              {%- endfor -%}
+            </select>
+          {%- endif -%}
+        {%- endfor -%}
+
+        <hr class="bz-divider">
+
+        <!-- Menge + ATC -->
+        <div class="bz-qty-cta">
+          <div class="bz-qty">
+            <button type="button" onclick="bzQty(-1)">&#8722;</button>
+            <input type="number" name="quantity" id="bz-qty-input" value="1" min="1" max="999">
+            <button type="button" onclick="bzQty(1)">&#43;</button>
+          </div>
+          <button type="submit" class="bz-atc-btn" id="bz-atc">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            In den Warenkorb
+          </button>
+        </div>
+
+        <p class="bz-beratung-link">
+          Nicht sicher welche Variante? <a href="{{ routes.root_url }}pages/contact">Beratung anfordern &rarr;</a>
+        </p>
+
+      </form>
+
+      <!-- Trust Badges -->
+      <div class="bz-trust-grid">
+        <div class="bz-trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          Lieferung 1&ndash;3 Werktage
+        </div>
+        <div class="bz-trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Made in Germany
+        </div>
+        <div class="bz-trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+          30 Tage Rückgabe
+        </div>
+        <div class="bz-trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          Gratis Versand ab 100 &euro;
+        </div>
+      </div>
+
+      <!-- Mini USPs -->
+      <hr class="bz-divider">
+      <div class="bz-mini-usps">
+        <div class="bz-mini-usp">
+          <span class="ico">&#10003;</span>
+          <span><strong style="color:var(--bz-navy)">Kein Ziegelbruch</strong> – Aluminium-Blechziegel ersetzt den Tonziegel vollständig</span>
+        </div>
+        <div class="bz-mini-usp">
+          <span class="ico">&#10003;</span>
+          <span><strong style="color:var(--bz-navy)">Passgenau</strong> – exakt auf die Frankfurter Pfanne abgestimmt</span>
+        </div>
+        <div class="bz-mini-usp">
+          <span class="ico">&#10003;</span>
+          <span><strong style="color:var(--bz-navy)">Schnelle Montage</strong> – kein Bohren, kein Werkzeug, in Minuten eingesetzt</span>
+        </div>
+        <div class="bz-mini-usp">
+          <span class="ico">&#10003;</span>
+          <span><strong style="color:var(--bz-navy)">25+ Jahre Lebensdauer</strong> – korrosionsbeständiges Aluminium, pulverbeschichtet</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{%- comment -%}══ BELOW THE FOLD ══{%- endcomment -%}
+<div class="bz-below">
+  <div class="bz-product-wrap">
+    <div class="bz-below-grid">
+
+      {%- comment -%}── LINKE SPALTE: TABS ──{%- endcomment -%}
+      <div>
+        <div class="bz-tabs">
+          <div class="bz-tab-nav">
+            <button class="bz-tab-btn active" onclick="bzTab('beschreibung', this)">Produktbeschreibung</button>
+            <button class="bz-tab-btn" onclick="bzTab('technik', this)">Technische Daten</button>
+            <button class="bz-tab-btn" onclick="bzTab('faq', this)">FAQ</button>
+          </div>
+
+          <!-- Tab: Beschreibung -->
+          <div class="bz-tab-panel active" id="tab-beschreibung">
+            <div class="bz-desc">
+              <p>Der <strong>PV-Blechziegel für die Frankfurter Pfanne</strong> ist der sauberste Weg, eine Photovoltaikanlage auf Ihrem Dach zu befestigen – ohne Ziegelbruch, ohne Bohren, ohne Undichtigkeiten.</p>
+
+              <h3>Für wen ist dieses Produkt geeignet?</h3>
+              <ul>
+                <li>Dachdecker und PV-Installateure, die schnell und sauber montieren wollen</li>
+                <li>Handwerksbetriebe mit mehreren PV-Projekten pro Monat</li>
+                <li>Privatkunden mit Dächern aus Frankfurter Pfanne</li>
+                <li>Überall dort, wo Tonziegel bei der Montage bruchgefährdet sind</li>
+              </ul>
+
+              <h3>Wann wird das Produkt eingesetzt?</h3>
+              <p>Überall dort, wo ein <strong>Dachhaken für PV-Module</strong> gesetzt werden muss oder eine <strong>Kabelführung durch das Dach</strong> erforderlich ist. Der Blechziegel ersetzt an dieser Stelle den vorhandenen Tonziegel – passgenau, dicht und optisch unauffällig.</p>
+
+              <h3>Warum verhindert er Ziegelbruch?</h3>
+              <p>Tonziegel brechen beim Bohren oder mechanischen Belasten. Der <strong>Aluminium-Blechziegel</strong> übernimmt die Position des Tonziegels vollständig – er wird eingehängt, nicht gebohrt. Das Ergebnis: null Bruchrisiko, kein Flicken, keine Nacharbeit.</p>
+
+              <h3>Verfügbare Farben</h3>
+              <ul>
+                <li><strong>Aluminium blank</strong> – für helle und metallische Dächer</li>
+                <li><strong>Anthrazit RAL 7016</strong> – für dunkle, moderne Dacheindeckungen</li>
+                <li><strong>Ziegelrot RAL 8004</strong> – für klassische rote Tonziegeldächer</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Tab: Technische Daten -->
+          <div class="bz-tab-panel" id="tab-technik">
+            <table class="bz-tech-table">
+              <tr><td>Dachziegeltyp</td><td>Frankfurter Pfanne</td></tr>
+              <tr><td>Material</td><td>Aluminium</td></tr>
+              <tr><td>Oberfläche</td><td>Pulverbeschichtet</td></tr>
+              <tr><td>Gewicht</td><td>ca. 0,8 kg</td></tr>
+              <tr><td>Farben</td><td>Aluminium blank · Anthrazit RAL 7016 · Ziegelrot RAL 8004</td></tr>
+              <tr><td>Ausführung</td><td>Mit integriertem Dachhaken / Ohne Haken</td></tr>
+              <tr><td>Herkunft</td><td>Made in Germany &#127465;&#127466;</td></tr>
+              <tr><td>Lieferumfang</td><td>1 Stück PV-Blechziegel</td></tr>
+              <tr><td>Einsatzbereich</td><td>PV-Montage, Solarthermie, Dachsanierung</td></tr>
+              <tr><td>Lebensdauer</td><td>25–30 Jahre (korrosionsbeständig)</td></tr>
+              <tr><td>Lieferzeit</td><td>1–3 Werktage per DHL</td></tr>
+            </table>
+            <p style="font-size:12.5px;color:#888;margin-top:14px;">Bitte Dachtyp vor Bestellung prüfen. Montage durch Fachpersonal empfohlen. Statik, Schneelast und projektspezifische Anforderungen müssen bauseits berücksichtigt werden.</p>
+          </div>
+
+          <!-- Tab: FAQ -->
+          <div class="bz-tab-panel" id="tab-faq">
+            <div class="bz-faq-list" itemscope itemtype="https://schema.org/FAQPage">
+
+              <div class="bz-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <button class="bz-faq-q" itemprop="name">Passt der Blechziegel genau auf meine Frankfurter Pfanne?<svg class="bz-faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                <div class="bz-faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">Ja – der Blechziegel ist exakt auf das Profil der Frankfurter Pfanne abgestimmt. Er passt in die vorhandene Deckung, ohne Anpassungen zu erfordern. Bitte vergleichen Sie das Profil Ihrer Ziegel mit unseren Produktfotos.</div></div>
+              </div>
+
+              <div class="bz-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <button class="bz-faq-q" itemprop="name">Brauche ich die Version „mit Haken" oder „ohne Haken"?<svg class="bz-faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                <div class="bz-faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">„Mit Haken": Der integrierte Dachhaken erlaubt die direkte Befestigung der PV-Modulschienen – kein separates Bohren nötig. „Ohne Haken": Für Systeme mit eigenem Dachhaken-Konzept oder als reiner Ersatzziegel für Kabelführungen.</div></div>
+              </div>
+
+              <div class="bz-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <button class="bz-faq-q" itemprop="name">Wie montiere ich den Blechziegel?<svg class="bz-faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                <div class="bz-faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">1. Tonziegel an der gewünschten Stelle entnehmen. 2. Blechziegel einsetzen und einhängen – kein Werkzeug nötig. 3. Dachhaken positionieren und PV-Schiene befestigen. 4. Kabel führen. Fertig. Die Gesamtdauer beträgt typischerweise unter 10 Minuten pro Ziegel.</div></div>
+              </div>
+
+              <div class="bz-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <button class="bz-faq-q" itemprop="name">Ist der Blechziegel wetterfest und dicht?<svg class="bz-faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                <div class="bz-faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">Ja. Aluminium ist korrosionsbeständig, UV-stabil und witterungsfest. Die Pulverbeschichtung schützt zusätzlich. Die passenaue Formgebung sorgt für eine dichte Integration ins Dachbild – kein Wassereintritt bei korrekter Montage.</div></div>
+              </div>
+
+              <div class="bz-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <button class="bz-faq-q" itemprop="name">Welche Farbe soll ich wählen?<svg class="bz-faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                <div class="bz-faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">Aluminium blank für helle / metallische Dächer. Anthrazit RAL 7016 für dunkle Dacheindeckungen. Ziegelrot RAL 8004 für klassische rote Tonziegeldächer. Im Zweifel: Foto Ihres Dachs per Mail an web@blechziegel.de – wir beraten Sie.</div></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%}── RECHTE SPALTE: USPs + Reviews ──{%- endcomment -%}
+      <div>
+        <span class="bz-section-label">Warum Blechziegel.de</span>
+        <h2 class="bz-section-title">Gebaut für den Einsatz auf der Baustelle</h2>
+
+        <div class="bz-usp-cards">
+          <div class="bz-usp-card-sm">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <h4>Passgenau</h4>
+            <p>Exakt für die Frankfurter Pfanne gefertigt – sitzt auf Anhieb.</p>
+          </div>
+          <div class="bz-usp-card-sm">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            <h4>In Minuten montiert</h4>
+            <p>Kein Bohren, kein Werkzeug, kein Nacharbeiten.</p>
+          </div>
+          <div class="bz-usp-card-sm">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            <h4>25+ Jahre Lebensdauer</h4>
+            <p>Aluminium – wartungsfrei, korrosionsbeständig.</p>
+          </div>
+          <div class="bz-usp-card-sm">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <h4>Made in Germany</h4>
+            <p>Produziert und geprüft in Deutschland.</p>
+          </div>
+        </div>
+
+        <!-- Problem / Lösung -->
+        <div class="bz-pvl-mini">
+          <div class="bz-pvl-col problem">
+            <div class="bz-pvl-head">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              Ohne Blechziegel
+            </div>
+            <ul class="bz-pvl-list">
+              <li><span class="ico">&#10007;</span> Tonziegel bricht beim Bohren</li>
+              <li><span class="ico">&#10007;</span> Wassereintritt durch Kabelführung</li>
+              <li><span class="ico">&#10007;</span> Aufwendige Nacharbeit</li>
+              <li><span class="ico">&#10007;</span> Haftungsrisiko</li>
+            </ul>
+          </div>
+          <div class="bz-pvl-col solution">
+            <div class="bz-pvl-head">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Mit Blechziegel
+            </div>
+            <ul class="bz-pvl-list">
+              <li><span class="ico" style="color:var(--bz-orange)">&#10003;</span> Kein Bruchrisiko</li>
+              <li><span class="ico" style="color:var(--bz-orange)">&#10003;</span> Dichtes Kabelführungssystem</li>
+              <li><span class="ico" style="color:var(--bz-orange)">&#10003;</span> Fertig in Minuten</li>
+              <li><span class="ico" style="color:var(--bz-orange)">&#10003;</span> Rechtssicher, sauber</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Bewertungen -->
+        <div class="bz-reviews-strip" id="bz-reviews">
+          <div class="bz-reviews-strip-head">
+            <div class="bz-reviews-strip-score">4,9</div>
+            <div>
+              <div class="bz-reviews-strip-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <div class="bz-reviews-strip-sub">Trusted Shops bewertet &middot; 500+ Bestellungen</div>
+            </div>
+          </div>
+          <div class="bz-review-cards">
+            <div class="bz-review-card">
+              <div class="bz-review-stars-sm">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <p class="bz-review-text">„Passt perfekt. Kein Bohren, kein Ziegelbruch. Setzen wir jetzt standardmäßig ein."</p>
+              <div class="bz-review-author">Thomas K.</div>
+              <div class="bz-review-role">Dachdeckermeister, Bayern</div>
+            </div>
+            <div class="bz-review-card">
+              <div class="bz-review-stars-sm">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <p class="bz-review-text">„Lieferung am nächsten Tag. Sitzt wie angegossen. Gleich 50 Stück nachbestellt."</p>
+              <div class="bz-review-author">Markus W.</div>
+              <div class="bz-review-role">PV-Installateur, Baden-Württemberg</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{%- comment -%}══ STICKY ATC MOBILE ══{%- endcomment -%}
+<div class="bz-sticky-atc" id="bz-sticky">
+  <div class="bz-sticky-atc-inner">
+    <div class="bz-sticky-meta">
+      <div class="bz-sticky-variant-context" id="bz-sticky-context">{{ product.title | truncate: 32 }}</div>
+
+      <div class="bz-sticky-price-wrap">
+        <span class="bz-sticky-price-label">ab</span>
+        <span class="bz-sticky-price" id="bz-sticky-price">{{ product.price_min | money }}</span>
+      </div>
+
+      <div class="bz-sticky-trustline" aria-label="Produktvorteile">
+        <span class="bz-sticky-trustitem">Passgenau</span>
+        <span class="bz-sticky-trustdot">&bull;</span>
+        <span class="bz-sticky-trustitem">Made in Germany</span>
+        <span class="bz-sticky-trustdot">&bull;</span>
+        <span class="bz-sticky-trustitem">1–3 Werktage</span>
+      </div>
+    </div>
+
+    <button class="bz-sticky-atc-btn bz-sticky-btn" id="bz-sticky-btn" type="button" onclick="document.getElementById('bz-atc').click()">
+      In den Warenkorb
+    </button>
+  </div>
+</div>
+
+<script>
+  // Galerie
+  function bzSetImg(src, thumb) {
+    document.getElementById('bz-main-img-tag').src = src;
+    document.querySelectorAll('.bz-gallery-thumb').forEach(t => t.classList.remove('active'));
+    thumb.classList.add('active');
+  }
+
+  // Menge
+  function bzQty(delta) {
+    var inp = document.getElementById('bz-qty-input');
+    var val = parseInt(inp.value) + delta;
+    if (val < 1) val = 1;
+    inp.value = val;
+  }
+
+  // Farb-Swatches
+  function bzSelectSwatch(el) {
+    var pos = el.dataset.option;
+    document.querySelectorAll('.bz-swatch[data-option="' + pos + '"]').forEach(s => s.classList.remove('active'));
+    el.classList.add('active');
+    bzUpdateVariant();
+  }
+
+  // Sticky-Kontext bauen — kurz, hochwertig, B2B-tauglich
+  var BZ_PRODUCT_TITLE = {{ product.title | json }};
+  var BZ_DACHTYPEN = ['Frankfurter Pfanne','Biberschwanz','Hohlfalzziegel','Flachdachziegel','Krempziegel'];
+
+  function bzNormalizeOption(value) {
+    if (!value) return '';
+    var v = String(value).trim();
+    var lower = v.toLowerCase();
+    // Kundengruppe ausblenden
+    if (lower.indexOf('privatkunde') !== -1 || lower.indexOf('gewerbekunde') !== -1) return '';
+    // Ausführung kurz halten
+    if (lower === 'mit haken') return 'Mit Haken';
+    if (lower === 'ohne haken') return 'Ohne Haken';
+    if (lower.indexOf('mit integriertem dachhaken') !== -1) return 'Mit Haken';
+    if (lower.indexOf('ohne haken') !== -1) return 'Ohne Haken';
+    return v;
+  }
+
+  function bzBuildStickyContext(opts) {
+    // Dachtyp aus Titel ableiten
+    var dachtyp = '';
+    for (var i = 0; i < BZ_DACHTYPEN.length; i++) {
+      if (BZ_PRODUCT_TITLE.indexOf(BZ_DACHTYPEN[i]) !== -1) { dachtyp = BZ_DACHTYPEN[i]; break; }
+    }
+    if (!dachtyp) {
+      dachtyp = BZ_PRODUCT_TITLE.length > 32 ? BZ_PRODUCT_TITLE.substring(0, 32) + '…' : BZ_PRODUCT_TITLE;
+    }
+
+    var parts = [];
+    Object.keys(opts).sort(function(a,b){return a-b;}).forEach(function(pos) {
+      var clean = bzNormalizeOption(opts[pos]);
+      if (clean) parts.push(clean);
+    });
+
+    var ctx = dachtyp;
+    if (parts.length) ctx += ' • ' + parts.slice(0, 2).join(' • ');
+    // Wenn zu lang, auf 1 Zusatz reduzieren; immer noch zu lang → nur Dachtyp
+    if (ctx.length > 42 && parts.length > 1) ctx = dachtyp + ' • ' + parts[0];
+    if (ctx.length > 42) ctx = dachtyp;
+    return ctx;
+  }
+
+  // Variante aktualisieren
+  function bzUpdateVariant() {
+    var opts = {};
+    document.querySelectorAll('.bz-swatch.active').forEach(s => {
+      opts[parseInt(s.dataset.option)] = s.dataset.value;
+    });
+    document.querySelectorAll('.bz-select').forEach(sel => {
+      var match = sel.name.match(/option(\d+)/);
+      if (match) opts[parseInt(match[1])] = sel.value;
+    });
+
+    var variants = {{ product.variants | json }};
+    var matched = variants.find(function(v) {
+      return Object.keys(opts).every(function(pos) {
+        return v['option' + pos] === opts[pos];
+      });
+    });
+
+    // Sticky-Kontext immer aktualisieren (auch wenn keine Variante matcht)
+    var ctxEl = document.getElementById('bz-sticky-context');
+    if (ctxEl) ctxEl.textContent = bzBuildStickyContext(opts);
+
+    if (matched) {
+      document.getElementById('bz-variant-id').value = matched.id;
+      var price = (matched.price / 100).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+      document.getElementById('bz-price').textContent = price;
+      document.getElementById('bz-sticky-price').textContent = price;
+
+      // Bild wechseln wenn vorhanden
+      if (matched.featured_image) {
+        var imgSrc = matched.featured_image.src.replace(/(\.[^.]+)$/, '_800x800$1');
+        document.getElementById('bz-main-img-tag').src = 'https:' + matched.featured_image.src + '&width=800';
+      }
+
+      // ATC Status (Haupt + Sticky synchron)
+      var btn = document.getElementById('bz-atc');
+      var stickyBtn = document.getElementById('bz-sticky-btn');
+      if (matched.available) {
+        btn.disabled = false;
+        btn.removeAttribute('aria-disabled');
+        btn.style.opacity = '1';
+        btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg> In den Warenkorb';
+        if (stickyBtn) { stickyBtn.disabled = false; stickyBtn.removeAttribute('aria-disabled'); stickyBtn.textContent = 'In den Warenkorb'; }
+      } else {
+        btn.disabled = true;
+        btn.setAttribute('aria-disabled', 'true');
+        btn.style.opacity = '.5';
+        btn.innerHTML = 'Nicht verfügbar';
+        if (stickyBtn) { stickyBtn.disabled = true; stickyBtn.setAttribute('aria-disabled', 'true'); stickyBtn.textContent = 'Nicht verfügbar'; }
+      }
+    } else {
+      // Kombi nicht verfügbar (z.B. ausverkauft oder ungültige Optionsmischung)
+      var atc = document.getElementById('bz-atc');
+      var stickyBtnFb = document.getElementById('bz-sticky-btn');
+      if (atc) {
+        atc.disabled = true;
+        atc.setAttribute('aria-disabled', 'true');
+        atc.style.opacity = '.5';
+        atc.innerHTML = 'Nicht verfügbar';
+      }
+      if (stickyBtnFb) {
+        stickyBtnFb.disabled = true;
+        stickyBtnFb.setAttribute('aria-disabled', 'true');
+        stickyBtnFb.textContent = 'Nicht verfügbar';
+      }
+      var stickyPriceEl = document.getElementById('bz-sticky-price');
+      if (stickyPriceEl) stickyPriceEl.textContent = '–';
+    }
+  }
+
+  // Tabs
+  function bzTab(id, btn) {
+    document.querySelectorAll('.bz-tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.bz-tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // FAQ
+  document.querySelectorAll('.bz-faq-q').forEach(function(b) {
+    b.addEventListener('click', function() {
+      var i = b.parentElement, o = i.classList.contains('open');
+      document.querySelectorAll('.bz-faq-item').forEach(function(x) { x.classList.remove('open'); });
+      if (!o) i.classList.add('open');
+    });
+  });
+
+  // Sticky ATC: nur auf Mobile anzeigen wenn ATC out of view
+  var atcBtn = document.getElementById('bz-atc');
+  if (atcBtn && window.innerWidth <= 900) {
+    var observer = new IntersectionObserver(function(entries) {
+      document.getElementById('bz-sticky').style.display = entries[0].isIntersecting ? 'none' : 'block';
+    }, { threshold: 0 });
+    observer.observe(atcBtn);
+  }
+
+  // Init
+  bzUpdateVariant();
+</script>
+
+{%- comment -%}══ SEO: Product JSON-LD ══{%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": {{ product.title | json }},
+  "image": [
+    {{ product.featured_image | image_url: width: 1200 | prepend: 'https:' | json }}
+  ],
+  "description": {{ product.description | strip_html | json }},
+  "sku": {{ product.selected_or_first_available_variant.sku | default: product.id | json }},
+  "brand": {
+    "@type": "Brand",
+    "name": "Blechziegel"
+  },
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": {{ shop.currency | json }},
+    "price": "{{ product.price | divided_by: 100.0 }}",
+    "availability": "{% if product.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
+    "url": {{ shop.url | append: product.url | json }}
+  }
+}
+</script>
+
+{% schema %}
+{
+  "name": "Blechziegel Produktseite",
+  "tag": "section",
+  "class": "bz-main-product",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Blechziegel Produktseite"
+    }
+  ]
+}
+{% endschema %}
