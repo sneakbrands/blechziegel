@@ -1091,6 +1091,32 @@
     .bz-pdp-breadcrumb { padding: 10px 16px 0; }
     .bz-pdp-breadcrumb__list { font-size: 11.5px; gap: 4px; }
   }
+
+  /* Zubehör Section */
+  .bz-zubehoer-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 48px 20px;
+  }
+  .bz-zubehoer-title {
+    font-family: var(--bz-head, 'Montserrat', sans-serif);
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--bz-navy, #0d1e35);
+    margin: 0 0 24px;
+  }
+  .bz-zubehoer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 900px) {
+    .bz-zubehoer-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .bz-zubehoer-grid { grid-template-columns: 1fr; }
+    .bz-zubehoer-section { padding: 32px 16px; }
+  }
 {% endstyle %}
 
 <nav class="bz-pdp-breadcrumb" aria-label="Brotkrumen">
@@ -2076,6 +2102,21 @@
   ]
 }
 </script>
+
+{%- comment -%}══ ZUBEHÖR AUS COLLECTION ══{%- endcomment -%}
+{%- assign zubehoer_collection = collections['zubehor'] -%}
+{%- if zubehoer_collection and zubehoer_collection.products_count > 0 -%}
+<section class="bz-zubehoer-section">
+  <div class="bz-zubehoer-wrap">
+    <h2 class="bz-zubehoer-title">Zubehör</h2>
+    <div class="bz-zubehoer-grid">
+      {%- for p in zubehoer_collection.products limit: 4 -%}
+        {%- render 'bz-product-card', product: p -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
 
 {% schema %}
 {
