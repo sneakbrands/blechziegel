@@ -1413,44 +1413,6 @@
       <form action="{{ routes.cart_add_url }}" method="post" id="bz-product-form">
         <input type="hidden" name="id" id="bz-variant-id" value="{{ product.selected_or_first_available_variant.id }}">
 
-        {%- comment -%}── Passendes Zubehör (inline, mit Menge + ATC) ──{%- endcomment -%}
-        <div class="bz-inline-zubehoer">
-          <div class="bz-inline-zubehoer__title">Passendes Zubehör</div>
-          {%- assign _zub_ids = '57893613863296,57893632639360' | split: ',' -%}
-          {%- assign _zub_handles = 'schrauben,versteifung' | split: ',' -%}
-          {%- for _zh in _zub_handles -%}
-            {%- assign _zp = all_products[_zh] -%}
-            {%- if _zp and _zp.title != blank -%}
-              <div class="bz-inline-zubehoer__item" data-variant-id="{{ _zub_ids[forloop.index0] }}">
-                <div class="bz-inline-zubehoer__img">
-                  {%- if _zp.featured_image -%}
-                    {{ _zp.featured_image | image_url: width: 80 | image_tag: loading: 'lazy', width: 80, height: 80, alt: _zp.title }}
-                  {%- else -%}
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-                  {%- endif -%}
-                </div>
-                <div class="bz-inline-zubehoer__info">
-                  <div class="bz-inline-zubehoer__name">{{ _zp.title }}</div>
-                  <div class="bz-inline-zubehoer__price">{{ _zp.price | money }}</div>
-                </div>
-                <div class="bz-inline-zubehoer__actions">
-                  <div class="bz-inline-zubehoer__qty">
-                    <button type="button" onclick="bzZubQty(this,-1)" aria-label="Weniger">&#8722;</button>
-                    <input type="number" value="1" min="1" max="999" class="bz-inline-zubehoer__qty-input">
-                    <button type="button" onclick="bzZubQty(this,1)" aria-label="Mehr">&#43;</button>
-                  </div>
-                  <button type="button" class="bz-inline-zubehoer__atc" onclick="bzAddZubehoer(this)" aria-label="{{ _zp.title }} in den Warenkorb">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                    Hinzufügen
-                  </button>
-                </div>
-              </div>
-            {%- endif -%}
-          {%- endfor -%}
-        </div>
-
-        <hr class="bz-divider">
-
         {%- for option in product.options_with_values -%}
           {%- if option.name == 'Bestellung als' -%}
             <div class="bz-variant-label">Ich bestelle als</div>
@@ -1528,6 +1490,42 @@
           {%- endif -%}
           {%- endif -%}
         {%- endfor -%}
+
+        {%- comment -%}── Passendes Zubehör (inline, mit Menge + ATC) ──{%- endcomment -%}
+        <div class="bz-inline-zubehoer">
+          <div class="bz-inline-zubehoer__title">Passendes Zubehör</div>
+          {%- assign _zub_ids = '57893613863296,57893632639360' | split: ',' -%}
+          {%- assign _zub_handles = 'schrauben,versteifung' | split: ',' -%}
+          {%- for _zh in _zub_handles -%}
+            {%- assign _zp = all_products[_zh] -%}
+            {%- if _zp and _zp.title != blank -%}
+              <div class="bz-inline-zubehoer__item" data-variant-id="{{ _zub_ids[forloop.index0] }}">
+                <div class="bz-inline-zubehoer__img">
+                  {%- if _zp.featured_image -%}
+                    {{ _zp.featured_image | image_url: width: 80 | image_tag: loading: 'lazy', width: 80, height: 80, alt: _zp.title }}
+                  {%- else -%}
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                  {%- endif -%}
+                </div>
+                <div class="bz-inline-zubehoer__info">
+                  <div class="bz-inline-zubehoer__name">{{ _zp.title }}</div>
+                  <div class="bz-inline-zubehoer__price">{{ _zp.price | money }}</div>
+                </div>
+                <div class="bz-inline-zubehoer__actions">
+                  <div class="bz-inline-zubehoer__qty">
+                    <button type="button" onclick="bzZubQty(this,-1)" aria-label="Weniger">&#8722;</button>
+                    <input type="number" value="1" min="1" max="999" class="bz-inline-zubehoer__qty-input">
+                    <button type="button" onclick="bzZubQty(this,1)" aria-label="Mehr">&#43;</button>
+                  </div>
+                  <button type="button" class="bz-inline-zubehoer__atc" onclick="bzAddZubehoer(this)" aria-label="{{ _zp.title }} in den Warenkorb">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                    Hinzufügen
+                  </button>
+                </div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
 
         <hr class="bz-divider">
 
