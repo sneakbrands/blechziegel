@@ -19,18 +19,30 @@
 
   comment
     Brand-Detection aus Tags (gleiche Liste wie Smart-Collections + Finder).
-    Pragmatisch: erster Tag aus der bekannten Hersteller-Liste liefert brand_handle.
+    brand_handle / brand_name = erster Match (weiterhin fuer Breadcrumb/Schema).
+    brand_names_list = alle Matches (H6 Multi-Brand-Pill, zeigt echte Kompatibilitaet).
     Fallback: kein Brand -> Breadcrumb ohne Brand-Knoten.
   endcomment
   assign brand_handles = 'braas,bramac,creaton,nelskamp,wienerberger,erlus,roeben,walther,jacobi-walther,meyer-holsen' | split: ','
   assign brand_handle = ''
   assign brand_name = ''
+  assign matched_handles = ''
   for t in product.tags
     assign t_lc = t | downcase
-    if brand_handle == blank and brand_handles contains t_lc
-      assign brand_handle = t_lc
+    if brand_handles contains t_lc
+      if brand_handle == blank
+        assign brand_handle = t_lc
+      endif
+      if matched_handles == ''
+        assign matched_handles = t_lc
+      else
+        unless matched_handles contains t_lc
+          assign matched_handles = matched_handles | append: ',' | append: t_lc
+        endunless
+      endif
     endif
   endfor
+  assign matched_handles_arr = matched_handles | split: ','
   case brand_handle
     when 'braas'
       assign brand_name = 'Braas'
@@ -53,6 +65,40 @@
     when 'meyer-holsen'
       assign brand_name = 'Meyer-Holsen'
   endcase
+  assign matched_names = ''
+  for h in matched_handles_arr
+    case h
+      when 'braas'
+        assign mn = 'Braas'
+      when 'bramac'
+        assign mn = 'Bramac'
+      when 'creaton'
+        assign mn = 'Creaton'
+      when 'nelskamp'
+        assign mn = 'Nelskamp'
+      when 'wienerberger'
+        assign mn = 'Wienerberger'
+      when 'erlus'
+        assign mn = 'Erlus'
+      when 'roeben'
+        assign mn = 'Röben'
+      when 'walther'
+        assign mn = 'Walther'
+      when 'jacobi-walther'
+        assign mn = 'Jacobi Walther'
+      when 'meyer-holsen'
+        assign mn = 'Meyer-Holsen'
+      else
+        assign mn = ''
+    endcase
+    if mn != ''
+      if matched_names == ''
+        assign matched_names = mn
+      else
+        assign matched_names = matched_names | append: ' · ' | append: mn
+      endif
+    endif
+  endfor
 -%}
 
 {% style %}
@@ -762,6 +808,69 @@
   .bz-pvl-list li { font-size: 13px; color: #333; display: flex; align-items: flex-start; gap: 7px; line-height: 1.45; }
   .bz-pvl-list li .ico { flex-shrink: 0; margin-top: 1px; font-size: 13px; }
 
+  /* ── Zubehör / Add-on (H6) ── */
+  .bz-addon-block { margin-top: 22px; }
+  .bz-addon-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+  .bz-addon-title { font-size: 14.5px; font-weight: 700; color: var(--bz-navy); margin: 0; letter-spacing: -.005em; }
+  .bz-addon-sub { font-size: 12.5px; color: var(--bz-gray-text); }
+  .bz-addon-list { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  .bz-addon-card {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    background: #fff;
+    border: 1.5px solid var(--bz-border);
+    border-radius: var(--bz-r);
+    padding: 10px 12px;
+    transition: border-color .15s;
+  }
+  .bz-addon-card:hover { border-color: var(--bz-orange); }
+  .bz-addon-img {
+    width: 56px; height: 56px;
+    border-radius: var(--bz-r);
+    overflow: hidden;
+    background: var(--bz-gray-50);
+    border: 1px solid var(--bz-border);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .bz-addon-img img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
+  .bz-addon-body { min-width: 0; }
+  .bz-addon-name {
+    font-size: 13.5px; font-weight: 700; color: var(--bz-navy);
+    text-decoration: none;
+    display: block;
+    line-height: 1.3;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .bz-addon-name:hover { color: var(--bz-orange); }
+  .bz-addon-price { font-size: 12.5px; color: var(--bz-gray-text); margin-top: 2px; }
+  .bz-addon-btn {
+    appearance: none;
+    background: var(--bz-navy);
+    color: #fff;
+    border: 0;
+    border-radius: var(--bz-r);
+    padding: 8px 12px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: background .15s;
+    white-space: nowrap;
+  }
+  .bz-addon-btn:hover { background: var(--bz-orange); color: #fff; }
+  .bz-addon-btn[data-added="1"] { background: #1c8f48; color: #fff; }
+  .bz-addon-btn[disabled] { opacity: .6; cursor: default; }
+  .bz-addon-btn svg { flex-shrink: 0; }
+  @media (max-width: 640px) {
+    .bz-addon-card { grid-template-columns: 48px 1fr auto; gap: 10px; padding: 8px 10px; }
+    .bz-addon-img { width: 48px; height: 48px; }
+    .bz-addon-name { font-size: 13px; }
+    .bz-addon-btn { padding: 7px 10px; font-size: 12px; }
+  }
+
   /* Reviews */
   .bz-reviews-strip { background: var(--bz-gray-50); border-radius: var(--bz-r-lg); padding: 24px; margin-top: 32px; }
   .bz-reviews-strip-head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
@@ -1039,11 +1148,18 @@
 
       {%- comment -%}
         Sichtbare Hersteller-Zuordnung nahe H1 (zusätzlich zum Breadcrumb).
-        Quelle: brand_handle aus Tag-Match; renderung nur bei sicherem Treffer.
+        Multi-Brand (H6): zeigt alle passenden Hersteller statt nur den ersten Match.
+        1 Match  -> Pill verlinkt auf /collections/<handle>
+        2+ Match -> Pill verlinkt auf /pages/hersteller (Hersteller-Hub)
       {%- endcomment -%}
-      {%- if brand_handle != blank -%}
+      {%- if matched_handles_arr.size == 1 and brand_handle != blank -%}
         <a class="bz-product-brand-link" href="{{ routes.collections_url }}/{{ brand_handle }}" rel="tag" aria-label="Alle Produkte für {{ brand_name }}">
           Passend für <strong>{{ brand_name }}</strong>
+          <svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      {%- elsif matched_handles_arr.size > 1 and matched_names != '' -%}
+        <a class="bz-product-brand-link bz-product-brand-link--multi" href="{{ routes.root_url }}pages/hersteller" aria-label="Passend für {{ matched_names }} — alle Hersteller anzeigen">
+          Passend für <strong>{{ matched_names }}</strong>
           <svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
       {%- endif -%}
@@ -1397,6 +1513,62 @@
           </div>
         </div>
 
+        {%- comment -%}
+          ── Passendes Zubehör (H6) ──
+          Renderliste aus aktiven Zubehör-Produkten. Nur wenn im Shop vorhanden,
+          verfügbar und ein Preis > 0 vorhanden ist. Add-to-Cart via /cart/add.js,
+          keine Seiten-Navigation — Kunde bleibt auf der PDP.
+        {%- endcomment -%}
+        {%- liquid
+          assign addon_handles = 'haken,schrauben,versteifung' | split: ','
+          assign addon_rendered = 0
+        -%}
+        {%- capture addon_cards -%}
+          {%- for h in addon_handles -%}
+            {%- assign addon = all_products[h] -%}
+            {%- if addon != blank and addon.available -%}
+              {%- assign addon_variant = addon.selected_or_first_available_variant -%}
+              {%- if addon_variant and addon_variant.id != blank -%}
+                {%- assign addon_rendered = addon_rendered | plus: 1 -%}
+                <div class="bz-addon-card" data-addon-handle="{{ h }}">
+                  <a class="bz-addon-img" href="{{ addon.url }}" aria-label="{{ addon.title | escape }} ansehen">
+                    {%- if addon.featured_image -%}
+                      <img src="{{ addon.featured_image | image_url: width: 120 }}" alt="{{ addon.title | escape }}" width="56" height="56" loading="lazy">
+                    {%- endif -%}
+                  </a>
+                  <div class="bz-addon-body">
+                    <a class="bz-addon-name" href="{{ addon.url }}">{{ addon.title }}</a>
+                    <div class="bz-addon-price">
+                      {%- if addon.price_min > 0 -%}
+                        {%- if addon.price_min != addon.price_max %}ab {% endif -%}{{ addon.price_min | money }}
+                      {%- else -%}
+                        Preis auf Anfrage
+                      {%- endif -%}
+                    </div>
+                  </div>
+                  <button type="button" class="bz-addon-btn"
+                          data-variant-id="{{ addon_variant.id }}"
+                          data-title="{{ addon.title | escape }}"
+                          onclick="bzAddonAdd(this)"
+                          aria-label="{{ addon.title | escape }} in den Warenkorb">
+                    <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+                    <span class="bz-addon-btn-label">Hinzufügen</span>
+                  </button>
+                </div>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endcapture -%}
+        {%- if addon_rendered > 0 -%}
+          <section class="bz-addon-block" aria-label="Passendes Zubehör">
+            <div class="bz-addon-head">
+              <h3 class="bz-addon-title">Passendes Zubehör</h3>
+              <span class="bz-addon-sub">Häufig zusammen bestellt</span>
+            </div>
+            <div class="bz-addon-list">{{ addon_cards }}</div>
+          </section>
+        {%- endif -%}
+
         <!-- Problem / Lösung -->
         <div class="bz-pvl-mini">
           <div class="bz-pvl-col problem">
@@ -1733,6 +1905,42 @@
       document.getElementById('bz-sticky').style.display = entries[0].isIntersecting ? 'none' : 'block';
     }, { threshold: 0 });
     observer.observe(atcBtn);
+  }
+
+  // Zubehör: Add-to-Cart via AJAX (H6)
+  function bzAddonAdd(btn) {
+    if (!btn || btn.disabled) return;
+    var vid = btn.getAttribute('data-variant-id');
+    var title = btn.getAttribute('data-title') || 'Produkt';
+    var labelEl = btn.querySelector('.bz-addon-btn-label');
+    if (!vid) return;
+    btn.disabled = true;
+    var originalLabel = labelEl ? labelEl.textContent : 'Hinzufügen';
+    if (labelEl) labelEl.textContent = 'Wird hinzugefügt …';
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ id: parseInt(vid, 10), quantity: 1 })
+    })
+    .then(function(r){ return r.ok ? r.json() : Promise.reject(r); })
+    .then(function(){
+      btn.setAttribute('data-added', '1');
+      if (labelEl) labelEl.textContent = 'Im Warenkorb';
+      document.dispatchEvent(new CustomEvent('cart:refresh'));
+      if (typeof window.dataLayer !== 'undefined') {
+        window.dataLayer.push({ event: 'addon_added', addon_title: title, addon_variant_id: vid });
+      }
+      setTimeout(function(){
+        btn.disabled = false;
+        btn.removeAttribute('data-added');
+        if (labelEl) labelEl.textContent = originalLabel;
+      }, 2400);
+    })
+    .catch(function(){
+      btn.disabled = false;
+      if (labelEl) labelEl.textContent = 'Fehler – erneut versuchen';
+      setTimeout(function(){ if (labelEl) labelEl.textContent = originalLabel; }, 2400);
+    });
   }
 
   // Init
