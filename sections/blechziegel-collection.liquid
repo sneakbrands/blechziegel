@@ -1365,7 +1365,8 @@
                     {%- endif -%}
                     <span class="bz-filter-option-meta">
                       <span class="bz-filter-option-label">{{ value.label }}</span>
-                      {%- if swatch_ral != blank -%}<span class="bz-filter-ral">{{ swatch_ral }}</span>{%- endif -%}
+                        {%- if swatch_ral != blank -%}<span class="bz-filter-ral">{{ swatch_ral }}</span>{%- endif -%}
+                      <!-- debug: vl={{ vl }} ral={{ swatch_ral }} -->
                     </span>
                     <span class="bz-filter-option-count">{{ value.count }}</span>
                   </label>
