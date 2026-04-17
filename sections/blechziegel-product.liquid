@@ -1799,61 +1799,7 @@
           </div>
         </div>
 
-        {%- comment -%}
-          ── Passendes Zubehör (H6) ──
-          Renderliste aus aktiven Zubehör-Produkten. Nur wenn im Shop vorhanden,
-          verfügbar und ein Preis > 0 vorhanden ist. Add-to-Cart via /cart/add.js,
-          keine Seiten-Navigation — Kunde bleibt auf der PDP.
-        {%- endcomment -%}
-        {%- liquid
-          assign addon_handles = 'haken,schrauben,versteifung' | split: ','
-          assign addon_rendered = 0
-        -%}
-        {%- capture addon_cards -%}
-          {%- for h in addon_handles -%}
-            {%- assign addon = all_products[h] -%}
-            {%- if addon != blank and addon.available -%}
-              {%- assign addon_variant = addon.selected_or_first_available_variant -%}
-              {%- if addon_variant and addon_variant.id != blank -%}
-                {%- assign addon_rendered = addon_rendered | plus: 1 -%}
-                <div class="bz-addon-card" data-addon-handle="{{ h }}">
-                  <a class="bz-addon-img" href="{{ addon.url }}" aria-label="{{ addon.title | escape }} ansehen">
-                    {%- if addon.featured_image -%}
-                      <img src="{{ addon.featured_image | image_url: width: 120 }}" alt="{{ addon.title | escape }}" width="56" height="56" loading="lazy">
-                    {%- endif -%}
-                  </a>
-                  <div class="bz-addon-body">
-                    <a class="bz-addon-name" href="{{ addon.url }}">{{ addon.title }}</a>
-                    <div class="bz-addon-price">
-                      {%- if addon.price_min > 0 -%}
-                        {%- if addon.price_min != addon.price_max %}ab {% endif -%}{{ addon.price_min | money }}
-                      {%- else -%}
-                        Preis auf Anfrage
-                      {%- endif -%}
-                    </div>
-                  </div>
-                  <button type="button" class="bz-addon-btn"
-                          data-variant-id="{{ addon_variant.id }}"
-                          data-title="{{ addon.title | escape }}"
-                          onclick="bzAddonAdd(this)"
-                          aria-label="{{ addon.title | escape }} in den Warenkorb">
-                    <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-                    <span class="bz-addon-btn-label">Hinzufügen</span>
-                  </button>
-                </div>
-              {%- endif -%}
-            {%- endif -%}
-          {%- endfor -%}
-        {%- endcapture -%}
-        {%- if addon_rendered > 0 -%}
-          <section class="bz-addon-block" aria-label="Passendes Zubehör">
-            <div class="bz-addon-head">
-              <h3 class="bz-addon-title">Passendes Zubehör</h3>
-              <span class="bz-addon-sub">Häufig zusammen bestellt</span>
-            </div>
-            <div class="bz-addon-list">{{ addon_cards }}</div>
-          </section>
-        {%- endif -%}
+        {%- comment -%} H6 Addon-Block entfernt — Zubehör ist jetzt inline im Kaufbereich {%- endcomment -%}
 
         <!-- Problem / Lösung -->
         <div class="bz-pvl-mini">
