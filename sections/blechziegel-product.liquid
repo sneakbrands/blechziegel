@@ -2105,7 +2105,7 @@
 
 {%- comment -%}══ ZUBEHÖR AUS COLLECTION ══{%- endcomment -%}
 {%- assign zubehoer_collection = collections['zubehor'] -%}
-{%- if zubehoer_collection and zubehoer_collection.products_count > 0 -%}
+{%- if zubehoer_collection != blank -%}
 <section class="bz-zubehoer-section">
   <div class="bz-zubehoer-wrap">
     <h2 class="bz-zubehoer-title">Zubehör</h2>
