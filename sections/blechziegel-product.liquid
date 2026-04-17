@@ -14,7 +14,7 @@
   assign cf_lead_time = section.settings.cf_lead_time | default: '1–3 Werktage'
   assign cf_cutoff_hour = section.settings.cf_cutoff_hour | default: 13
   assign cf_carrier = section.settings.cf_carrier | default: 'DHL'
-  assign cf_origin = section.settings.cf_origin | default: 'In Deutschland gelasert'
+  assign cf_origin = section.settings.cf_origin | default: 'Made in Germany'
   assign cf_free_threshold = section.settings.cf_free_threshold
 
   comment
@@ -1154,7 +1154,7 @@
     {%- comment -%}══ RECHTE SPALTE: PRODUKTINFO ══{%- endcomment -%}
     <div class="bz-product-info">
 
-      {%- comment -%} Tag "In Deutschland gelasert · Lagerware" entfernt (H7.2) {%- endcomment -%}
+      {%- comment -%} Tag "Made in Germany · Lagerware" entfernt (H7.2) {%- endcomment -%}
 
       {%- comment -%}
         Sichtbare Hersteller-Zuordnung nahe H1 (zusätzlich zum Breadcrumb).
@@ -1476,7 +1476,7 @@
               <tr><td>Gewicht</td><td>ca. 0,8 kg</td></tr>
               <tr><td>Farben</td><td>Aluminium blank · Anthrazit RAL 7016 · Ziegelrot RAL 8004</td></tr>
               <tr><td>Ausführung</td><td>Mit integriertem Dachhaken / Ohne Haken</td></tr>
-              <tr><td>Herkunft</td><td>{{ cf_origin | default: 'In Deutschland gelasert' }}</td></tr>
+              <tr><td>Herkunft</td><td>{{ cf_origin | default: 'Made in Germany' }}</td></tr>
               <tr><td>Lieferumfang</td><td>1 Stück PV-Blechziegel</td></tr>
               <tr><td>Einsatzbereich</td><td>PV-Montage, Solarthermie, Dachsanierung</td></tr>
               <tr><td>Material</td><td>Korrosionsbeständig, pulverbeschichtet, UV-stabil</td></tr>
@@ -1542,7 +1542,7 @@
           </div>
           <div class="bz-usp-card-sm">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <h4>{{ cf_origin | default: 'In Deutschland gelasert' }}</h4>
+            <h4>{{ cf_origin | default: 'Made in Germany' }}</h4>
             <p>Präzise gelasert statt gepresst. Geprüfte Maßhaltigkeit, sofort versandfertig.</p>
           </div>
         </div>
@@ -2119,7 +2119,7 @@
       "type": "text",
       "id": "cf_origin",
       "label": "Herkunfts-/Fertigungs-Label",
-      "default": "In Deutschland gelasert"
+      "default": "Made in Germany"
     },
     {
       "type": "text",
