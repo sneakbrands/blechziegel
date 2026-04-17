@@ -1092,7 +1092,25 @@
     .bz-pdp-breadcrumb__list { font-size: 11.5px; gap: 4px; }
   }
 
-  /* Zubehör Section */
+  /* Zubehör Section — CI Override für Horizon product-list Cards */
+  .ui-test-product-list .product-card__media-wrapper,
+  .ui-test-product-list .product-card-gallery {
+    aspect-ratio: 1 / 1 !important;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+  .ui-test-product-list .product-card__media-wrapper img,
+  .ui-test-product-list .product-card-gallery img {
+    object-fit: cover !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+  .ui-test-product-list .badge--sold-out,
+  .ui-test-product-list [class*="sold-out"],
+  .ui-test-product-list [class*="badge"] {
+    display: none !important;
+  }
+
   .bz-zubehoer-section {
     max-width: 1200px;
     margin: 0 auto;
