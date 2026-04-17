@@ -6,7 +6,8 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */{
+ */
+{
   "sections": {
     "cart-section": {
       "type": "main-cart",
@@ -33,7 +34,6 @@
             "gap": 24,
             "image_ratio": "portrait",
             "dividers": true,
-            "vendor": false,
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
