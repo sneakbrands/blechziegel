@@ -1092,6 +1092,82 @@
     .bz-pdp-breadcrumb__list { font-size: 11.5px; gap: 4px; }
   }
 
+  /* Passendes Zubehör — inline auf PDP */
+  .bz-inline-zubehoer {
+    margin: 16px 0;
+    border: 1px solid var(--bz-border, #e5e7eb);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .bz-inline-zubehoer__title {
+    font-family: var(--bz-head, 'Montserrat', sans-serif);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--bz-navy, #0d1e35);
+    padding: 10px 14px;
+    background: var(--bz-surface, #f8f7f4);
+    border-bottom: 1px solid var(--bz-border, #e5e7eb);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .bz-inline-zubehoer__item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--bz-border, #e5e7eb);
+  }
+  .bz-inline-zubehoer__item:last-child { border-bottom: none; }
+  .bz-inline-zubehoer__img {
+    width: 56px; height: 56px; flex-shrink: 0;
+    border-radius: 6px; overflow: hidden;
+    background: var(--bz-surface, #f8f7f4);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .bz-inline-zubehoer__img img { width: 100%; height: 100%; object-fit: cover; }
+  .bz-inline-zubehoer__info { flex: 1; min-width: 0; }
+  .bz-inline-zubehoer__name {
+    font-weight: 700; font-size: 14px; color: var(--bz-navy, #0d1e35); line-height: 1.3;
+  }
+  .bz-inline-zubehoer__price {
+    font-size: 13px; color: var(--bz-text-light, #5a5955); margin-top: 2px;
+  }
+  .bz-inline-zubehoer__actions {
+    display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+  }
+  .bz-inline-zubehoer__qty {
+    display: flex; align-items: center; border: 1px solid var(--bz-border, #e5e7eb); border-radius: 6px; overflow: hidden;
+  }
+  .bz-inline-zubehoer__qty button {
+    appearance: none; -webkit-appearance: none; border: none; background: var(--bz-surface, #f8f7f4);
+    width: 28px; height: 32px; font-size: 14px; cursor: pointer; color: var(--bz-navy);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .bz-inline-zubehoer__qty button:hover { background: #e8eaed; }
+  .bz-inline-zubehoer__qty-input {
+    width: 36px; height: 32px; border: none; border-left: 1px solid var(--bz-border, #e5e7eb);
+    border-right: 1px solid var(--bz-border, #e5e7eb); text-align: center; font-size: 13px;
+    font-weight: 600; color: var(--bz-navy); background: #fff;
+    -moz-appearance: textfield;
+  }
+  .bz-inline-zubehoer__qty-input::-webkit-inner-spin-button,
+  .bz-inline-zubehoer__qty-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+  .bz-inline-zubehoer__atc {
+    appearance: none; -webkit-appearance: none; border: none;
+    background: var(--bz-orange, #f5a623); color: var(--bz-navy, #0d1e35);
+    font-family: var(--bz-head, 'Montserrat', sans-serif);
+    font-size: 12px; font-weight: 700; padding: 8px 12px; border-radius: 6px;
+    cursor: pointer; display: flex; align-items: center; gap: 6px;
+    transition: background .15s;
+    white-space: nowrap;
+  }
+  .bz-inline-zubehoer__atc:hover { background: var(--bz-orange-dark, #d4891a); }
+  .bz-inline-zubehoer__atc.added { background: #22c55e; color: #fff; }
+  @media (max-width: 480px) {
+    .bz-inline-zubehoer__item { flex-wrap: wrap; }
+    .bz-inline-zubehoer__actions { width: 100%; justify-content: flex-end; margin-top: 8px; }
+  }
+
   /* Zubehör Section — CI Override für Horizon product-list Cards */
   .ui-test-product-list .product-card__media-wrapper,
   .ui-test-product-list .product-card-gallery {
@@ -1336,6 +1412,44 @@
       {%- comment -%}── Varianten Form ──{%- endcomment -%}
       <form action="{{ routes.cart_add_url }}" method="post" id="bz-product-form">
         <input type="hidden" name="id" id="bz-variant-id" value="{{ product.selected_or_first_available_variant.id }}">
+
+        {%- comment -%}── Passendes Zubehör (inline, mit Menge + ATC) ──{%- endcomment -%}
+        <div class="bz-inline-zubehoer">
+          <div class="bz-inline-zubehoer__title">Passendes Zubehör</div>
+          {%- assign _zub_ids = '57893613863296,57893632639360' | split: ',' -%}
+          {%- assign _zub_handles = 'schrauben,versteifung' | split: ',' -%}
+          {%- for _zh in _zub_handles -%}
+            {%- assign _zp = all_products[_zh] -%}
+            {%- if _zp and _zp.title != blank -%}
+              <div class="bz-inline-zubehoer__item" data-variant-id="{{ _zub_ids[forloop.index0] }}">
+                <div class="bz-inline-zubehoer__img">
+                  {%- if _zp.featured_image -%}
+                    {{ _zp.featured_image | image_url: width: 80 | image_tag: loading: 'lazy', width: 80, height: 80, alt: _zp.title }}
+                  {%- else -%}
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                  {%- endif -%}
+                </div>
+                <div class="bz-inline-zubehoer__info">
+                  <div class="bz-inline-zubehoer__name">{{ _zp.title }}</div>
+                  <div class="bz-inline-zubehoer__price">{{ _zp.price | money }}</div>
+                </div>
+                <div class="bz-inline-zubehoer__actions">
+                  <div class="bz-inline-zubehoer__qty">
+                    <button type="button" onclick="bzZubQty(this,-1)" aria-label="Weniger">&#8722;</button>
+                    <input type="number" value="1" min="1" max="999" class="bz-inline-zubehoer__qty-input">
+                    <button type="button" onclick="bzZubQty(this,1)" aria-label="Mehr">&#43;</button>
+                  </div>
+                  <button type="button" class="bz-inline-zubehoer__atc" onclick="bzAddZubehoer(this)" aria-label="{{ _zp.title }} in den Warenkorb">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                    Hinzufügen
+                  </button>
+                </div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        <hr class="bz-divider">
 
         {%- for option in product.options_with_values -%}
           {%- if option.name == 'Bestellung als' -%}
@@ -1798,6 +1912,48 @@
     var val = parseInt(inp.value) + delta;
     if (val < 1) val = 1;
     inp.value = val;
+  }
+
+  // Zubehör Menge +/-
+  function bzZubQty(btn, delta) {
+    var inp = btn.parentElement.querySelector('.bz-inline-zubehoer__qty-input');
+    var val = parseInt(inp.value) + delta;
+    if (val < 1) val = 1;
+    inp.value = val;
+  }
+
+  // Zubehör in den Warenkorb (AJAX)
+  function bzAddZubehoer(btn) {
+    var item = btn.closest('.bz-inline-zubehoer__item');
+    var variantId = item.dataset.variantId;
+    var qty = parseInt(item.querySelector('.bz-inline-zubehoer__qty-input').value) || 1;
+    var origText = btn.innerHTML;
+    btn.disabled = true;
+    btn.textContent = '...';
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items: [{ id: parseInt(variantId), quantity: qty }] })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function() {
+      btn.classList.add('added');
+      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Hinzugefügt';
+      // Update cart count
+      fetch('/cart.json').then(function(r) { return r.json(); }).then(function(cart) {
+        var badge = document.querySelector('.cart-count, [data-cart-count]');
+        if (badge) badge.textContent = cart.item_count;
+      });
+      setTimeout(function() {
+        btn.classList.remove('added');
+        btn.innerHTML = origText;
+        btn.disabled = false;
+      }, 2000);
+    })
+    .catch(function() {
+      btn.innerHTML = origText;
+      btn.disabled = false;
+    });
   }
 
   // Farb-Swatches
