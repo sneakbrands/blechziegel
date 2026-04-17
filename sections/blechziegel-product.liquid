@@ -2122,6 +2122,7 @@
 </script>
 
 {%- comment -%}══ ZUBEHÖR (direkt per Handle) ══{%- endcomment -%}
+{%- render 'bz-product-card-styles' -%}
 {%- assign zubehoer_handles = 'haken,schrauben,versteifung' | split: ',' -%}
 {%- assign zubehoer_count = 0 -%}
 {%- for h in zubehoer_handles -%}
