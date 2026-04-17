@@ -1365,8 +1365,11 @@
                     {%- endif -%}
                     <span class="bz-filter-option-meta">
                       <span class="bz-filter-option-label">{{ value.label }}</span>
-                        {%- if swatch_ral != blank -%}<span class="bz-filter-ral">{{ swatch_ral }}</span>{%- endif -%}
-                      <!-- debug: vl={{ vl }} ral={{ swatch_ral }} -->
+                      {%- assign _vl = value.label | downcase -%}
+                      {%- if _vl contains 'aluminium' -%}<span class="bz-filter-ral">unbeschichtet</span>
+                      {%- elsif _vl contains 'anthrazit' -%}<span class="bz-filter-ral">RAL 7016</span>
+                      {%- elsif _vl contains 'ziegelrot' -%}<span class="bz-filter-ral">RAL 8004</span>
+                      {%- endif -%}
                     </span>
                     <span class="bz-filter-option-count">{{ value.count }}</span>
                   </label>
