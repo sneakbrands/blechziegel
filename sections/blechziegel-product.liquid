@@ -2352,29 +2352,7 @@
 }
 </script>
 
-{%- comment -%}══ ZUBEHÖR (direkt per Handle) ══{%- endcomment -%}
-{%- render 'bz-product-card-styles' -%}
-{%- assign zubehoer_handles = 'haken,schrauben,versteifung' | split: ',' -%}
-{%- assign zubehoer_count = 0 -%}
-{%- for h in zubehoer_handles -%}
-  {%- assign zp = all_products[h] -%}
-  {%- if zp and zp.title != blank -%}{%- assign zubehoer_count = zubehoer_count | plus: 1 -%}{%- endif -%}
-{%- endfor -%}
-{%- if zubehoer_count > 0 -%}
-<section class="bz-zubehoer-section">
-  <div class="bz-zubehoer-wrap">
-    <h2 class="bz-zubehoer-title">Zubehör</h2>
-    <div class="bz-zubehoer-grid">
-      {%- for h in zubehoer_handles -%}
-        {%- assign zp = all_products[h] -%}
-        {%- if zp and zp.title != blank -%}
-          {%- render 'bz-product-card', product: zp -%}
-        {%- endif -%}
-      {%- endfor -%}
-    </div>
-  </div>
-</section>
-{%- endif -%}
+{%- comment -%} Zubehör Section entfernt — Zubehör ist jetzt inline im Kaufbereich {%- endcomment -%}
 
 {% schema %}
 {
