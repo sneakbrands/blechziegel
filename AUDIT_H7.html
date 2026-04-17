@@ -1,0 +1,710 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>H7 Enterprise-Audit · blechziegel.de</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bz-navy: #0d1e35;
+    --bz-navy-mid: #152840;
+    --bz-orange: #f5a623;
+    --bz-orange-dark: #d4891a;
+    --bz-orange-light: #fff4e0;
+    --bz-surface: #f8f8f6;
+    --bz-surface-2: #efede8;
+    --bz-border: rgba(13, 30, 53, 0.08);
+    --bz-text: #1a1a18;
+    --bz-muted: #5a5955;
+  }
+
+  @page {
+    size: A4;
+    margin: 18mm 16mm 22mm 16mm;
+    @bottom-left { content: "H7 Enterprise-Audit · blechziegel.de"; font-family: 'Open Sans', sans-serif; font-size: 9pt; color: #5a5955; }
+    @bottom-right { content: "Seite " counter(page) " / " counter(pages); font-family: 'Open Sans', sans-serif; font-size: 9pt; color: #5a5955; }
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.55;
+    color: var(--bz-text);
+    background: #fff;
+  }
+
+  .cover {
+    page-break-after: always;
+    min-height: 255mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16mm 14mm;
+    background: linear-gradient(135deg, var(--bz-navy) 0%, var(--bz-navy-mid) 100%);
+    color: #fff;
+    margin: -18mm -16mm -22mm -16mm;
+  }
+
+  .cover-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: 18mm;
+    border-bottom: 3px solid var(--bz-orange);
+  }
+
+  .cover-logo {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 26pt;
+    letter-spacing: -0.02em;
+  }
+  .cover-logo span { color: var(--bz-orange); }
+  .cover-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9pt;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin-top: 4px;
+  }
+
+  .cover-body {
+    padding: 20mm 0;
+  }
+  .cover-kicker {
+    display: inline-block;
+    background: rgba(245, 166, 35, 0.15);
+    border: 1px solid rgba(245, 166, 35, 0.45);
+    color: var(--bz-orange);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9pt;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 20px;
+  }
+  .cover-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 38pt;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 16px;
+    max-width: 160mm;
+  }
+  .cover-sub {
+    font-size: 13pt;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.75);
+    max-width: 150mm;
+    font-weight: 400;
+  }
+
+  .cover-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10mm;
+    padding-top: 16mm;
+    border-top: 1px solid rgba(255,255,255,0.15);
+  }
+  .cover-meta-item {
+    font-family: 'Montserrat', sans-serif;
+  }
+  .cover-meta-label {
+    font-size: 8.5pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 6px;
+  }
+  .cover-meta-value {
+    font-size: 11.5pt;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .content {
+    padding: 0;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--bz-navy);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  h1 {
+    font-size: 22pt;
+    font-weight: 800;
+    margin: 0 0 14px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--bz-orange);
+    page-break-before: always;
+  }
+  h1:first-of-type { page-break-before: auto; }
+
+  h2 {
+    font-size: 15pt;
+    font-weight: 700;
+    margin: 22px 0 10px;
+    padding-left: 10px;
+    border-left: 4px solid var(--bz-orange);
+    page-break-after: avoid;
+  }
+
+  h3 {
+    font-size: 12pt;
+    font-weight: 700;
+    margin: 18px 0 8px;
+    color: var(--bz-navy);
+    page-break-after: avoid;
+  }
+
+  p { margin: 6px 0 10px; }
+
+  ol, ul { margin: 6px 0 12px; padding-left: 22px; }
+  ol li, ul li { margin-bottom: 4px; }
+
+  strong { color: var(--bz-navy); font-weight: 700; }
+
+  code {
+    font-family: 'Consolas', 'SF Mono', monospace;
+    font-size: 9pt;
+    background: var(--bz-surface);
+    border: 1px solid var(--bz-border);
+    border-radius: 4px;
+    padding: 1px 5px;
+    color: var(--bz-navy);
+  }
+  pre {
+    background: var(--bz-surface);
+    border: 1px solid var(--bz-border);
+    border-left: 4px solid var(--bz-orange);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 9pt;
+    overflow-x: auto;
+    line-height: 1.45;
+    page-break-inside: avoid;
+  }
+  pre code { background: transparent; border: none; padding: 0; }
+
+  blockquote {
+    margin: 10px 0;
+    padding: 10px 14px;
+    background: var(--bz-orange-light);
+    border-left: 4px solid var(--bz-orange);
+    border-radius: 6px;
+    color: var(--bz-text);
+    font-size: 10pt;
+  }
+  blockquote p { margin: 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 14px;
+    font-size: 9.5pt;
+    page-break-inside: avoid;
+  }
+  thead tr { background: var(--bz-navy); color: #fff; }
+  th, td {
+    padding: 7px 9px;
+    border-bottom: 1px solid var(--bz-border);
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 9pt;
+    letter-spacing: 0.02em;
+  }
+  tbody tr:nth-child(even) td { background: var(--bz-surface); }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--bz-border);
+    margin: 18px 0;
+  }
+
+  a { color: var(--bz-orange-dark); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  h1 + p, h2 + p { margin-top: 0; }
+</style>
+</head>
+<body>
+
+<section class="cover">
+  <div class="cover-head">
+    <div>
+      <div class="cover-logo">blech<span>ziegel</span>.de</div>
+      <div class="cover-tag">Made in Germany · B2B · PV-Montage</div>
+    </div>
+  </div>
+
+  <div class="cover-body">
+    <div class="cover-kicker">H7 Enterprise-Audit · E2E Playwright + CLI</div>
+    <h1 class="cover-title">End-to-End Audit<br>Desktop &amp; Mobile</h1>
+    <p class="cover-sub">Automatisierter Audit aller Shop-Seiten via Playwright (Desktop 1440x900 + iPhone 13) und Shopify CLI Theme Check. 46 Tests, Screenshot-Evidenz, Conversion-Analyse.</p>
+  </div>
+
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">Shop</div>
+      <div class="cover-meta-value">blechziegel.de</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">Theme</div>
+      <div class="cover-meta-value">Horizon 3.5.0 · #193125220736</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">Datum</div>
+      <div class="cover-meta-value">17.04.2026</div>
+    </div>
+  </div>
+</section>
+
+<main class="content">
+<h1 id="h7-enterprise-audit-blechziegelde">H7 Enterprise Audit — blechziegel.de</h1>
+<p><strong>Datum:</strong> 17.04.2026
+<strong>Branch:</strong> <code>feat/ziegel-finder-enterprise</code>
+<strong>Theme:</strong> blechziegel/main (#193125220736) — Horizon v3.5.0
+<strong>Auditor:</strong> Claude Opus 4.6 (Automated E2E via Playwright + Shopify CLI)</p>
+<hr />
+<h2 id="1-cli-ergebnis">1. CLI Ergebnis</h2>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Ergebnis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Theme Check</td>
+<td>344 Dateien geprüft</td>
+</tr>
+<tr>
+<td>Errors</td>
+<td>183 (181x MatchingTranslations, 2x UniqueStaticBlockId)</td>
+</tr>
+<tr>
+<td>Warnings</td>
+<td>74 (VariableName, RemoteAsset, UndefinedObject)</td>
+</tr>
+<tr>
+<td>Neue Probleme</td>
+<td>Nein — alle Errors sind fehlende Übersetzungskeys in Fremdsprachen (bg, cs, da, etc.)</td>
+</tr>
+</tbody>
+</table>
+<p>Die 181 <code>MatchingTranslations</code>-Errors betreffen nicht-deutsche Locales und sind unkritisch (Shop nur auf Deutsch). Die 2 <code>UniqueStaticBlockId</code>-Errors sollten mittelfristig behoben werden.</p>
+<hr />
+<h2 id="2-playwright-ergebnis">2. Playwright Ergebnis</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Desktop</th>
+<th>Mobile</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Startseite laden</td>
+<td>OK</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>Hersteller H1</td>
+<td>OK</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>Hersteller-Links</td>
+<td>OK (21 Links)</td>
+<td>OK (21 Links)</td>
+</tr>
+<tr>
+<td>Collection Braas H1</td>
+<td>OK</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>Collection Braas Produkte</td>
+<td>OK (1)</td>
+<td>OK (1)</td>
+</tr>
+<tr>
+<td>Collection Braas Hero</td>
+<td>OK</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>Collection Bramac H1</td>
+<td>OK</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>Collection Bramac Produkte</td>
+<td>OK (1)</td>
+<td>OK (1)</td>
+</tr>
+<tr>
+<td>Collection Bramac Hero</td>
+<td>OK</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>PDP Multi-Brand-Pill</td>
+<td>OK ("Passend fuer Braas · Bramac · Creaton · Nelskamp")</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>PDP Brand-Links (klickbar)</td>
+<td>WARN (0 Links)</td>
+<td>WARN (0 Links)</td>
+</tr>
+<tr>
+<td>PDP Titel</td>
+<td>OK</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>PDP Preis</td>
+<td>OK (7,79 EUR / Streichpreis 10,99 EUR)</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>PDP Add-to-Cart</td>
+<td>OK</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>PDP Zubehoer-Block</td>
+<td>WARN (nicht per Selektor gefunden)</td>
+<td>WARN</td>
+</tr>
+<tr>
+<td>PDP Vendor "BHE Metalle"</td>
+<td>OK (nicht sichtbar)</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>Add-to-Cart AJAX</td>
+<td>OK (0 -&gt; 1 Item)</td>
+<td>FAIL (Timeout — Cookie-Banner blockiert)</td>
+</tr>
+<tr>
+<td>Cart Items</td>
+<td>OK (1 Item)</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>Cart Vendor-Check</td>
+<td>OK (kein "BHE Metalle")</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>Cart Total</td>
+<td>OK (7,79 EUR)</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>Finder Seite</td>
+<td>OK (/pages/ziegel-finder)</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>Finder CTA</td>
+<td>OK</td>
+<td>OK</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Gesamt: 46 Tests — 41 OK, 4 WARN, 1 FAIL</strong></p>
+<hr />
+<h2 id="3-seitenbewertung">3. Seitenbewertung</h2>
+<table>
+<thead>
+<tr>
+<th>Seite</th>
+<th>Problem</th>
+<th>Impact</th>
+<th>Empfehlung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PDP</td>
+<td>Multi-Brand-Pill zeigt Hersteller, aber Links sind nicht klickbar (0 <code>&lt;a&gt;</code>-Tags)</td>
+<td>Mittel</td>
+<td>Brand-Namen als Links zu /collections/{brand} implementieren</td>
+</tr>
+<tr>
+<td>PDP</td>
+<td>Zubehoer-Block nicht per Standard-Selektoren findbar</td>
+<td>Niedrig</td>
+<td>Pruefen ob Block live gerendert wird oder nur bei bestimmten Produkten</td>
+</tr>
+<tr>
+<td>Mobile PDP</td>
+<td>Cookie-Banner blockiert Add-to-Cart Button — ATC-Klick schlaegt fehl</td>
+<td>HOCH — Conversion-Blocker</td>
+<td>Cookie-Banner z-index/Position pruefen (FIX ANGEWENDET)</td>
+</tr>
+<tr>
+<td>Mobile allgemein</td>
+<td>Cookie-Banner dominiert den gesamten Viewport auf allen Seiten</td>
+<td>Hoch</td>
+<td>Banner verkleinern (FIX ANGEWENDET)</td>
+</tr>
+<tr>
+<td>Cart</td>
+<td>Ueberschrift "Cart" statt "Warenkorb"</td>
+<td>Niedrig</td>
+<td>Locale-Key pruefen</td>
+</tr>
+<tr>
+<td>Cart</td>
+<td>"You may also like" statt deutscher Text</td>
+<td>Niedrig</td>
+<td>Uebersetzung anpassen</td>
+</tr>
+<tr>
+<td>Cart</td>
+<td>Zubehoer-Empfehlungen zeigen "Ausverkauft" (Haken, Versteifung)</td>
+<td>Mittel</td>
+<td>Ausverkaufte Produkte aus Empfehlungen filtern</td>
+</tr>
+<tr>
+<td>Collection Braas</td>
+<td>Nur 1 Produkt sichtbar</td>
+<td>Info</td>
+<td>Sicherstellen, dass alle passenden Produkte getaggt sind</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-kritische-probleme">4. Kritische Probleme</h2>
+<h3 id="1-cookie-banner-blockiert-mobile-atc-conversion-blocker-behoben">1. Cookie-Banner blockiert Mobile ATC (Conversion-Blocker) — BEHOBEN</h3>
+<p>Der Cookie-Consent-Banner nahm auf Mobile (iPhone 13) den gesamten sichtbaren Bereich ein. Der Add-to-Cart-Button war nicht klickbar, bis der Banner geschlossen wurde.</p>
+<p><strong>Fix angewendet:</strong> <code>snippets/bz-cookie-banner.liquid</code> — Mobile-Styles auf Compact-Modus umgestellt:
+- Body-Text ausgeblendet (Datenschutzlink ueber "Einstellungen verwalten" erreichbar)
+- Max-Hoehe auf 40vh begrenzt
+- Kompaktere Buttons und Abstaende</p>
+<p><strong>Ergebnis nach Fix:</strong>
+| Metrik | Vorher | Nachher |
+|--------|--------|---------|
+| Banner-Hoehe Mobile | ~100% Viewport | 34.8% (231px/664px) |
+| Body-Text | Sichtbar (dominiert) | Ausgeblendet |
+| Content sichtbar | Nein | Ja — Produktbild, Breadcrumb, Titel |
+| Mobile ATC | FAIL (Timeout) | OK (0 -&gt; 1 Items) |</p>
+<h3 id="2-brand-links-in-multi-brand-pill-nicht-klickbar-offen">2. Brand-Links in Multi-Brand-Pill nicht klickbar — OFFEN</h3>
+<p>Die Pill zeigt korrekt "Passend fuer Braas · Bramac · Creaton · Nelskamp", aber keiner der Namen ist als Link implementiert. Der User kann nicht von der PDP zur Hersteller-Collection navigieren.</p>
+<hr />
+<h2 id="5-quick-wins-top-5">5. Quick Wins (Top 5)</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Massnahme</th>
+<th>Impact</th>
+<th>Aufwand</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Cookie-Banner auf Mobile verkleinern</td>
+<td>Sehr hoch — Mobile Conversion</td>
+<td>ERLEDIGT</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Brand-Namen in Pill verlinken — <code>&lt;a href="/collections/braas"&gt;Braas&lt;/a&gt;</code></td>
+<td>Mittel — interne Verlinkung + UX</td>
+<td>Gering (Liquid-Edit)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Cart-Texte auf Deutsch — "Cart" -&gt; "Warenkorb", "You may also like" -&gt; "Das koennte dir auch gefallen"</td>
+<td>Niedrig — Konsistenz</td>
+<td>Minimal (Locale-Key)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Ausverkaufte Produkte aus Cart-Empfehlungen entfernen</td>
+<td>Mittel — Trust</td>
+<td>Gering (Liquid-Filter)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Zubehoer-Block Sichtbarkeit pruefen — verifizieren ob Block bei Frankfurter Pfanne live rendert</td>
+<td>Mittel — Cross-Sell-Revenue</td>
+<td>Gering (QA)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="6-screenshots">6. Screenshots</h2>
+<table>
+<thead>
+<tr>
+<th>Datei</th>
+<th>Inhalt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>h7-desktop-home.png</td>
+<td>Startseite Desktop</td>
+</tr>
+<tr>
+<td>h7-mobile-home.png</td>
+<td>Startseite Mobile (Cookie-Banner dominant — VOR Fix)</td>
+</tr>
+<tr>
+<td>h7-desktop-hersteller.png</td>
+<td>Hersteller-Hub Desktop</td>
+</tr>
+<tr>
+<td>h7-mobile-hersteller.png</td>
+<td>Hersteller-Hub Mobile</td>
+</tr>
+<tr>
+<td>h7-desktop-coll-braas.png</td>
+<td>Collection Braas Desktop</td>
+</tr>
+<tr>
+<td>h7-mobile-coll-braas.png</td>
+<td>Collection Braas Mobile</td>
+</tr>
+<tr>
+<td>h7-desktop-coll-bramac.png</td>
+<td>Collection Bramac Desktop</td>
+</tr>
+<tr>
+<td>h7-mobile-coll-bramac.png</td>
+<td>Collection Bramac Mobile</td>
+</tr>
+<tr>
+<td>h7-desktop-pdp-top.png</td>
+<td>PDP Desktop (oben)</td>
+</tr>
+<tr>
+<td>h7-mobile-pdp-top.png</td>
+<td>PDP Mobile (Cookie-Banner blockiert — VOR Fix)</td>
+</tr>
+<tr>
+<td>h7-desktop-cart.png</td>
+<td>Cart Desktop mit Produkt</td>
+</tr>
+<tr>
+<td>h7-mobile-cart.png</td>
+<td>Cart Mobile</td>
+</tr>
+<tr>
+<td>h7-desktop-finder.png</td>
+<td>Ziegel-Finder Desktop</td>
+</tr>
+<tr>
+<td>h7-mobile-finder.png</td>
+<td>Finder Mobile</td>
+</tr>
+<tr>
+<td>h7-mobile-pdp-cookie-fix.png</td>
+<td>PDP Mobile NACH Fix (Banner compact, Content sichtbar)</td>
+</tr>
+<tr>
+<td>h7-mobile-home-cookie-fix.png</td>
+<td>Home Mobile NACH Fix (Content sichtbar)</td>
+</tr>
+<tr>
+<td>h7-results.json</td>
+<td>Maschinen-lesbares Ergebnis (46 Tests)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="7-abschluss">7. Abschluss</h2>
+<table>
+<thead>
+<tr>
+<th>Frage</th>
+<th>Antwort</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Conversion-ready?</td>
+<td>Bedingt Ja — Mobile Cookie-Banner ist behoben, Brand-Links offen</td>
+</tr>
+<tr>
+<td>Groesster Conversion-Killer</td>
+<td>Cookie-Banner auf Mobile (BEHOBEN)</td>
+</tr>
+<tr>
+<td>Groesster Hebel</td>
+<td>Brand-Links in Pill verlinken + Cart-Texte eindeutschen</td>
+</tr>
+</tbody>
+</table>
+<h3 id="brand-normalisierung-bhe-metalle-blechziegelde">Brand-Normalisierung BHE Metalle -&gt; blechziegel.de</h3>
+<table>
+<thead>
+<tr>
+<th>Quelle</th>
+<th>Aktueller Wert</th>
+<th>Zielwert</th>
+<th>Aenderung moeglich</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PDP Body (sichtbar)</td>
+<td>nicht sichtbar</td>
+<td>—</td>
+<td>—</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>Cart (sichtbar)</td>
+<td>nicht sichtbar</td>
+<td>—</td>
+<td>—</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>Externe Feeds</td>
+<td>Ich kann das nicht bestaetigen.</td>
+<td>blechziegel.de</td>
+<td>Brand-Mapping extern pruefen</td>
+<td>Offen</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="commit">Commit</h2>
+<ul>
+<li><strong>SHA:</strong> cb305f7</li>
+<li><strong>Branch:</strong> feat/ziegel-finder-enterprise</li>
+<li><strong>Aenderung:</strong> <code>snippets/bz-cookie-banner.liquid</code> — Mobile Compact Cookie Banner</li>
+<li><strong>Verifikation:</strong> Playwright bestaetigtt: Banner 34.8% Viewport, ATC OK, Content sichtbar</li>
+</ul>
+</main>
+
+</body>
+</html>

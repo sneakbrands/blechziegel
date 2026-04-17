@@ -1055,6 +1055,12 @@
   }
   .bz-product-brand-link strong { color: var(--bz-navy); font-weight: 700; }
   .bz-product-brand-link svg { color: var(--bz-orange-dark, #d4891a); flex-shrink: 0; }
+  .bz-product-brand-link--multi a {
+    color: var(--bz-navy, #0d1e35);
+    text-decoration: none;
+    transition: color .15s;
+  }
+  .bz-product-brand-link--multi a:hover { color: var(--bz-orange-dark, #d4891a); }
 
   /* PDP Breadcrumb (Hersteller-Achse, konsistent zum Collection-Breadcrumb) */
   .bz-pdp-breadcrumb { max-width: 1200px; margin: 0 auto; padding: 14px 20px 0; }
@@ -1158,10 +1164,29 @@
           <svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
       {%- elsif matched_handles_arr.size > 1 and matched_names != '' -%}
-        <a class="bz-product-brand-link bz-product-brand-link--multi" href="{{ routes.root_url }}pages/hersteller" aria-label="Passend für {{ matched_names }} — alle Hersteller anzeigen">
-          Passend für <strong>{{ matched_names }}</strong>
+        <span class="bz-product-brand-link bz-product-brand-link--multi">
+          Passend für
+          {%- for h in matched_handles_arr -%}
+            {%- case h -%}
+              {%- when 'braas' -%}{%- assign _ln = 'Braas' -%}
+              {%- when 'bramac' -%}{%- assign _ln = 'Bramac' -%}
+              {%- when 'creaton' -%}{%- assign _ln = 'Creaton' -%}
+              {%- when 'nelskamp' -%}{%- assign _ln = 'Nelskamp' -%}
+              {%- when 'wienerberger' -%}{%- assign _ln = 'Wienerberger' -%}
+              {%- when 'erlus' -%}{%- assign _ln = 'Erlus' -%}
+              {%- when 'roeben' -%}{%- assign _ln = 'Röben' -%}
+              {%- when 'walther' -%}{%- assign _ln = 'Walther' -%}
+              {%- when 'jacobi-walther' -%}{%- assign _ln = 'Jacobi Walther' -%}
+              {%- when 'meyer-holsen' -%}{%- assign _ln = 'Meyer-Holsen' -%}
+              {%- else -%}{%- assign _ln = '' -%}
+            {%- endcase -%}
+            {%- if _ln != '' -%}
+              {%- if forloop.index > 1 %} · {% endif -%}
+              <a href="{{ routes.collections_url }}/{{ h }}" rel="tag"><strong>{{ _ln }}</strong></a>
+            {%- endif -%}
+          {%- endfor -%}
           <svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
+        </span>
       {%- endif -%}
 
       <!-- Titel -->
