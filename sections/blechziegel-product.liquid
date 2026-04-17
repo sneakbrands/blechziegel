@@ -387,34 +387,49 @@
 
   /* Projekt-/Mengen-Hinweis (ersetzt früheren Staffelpreis-Block) */
   .bz-project-note {
-    display: flex; flex-direction: column; gap: 6px;
-    margin: 18px 0;
-    padding: 16px 18px;
-    background: #f8f7f4;
-    border: 1px solid rgba(13, 30, 53, 0.08);
-    border-left: 3px solid var(--bz-orange);
-    border-radius: 10px;
+    display: flex; flex-direction: column; gap: 10px;
+    margin: 16px 0;
+    padding: 22px 24px;
+    background: linear-gradient(160deg, #0a2240 0%, #163660 100%);
+    border: 1px solid rgba(255,165,0,.18);
+    border-radius: 14px;
+    color: #fff;
+    position: relative; overflow: hidden;
+    box-shadow: 0 8px 24px rgba(10,34,64,.15);
+  }
+  .bz-project-note::after {
+    content: ''; position: absolute; right: -30px; top: -30px;
+    width: 140px; height: 140px; pointer-events: none;
+    background: radial-gradient(circle, rgba(255,165,0,.12) 0%, transparent 70%);
   }
   .bz-project-note__title {
-    color: var(--bz-navy);
-    font-size: 0.98rem; font-weight: 700; line-height: 1.3;
+    font-family: var(--bz-head, 'Montserrat', sans-serif);
+    color: #fff;
+    font-size: 15px; font-weight: 800; line-height: 1.25;
+    position: relative;
   }
+  .bz-project-note__title span { color: #ffa500; }
   .bz-project-note__sub {
-    color: var(--bz-gray-text);
-    font-size: 0.88rem; line-height: 1.5;
+    color: rgba(255,255,255,.78);
+    font-size: 13px; line-height: 1.55;
+    position: relative;
   }
   .bz-project-note__cta {
     display: inline-flex; align-items: center; gap: 6px;
     margin-top: 4px;
-    font-size: 13px; font-weight: 600;
-    color: var(--bz-navy);
+    font-family: var(--bz-head, 'Montserrat', sans-serif);
+    font-size: 13px; font-weight: 800;
+    color: #ffa500;
     text-decoration: none;
-    border-bottom: 1px solid rgba(13,30,53,.2);
     padding-bottom: 2px;
+    border-bottom: 1.5px solid transparent;
     align-self: flex-start;
     transition: color .15s, border-color .15s;
+    position: relative;
   }
-  .bz-project-note__cta:hover { color: var(--bz-orange-dark); border-color: var(--bz-orange); }
+  .bz-project-note__cta:hover { color: #fff; border-bottom-color: #ffa500; }
+  .bz-project-note__cta svg { transition: transform .18s; }
+  .bz-project-note__cta:hover svg { transform: translateX(3px); }
 
   /* Varianten */
   .bz-variant-label {
@@ -1064,9 +1079,9 @@
     .bz-tab-btn { padding: 10px 14px; font-size: 13px; }
     .bz-price-current { font-size: 1.7rem; }
     .bz-product-grid { padding: 16px 0 32px; }
-    .bz-project-note { padding: 14px 16px; border-radius: 10px; }
-    .bz-project-note__title { font-size: 0.95rem; }
-    .bz-project-note__sub { font-size: 0.85rem; }
+    .bz-project-note { padding: 18px 18px; border-radius: 12px; }
+    .bz-project-note__title { font-size: 14px; }
+    .bz-project-note__sub { font-size: 12.5px; }
     .bz-sticky-atc { padding: 10px 10px calc(10px + env(safe-area-inset-bottom)); }
     .bz-sticky-atc-inner { grid-template-columns: auto 1fr; gap: 10px; }
     .bz-sticky-btn { grid-column: 1 / -1; }
@@ -1594,8 +1609,8 @@
 
         {%- comment -%} Projekt-Note: nur sichtbar bei Gewerbekunde {%- endcomment -%}
         <div class="bz-project-note" id="bz-project-note" role="note" style="display:none;">
-          <strong class="bz-project-note__title">Projektpreise und Mengenkonditionen auf Anfrage</strong>
-          <span class="bz-project-note__sub">Sonderprofile, Rahmenverträge und größere Mengen werden individuell kalkuliert.</span>
+          <strong class="bz-project-note__title">Projektpreise für <span>Profis.</span></strong>
+          <span class="bz-project-note__sub">Sonderprofile, Rahmenverträge und größere Mengen werden individuell kalkuliert. Angebot auf Basis Ihres Projekt- und Mengenprofils.</span>
           <a href="{{ routes.root_url }}pages/projekt-anfrage" class="bz-project-note__cta">
             Projekt-Konditionen anfragen
             <svg aria-hidden="true" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
