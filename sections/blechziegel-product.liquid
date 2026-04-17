@@ -489,30 +489,36 @@
     outline-offset: 2px;
   }
 
-  /* Farb-Swatches */
+  /* Farb-Swatches (Hersteller-Stil: Chip + Name + RAL) */
   .bz-color-swatches {
     display: flex;
+    flex-direction: column;
     gap: 8px;
     margin-bottom: 16px;
-    flex-wrap: wrap;
   }
   .bz-swatch {
     appearance: none;
     -webkit-appearance: none;
-    width: 36px;
-    height: 36px;
-    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 8px 12px;
     margin: 0;
-    border-radius: 50%;
+    border-radius: 8px;
     border: 2px solid var(--bz-border);
-    background: transparent;
+    background: #fff;
     cursor: pointer;
-    transition: border-color .15s, transform .15s;
+    transition: border-color .15s, background .15s;
     position: relative;
+    text-align: left;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--bz-navy, #0d1e35);
   }
-  .bz-swatch:hover { transform: scale(1.1); }
+  .bz-swatch:hover { border-color: var(--bz-orange); background: #fff9ee; }
   .bz-swatch.active,
-  .bz-swatch[aria-pressed="true"] { border-color: var(--bz-orange); border-width: 2.5px; }
+  .bz-swatch[aria-pressed="true"] { border-color: var(--bz-orange); background: var(--bz-orange-light, #fff4e0); }
   .bz-swatch:focus-visible,
   .bz-gallery-thumb:focus-visible {
     outline: 2px solid var(--bz-navy);
@@ -524,9 +530,14 @@
     font: inherit;
   }
   .bz-gallery-thumb[aria-current="true"] { border-color: var(--bz-orange); }
-  .bz-swatch[data-color="alu"] { background: #cfccc1; }
-  .bz-swatch[data-color="anthrazit"] { background: #373d47; }
-  .bz-swatch[data-color="ziegelrot"] { background: #a14130; }
+  .bz-swatch__chip {
+    width: 44px; height: 44px; border-radius: 6px; flex-shrink: 0;
+  }
+  .bz-swatch__chip--alu { background: linear-gradient(135deg, #c7ccd1 0%, #a6abb2 100%); }
+  .bz-swatch__chip--anthrazit { background: #383d42; }
+  .bz-swatch__chip--ziegelrot { background: #8b3a2b; }
+  .bz-swatch__name { font-weight: 700; color: var(--bz-navy, #0d1e35); line-height: 1.3; }
+  .bz-swatch__ral { font-size: 12px; color: #888; }
 
   /* Menge + CTA */
   .bz-qty-cta {
@@ -1326,11 +1337,11 @@
           {%- if option.name == 'Farbe' -%}
             <div class="bz-color-swatches" id="bz-swatches-{{ option.position }}" role="radiogroup" aria-label="{{ option.name | escape }}">
               {%- for value in option.values -%}
-                {%- assign swatch_data = value | downcase | replace: ' ', '-' -%}
                 {%- assign data_color = '' -%}
-                {%- if value contains 'Aluminium' -%}{%- assign data_color = 'alu' -%}
-                {%- elsif value contains 'Anthrazit' -%}{%- assign data_color = 'anthrazit' -%}
-                {%- elsif value contains 'Ziegelrot' -%}{%- assign data_color = 'ziegelrot' -%}
+                {%- assign color_ral = '' -%}
+                {%- if value contains 'Aluminium' -%}{%- assign data_color = 'alu' -%}{%- assign color_ral = 'unbeschichtet' -%}
+                {%- elsif value contains 'Anthrazit' -%}{%- assign data_color = 'anthrazit' -%}{%- assign color_ral = 'RAL 7016' -%}
+                {%- elsif value contains 'Ziegelrot' -%}{%- assign data_color = 'ziegelrot' -%}{%- assign color_ral = 'RAL 8004' -%}
                 {%- endif -%}
                 <button
                   type="button"
@@ -1338,10 +1349,15 @@
                   data-color="{{ data_color }}"
                   data-value="{{ value | escape }}"
                   data-option="{{ option.position }}"
-                  title="{{ value | escape }}"
                   aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
                   aria-label="{{ option.name | escape }} {{ value | escape }} wählen"
-                ></button>
+                >
+                  <span class="bz-swatch__chip bz-swatch__chip--{{ data_color }}" aria-hidden="true"></span>
+                  <span class="bz-swatch__meta">
+                    <span class="bz-swatch__name">{{ value }}</span>
+                    {%- if color_ral != '' -%}<span class="bz-swatch__ral">{{ color_ral }}</span>{%- endif -%}
+                  </span>
+                </button>
               {%- endfor -%}
             </div>
           {%- else -%}
