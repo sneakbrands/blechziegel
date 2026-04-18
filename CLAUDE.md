@@ -106,6 +106,25 @@ Bei Bedarf an neuen Artefakten (neue Audits, Previews, Experiments): **direkt un
 
 **Vollständige Spec:** `C:\Claude\Agent\Blechziegel\BZcrawler\data\site-knowledge\CI-SPEC.md`
 
+### 🎨 Pflicht: `frontend-designer`-Skill bei jeder UI-/Design-Aufgabe
+
+Für **jede** UI-, Design- oder Styling-Aufgabe in diesem Projekt wird der Skill **`frontend-designer`** aufgerufen, **bevor** Code geschrieben wird. Nicht ad-hoc CSS schreiben — immer den Skill als Fundament nutzen, damit die CI-Signaturen (Inter/Montserrat, 0.25em H1-Letter-Spacing, 14 px Primary-Radius, Schwarz/Weiß) konsistent durchgezogen werden.
+
+**Trigger (automatisch Skill laden):** UI, UX, design, layout, styling, farben, typografie, spacing, animation, hover, card, button, hero, section, template, section design, polish, redesign, component, landing-page, Page-Template, PDP-Anpassung, Collection-Layout, Footer, Header, Nav, Cart-Style, Form-CRO-Design, Link-in-Bio, Modal, Drawer, Banner, Swatch, Filter-UI, Checkout-Copy, Thank-You-Page, Ratgeber-Template, Blog-Layout.
+
+**Kontext, den der Skill jedes Mal lädt:**
+- `C:\Claude\Agent\Blechziegel\BZcrawler\data\site-knowledge\CI-SPEC.md` — verbindliche Farben/Fonts/Radii/Tokens
+- Horizon-Theme-CSS-Custom-Properties (z.B. `--style-border-radius-buttons-primary`, `--bz-nav-head`, `--font-h1--family`) — immer zuerst nutzen, Hard-Coded-Werte nur als Fallback
+- Existierende Section-Struktur in `sections/` — kein Neu-Design eines Pattern, das schon existiert
+
+**Verboten ohne expliziten User-OK:**
+- Neue Farben außerhalb der CI-Palette (#000 / #FFF / #333 / #DFDFDF / rgba(0,0,0,0.6))
+- Gradients, Neon, Drop-Shadows außerhalb der dokumentierten Hover-Effekte
+- Fonts außerhalb Inter + Montserrat
+- Emoji-Inflation / Icon-Stil-Mix
+- CTAs à la „Mehr erfahren", „Hier klicken", „Absenden"
+- `!important` auf CSS-Regeln, sofern nicht spezifisch begründet
+
 Jeder Marketing-Output (Instagram-Carousel, Reel-Cover, E-Mail-Template, Landing-Page, Blog-Hero, Ad-Creative, Flyer, Lead-Magnet-PDF) übernimmt die CI von blechziegel.de **ohne eigene Farbsetzung**:
 
 - **Farben:** Schwarz `#000` · Weiss `#FFF` · Hover `#333` · Border `#DFDFDF` · Muted `rgba(0,0,0,0.6)`. **Keine weiteren Farben ohne expliziten User-OK** (Produktfotos behalten ihre RAL-Farben).
