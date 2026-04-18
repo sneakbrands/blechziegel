@@ -1,6 +1,12 @@
 {
   "permissions": {
-    "defaultMode": "auto"
+    "defaultMode": "auto",
+    "allow": [
+      "Bash(git *)",
+      "Bash(gh *)",
+      "Bash(npx playwright *)",
+      "Bash(node scripts/*)"
+    ]
   },
   "autoMemoryEnabled": false,
   "env": {

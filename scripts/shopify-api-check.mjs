@@ -137,7 +137,24 @@ label('5) Write-Scope — prüft ob write_themes nutzbar ist (PUT ohne Body wird
   }
 }
 
-// 6) Zusammenfassung
+// 6) Products-Scope — prüft ob read_products für Stock-Monitor verfügbar ist
+label('6) Products-Scope — GET /products.json?limit=1 (für Stock-Monitor)');
+{
+  const r = await hit('products', { url: BASE + '/products.json?limit=1&fields=id,title,variants', headers: H });
+  if (r.ok) {
+    ok(`Status ${r.status} — read_products Scope ist aktiv`);
+    try {
+      const j = JSON.parse(r.raw);
+      const v = j.products?.[0]?.variants?.[0];
+      console.log('   Beispiel-Variante:', v ? `${j.products[0].title} (inventory_quantity=${v.inventory_quantity})` : 'keine Produkte');
+      if (v && typeof v.inventory_quantity === 'number') ok('inventory_quantity-Feld wird geliefert → Stock-Monitor kann arbeiten');
+      else warn('inventory_quantity fehlt oder kein Produkt vorhanden — Tracking prüfen');
+    } catch {}
+  } else if (r.status === 403) fail('Status 403 — Scope read_products fehlt. Admin → Apps → deine App → Konfiguration → Scopes: read_products aktivieren, dann App NEU INSTALLIEREN.');
+  else fail(`Status ${r.status}: ${r.body.slice(0, 200)}`);
+}
+
+// 7) Zusammenfassung
 label('Zusammenfassung');
 console.log('Wenn alle Tests grün sind, kann das Theme-Repo direkt via API gepusht werden.');
 console.log('Sobald das der Fall ist, führe dieses Script nochmal aus, schicke mir die Ausgabe, und ich pushe H6.');

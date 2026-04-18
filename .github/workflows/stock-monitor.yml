@@ -1,0 +1,64 @@
+name: Stock Monitor
+
+on:
+  schedule:
+    # Alle 4 Stunden zur vollen Stunde (UTC)
+    - cron: '0 */4 * * *'
+  workflow_dispatch: # manueller Trigger
+
+concurrency:
+  group: stock-monitor
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: scripts/stock-monitor/package.json
+
+      - name: Install dependencies
+        working-directory: scripts/stock-monitor
+        run: npm install --omit=dev --no-audit --no-fund
+
+      - name: Restore state (dedupe-file für 24h-Erinnerung)
+        uses: actions/cache/restore@v4
+        with:
+          path: scripts/stock-monitor/state.json
+          key: stock-monitor-state-v1-${{ github.run_id }}
+          restore-keys: |
+            stock-monitor-state-v1-
+
+      - name: Run stock monitor
+        working-directory: scripts/stock-monitor
+        env:
+          SHOP_DOMAIN: ${{ secrets.SHOP_DOMAIN }}
+          SHOPIFY_ADMIN_TOKEN: ${{ secrets.SHOPIFY_ADMIN_TOKEN }}
+          STOCK_THRESHOLD: ${{ secrets.STOCK_THRESHOLD }}
+          ALERT_EMAIL_FROM: ${{ secrets.ALERT_EMAIL_FROM }}
+          ALERT_EMAIL_TO: ${{ secrets.ALERT_EMAIL_TO }}
+          ALERT_SMTP_HOST: ${{ secrets.ALERT_SMTP_HOST }}
+          ALERT_SMTP_PORT: ${{ secrets.ALERT_SMTP_PORT }}
+          ALERT_SMTP_USER: ${{ secrets.ALERT_SMTP_USER }}
+          ALERT_SMTP_PASS: ${{ secrets.ALERT_SMTP_PASS }}
+          ALERT_SMTP_SECURE: ${{ secrets.ALERT_SMTP_SECURE }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          STOCK_REALERT_HOURS: ${{ secrets.STOCK_REALERT_HOURS }}
+          STOCK_ALERT_START_HOUR: ${{ secrets.STOCK_ALERT_START_HOUR }}
+          STOCK_ALERT_END_HOUR: ${{ secrets.STOCK_ALERT_END_HOUR }}
+          STOCK_ALERT_TZ: ${{ secrets.STOCK_ALERT_TZ }}
+        run: node index.mjs
+
+      - name: Save state (dedupe-file)
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: scripts/stock-monitor/state.json
+          key: stock-monitor-state-v1-${{ github.run_id }}
