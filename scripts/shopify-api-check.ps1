@@ -24,7 +24,7 @@ $CID      = $env.SHOPIFY_CLIENT_ID
 $SEC      = $env.SHOPIFY_CLIENT_SECRET
 $VER      = '2025-01'
 $BASE     = "https://$SHOP/admin/api/$VER"
-$THEME_ID = 193125220736
+$THEME_ID = 193277395328
 $KEY      = 'sections/blechziegel-product.liquid'
 
 function OK    ($msg) { Write-Host "✓ $msg" -ForegroundColor Green }

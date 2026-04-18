@@ -20,7 +20,7 @@ const CID  = env.SHOPIFY_CLIENT_ID;
 const SEC  = env.SHOPIFY_CLIENT_SECRET;
 const VER  = '2025-01';
 const BASE = `https://${SHOP}/admin/api/${VER}`;
-const THEME_ID = 193125220736; // blechziegel/main (live)
+const THEME_ID = 193277395328; // blechziegel/main (live, seit 2026-04-18)
 const KEY = 'sections/blechziegel-product.liquid';
 
 const colors = { g: '\x1b[32m', r: '\x1b[31m', y: '\x1b[33m', x: '\x1b[0m' };

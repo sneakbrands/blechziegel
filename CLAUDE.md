@@ -125,7 +125,7 @@ C:\Claude\Agent\Blechziegel\theme-workspace\freigabe\
 
 ## Session-Start (Pflicht bei jedem Projektstart)
 - **Branch prüfen:** `git branch --show-current` — wenn nicht `main`: STOP, Benutzer fragen wie der aktuelle Branch-Stand zu behandeln ist.
-- **Shopify CLI prüfen:** `"$APPDATA/npm/shopify" theme list --store blechziegel-de.myshopify.com` — muss Theme `#193125220736` zeigen.
+- **Shopify CLI prüfen:** `"$APPDATA/npm/shopify" theme list --store blechziegel-de.myshopify.com` — muss Theme `#193277395328` (role `[live]`) zeigen.
 - **Shopify API prüfen:** `node scripts/shopify-api-check.mjs` — alle Checks müssen grün sein.
 - **GitHub prüfen:** `git remote -v` muss `https://github.com/sneakbrands/blechziegel.git` zeigen, `git fetch origin main` muss funktionieren.
 - **Playwright prüfen:** `cd scripts/coll-test && npx playwright --version` muss eine Version zeigen; Chromium muss installiert sein (`npx playwright install --dry-run chromium` — kein "Install location: missing").
@@ -141,7 +141,7 @@ C:\Claude\Agent\Blechziegel\theme-workspace\freigabe\
 - Keine Änderungen außerhalb des Projektordners — **Ausnahme:** `C:\Claude\Agent\Blechziegel\LStockagent` (Stock-Agent-Ordner) ist freigegeben, Änderungen dort sind ohne weitere Rückfrage erlaubt. Dieser Ordner wird **niemals** in git eingecheckt (kein `git add`, kein Commit, kein Push).
 
 ## Shopify
-- **Live-Theme:** `#193125220736` (blechziegel/main) — NUR dieses Theme verwenden. Alle anderen Themes ignorieren.
+- **Live-Theme:** `#193277395328` (blechziegel/main, role=main, seit 2026-04-18). Das vorherige Theme `#193125220736` (gleicher Name, aber jetzt `unpublished`) nicht mehr ansprechen — dort landen Pushes ins Nichts.
 - **Store-Domain:** `blechziegel-de.myshopify.com`
 - **Auto-Sync:** GitHub `main` → Shopify ist aktiv. Pushes auf `main` deployen automatisch.
 - **Git-Push:** Immer direkt auf `main` pushen.
@@ -155,6 +155,34 @@ C:\Claude\Agent\Blechziegel\theme-workspace\freigabe\
 ## Corporate Identity — verbindlich fuer ALLE Marketing-Aktionen
 
 **Vollständige Spec:** `C:\Claude\Agent\Blechziegel\BZcrawler\data\site-knowledge\CI-SPEC.md`
+**Strukturierte CI-Daten:** `C:\Users\Administrator\MCP-Wordpress\CI-Daten\blechziegel\`
+
+### 📁 CI-Daten — bei JEDER Design-/Marketing-Aufgabe zuerst laden
+
+Pfad: `C:\Users\Administrator\MCP-Wordpress\CI-Daten\blechziegel\`
+
+| Datei | Inhalt | Pflicht bei |
+|---|---|---|
+| `farben.yaml` | Farbpalette + Neutrals + Produkt-RAL-Farben | immer |
+| `typografie.yaml` | Inter/Montserrat, H1-H5-Body-Button-Styles, CI-Signaturen | immer |
+| `firma.yaml` | Firmendaten (ergänzend zu unten) | bei Legal/Impressum/Footer/Lieferschein/Rechnung |
+| `ci-profil.md` | Marke, Branche, Positionierung, No-Gos | bei neuen Templates/Seiten |
+| `tonality.md` | Ansprache (Du-Form), Stil, Wort-Vermeidungen | bei Text-UI |
+| `layout-regeln.md` | Container, Raster, Abstände, Section-Typen | bei Layouts |
+| `komponenten.md` | Buttons, Karten, Formulare, Trust, FAQ, Header/Footer | bei Komponenten |
+| `bildsprache.md` | Bildtyp, Motive, Stil, No-Gos | bei Hero/Image-Sections |
+| `rechtliches.md` | Impressum, Datenschutz-Anforderungen | bei Footer/Legal |
+| `assets/logo/blechziegel-de-logo-header-transparent.png` | **offizielles Logo** (1867×380, transparent) | siehe unten |
+
+### 🏷️ Logo — verbindlich
+
+- **Offizielles Logo:** `blechziegel-de-logo-header-transparent.png` (1867×380 px, transparenter Hintergrund).
+- **Lokaler Archiv-Pfad:** `C:\Users\Administrator\MCP-Wordpress\CI-Daten\blechziegel\assets\logo\blechziegel-de-logo-header-transparent.png`
+- **Öffentliche CDN-URL (Shopify Files):** `https://cdn.shopify.com/s/files/1/0986/5986/0864/files/blechziegel-de-logo-header-transparent.png`
+- **Shopify-Settings-Referenz:** `{{ settings.logo }}` (in Theme-Liquid) / `shopify://shop_images/blechziegel-de-logo-header-transparent.png`
+- **Verwendung:** bei **jedem** Marketing-/Kunden-sichtbaren Dokument (Lieferschein, Rechnung, E-Mail-Header, Flyer, Landing-Page-Hero, Ad-Creative, Lead-Magnet-PDF, Freigabe-Previews). Kein neues Text-Wordmark mehr selbst rendern, wenn das offizielle Logo verfügbar ist — das PNG ist die Einzige Quelle.
+- **Farb-Varianten:** nur schwarz auf hell oder weiss auf dunkel. Keine farbigen Varianten. Aktuelle PNG-Version ist schwarz auf transparent (also für helle Hintergründe). Für dunkle Hintergründe → User fragen, weiße Variante noch nicht hinterlegt.
+- **In Liquid-Templates einbinden:** direkt die CDN-URL verwenden, nicht das Text-Wordmark, sobald ein Bild sinnvoll ist. Für Packing-Slips/Mails/Emails-Templates (kein `asset_url`-Kontext): absolute CDN-URL. Für Theme-Code: `{{ settings.logo | image_url: width: 500 }}`.
 
 ### 🎨 Pflicht: `frontend-designer`-Skill bei jeder UI-/Design-Aufgabe
 
@@ -163,7 +191,8 @@ Für **jede** UI-, Design- oder Styling-Aufgabe in diesem Projekt wird der Skill
 **Trigger (automatisch Skill laden):** UI, UX, design, layout, styling, farben, typografie, spacing, animation, hover, card, button, hero, section, template, section design, polish, redesign, component, landing-page, Page-Template, PDP-Anpassung, Collection-Layout, Footer, Header, Nav, Cart-Style, Form-CRO-Design, Link-in-Bio, Modal, Drawer, Banner, Swatch, Filter-UI, Checkout-Copy, Thank-You-Page, Ratgeber-Template, Blog-Layout.
 
 **Kontext, den der Skill jedes Mal lädt:**
-- `C:\Claude\Agent\Blechziegel\BZcrawler\data\site-knowledge\CI-SPEC.md` — verbindliche Farben/Fonts/Radii/Tokens
+- `C:\Users\Administrator\MCP-Wordpress\CI-Daten\blechziegel\` — Farben + Typografie + Logo + Tonality (Pflicht-Lookup vor jedem Design)
+- `C:\Claude\Agent\Blechziegel\BZcrawler\data\site-knowledge\CI-SPEC.md` — erweiterte Spec mit Site-spezifischen Tokens
 - Horizon-Theme-CSS-Custom-Properties (z.B. `--style-border-radius-buttons-primary`, `--bz-nav-head`, `--font-h1--family`) — immer zuerst nutzen, Hard-Coded-Werte nur als Fallback
 - Existierende Section-Struktur in `sections/` — kein Neu-Design eines Pattern, das schon existiert
 
