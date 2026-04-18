@@ -1,81 +1,195 @@
 {%- comment -%}
-  Section: ig-linkinbio
-  Verwendet von Template page.ig.json (Instagram Link-in-Bio landing page)
-  CI konform: Inter/Montserrat, Schwarz/Weiss, 14 px Border-Radius Primary-Button.
+  Section: ig-linkinbio v2
+  Verwendet von Template page.ig.json (Instagram Link-in-Bio)
+
+  Design-Ansatz: "Produkt-Datenblatt" statt Linktree-Clone.
+    - Typo-Logo (Montserrat 0.25em) statt Avatar-Kreis
+    - 3-zeiliger Produkt-Spec-Block als Hero-Unterzeile
+    - 3 Kachel-Hierarchie-Stufen (Primary · Primary-Outline · Subtle)
+    - Custom Inline-SVG-Icons im bestehenden zubehoer-*.svg Stil
+    - Dezente Blechziegel-Profil-SVG als Watermark unten
+
+  CI: 100% konform. Inter + Montserrat. #000/#FFF/#333/#DFDFDF.
+  Radius: 14 px Primary-Buttons. H1 Letter-Spacing 0.25em, line-height 1.
 {%- endcomment -%}
 
 <section class="ig-page" data-section-id="{{ section.id }}" data-section-type="ig-linkinbio">
+
+  {%- assign title = section.settings.title | default: 'blechziegel.de' -%}
+  {%- assign spec_1 = section.settings.spec_1 | default: 'Aluminium 1,0 mm' -%}
+  {%- assign spec_2 = section.settings.spec_2 | default: 'gelasert in Deutschland' -%}
+  {%- assign spec_3 = section.settings.spec_3 | default: 'ab 7,79 € / Stück' -%}
+  {%- assign subtitle = section.settings.subtitle | default: 'Aluminium-Ersatzziegel für die PV-Montage. Passgenau. Kein Bruch.' -%}
+
   <div class="ig-page__inner">
 
     <header class="ig-page__hero">
-      <div class="ig-page__avatar" aria-hidden="true">{{ section.settings.avatar_initials | default: 'BZ' }}</div>
-      <h1 class="ig-page__title">{{ section.settings.title | default: 'blechziegel.de' }}</h1>
-      <p class="ig-page__subtitle">{{ section.settings.subtitle | default: 'Aluminium-Ersatzziegel fuer die PV-Montage.<br>Passgenau. Kein Bruch. Kein Bohren.' }}</p>
+      <div class="ig-page__brand" role="banner">
+        <span class="ig-page__brand-rule" aria-hidden="true"></span>
+        <h1 class="ig-page__brand-mark">{{ title }}</h1>
+        <span class="ig-page__brand-rule" aria-hidden="true"></span>
+      </div>
+
+      <dl class="ig-page__spec" aria-label="Produkt-Kurzdaten">
+        <div class="ig-page__spec-row">
+          <dt class="ig-page__spec-dot" aria-hidden="true"></dt>
+          <dd>{{ spec_1 }}</dd>
+        </div>
+        <div class="ig-page__spec-row">
+          <dt class="ig-page__spec-dot" aria-hidden="true"></dt>
+          <dd>{{ spec_2 }}</dd>
+        </div>
+        <div class="ig-page__spec-row">
+          <dt class="ig-page__spec-dot" aria-hidden="true"></dt>
+          <dd>{{ spec_3 }}</dd>
+        </div>
+      </dl>
+
+      <p class="ig-page__claim">{{ subtitle }}</p>
     </header>
 
-    <nav class="ig-page__cards" aria-label="blechziegel.de Shortcuts fuer Instagram-Besucher">
+    {% comment %} Group 1: Primary + Primary-Outline (High-intent links) {% endcomment %}
+    <nav class="ig-page__group ig-page__group--primary" aria-label="Direkt-Aktionen">
 
       <a class="ig-card ig-card--primary"
          href="/pages/ziegel-anfrage?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=muster">
-        <span class="ig-card__icon" aria-hidden="true">&#128230;</span>
-        <span class="ig-card__label">Muster anfordern</span>
-        <span class="ig-card__arrow" aria-hidden="true">&rarr;</span>
+        <span class="ig-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 7 L12 3 L20 7 L20 17 L12 21 L4 17 Z"/>
+            <path d="M4 7 L12 11 L20 7"/>
+            <path d="M12 11 L12 21"/>
+          </svg>
+        </span>
+        <span class="ig-card__body">
+          <span class="ig-card__label">Muster anfordern</span>
+          <span class="ig-card__hint">Kostenlos · Lieferung 1-3 Werktage</span>
+        </span>
+        <span class="ig-card__arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 H19 M13 6 L19 12 L13 18"/></svg>
+        </span>
       </a>
 
-      <a class="ig-card"
+      <a class="ig-card ig-card--outline"
          href="/pages/ziegel-finder?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=finder">
-        <span class="ig-card__icon" aria-hidden="true">&#128269;</span>
-        <span class="ig-card__label">Mein Ziegelprofil finden</span>
-        <span class="ig-card__arrow" aria-hidden="true">&rarr;</span>
+        <span class="ig-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="6"/>
+            <path d="M20 20 L15.5 15.5"/>
+          </svg>
+        </span>
+        <span class="ig-card__body">
+          <span class="ig-card__label">Dein Ziegelprofil finden</span>
+          <span class="ig-card__hint">In 3 Klicks — oder per Foto-Check</span>
+        </span>
+        <span class="ig-card__arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 H19 M13 6 L19 12 L13 18"/></svg>
+        </span>
       </a>
 
-      <a class="ig-card"
+      <a class="ig-card ig-card--outline"
          href="/pages/gewerbe?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=b2b_dachdecker">
-        <span class="ig-card__icon" aria-hidden="true">&#127959;&#65039;</span>
-        <span class="ig-card__label">Fuer Dachdecker</span>
-        <span class="ig-card__arrow" aria-hidden="true">&rarr;</span>
+        <span class="ig-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 11 L12 4 L21 11"/>
+            <path d="M5 10 L5 20 L19 20 L19 10"/>
+            <path d="M9 20 L9 14 L15 14 L15 20"/>
+          </svg>
+        </span>
+        <span class="ig-card__body">
+          <span class="ig-card__label">Für Dachdecker</span>
+          <span class="ig-card__hint">Staffelpreise ab 25 Stück · Rechnung 30 Tage</span>
+        </span>
+        <span class="ig-card__arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 H19 M13 6 L19 12 L13 18"/></svg>
+        </span>
       </a>
 
-      <a class="ig-card"
+      <a class="ig-card ig-card--outline"
          href="/pages/solar-installateure?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=b2b_solar">
-        <span class="ig-card__icon" aria-hidden="true">&#9728;&#65039;</span>
-        <span class="ig-card__label">Fuer Solar-Installateure</span>
-        <span class="ig-card__arrow" aria-hidden="true">&rarr;</span>
+        <span class="ig-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2 L12 5 M12 19 L12 22 M4 12 L2 12 M22 12 L19 12 M5.5 5.5 L7.5 7.5 M16.5 16.5 L18.5 18.5 M5.5 18.5 L7.5 16.5 M16.5 7.5 L18.5 5.5"/>
+          </svg>
+        </span>
+        <span class="ig-card__body">
+          <span class="ig-card__label">Für Solar-Installateure</span>
+          <span class="ig-card__hint">K2 · Schletter · IBC · Renusol · Esdec</span>
+        </span>
+        <span class="ig-card__arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 H19 M13 6 L19 12 L13 18"/></svg>
+        </span>
       </a>
 
-      <a class="ig-card"
+    </nav>
+
+    <div class="ig-page__divider" role="presentation">
+      <span class="ig-page__divider-label">Weitere Inhalte</span>
+    </div>
+
+    {% comment %} Group 2: Subtle (supporting links) {% endcomment %}
+    <nav class="ig-page__group ig-page__group--subtle" aria-label="Weiterführend">
+
+      <a class="ig-card ig-card--subtle"
          href="/pages/montageanleitung-mit-dachhaken?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=montage">
-        <span class="ig-card__icon" aria-hidden="true">&#128295;</span>
+        <span class="ig-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 3 L6 12 L9 14 L9 21 L15 21 L15 14 L18 12 L18 3"/>
+            <path d="M6 3 L18 3"/>
+          </svg>
+        </span>
         <span class="ig-card__label">Montage-Anleitungen</span>
-        <span class="ig-card__arrow" aria-hidden="true">&rarr;</span>
+        <span class="ig-card__arrow ig-card__arrow--small" aria-hidden="true">→</span>
       </a>
 
-      <a class="ig-card"
+      <a class="ig-card ig-card--subtle"
          href="/pages/ratgeber?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=ratgeber">
-        <span class="ig-card__icon" aria-hidden="true">&#128218;</span>
-        <span class="ig-card__label">Ratgeber</span>
-        <span class="ig-card__arrow" aria-hidden="true">&rarr;</span>
+        <span class="ig-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4 L4 19 L12 17 L20 19 L20 4 L12 6 Z"/>
+            <path d="M12 6 L12 17"/>
+          </svg>
+        </span>
+        <span class="ig-card__label">Ratgeber &amp; Wissen</span>
+        <span class="ig-card__arrow ig-card__arrow--small" aria-hidden="true">→</span>
       </a>
 
-      <a class="ig-card"
+      <a class="ig-card ig-card--subtle"
          href="/products/pv-dachziegel-frankfurter-pfanne?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=pdp_frankfurter">
-        <span class="ig-card__icon" aria-hidden="true">&#128722;</span>
-        <span class="ig-card__label">Shop: Frankfurter Pfanne</span>
-        <span class="ig-card__arrow" aria-hidden="true">&rarr;</span>
+        <span class="ig-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 8 L21 8 L19 20 L5 20 Z"/>
+            <path d="M8 8 L8 5 A4 4 0 0 1 16 5 L16 8"/>
+          </svg>
+        </span>
+        <span class="ig-card__label">Direkt zum Shop</span>
+        <span class="ig-card__arrow ig-card__arrow--small" aria-hidden="true">→</span>
       </a>
 
-      <a class="ig-card"
+      <a class="ig-card ig-card--subtle"
          href="/pages/contact?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=kontakt">
-        <span class="ig-card__icon" aria-hidden="true">&#9993;&#65039;</span>
+        <span class="ig-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 6 L3 18 L21 18 L21 6 Z"/>
+            <path d="M3 6 L12 13 L21 6"/>
+          </svg>
+        </span>
         <span class="ig-card__label">Kontakt</span>
-        <span class="ig-card__arrow" aria-hidden="true">&rarr;</span>
+        <span class="ig-card__arrow ig-card__arrow--small" aria-hidden="true">→</span>
       </a>
 
     </nav>
 
     <footer class="ig-page__footer">
-      <p>
-        TiWi Trade GmbH &middot; Allersberger Str. 185 &middot; 90461 Nuernberg<br>
+      <svg class="ig-page__watermark" viewBox="0 0 400 80" aria-hidden="true" focusable="false">
+        <g fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="square">
+          {% comment %} Blechziegel-Profil im Querschnitt — subtile Wasserzeichen-Grafik {% endcomment %}
+          <path d="M0 60 L20 60 L30 30 L50 30 L60 60 L80 60 L90 30 L110 30 L120 60 L140 60 L150 30 L170 30 L180 60 L200 60 L210 30 L230 30 L240 60 L260 60 L270 30 L290 30 L300 60 L320 60 L330 30 L350 30 L360 60 L400 60"/>
+          <path d="M0 70 L400 70" stroke-dasharray="2 4"/>
+        </g>
+      </svg>
+      <p class="ig-page__legal">
+        TiWi Trade GmbH · Allersberger Str. 185 · 90461 Nürnberg<br>
         <a href="mailto:web@blechziegel.de">web@blechziegel.de</a>
       </p>
     </footer>
@@ -84,75 +198,182 @@
 </section>
 
 <style>
-  /* ===== /pages/ig — Instagram Link-in-Bio Section ===== */
+  /* /pages/ig — Link-in-Bio v2 · blechziegel.de
+     CI: Inter + Montserrat · #000 / #FFF · 14px Primary-Radius */
+
   .ig-page {
     background: #FFFFFF;
     min-height: 100vh;
-    padding: 28px 18px 48px;
+    padding: 32px 20px 40px;
     font-family: var(--font-body--family, 'Inter', -apple-system, BlinkMacSystemFont, sans-serif);
-    color: rgb(var(--color-foreground-rgb, 0 0 0));
+    color: #000;
+    font-feature-settings: "tnum" 1;
   }
-  .ig-page__inner { max-width: 420px; margin: 0 auto; }
+  .ig-page__inner { max-width: 440px; margin: 0 auto; }
+
+  /* HERO */
   .ig-page__hero { text-align: center; margin-bottom: 28px; }
-  .ig-page__avatar {
-    width: 76px; height: 76px; border-radius: 50%;
-    background: #000; color: #FFF;
-    font-family: var(--bz-nav-head, 'Montserrat', sans-serif);
-    font-weight: 700; font-size: 18px; letter-spacing: 0.04em;
-    display: inline-flex; align-items: center; justify-content: center;
-    margin-bottom: 14px;
-    border: 3px solid #FFF;
-    box-shadow: 0 0 0 1px rgb(var(--color-border-rgb, 0 0 0) / 0.15);
+  .ig-page__brand {
+    display: flex; align-items: center; gap: 16px;
+    justify-content: center; margin-bottom: 18px;
   }
-  .ig-page__title {
-    font-family: var(--font-h1--family, 'Inter', sans-serif);
-    font-size: 17px; font-weight: 700;
+  .ig-page__brand-rule {
+    flex: 1 1 auto; max-width: 60px; height: 1px;
+    background: #000; opacity: 0.85;
+  }
+  .ig-page__brand-mark {
+    font-family: var(--bz-nav-head, 'Montserrat', -apple-system, sans-serif);
+    font-size: 15px; font-weight: 700;
     letter-spacing: 0.25em; text-transform: uppercase;
-    line-height: 1; margin: 0 0 10px; color: #000;
+    line-height: 1; margin: 0; color: #000;
+    flex: 0 0 auto; padding: 0 2px;
   }
-  .ig-page__subtitle {
+  .ig-page__spec {
+    display: flex; flex-direction: column; gap: 4px;
+    margin: 0 auto 18px; padding: 14px 18px;
+    border: 1px solid rgba(0, 0, 0, 0.13);
+    border-radius: 6px; max-width: 300px;
+  }
+  .ig-page__spec-row {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 12.5px; line-height: 1.5;
+    color: rgba(0, 0, 0, 0.75); letter-spacing: 0.01em;
+  }
+  .ig-page__spec-dot {
+    width: 4px; height: 4px; border-radius: 50%;
+    background: #000; flex-shrink: 0; margin: 0;
+  }
+  .ig-page__spec-row dd { margin: 0; text-align: left; flex: 1; }
+  .ig-page__claim {
     font-size: 13px; line-height: 1.55;
-    color: rgb(var(--color-foreground-rgb, 0 0 0) / 0.6);
-    margin: 0;
+    color: rgba(0, 0, 0, 0.6);
+    margin: 0; max-width: 340px; margin-inline: auto;
   }
-  .ig-page__cards { display: flex; flex-direction: column; gap: 10px; }
+
+  /* GROUPS */
+  .ig-page__group { display: flex; flex-direction: column; }
+  .ig-page__group--primary { gap: 10px; margin-bottom: 24px; }
+  .ig-page__group--subtle { gap: 6px; }
+
+  /* DIVIDER */
+  .ig-page__divider {
+    display: flex; align-items: center; gap: 14px;
+    margin: 14px 0 12px;
+  }
+  .ig-page__divider::before, .ig-page__divider::after {
+    content: ''; flex: 1; height: 1px;
+    background: rgba(0, 0, 0, 0.13);
+  }
+  .ig-page__divider-label {
+    font-family: var(--bz-nav-head, 'Montserrat', sans-serif);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.55); white-space: nowrap;
+  }
+
+  /* CARDS */
   .ig-card {
     display: flex; align-items: center; gap: 14px;
-    padding: 15px 18px;
-    background: #FFFFFF;
-    border: 1px solid rgb(var(--color-border-rgb, 0 0 0) / 0.13);
-    border-radius: var(--style-border-radius-buttons-primary, 14px);
-    color: #000;
+    padding: 14px 18px; min-height: 56px;
+    background: #FFFFFF; color: #000;
     text-decoration: none;
-    font-size: 15px; font-weight: 500; line-height: 1.3;
-    transition: background 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
-    min-height: 56px;
+    font-family: var(--font-body--family, 'Inter', sans-serif);
+    transition: background 180ms cubic-bezier(0, 0, 0.2, 1),
+                border-color 180ms cubic-bezier(0, 0, 0.2, 1),
+                transform 120ms cubic-bezier(0, 0, 0.2, 1);
+    border: 1px solid rgba(0, 0, 0, 0.13);
+    border-radius: 14px;
   }
-  .ig-card:hover, .ig-card:focus-visible {
-    background: rgb(var(--color-foreground-rgb, 0 0 0) / 0.04);
-    border-color: rgb(var(--color-foreground-rgb, 0 0 0) / 0.4);
-  }
+  .ig-card:focus-visible { outline: 2px solid #000; outline-offset: 3px; }
   .ig-card:active { transform: scale(0.985); }
-  .ig-card--primary { background: #000; color: #FFF; border-color: #000; font-weight: 600; }
-  .ig-card--primary:hover, .ig-card--primary:focus-visible {
-    background: #333; border-color: #333; color: #FFF;
+
+  .ig-card--primary {
+    background: #000; color: #FFF; border-color: #000;
+    padding: 16px 20px; min-height: 64px;
   }
-  .ig-card__icon { font-size: 20px; line-height: 1; width: 24px; text-align: center; flex-shrink: 0; }
-  .ig-card__label { flex: 1; }
-  .ig-card__arrow { font-size: 18px; opacity: 0.5; flex-shrink: 0; }
+  .ig-card--primary:hover { background: #333; border-color: #333; }
+
+  .ig-card--outline { border-color: #000; border-width: 1.5px; }
+  .ig-card--outline:hover { background: rgba(0, 0, 0, 0.04); }
+
+  .ig-card--subtle {
+    padding: 12px 16px; min-height: 52px;
+    border-color: rgba(0, 0, 0, 0.13); background: #FFFFFF;
+  }
+  .ig-card--subtle:hover {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.35);
+  }
+
+  .ig-card__icon {
+    flex: 0 0 24px; width: 24px; height: 24px;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .ig-card__icon svg { width: 22px; height: 22px; display: block; }
+  .ig-card--subtle .ig-card__icon svg { width: 20px; height: 20px; }
+  .ig-card__body {
+    flex: 1; display: flex; flex-direction: column;
+    gap: 2px; min-width: 0;
+  }
+  .ig-card__label {
+    font-size: 15px; font-weight: 500;
+    line-height: 1.3; letter-spacing: 0;
+  }
+  .ig-card--primary .ig-card__label { font-weight: 600; }
+  .ig-card--subtle .ig-card__label { font-size: 14px; flex: 1; }
+  .ig-card__hint {
+    font-size: 11.5px; line-height: 1.4;
+    color: rgba(0, 0, 0, 0.55); letter-spacing: 0.01em;
+  }
+  .ig-card--primary .ig-card__hint { color: rgba(255, 255, 255, 0.65); }
+  .ig-card__arrow {
+    flex: 0 0 18px; width: 18px; height: 18px;
+    display: inline-flex; align-items: center; justify-content: center;
+    opacity: 0.5;
+    transition: transform 180ms cubic-bezier(0, 0, 0.2, 1), opacity 180ms;
+  }
+  .ig-card__arrow svg { width: 18px; height: 18px; display: block; }
   .ig-card--primary .ig-card__arrow { opacity: 0.85; }
-  .ig-page__footer {
-    margin-top: 28px; padding-top: 18px;
-    border-top: 1px solid rgb(var(--color-border-rgb, 0 0 0) / 0.13);
-    text-align: center;
-    font-size: 11.5px; line-height: 1.55;
-    color: rgb(var(--color-foreground-rgb, 0 0 0) / 0.55);
-    letter-spacing: 0.02em;
+  .ig-card:hover .ig-card__arrow { transform: translateX(2px); opacity: 0.9; }
+  .ig-card__arrow--small {
+    font-family: var(--font-body--family, 'Inter', sans-serif);
+    font-size: 15px; font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
   }
-  .ig-page__footer a { color: inherit; text-decoration: underline; }
+
+  /* FOOTER / WATERMARK */
+  .ig-page__footer {
+    margin-top: 32px; padding-top: 20px;
+    text-align: center; color: rgba(0, 0, 0, 0.55);
+    position: relative;
+  }
+  .ig-page__watermark {
+    width: 100%; height: auto; max-height: 56px;
+    color: #000; opacity: 0.12; display: block;
+    margin: 0 auto 16px;
+  }
+  .ig-page__legal {
+    font-size: 11px; line-height: 1.6;
+    letter-spacing: 0.02em; margin: 0;
+  }
+  .ig-page__legal a {
+    color: inherit; text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* TABLET / DESKTOP */
   @media (min-width: 640px) {
-    .ig-page { padding: 48px 32px 64px; }
-    .ig-card { font-size: 16px; }
+    .ig-page { padding: 56px 32px 56px; }
+    .ig-page__inner { max-width: 480px; }
+    .ig-page__brand-mark { font-size: 16px; }
+    .ig-page__spec { max-width: 320px; }
+    .ig-card__label { font-size: 16px; }
+    .ig-card--subtle .ig-card__label { font-size: 15px; }
+  }
+
+  /* REDUCED MOTION */
+  @media (prefers-reduced-motion: reduce) {
+    .ig-card, .ig-card__arrow { transition: none; }
   }
 </style>
 
@@ -160,6 +381,12 @@
 {
   "name": "Instagram Link-in-Bio",
   "class": "section-wrapper",
-  "settings": []
+  "settings": [
+    { "type": "text", "id": "title", "label": "Brand-Wortmarke", "default": "blechziegel.de" },
+    { "type": "text", "id": "spec_1", "label": "Spec-Zeile 1", "default": "Aluminium 1,0 mm" },
+    { "type": "text", "id": "spec_2", "label": "Spec-Zeile 2", "default": "gelasert in Deutschland" },
+    { "type": "text", "id": "spec_3", "label": "Spec-Zeile 3", "default": "ab 7,79 \u20ac / Stück" },
+    { "type": "textarea", "id": "subtitle", "label": "Claim unter Spec-Block", "default": "Aluminium-Ersatzziegel für die PV-Montage. Passgenau. Kein Bruch." }
+  ]
 }
 {% endschema %}
