@@ -1,15 +1,10 @@
-name: Stock Monitor (deaktiviert — nur manuell)
+name: Stock Monitor
 
-# Stock-Monitor laeuft auf diesem Server lokal als Windows-Scheduled-Task
-# "Blechziegel Stock Monitor Bot" (jede Minute, siehe LStockagent-Ordner).
-# Der GitHub-Cron war redundant und ohne repository-secrets nicht funktionsfaehig.
-# Bleibt als manueller Trigger erhalten — kann bei Bedarf wieder aktiviert
-# werden indem der schedule-Block einkommentiert und die 12 Secrets gesetzt
-# werden (siehe scripts/stock-monitor/README.md).
 on:
-  # schedule:
-  #   - cron: '0 */4 * * *'   # alle 4h UTC (deaktiviert)
-  workflow_dispatch: # nur manueller Trigger
+  schedule:
+    # Alle 4 Stunden zur vollen Stunde (UTC)
+    - cron: '0 */4 * * *'
+  workflow_dispatch: # manueller Trigger
 
 concurrency:
   group: stock-monitor
