@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "bestellstatus": {
+      "type": "bz-bestellstatus",
+      "settings": {}
+    }
+  },
+  "order": [
+    "bestellstatus"
+  ]
+}
