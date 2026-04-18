@@ -1,0 +1,243 @@
+{%- comment -%}
+  Template: page.ig (Instagram Link-in-Bio landing page)
+
+  URL (nach Page-Anlage): /pages/ig
+  Deployment: Git -> GitHub main -> Shopify Auto-Sync. Kein `shopify theme push`.
+
+  CI konform: Inter/Montserrat, Schwarz/Weiss, 14 px Border-Radius Primary-Button.
+  Nutzt Theme-Tokens (--font-*, --color-*, --style-border-radius-*) wo moeglich,
+  faellt ansonsten auf Hard-Coded CI-Werte zurueck.
+
+  SEO: Diese Seite sollte NICHT in Google erscheinen. Nach Page-Anlage folgendes Metafield setzen:
+    namespace: seo
+    key: hidden
+    type: boolean
+    value: true
+  (Verhindert Sitemap-Inclusion + setzt robots=noindex)
+
+  Zugehoeriger Page-Handle: `ig`
+{%- endcomment -%}
+
+<section class="ig-page" data-section-type="ig-linkinbio">
+  <div class="ig-page__inner">
+
+    <header class="ig-page__hero">
+      <div class="ig-page__avatar" aria-hidden="true">BZ</div>
+      <h1 class="ig-page__title">blechziegel.de</h1>
+      <p class="ig-page__subtitle">
+        Aluminium-Ersatzziegel fuer die PV-Montage.<br>
+        Passgenau. Kein Bruch. Kein Bohren.
+      </p>
+    </header>
+
+    <nav class="ig-page__cards" aria-label="blechziegel.de Shortcuts fuer Instagram-Besucher">
+
+      <a class="ig-card ig-card--primary"
+         href="/pages/ziegel-anfrage?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=muster">
+        <span class="ig-card__icon" aria-hidden="true">&#128230;</span>
+        <span class="ig-card__label">Muster anfordern</span>
+        <span class="ig-card__arrow" aria-hidden="true">&rarr;</span>
+      </a>
+
+      <a class="ig-card"
+         href="/pages/ziegel-finder?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=finder">
+        <span class="ig-card__icon" aria-hidden="true">&#128269;</span>
+        <span class="ig-card__label">Mein Ziegelprofil finden</span>
+        <span class="ig-card__arrow" aria-hidden="true">&rarr;</span>
+      </a>
+
+      <a class="ig-card"
+         href="/pages/gewerbe?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=b2b_dachdecker">
+        <span class="ig-card__icon" aria-hidden="true">&#127959;&#65039;</span>
+        <span class="ig-card__label">Fuer Dachdecker</span>
+        <span class="ig-card__arrow" aria-hidden="true">&rarr;</span>
+      </a>
+
+      <a class="ig-card"
+         href="/pages/solar-installateure?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=b2b_solar">
+        <span class="ig-card__icon" aria-hidden="true">&#9728;&#65039;</span>
+        <span class="ig-card__label">Fuer Solar-Installateure</span>
+        <span class="ig-card__arrow" aria-hidden="true">&rarr;</span>
+      </a>
+
+      <a class="ig-card"
+         href="/pages/montageanleitung-mit-dachhaken?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=montage">
+        <span class="ig-card__icon" aria-hidden="true">&#128295;</span>
+        <span class="ig-card__label">Montage-Anleitungen</span>
+        <span class="ig-card__arrow" aria-hidden="true">&rarr;</span>
+      </a>
+
+      <a class="ig-card"
+         href="/pages/ratgeber?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=ratgeber">
+        <span class="ig-card__icon" aria-hidden="true">&#128218;</span>
+        <span class="ig-card__label">Ratgeber</span>
+        <span class="ig-card__arrow" aria-hidden="true">&rarr;</span>
+      </a>
+
+      <a class="ig-card"
+         href="/products/pv-dachziegel-frankfurter-pfanne?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=pdp_frankfurter">
+        <span class="ig-card__icon" aria-hidden="true">&#128722;</span>
+        <span class="ig-card__label">Shop: Frankfurter Pfanne</span>
+        <span class="ig-card__arrow" aria-hidden="true">&rarr;</span>
+      </a>
+
+      <a class="ig-card"
+         href="/pages/contact?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=kontakt">
+        <span class="ig-card__icon" aria-hidden="true">&#9993;&#65039;</span>
+        <span class="ig-card__label">Kontakt</span>
+        <span class="ig-card__arrow" aria-hidden="true">&rarr;</span>
+      </a>
+
+    </nav>
+
+    <footer class="ig-page__footer">
+      <p>
+        TiWi Trade GmbH &middot; Allersberger Str. 185 &middot; 90461 Nuernberg<br>
+        <a href="mailto:web@blechziegel.de">web@blechziegel.de</a>
+      </p>
+    </footer>
+
+  </div>
+</section>
+
+<style>
+  /* ===== /pages/ig — Instagram Link-in-Bio Page ===== */
+  .ig-page {
+    background: #FFFFFF;
+    min-height: 100vh;
+    padding: 28px 18px 48px;
+    font-family: var(--font-body--family, 'Inter', -apple-system, BlinkMacSystemFont, sans-serif);
+    color: rgb(var(--color-foreground-rgb, 0 0 0));
+  }
+  .ig-page__inner {
+    max-width: 420px;
+    margin: 0 auto;
+  }
+  .ig-page__hero {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .ig-page__avatar {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: #000;
+    color: #FFF;
+    font-family: var(--bz-nav-head, 'Montserrat', sans-serif);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.04em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    border: 3px solid #FFF;
+    box-shadow: 0 0 0 1px rgb(var(--color-border-rgb, 0 0 0) / 0.15);
+  }
+  .ig-page__title {
+    font-family: var(--font-h1--family, 'Inter', sans-serif);
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    line-height: 1;
+    margin: 0 0 10px;
+    color: #000;
+  }
+  .ig-page__subtitle {
+    font-size: 13px;
+    line-height: 1.55;
+    color: rgb(var(--color-foreground-rgb, 0 0 0) / 0.6);
+    margin: 0;
+  }
+  .ig-page__cards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .ig-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 15px 18px;
+    background: #FFFFFF;
+    border: 1px solid rgb(var(--color-border-rgb, 0 0 0) / 0.13);
+    border-radius: var(--style-border-radius-buttons-primary, 14px);
+    color: #000;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.3;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+    min-height: 56px;
+  }
+  .ig-card:hover,
+  .ig-card:focus-visible {
+    background: rgb(var(--color-foreground-rgb, 0 0 0) / 0.04);
+    border-color: rgb(var(--color-foreground-rgb, 0 0 0) / 0.4);
+  }
+  .ig-card:active {
+    transform: scale(0.985);
+  }
+  .ig-card--primary {
+    background: #000;
+    color: #FFF;
+    border-color: #000;
+    font-weight: 600;
+  }
+  .ig-card--primary:hover,
+  .ig-card--primary:focus-visible {
+    background: #333;
+    border-color: #333;
+    color: #FFF;
+  }
+  .ig-card__icon {
+    font-size: 20px;
+    line-height: 1;
+    width: 24px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .ig-card__label {
+    flex: 1;
+  }
+  .ig-card__arrow {
+    font-size: 18px;
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+  .ig-card--primary .ig-card__arrow {
+    opacity: 0.85;
+  }
+  .ig-page__footer {
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid rgb(var(--color-border-rgb, 0 0 0) / 0.13);
+    text-align: center;
+    font-size: 11.5px;
+    line-height: 1.55;
+    color: rgb(var(--color-foreground-rgb, 0 0 0) / 0.55);
+    letter-spacing: 0.02em;
+  }
+  .ig-page__footer a {
+    color: inherit;
+    text-decoration: underline;
+  }
+  @media (min-width: 640px) {
+    .ig-page { padding: 48px 32px 64px; }
+    .ig-card { font-size: 16px; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Instagram Link-in-Bio",
+  "settings": [],
+  "presets": [
+    { "name": "Instagram Link-in-Bio" }
+  ],
+  "enabled_on": {
+    "templates": ["page"]
+  }
+}
+{% endschema %}
