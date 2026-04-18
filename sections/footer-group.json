@@ -13,17 +13,8 @@
   "sections": {
     "footer_m9NzUG": {
       "type": "footer",
-      "blocks": {},
-      "block_order": [
-      ],
       "name": "t:names.footer",
-      "settings": {
-        "section_width": "page-width",
-        "gap": 20,
-        "color_scheme": "scheme-1",
-        "padding-block-start": 30,
-        "padding-block-end": 30
-      }
+      "settings": {}
     },
     "footer_utilities_jLGE8U": {
       "type": "footer-utilities",
@@ -82,6 +73,7 @@
     }
   },
   "order": [
-    "footer_m9NzUG"
+    "footer_m9NzUG",
+    "footer_utilities_jLGE8U"
   ]
 }
