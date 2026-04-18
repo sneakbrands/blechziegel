@@ -1,5 +1,69 @@
 # Projektregeln
 
+## 🔴 ZWINGEND: nur Theme-Code im Repo
+
+Dieses Repository ist **ausschliesslich Shopify-Theme-Code**. Audits, Preview-HTMLs, Dev-Scripts, Build-Tools, Dokumentation gehoeren NICHT ins Repo — sie leben unter `C:\Claude\Agent\Blechziegel\theme-workspace\`.
+
+### Erlaubt im Repo (main)
+
+Nur die Shopify-Theme-Standard-Struktur:
+
+- `assets/` — Theme-Assets (CSS, JS, SVG, Bilder)
+- `blocks/` — Horizon-Theme-Blocks
+- `config/` — `settings_schema.json`, `settings_data.json`
+- `layout/` — `theme.liquid` + Varianten
+- `locales/` — `de.*.json`, `en.*.json`
+- `sections/` — Section-Liquid
+- `snippets/` — Snippet-Liquid
+- `templates/` — Template-JSON/Liquid
+
+Plus Repo-Infrastruktur:
+
+- `.github/` — GitHub-Actions-Workflows (Stock-Monitor etc.)
+- `.gitignore`
+- `CLAUDE.md` (diese Datei)
+- `.claude/agents/` — Custom-Sub-Agent-Konfigurationen (projektspezifisch)
+- `scripts/shopify-api-check.mjs` + `.ps1` — Session-Start-Pflicht-Check (API-Diagnose)
+- `scripts/stock-monitor/` — laeuft in GitHub-Actions-Workflow
+- `scripts/bestellstatus/` (falls tracked) — Bestellstatus-Feature (gehoert zu Theme-Feature)
+- `scripts/README.md`
+
+### Verboten im Repo
+
+- Audit-/Strategie-Dokumente (`AUDIT_*.{html,md,pdf}`, `docs/` mit Audit-Reports) → `theme-workspace/audits/`
+- Preview-HTMLs (`*_PREVIEW.html`, ad-hoc Mock-ups) → `theme-workspace/previews/`
+- Export-Dateien (`CHATGPT_EXPORT*.md`) → `theme-workspace/exports/`
+- Build-Tools (`build_*.{py,sh}`, PDF-Generatoren) → `theme-workspace/build-tools/`
+- Playwright-/Test-Scripts ad hoc (`scripts/coll-test/`, `scripts/nav-test/`) → `theme-workspace/scripts-archive/`
+- SEO-Audits separater Bereich (`claude-seo/`) → `theme-workspace/claude-seo/`
+- Einmalige Utility-Scripts (`scripts/notify_done.py`, `scripts/shopify-cli-test.sh`, diverse `bz_*.py`) → `theme-workspace/scripts-archive/`
+
+### Faustregel
+
+> **"Wird das Shopify beim Sync ausliefern?" — wenn nein, gehoert es nicht ins Repo.**
+
+Shopify synct nur `assets/`, `blocks/`, `config/`, `layout/`, `locales/`, `sections/`, `snippets/`, `templates/`. Alles andere ist Dev-Artefakt.
+
+### Workflow fuer Theme-Workspace
+
+```
+C:\Claude\Agent\Blechziegel\
+  blechziegel-theme\       <- Git-Repo, nur Theme-Code (main-only)
+  theme-workspace\         <- Dev-Artefakte, NICHT in Git
+    audits\
+    previews\
+    exports\
+    build-tools\
+    docs\                  <- alte docs/ ausm Repo (Audits/Strategien)
+    claude-seo\
+    scripts-archive\
+  BZcrawler\               <- Content-Agent
+  LStockagent\             <- Stock-Monitor-Agent
+  backups\                 <- Repo-Backups vor Aenderungen
+```
+
+Bei Bedarf an neuen Artefakten (neue Audits, Previews, Experiments): **direkt unter `theme-workspace/` ablegen, nicht im Repo**.
+
 ## 🔴 ZWINGEND: Arbeit immer auf Branch `main`
 
 **Dieses Theme-Repo wird ausschließlich über den `main`-Branch live deployed.** GitHub `main` → Shopify Auto-Sync. Feature-Branches werden NICHT auf Shopify gesynct und sind deshalb für Deployments verboten.
