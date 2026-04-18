@@ -6,7 +6,15 @@ scripts/nav-test/run.log
 scripts/nav-test/package-lock.json
 scripts/coll-test/node_modules/
 scripts/coll-test/run.log
-scripts/stock-monitor/
+# scripts/stock-monitor/: Code-Dateien SIND im Repo (GitHub-Actions-Workflow),
+# aber Runtime-/Secrets/Node-Module ausgeschlossen.
+scripts/stock-monitor/node_modules/
+scripts/stock-monitor/state.json
+scripts/stock-monitor/bot-offset.json
+scripts/stock-monitor/bot-pending.json
+scripts/stock-monitor/logs/
+scripts/stock-monitor/*.log
+
 scripts/bestellstatus/
 backups/
 PDP_PREVIEW.html
