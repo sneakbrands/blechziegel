@@ -64,6 +64,56 @@ C:\Claude\Agent\Blechziegel\
 
 Bei Bedarf an neuen Artefakten (neue Audits, Previews, Experiments): **direkt unter `theme-workspace/` ablegen, nicht im Repo**.
 
+## 🔴 ZWINGEND: Freigabe-Workflow vor jedem Publish
+
+**Keine Marketing-/Content-/Seiten-Änderung geht live, bevor der User sie auf einer lokalen Freigabe-Seite abgenommen hat.**
+
+### Regel
+
+Bevor ich Folgendes publishe, baue ich zuerst eine offline-Freigabe-Seite auf diesem Server:
+
+- Shopify-Pages (z. B. `/pages/ig`, `/pages/gewerbe`, `/pages/ratgeber`)
+- Blog-Artikel (Text + Hero-Bild)
+- Instagram-Posts / Reels / Stories (Caption + Visuals + Hashtags)
+- E-Mail-Templates / Newsletter
+- Landing-Pages / Ads-Creatives
+- Neue Sections / Templates mit sichtbarer Kunden-Wirkung
+- Produktbeschreibungen / Metafield-Texte mit Kunden-Wirkung
+
+**Nicht freigabepflichtig** (direkt live, weil reversibel + unsichtbar): Bug-Fixes, interne Script-Änderungen, Build-Tool-Updates, Git-Housekeeping, CLAUDE.md-Änderungen.
+
+### Fester Ort
+
+```
+C:\Claude\Agent\Blechziegel\theme-workspace\freigabe\
+  index.html                 <- Landing mit Liste aller offenen Freigaben
+  <YYYY-MM-DD>-<slug>\       <- Ein Ordner pro Freigabe-Stück
+    preview.html             <- Self-contained HTML, 1:1 wie es live aussieht
+    README.md                <- Was ändert sich, wo geht es live, Deploy-Route
+    assets\                  <- Bilder/Screenshots der Freigabe
+```
+
+### Ablauf
+
+1. Ich produziere die finale Version (Text + Bilder + Section + Template).
+2. Ich rendere sie in `freigabe/<YYYY-MM-DD>-<slug>/preview.html` — self-contained, ohne Shopify-Abhängigkeit, so wie sie live aussehen wird (Inter + Montserrat via Google Fonts, alle Farben, alle Assets lokal eingebettet/verlinkt).
+3. Ich update `freigabe/index.html` mit einem neuen Eintrag (Datum, Titel, Deploy-Route, Status `PENDING`).
+4. Ich melde dem User: „Freigabe liegt unter `theme-workspace/freigabe/<slug>/preview.html` — öffne lokal zum Review."
+5. User sagt: freigeben → ich deploye über die normale Route (Git → main bei Theme-Code, Admin API bei Pages/Blog).
+6. Nach Deploy: `freigabe/index.html` auf Status `LIVE` mit Live-URL und Commit-SHA.
+7. User sagt: ablehnen / Änderung → ich überarbeite in-place, Status bleibt `PENDING`, alte Version wird überschrieben (keine Versions-Spagetti).
+
+### Was die Preview enthalten muss
+
+- **CI-konform**: Inter + Montserrat via Google Fonts eingebunden, alle Farben exakt (#000/#FFF/#333), keine Tailwind-Default-Styles
+- **Responsiv testbar**: Desktop-Render plus Mobile-Frame-Darstellung (390 × 844 iframe oder scaled preview)
+- **Deploy-Kontext im README.md**: „Wird live unter https://blechziegel.de/<path>" + „Deploy-Befehl: `git push origin main`" oder „Deploy-Befehl: `node scripts/publish-page.mjs ig` (Admin API)"
+- **Rückweg dokumentiert**: wie wird das wieder offline genommen, wenn der Freigabe-Stand doch nicht final war
+
+### Faustregel
+
+> **„Gehst du live, ohne dass der User das vorher offline gesehen hat? — Dann fehlt eine Freigabe-Seite."**
+
 ## 🔴 ZWINGEND: Arbeit immer auf Branch `main`
 
 **Dieses Theme-Repo wird ausschließlich über den `main`-Branch live deployed.** GitHub `main` → Shopify Auto-Sync. Feature-Branches werden NICHT auf Shopify gesynct und sind deshalb für Deployments verboten.
