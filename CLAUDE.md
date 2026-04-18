@@ -129,7 +129,7 @@ C:\Claude\Agent\Blechziegel\theme-workspace\freigabe\
 - **Shopify API prüfen:** `node scripts/shopify-api-check.mjs` — alle Checks müssen grün sein.
 - **GitHub prüfen:** `git remote -v` muss `https://github.com/sneakbrands/blechziegel.git` zeigen, `git fetch origin main` muss funktionieren.
 - **Playwright prüfen:** `cd scripts/coll-test && npx playwright --version` muss eine Version zeigen; Chromium muss installiert sein (`npx playwright install --dry-run chromium` — kein "Install location: missing").
-- **Stock-Monitor prüfen:** `gh run list --workflow=stock-monitor.yml --limit 1` — der letzte Run muss `completed success` sein (läuft alle 4h automatisch, siehe `scripts/stock-monitor/README.md`). *Hinweis: `gh` CLI ist aktuell nicht installiert — alternativ im GitHub-Webinterface prüfen.*
+- **Stock-Monitor prüfen:** Lokaler Windows-Scheduled-Task `Blechziegel Stock Monitor Bot` (läuft jede Minute, State muss `Ready` sein — wird vom SessionStart-Hook automatisch geprüft, siehe `scripts/session-start-check.ps1`). GitHub-Actions-Workflow `stock-monitor.yml` ist seit April 2026 auf manual-only gestellt (keine Secrets im Repo); lokaler Task ist der Produktiv-Runner.
 - Wenn eine Verbindung fehlt oder Branch nicht `main`: **zuerst fixen**, bevor gearbeitet wird.
 
 ## Arbeitsweise
