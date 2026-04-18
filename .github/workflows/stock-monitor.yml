@@ -10,21 +10,16 @@ concurrency:
   group: stock-monitor
   cancel-in-progress: false
 
-# Opt-in auf Node 24 für alle JavaScript-Actions (checkout, setup-node, cache).
-# Behebt Deprecation-Warnung — Node 20 wird am 16.09.2026 aus den Runnern entfernt.
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
-
 jobs:
   check:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
           cache-dependency-path: scripts/stock-monitor/package.json
 
@@ -33,7 +28,7 @@ jobs:
         run: npm install --omit=dev --no-audit --no-fund
 
       - name: Restore state (dedupe-file für 24h-Erinnerung)
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: scripts/stock-monitor/state.json
           key: stock-monitor-state-v1-${{ github.run_id }}
@@ -63,7 +58,7 @@ jobs:
 
       - name: Save state (dedupe-file)
         if: always()
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: scripts/stock-monitor/state.json
           key: stock-monitor-state-v1-${{ github.run_id }}
