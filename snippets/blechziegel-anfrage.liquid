@@ -176,6 +176,14 @@
 .hp-info-list li { display:flex; align-items:flex-start; gap:9px; font-size:13.5px; line-height:1.55; color:var(--bz-text); }
 .hp-info-list li svg { width:16px; height:16px; fill:var(--bz-orange); flex-shrink:0; margin-top:2px; }
 
+/* SCHEMA · Masse-Diagramm in der "Laenge & Breite"-Infobox */
+.hp-info-box__schema { margin:14px 0 6px; padding:14px; background:#f5f5f5; border-radius:var(--bz-radius); }
+.hp-info-box__schema img { width:100%; height:auto; display:block; border-radius:6px; background:var(--bz-white); }
+.hp-info-box__schema-caption { display:grid; grid-template-columns:1fr 1fr; gap:6px 12px; margin-top:12px;
+  font-size:13px; color:var(--bz-text); font-family:var(--bz-head); }
+.hp-info-box__schema-caption span { display:inline-flex; align-items:baseline; gap:6px; }
+.hp-info-box__schema-caption strong { font-size:15px; font-weight:800; color:var(--bz-navy); letter-spacing:.02em; }
+
 /* SUCCESS / ERROR STATE */
 .hp-form-status { display:none; margin-bottom:20px; padding:14px 18px; border-radius:var(--bz-radius);
   font-size:14px; font-weight:600; line-height:1.5; }
@@ -401,6 +409,17 @@
               Messen Sie den Ziegel an der <strong>sichtbaren Oberseite</strong>, von Kante zu Kante —
               ohne Falz oder Überlappung. Standard-Frankfurter Pfanne: <strong>ca. 42 × 33 cm</strong>.
             </div>
+
+            <figure class="hp-info-box__schema">
+              <img src="{{ 'anfrage-masse-schema.jpg' | asset_url }}"
+                   alt="Maß-Schema Blechziegel: X markiert die Breite, Y markiert die Länge"
+                   width="800" height="800" loading="lazy" decoding="async">
+              <figcaption class="hp-info-box__schema-caption">
+                <span><strong>Y =</strong> Länge</span>
+                <span><strong>X =</strong> Breite</span>
+              </figcaption>
+            </figure>
+
             <ul class="hp-info-list">
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Länge = längere Seite</li>
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Breite = kürzere Seite</li>
