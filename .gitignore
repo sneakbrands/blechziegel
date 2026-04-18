@@ -7,9 +7,7 @@ scripts/nav-test/package-lock.json
 scripts/coll-test/node_modules/
 scripts/coll-test/run.log
 scripts/stock-monitor/
-scripts/bestellstatus/node_modules/
-scripts/bestellstatus/package-lock.json
-scripts/bestellstatus/bestellstatus-stdout.log
+scripts/bestellstatus/
 backups/
 PDP_PREVIEW.html
 scripts/coll-test/screenshots/
