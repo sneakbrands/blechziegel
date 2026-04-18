@@ -10,6 +10,11 @@ concurrency:
   group: stock-monitor
   cancel-in-progress: false
 
+# Opt-in auf Node 24 für alle JavaScript-Actions (checkout, setup-node, cache).
+# Behebt Deprecation-Warnung — Node 20 wird am 16.09.2026 aus den Runnern entfernt.
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
 jobs:
   check:
     runs-on: ubuntu-latest
