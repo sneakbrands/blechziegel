@@ -1376,11 +1376,6 @@
       <!-- Titel -->
       <h1 class="bz-product-title">{{ product.title }}</h1>
 
-      <!-- Nutzen-Subline -->
-      <p class="bz-product-subline">
-        Kein Ziegelbruch. Kein Bohren. Einfach den Tonziegel entnehmen, Blechziegel einsetzen – fertig.
-      </p>
-
       {%- comment -%}
         Bewertung nur rendern, wenn dafür eine verifizierte Metafield-Datenquelle
         gepflegt ist (custom.rating_value + custom.rating_count). Ohne Daten:
@@ -1660,27 +1655,6 @@
 
       </form>
 
-      <!-- Mini USPs -->
-      <hr class="bz-divider">
-      <div class="bz-mini-usps">
-        <div class="bz-mini-usp">
-          <span class="ico">&#10003;</span>
-          <span><strong style="color:var(--bz-navy)">Kein Ziegelbruch</strong> – Aluminium-Blechziegel ersetzt den Tonziegel vollständig</span>
-        </div>
-        <div class="bz-mini-usp">
-          <span class="ico">&#10003;</span>
-          <span><strong style="color:var(--bz-navy)">Passgenau</strong> – exakt auf die Frankfurter Pfanne abgestimmt</span>
-        </div>
-        <div class="bz-mini-usp">
-          <span class="ico">&#10003;</span>
-          <span><strong style="color:var(--bz-navy)">Schnelle Montage</strong> – kein Bohren, kein Werkzeug, in Minuten eingesetzt</span>
-        </div>
-        <div class="bz-mini-usp">
-          <span class="ico">&#10003;</span>
-          <span><strong style="color:var(--bz-navy)">Aluminium, witterungsstabil</strong> – korrosionsbeständig, pulverbeschichtet, UV-stabil</span>
-        </div>
-      </div>
-
     </div>
   </div>
 </div>
@@ -1696,7 +1670,6 @@
           <div class="bz-tab-nav">
             <button class="bz-tab-btn active" onclick="bzTab('beschreibung', this)">Produktbeschreibung</button>
             <button class="bz-tab-btn" onclick="bzTab('technik', this)">Technische Daten</button>
-            <button class="bz-tab-btn" onclick="bzTab('faq', this)">FAQ</button>
           </div>
 
           <!-- Tab: Beschreibung -->
@@ -1714,68 +1687,11 @@
             <p style="font-size:12.5px;color:#888;margin-top:14px;">Bitte Dachtyp vor Bestellung prüfen. Montage durch Fachpersonal empfohlen. Statik, Schneelast und projektspezifische Anforderungen müssen bauseits berücksichtigt werden.</p>
           </div>
 
-          <!-- Tab: FAQ -->
-          <div class="bz-tab-panel" id="tab-faq">
-            <div class="bz-faq-list" itemscope itemtype="https://schema.org/FAQPage">
-
-              <div class="bz-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                <button class="bz-faq-q" itemprop="name">Passt der Blechziegel genau auf meine Frankfurter Pfanne?<svg class="bz-faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
-                <div class="bz-faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">Ja – der Blechziegel ist exakt auf das Profil der Frankfurter Pfanne abgestimmt. Er passt in die vorhandene Deckung, ohne Anpassungen zu erfordern. Bitte vergleichen Sie das Profil Ihrer Ziegel mit unseren Produktfotos.</div></div>
-              </div>
-
-              <div class="bz-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                <button class="bz-faq-q" itemprop="name">Brauche ich die Version „mit Haken" oder „ohne Haken"?<svg class="bz-faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
-                <div class="bz-faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">„Mit Haken": Der integrierte Dachhaken erlaubt die direkte Befestigung der PV-Modulschienen – kein separates Bohren nötig. „Ohne Haken": Für Systeme mit eigenem Dachhaken-Konzept oder als reiner Ersatzziegel für Kabelführungen.</div></div>
-              </div>
-
-              <div class="bz-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                <button class="bz-faq-q" itemprop="name">Wie montiere ich den Blechziegel?<svg class="bz-faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
-                <div class="bz-faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">1. Tonziegel an der gewünschten Stelle entnehmen. 2. Blechziegel einsetzen und einhängen – kein Werkzeug nötig. 3. Dachhaken positionieren und PV-Schiene befestigen. 4. Kabel führen. Fertig. Die Gesamtdauer beträgt typischerweise unter 10 Minuten pro Ziegel.</div></div>
-              </div>
-
-              <div class="bz-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                <button class="bz-faq-q" itemprop="name">Ist der Blechziegel wetterfest und dicht?<svg class="bz-faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
-                <div class="bz-faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">Ja. Aluminium ist korrosionsbeständig, UV-stabil und witterungsfest. Die Pulverbeschichtung schützt zusätzlich. Die passenaue Formgebung sorgt für eine dichte Integration ins Dachbild – kein Wassereintritt bei korrekter Montage.</div></div>
-              </div>
-
-              <div class="bz-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                <button class="bz-faq-q" itemprop="name">Welche Farbe soll ich wählen?<svg class="bz-faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
-                <div class="bz-faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">Aluminium blank für helle / metallische Dächer. Anthrazit RAL 7016 für dunkle Dacheindeckungen. Ziegelrot RAL 8004 für klassische rote Tonziegeldächer. Im Zweifel: Foto Ihres Dachs per Mail an web@blechziegel.de – wir beraten Sie.</div></div>
-              </div>
-
-            </div>
-          </div>
         </div>
       </div>
 
-      {%- comment -%}── RECHTE SPALTE: USPs + Reviews ──{%- endcomment -%}
+      {%- comment -%}── RECHTE SPALTE: Problem/Loesung + Reviews ──{%- endcomment -%}
       <div>
-        <span class="bz-section-label">Warum Blechziegel.de</span>
-        <h2 class="bz-section-title">Gebaut für den Einsatz auf der Baustelle</h2>
-
-        <div class="bz-usp-cards">
-          <div class="bz-usp-card-sm">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            <h4>Passgenau</h4>
-            <p>Exakt für die Frankfurter Pfanne gefertigt – sitzt auf Anhieb.</p>
-          </div>
-          <div class="bz-usp-card-sm">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            <h4>In Minuten montiert</h4>
-            <p>Kein Bohren, kein Werkzeug, kein Nacharbeiten.</p>
-          </div>
-          <div class="bz-usp-card-sm">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-            <h4>Aluminium, witterungsstabil</h4>
-            <p>Korrosionsbeständig, pulverbeschichtet, UV-stabil. Ausgelegt auf die Lebensdauer einer PV-Anlage.</p>
-          </div>
-          <div class="bz-usp-card-sm">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <h4>{{ cf_origin | default: 'Made in Germany' }}</h4>
-            <p>Präzise gelasert statt gepresst. Geprüfte Maßhaltigkeit, sofort versandfertig.</p>
-          </div>
-        </div>
-
         {%- comment -%} H6 Addon-Block entfernt — Zubehör ist jetzt inline im Kaufbereich {%- endcomment -%}
 
         <!-- Problem / Lösung -->
