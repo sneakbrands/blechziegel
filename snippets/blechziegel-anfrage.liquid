@@ -30,11 +30,14 @@
 .hp-wrap { max-width:var(--bz-max); margin:0 auto; padding:0 20px; }
 
 /* HERO */
-.hp-hero { background:linear-gradient(135deg,var(--bz-navy) 0%,#163660 100%);
-  color:var(--bz-white); padding:64px 20px 56px; position:relative; overflow:hidden; }
-.hp-hero::before { content:''; position:absolute; inset:0; pointer-events:none;
-  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
-.hp-hero__inner { position:relative; max-width:var(--bz-max); margin:0 auto; }
+.hp-hero { background:var(--bz-navy);
+  color:var(--bz-white); padding:64px 20px 56px; position:relative; overflow:hidden;
+  min-height:400px; }
+.hp-hero__media { position:absolute; inset:0; z-index:0; }
+.hp-hero__media img { width:100%; height:100%; object-fit:cover; object-position:center; display:block; }
+.hp-hero::before { content:''; position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:rgba(13,30,53,0.6); }
+.hp-hero__inner { position:relative; z-index:2; max-width:var(--bz-max); margin:0 auto; }
 .hp-kicker { display:inline-flex; align-items:center; gap:8px;
   background:var(--bz-orange-bg); border:1px solid rgba(255,165,0,.35);
   color:var(--bz-orange); font-family:var(--bz-head);
@@ -219,7 +222,8 @@
   .hp-steps { grid-template-columns:1fr; }
 }
 @media (max-width:640px) {
-  .hp-hero { padding:40px 16px 44px; }
+  .hp-hero { padding:40px 16px 44px; min-height:300px; }
+  .hp-hero__media img { object-position:center center; }
   .hp-hero h1 { font-size:24px; line-height:1.2; }
   .hp-hero__sub { font-size:14.5px; }
   .hp-hero__trust { gap:10px 14px; }
@@ -247,6 +251,26 @@
 
   <!-- HERO -->
   <section class="hp-hero" aria-labelledby="an-hero-title">
+    <div class="hp-hero__media" aria-hidden="true">
+      <picture>
+        <source
+          type="image/webp"
+          srcset="{{ 'blechziegel-ziegel-anfrage-hero-1024.webp' | asset_url }} 1024w,
+                  {{ 'blechziegel-ziegel-anfrage-hero-1440.webp' | asset_url }} 1440w,
+                  {{ 'blechziegel-ziegel-anfrage-hero-1920.webp' | asset_url }} 1920w"
+          sizes="100vw">
+        <img
+          src="{{ 'blechziegel-ziegel-anfrage-hero-1920.jpg' | asset_url }}"
+          srcset="{{ 'blechziegel-ziegel-anfrage-hero-1024.jpg' | asset_url }} 1024w,
+                  {{ 'blechziegel-ziegel-anfrage-hero-1440.jpg' | asset_url }} 1440w,
+                  {{ 'blechziegel-ziegel-anfrage-hero-1920.jpg' | asset_url }} 1920w"
+          sizes="100vw"
+          alt="Smartphone fotografiert Dachziegel auf Werkbank neben Zollstock – Ziegel per Foto identifizieren lassen bei blechziegel.de"
+          title="Ziegel-Anfrage – Dachziegel per Foto prüfen und passenden Blechziegel finden"
+          width="1920" height="814"
+          loading="eager" fetchpriority="high" decoding="async">
+      </picture>
+    </div>
     <div class="hp-wrap hp-hero__inner">
       <div class="hp-kicker">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6h-2.18c.11-.31.18-.65.18-1a2.996 2.996 0 0 0-5.5-1.65l-.5.67-.5-.68C11 2.51 10.04 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 11 8.76l1-1.36 1 1.36L15.38 12 17 10.83 14.92 8H20v6z"/></svg>
