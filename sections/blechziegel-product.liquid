@@ -723,27 +723,6 @@
   }
   .bz-trust-item svg { color: var(--bz-orange); flex-shrink: 0; }
 
-  /* Mini-USPs */
-  .bz-mini-usps {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .bz-mini-usp {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    font-size: 13.5px;
-    color: var(--bz-gray-text);
-    line-height: 1.5;
-  }
-  .bz-mini-usp .ico {
-    color: var(--bz-orange);
-    flex-shrink: 0;
-    margin-top: 1px;
-    font-size: 15px;
-  }
-
   /* ── BELOW THE FOLD SECTIONS ── */
   .bz-below { border-top: 1px solid var(--bz-border); padding: 60px 0; }
   .bz-below-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
@@ -801,63 +780,6 @@
   .bz-desc ul { padding-left: 18px; display: flex; flex-direction: column; gap: 6px; margin: 8px 0; }
   .bz-desc li { font-size: 14px; }
   .bz-desc strong { color: var(--bz-navy); }
-
-  /* Technische Daten Tabelle */
-  .bz-tech-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-  .bz-tech-table tr { border-bottom: 1px solid var(--bz-border); }
-  .bz-tech-table tr:last-child { border-bottom: none; }
-  .bz-tech-table td { padding: 11px 8px; color: var(--bz-gray-text); }
-  .bz-tech-table td:first-child {
-    font-weight: 600;
-    color: var(--bz-navy);
-    width: 40%;
-    padding-right: 16px;
-  }
-  .bz-tech-table tr:nth-child(odd) td { background: var(--bz-gray-50); }
-
-  /* FAQ */
-  .bz-faq-list { display: flex; flex-direction: column; }
-  .bz-faq-item { border-bottom: 1px solid var(--bz-border); }
-  .bz-faq-item:first-child { border-top: 1px solid var(--bz-border); }
-  .bz-faq-q {
-    width: 100%;
-    text-align: left;
-    background: none;
-    border: none;
-    padding: 16px 0;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--bz-navy);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    font-family: var(--font-body-family, inherit);
-    line-height: 1.4;
-  }
-  .bz-faq-q:hover { color: var(--bz-orange); }
-  .bz-faq-icon { min-width: 18px; height: 18px; color: var(--bz-orange); transition: transform .2s; flex-shrink: 0; }
-  .bz-faq-item.open .bz-faq-icon { transform: rotate(45deg); }
-  .bz-faq-a { display: none; padding-bottom: 16px; font-size: 14px; color: var(--bz-gray-text); line-height: 1.7; }
-  .bz-faq-item.open .bz-faq-a { display: block; }
-
-  /* USP-Cards (Below Fold) */
-  .bz-usp-cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin-bottom: 32px;
-  }
-  .bz-usp-card-sm {
-    background: #fff;
-    border: 1.5px solid var(--bz-border);
-    border-radius: var(--bz-r-lg);
-    padding: 18px 16px;
-  }
-  .bz-usp-card-sm svg { color: var(--bz-orange); margin-bottom: 8px; }
-  .bz-usp-card-sm h4 { font-size: 13.5px; font-weight: 700; color: var(--bz-navy); margin-bottom: 4px; }
-  .bz-usp-card-sm p { font-size: 12.5px; color: var(--bz-gray-text); line-height: 1.55; }
 
   /* Problem / Lösung */
   .bz-pvl-mini { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
@@ -1084,11 +1006,9 @@
     .bz-gallery { position: static; }
     .bz-below-grid { grid-template-columns: 1fr; gap: 40px; }
     .bz-review-cards { grid-template-columns: 1fr; }
-    .bz-usp-cards { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 580px) {
     .bz-trust-grid { grid-template-columns: 1fr 1fr; }
-    .bz-usp-cards { grid-template-columns: 1fr; }
     .bz-pvl-mini { grid-template-columns: 1fr; }
     .bz-tab-btn { padding: 10px 14px; font-size: 13px; }
     .bz-price-current { font-size: 1.7rem; }
