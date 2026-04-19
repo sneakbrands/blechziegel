@@ -5,7 +5,10 @@
       "Bash(git *)",
       "Bash(gh *)",
       "Bash(npx playwright *)",
-      "Bash(node scripts/*)"
+      "Bash(node scripts/*)",
+      "Bash(shopify theme list *)",
+      "Bash(shopify theme check *)",
+      "Bash(shopify theme info *)"
     ]
   },
   "autoMemoryEnabled": false,
