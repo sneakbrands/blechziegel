@@ -1464,6 +1464,10 @@
         <input type="hidden" name="id" id="bz-variant-id" value="{{ product.selected_or_first_available_variant.id }}">
 
         {%- for option in product.options_with_values -%}
+          {%- comment -%} Shopify Default-Option "Title" (Produkt ohne echte Varianten) NICHT rendern {%- endcomment -%}
+          {%- if option.name == 'Title' and option.values.size == 1 and option.values.first == 'Default Title' -%}
+            {%- continue -%}
+          {%- endif -%}
           {%- if option.name == 'Bestellung als' -%}
             <div class="bz-variant-label">Ich bestelle als</div>
             <div class="bz-segment" role="radiogroup" aria-label="Kundentyp wählen">
