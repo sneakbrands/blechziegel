@@ -1,5 +1,15 @@
 # Projektregeln
 
+## 🔴 ZWINGEND: Fix-Benachrichtigung an info@blechziegel.de
+
+**Nach jedem eingespielten Fix (Theme-Code-Push ODER Admin-API-Write ODER Content-Änderung) muss eine Zusammenfassungs-Mail an `info@blechziegel.de` gehen.**
+
+- **Tool:** `node c:/Users/Administrator/blechziegel-admin-tools/send-fix-notification.js "<Subject>" "<HTML>"` oder `--file <path> "<Subject>"`
+- **SMTP-Quelle:** `ALERT_*`-Variablen in `c:/Users/Administrator/blechziegel-admin-tools/.env` (all-inkl, Absender `ALERT_EMAIL_FROM`)
+- **Inhalt Pflicht:** Task-Liste (was wurde gefixt), Route (Git-Commit-SHA oder Admin-API), Status, ggf. Score-Effekt bei SEO, ggf. Repo-Links
+- **CI-konform:** Inter + Montserrat, Schwarz/Weiß, `#000`/`#333`/`#DFDFDF`/`rgba(0,0,0,.6)`, keine Farben außerhalb der CI
+- **Wann NICHT:** reine Lesezugriffe, Status-Abfragen, `git status`/`git log`, CLAUDE.md-Anpassungen, lokale Dev-Scripts im `theme-workspace/`
+
 ## 🔴 ZWINGEND: nur Theme-Code im Repo
 
 Dieses Repository ist **ausschliesslich Shopify-Theme-Code**. Audits, Preview-HTMLs, Dev-Scripts, Build-Tools, Dokumentation gehoeren NICHT ins Repo — sie leben unter `C:\Claude\Agent\Blechziegel\theme-workspace\`.
