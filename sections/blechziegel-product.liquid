@@ -1454,7 +1454,10 @@
         {%- endif -%}
       </ul>
 
+      {%- comment -%} Divider zwischen USPs und Varianten entfaellt auf Zubehoer-PDP (keine komplexen Optionen) {%- endcomment -%}
+      {%- unless template.suffix == 'zubehoer' -%}
       <hr class="bz-divider">
+      {%- endunless -%}
 
       {%- comment -%}── Varianten Form ──{%- endcomment -%}
       <form action="{{ routes.cart_add_url }}" method="post" id="bz-product-form">
