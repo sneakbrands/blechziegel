@@ -1702,28 +1702,9 @@
           <!-- Tab: Beschreibung -->
           <div class="bz-tab-panel active" id="tab-beschreibung">
             <div class="bz-desc">
-              <p>Der <strong>PV-Blechziegel für die Frankfurter Pfanne</strong> ist der sauberste Weg, eine Photovoltaikanlage auf Ihrem Dach zu befestigen – ohne Ziegelbruch, ohne Bohren, ohne Undichtigkeiten.</p>
-
-              <h3>Für wen ist dieses Produkt geeignet?</h3>
-              <ul>
-                <li>Dachdecker und PV-Installateure, die schnell und sauber montieren wollen</li>
-                <li>Handwerksbetriebe mit mehreren PV-Projekten pro Monat</li>
-                <li>Privatkunden mit Dächern aus Frankfurter Pfanne</li>
-                <li>Überall dort, wo Tonziegel bei der Montage bruchgefährdet sind</li>
-              </ul>
-
-              <h3>Wann wird das Produkt eingesetzt?</h3>
-              <p>Überall dort, wo ein <strong>Dachhaken für PV-Module</strong> gesetzt werden muss oder eine <strong>Kabelführung durch das Dach</strong> erforderlich ist. Der Blechziegel ersetzt an dieser Stelle den vorhandenen Tonziegel – passgenau, dicht und optisch unauffällig.</p>
-
-              <h3>Warum verhindert er Ziegelbruch?</h3>
-              <p>Tonziegel brechen beim Bohren oder mechanischen Belasten. Der <strong>Aluminium-Blechziegel</strong> übernimmt die Position des Tonziegels vollständig – er wird eingehängt, nicht gebohrt. Das Ergebnis: null Bruchrisiko, kein Flicken, keine Nacharbeit.</p>
-
-              <h3>Verfügbare Farben</h3>
-              <ul>
-                <li><strong>Aluminium blank</strong> – für helle und metallische Dächer</li>
-                <li><strong>Anthrazit RAL 7016</strong> – für dunkle, moderne Dacheindeckungen</li>
-                <li><strong>Ziegelrot RAL 8004</strong> – für klassische rote Tonziegeldächer</li>
-              </ul>
+              {%- if product.description != blank -%}
+                {{ product.description }}
+              {%- endif -%}
             </div>
           </div>
 
