@@ -42,11 +42,14 @@
 .hp-wrap { max-width:var(--bz-max); margin:0 auto; padding:0 20px; }
 
 /* HERO */
-.hp-hero { background:linear-gradient(135deg,var(--bz-navy) 0%,#163660 100%);
-  color:var(--bz-white); padding:64px 20px 56px; position:relative; overflow:hidden; }
-.hp-hero::before { content:''; position:absolute; inset:0; pointer-events:none;
-  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
-.hp-hero__inner { position:relative; max-width:var(--bz-max); margin:0 auto; }
+.hp-hero { background:var(--bz-navy);
+  color:var(--bz-white); padding:64px 20px 56px; position:relative; overflow:hidden;
+  min-height:450px; }
+.hp-hero__media { position:absolute; inset:0; z-index:0; }
+.hp-hero__media img { width:100%; height:100%; object-fit:cover; object-position:center; display:block; }
+.hp-hero::before { content:''; position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:rgba(13,30,53,0.55); }
+.hp-hero__inner { position:relative; z-index:2; max-width:var(--bz-max); margin:0 auto; }
 .hp-kicker { display:inline-flex; align-items:center; gap:8px;
   background:var(--bz-orange-bg); border:1px solid rgba(255,165,0,.35);
   color:var(--bz-orange); font-family:var(--bz-head);
@@ -226,6 +229,10 @@
   .zf-options--measure { grid-template-columns:repeat(2, 1fr); }
   .zf-options--measure .zf-option__name { font-size:18px; }
 }
+@media (max-width:640px) {
+  .hp-hero { min-height:300px; padding:44px 16px 48px; }
+  .hp-hero__media img { object-position:right center; }
+}
 </style>
 
 {%- liquid
@@ -238,6 +245,26 @@
 
   <!-- HERO -->
   <section class="hp-hero" aria-labelledby="zf-hero-title">
+    <div class="hp-hero__media" aria-hidden="true">
+      <picture>
+        <source
+          type="image/webp"
+          srcset="{{ 'blechziegel-ziegel-finder-hero-1024.webp' | asset_url }} 1024w,
+                  {{ 'blechziegel-ziegel-finder-hero-1440.webp' | asset_url }} 1440w,
+                  {{ 'blechziegel-ziegel-finder-hero-1920.webp' | asset_url }} 1920w"
+          sizes="100vw">
+        <img
+          src="{{ 'blechziegel-ziegel-finder-hero-1920.jpg' | asset_url }}"
+          srcset="{{ 'blechziegel-ziegel-finder-hero-1024.jpg' | asset_url }} 1024w,
+                  {{ 'blechziegel-ziegel-finder-hero-1440.jpg' | asset_url }} 1440w,
+                  {{ 'blechziegel-ziegel-finder-hero-1920.jpg' | asset_url }} 1920w"
+          sizes="100vw"
+          alt="Dachziegel-Unterseite mit Herstellerprägung wird mit Aluminium-Blechziegel-Profilen auf Werkbank verglichen – Ziegel Finder bei blechziegel.de"
+          title="Ziegel Finder – Passenden Blechziegel nach Hersteller und Maß finden"
+          width="1920" height="814"
+          loading="eager" fetchpriority="high" decoding="async">
+      </picture>
+    </div>
     <div class="hp-wrap hp-hero__inner">
       <div class="hp-kicker">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 5 1.5-1.5-5-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"/></svg>
