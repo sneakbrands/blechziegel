@@ -94,6 +94,9 @@
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffa500'%3E%3Cpath d='M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z'/%3E%3C/svg%3E");
   background-repeat:no-repeat; background-size:contain; }
 .hp-article a { color:var(--bz-orange); font-weight:700; text-decoration:underline; text-underline-offset:2px; }
+.hp-article__figure { margin:18px 0 24px; border-radius:var(--bz-radius-lg); overflow:hidden;
+  box-shadow:0 4px 20px rgba(10,34,64,.10); }
+.hp-article__figure img { width:100%; height:auto; display:block; }
 
 /* KEYBOX — highlight for important facts */
 .hp-keybox { background:linear-gradient(180deg,#fff9ee 0%,#fff 100%);
@@ -440,6 +443,15 @@
 
           <section id="montage">
             <h2>Montage & Praxis-Tipps</h2>
+            <figure class="hp-article__figure">
+              <picture>
+                <source srcset="{{ 'ratgeber-team-pv-montage-solarpanel-dach.webp' | asset_url }}" type="image/webp">
+                <img src="{{ 'ratgeber-team-pv-montage-solarpanel-dach.jpg' | asset_url }}"
+                     alt="Zwei Installateure bei der PV-Montage auf einem Blechziegel-Dach — Solarpanel in der Montageschiene"
+                     width="1920" height="1071"
+                     loading="lazy" decoding="async">
+              </picture>
+            </figure>
             <p>
               Blechziegel ersetzen Tonziegel 1:1 — die Montage erfolgt in derselben Reihenfolge wie bei
               der ursprünglichen Dacheindeckung, von unten nach oben, mit seitlicher Überlappung.
