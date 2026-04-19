@@ -35,14 +35,17 @@
 
 /* HERO */
 .hp-hero {
-  background:linear-gradient(135deg,var(--bz-navy) 0%,#163660 100%);
+  background:var(--bz-navy);
   color:var(--bz-white); padding:72px 20px 64px; position:relative; overflow:hidden;
+  min-height:500px;
 }
+.hp-hero__media { position:absolute; inset:0; z-index:0; }
+.hp-hero__media img { width:100%; height:100%; object-fit:cover; object-position:center; display:block; }
 .hp-hero::before {
-  content:''; position:absolute; inset:0; pointer-events:none;
-  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  content:''; position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:rgba(13,30,53,0.6);
 }
-.hp-hero__inner { position:relative; max-width:var(--bz-max); margin:0 auto;
+.hp-hero__inner { position:relative; z-index:2; max-width:var(--bz-max); margin:0 auto;
   display:grid; grid-template-columns:1.1fr .9fr; gap:56px; align-items:center; }
 .hp-kicker {
   display:inline-flex; align-items:center; gap:8px;
@@ -333,7 +336,8 @@
   .hp-steps { grid-template-columns:1fr; }
 }
 @media (max-width:640px) {
-  .hp-hero { padding:48px 16px 56px; }
+  .hp-hero { padding:48px 16px 56px; min-height:350px; }
+  .hp-hero__media img { object-position:center bottom; }
   .hp-hero h1 { font-size:28px; }
   .hp-hero__cta { flex-direction:column; }
   .hp-hero__cta .hp-btn { width:100%; }
@@ -394,6 +398,26 @@
 
   <!-- HERO -->
   <section class="hp-hero" aria-labelledby="hp-hero-title">
+    <div class="hp-hero__media" aria-hidden="true">
+      <picture>
+        <source
+          type="image/webp"
+          srcset="{{ 'blechziegel-hersteller-uebersicht-hero-1024.webp' | asset_url }} 1024w,
+                  {{ 'blechziegel-hersteller-uebersicht-hero-1440.webp' | asset_url }} 1440w,
+                  {{ 'blechziegel-hersteller-uebersicht-hero-1920.webp' | asset_url }} 1920w"
+          sizes="100vw">
+        <img
+          src="{{ 'blechziegel-hersteller-uebersicht-hero-1920.jpg' | asset_url }}"
+          srcset="{{ 'blechziegel-hersteller-uebersicht-hero-1024.jpg' | asset_url }} 1024w,
+                  {{ 'blechziegel-hersteller-uebersicht-hero-1440.jpg' | asset_url }} 1440w,
+                  {{ 'blechziegel-hersteller-uebersicht-hero-1920.jpg' | asset_url }} 1920w"
+          sizes="100vw"
+          alt="Aluminium-Blechziegel-Profile verschiedener Hersteller auf Werkbank in deutscher Laser-Produktion – blechziegel.de Hersteller-Übersicht"
+          title="PV-Dachziegel nach Hersteller – 10 Marken bei blechziegel.de"
+          width="1920" height="814"
+          loading="eager" fetchpriority="high" decoding="async">
+      </picture>
+    </div>
     <div class="hp-hero__inner">
       <div>
         <div class="hp-kicker">
