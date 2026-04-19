@@ -1,5 +1,15 @@
 # Projektregeln
 
+## 🔴 ZWINGEND: Content-Vorschläge an info@blechziegel.de (mit Freigabe-Link)
+
+**Jeder Content-Vorschlag (Page-Text, Blog-Artikel, Landing, IG-Post, Ad-Creative, Hero-Copy, E-Mail-Template, Produkt-Beschreibung) muss als Mail an `info@blechziegel.de` gehen — mit Freigabe-Link und `.md`-Report als Anhang. NICHT in den Chat kippen.**
+
+- **Tool:** `node c:/Users/Administrator/blechziegel-admin-tools/send-content-proposal.js "<Subject>" --preview <preview.html> --md <report.md> [--summary "<HTML-Teaser>"]`
+- **Preview-Pflicht:** Lokale, self-contained `preview.html` unter `C:\Claude\Agent\Blechziegel\theme-workspace\freigabe\<YYYY-MM-DD>-<slug>\preview.html` (CI-konform, Inter + Montserrat via Google Fonts, finaler Render).
+- **MD-Report-Pflicht:** `report.md` im gleichen Freigabe-Ordner — mit Zweck, Deploy-Route (Git / Admin API / extern), Rückweg, offenen Punkten.
+- **Mail-Aufbau (automatisch):** Betreff mit `[Vorschlag]`-Prefix, Kurz-Teaser, Preview-`file://`-Link, Freigabe-Button (mailto mit `FREIGABE`-Subject), Änderungs-Button (mailto mit `ÄNDERUNGEN`-Subject), MD-Anhang.
+- **Kein Auto-Deploy:** Nach Vorschlag wartet Claude auf explizite Freigabe (Mail-Reply oder Chat), danach Deploy über passende Route + separate Fix-Mail (siehe unten).
+
 ## 🔴 ZWINGEND: Fix-Benachrichtigung an info@blechziegel.de
 
 **Nach jedem eingespielten Fix (Theme-Code-Push ODER Admin-API-Write ODER Content-Änderung) muss eine Zusammenfassungs-Mail an `info@blechziegel.de` gehen.**
