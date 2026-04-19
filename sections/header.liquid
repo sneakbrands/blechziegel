@@ -327,9 +327,10 @@
   <div
     class="header__underlay header__underlay-open"
   ></div>
-  {%- if request.page_type == 'index' -%}
-    <h1 class="visually-hidden">{{ shop.name }}</h1>
-  {%- endif -%}
+  {%- comment -%}
+    Home-Section liefert eigenes sichtbares H1 (Hero-Headline).
+    Zusätzliches visually-hidden Brand-H1 entfernt, um Multiple-H1 zu vermeiden.
+  {%- endcomment -%}
   {% for row in rows %}
     {% liquid
       assign scheme = 'color_scheme_' | append: row
