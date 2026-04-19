@@ -1722,20 +1722,7 @@
 
           <!-- Tab: Technische Daten -->
           <div class="bz-tab-panel" id="tab-technik">
-            {%- render 'bz-product-metafields', product: product, title: 'Produktspezifikationen' -%}
-            <table class="bz-tech-table">
-              <tr><td>Dachziegeltyp</td><td>Frankfurter Pfanne</td></tr>
-              <tr><td>Material</td><td>Aluminium</td></tr>
-              <tr><td>Oberfläche</td><td>Pulverbeschichtet</td></tr>
-              <tr><td>Gewicht</td><td>ca. 0,8 kg</td></tr>
-              <tr><td>Farben</td><td>Aluminium blank · Anthrazit RAL 7016 · Ziegelrot RAL 8004</td></tr>
-              <tr><td>Ausführung</td><td>Mit integriertem Dachhaken / Ohne Haken</td></tr>
-              <tr><td>Herkunft</td><td>{{ cf_origin | default: 'Made in Germany' }}</td></tr>
-              <tr><td>Lieferumfang</td><td>1 Stück PV-Blechziegel</td></tr>
-              <tr><td>Einsatzbereich</td><td>PV-Montage, Solarthermie, Dachsanierung</td></tr>
-              <tr><td>Material</td><td>Korrosionsbeständig, pulverbeschichtet, UV-stabil</td></tr>
-              <tr><td>Lieferzeit</td><td>{%- if cf_lead_time != blank -%}{{ cf_lead_time }}{%- endif -%}{%- if cf_lead_time != blank and cf_carrier != blank %} per {% endif -%}{%- if cf_carrier != blank -%}{{ cf_carrier }}{%- endif -%}</td></tr>
-            </table>
+            {%- render 'bz-product-metafields', product: product, title: 'Technische Daten' -%}
             <p style="font-size:12.5px;color:#888;margin-top:14px;">Bitte Dachtyp vor Bestellung prüfen. Montage durch Fachpersonal empfohlen. Statik, Schneelast und projektspezifische Anforderungen müssen bauseits berücksichtigt werden.</p>
           </div>
 

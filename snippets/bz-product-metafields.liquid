@@ -31,7 +31,7 @@
     einheit  = optional (cm, mm, kg, Jahre, ...)  — leer lassen: ""
     priority = Sortier-Zahl (klein = oben)
   endcomment
-  assign FIELDS = 'custom.dachziegel_typ|Dachziegel-Typ||10,custom.laenge|Länge|mm|20,custom.breite|Breite|mm|30,custom.passende_hersteller|Passende Hersteller||40,shopify.shingle-tile-material|Material||50,shopify.color-pattern|Farb-Optionen||60,custom.montageanleitung_mit_haken|Montageanleitung (mit Haken)||70,custom.montageanleitung_ohne_haken|Montageanleitung (ohne Haken)||80' | split: ','
+  assign FIELDS = 'custom.dachziegel_typ|Dachziegeltyp||10,custom.material|Material||20,custom.oberflaeche|Oberfläche||30,custom.gewicht|Gewicht||40,custom.laenge|Länge|mm|45,custom.breite|Breite|mm|46,shopify.color-pattern|Farben||50,custom.ausfuehrung_info|Ausführung||60,custom.herkunft|Herkunft||70,custom.lieferumfang|Lieferumfang||80,custom.einsatzbereich|Einsatzbereich||90,custom.eigenschaften|Eigenschaften||100,custom.passende_hersteller|Passende Hersteller||110,custom.montageanleitung_mit_haken|Montageanleitung (mit Haken)||120,custom.montageanleitung_ohne_haken|Montageanleitung (ohne Haken)||130,custom.lieferzeit|Lieferzeit||140' | split: ','
 -%}
 
 {%- capture bz_rows -%}
