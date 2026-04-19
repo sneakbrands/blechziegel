@@ -405,6 +405,17 @@
     }
   }
 
+  /* Pointer-Event-Fix: Der Submenu-Wrapper ist position:absolute + width:100%, */
+  /* visuell per clip-path unter den Header begrenzt. OHNE pointer-events:none wuerde */
+  /* der DOM-Node den ganzen Header-Bereich abdecken und Top-Nav-Links (z.B. "Anfrage" */
+  /* rechts neben "Hersteller") blockieren. Der inner-Container bleibt klickbar. */
+  .menu-list__list-item:where(:not([slot='overflow'])) > .menu-list__submenu {
+    pointer-events: none;
+  }
+  .menu-list__submenu-inner {
+    pointer-events: auto;
+  }
+
   /* Show the submenus on hover */
   .menu-list__list-item:has([aria-expanded='true']) > .menu-list__submenu,
   /* Show the overflow menu when a menu item is hovered */
