@@ -1,0 +1,16 @@
+{%- comment -%}
+  Plain-Output-Template fuer llms.txt (AI-Crawler-Sitemap, llmstxt.org-Standard).
+
+  - Kein theme.liquid-Layout, kein Header/Footer, kein CSS/JS.
+  - Ausgabe = ausschliesslich page.content (Shopify-Page-Body).
+  - Content-Type bleibt text/html (Shopify-Limit, kann serverseitig nicht umgestellt werden),
+    der Response-Body ist jedoch reiner Markdown-/Plaintext.
+
+  Admin-Setup (einmalig, nicht im Repo versioniert):
+    1. Shopify-Page mit Handle "llms-txt" anlegen, Template-Suffix "llms".
+    2. Page-Body enthaelt den Markdown-Inhalt (ohne <html>/<body>-Wrapper).
+    3. URL-Redirect /llms.txt -> /pages/llms-txt im Shopify-Admin anlegen.
+
+  Reversibel: Datei loeschen, Page + Redirect im Admin entfernen.
+{%- endcomment -%}
+{%- layout none -%}{{- page.content -}}
