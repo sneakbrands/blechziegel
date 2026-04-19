@@ -4,8 +4,9 @@
 
 **Nach jedem eingespielten Fix (Theme-Code-Push ODER Admin-API-Write ODER Content-Änderung) muss eine Zusammenfassungs-Mail an `info@blechziegel.de` gehen.**
 
-- **Tool:** `node c:/Users/Administrator/blechziegel-admin-tools/send-fix-notification.js "<Subject>" "<HTML>"` oder `--file <path> "<Subject>"`
+- **Tool:** `node c:/Users/Administrator/blechziegel-admin-tools/send-fix-notification.js "<Subject>" "<HTML>" --md <report.md>` oder `--file <path.html> "<Subject>" --md <report.md>`
 - **SMTP-Quelle:** `ALERT_*`-Variablen in `c:/Users/Administrator/blechziegel-admin-tools/.env` (all-inkl, Absender `ALERT_EMAIL_FROM`)
+- **MD-Anhang Pflicht:** Immer zusätzlich zum HTML-Body einen strukturierten `.md`-Report per `--md` anhängen. Ablage: `C:\Claude\Agent\Blechziegel\theme-workspace\exports\fix-report-<slug>.md`. Inhalt: Fix-Tabelle (Task · Route · Status), Commits/API-IDs, ggf. Score-Effekt, offene Punkte.
 - **Inhalt Pflicht:** Task-Liste (was wurde gefixt), Route (Git-Commit-SHA oder Admin-API), Status, ggf. Score-Effekt bei SEO, ggf. Repo-Links
 - **CI-konform:** Inter + Montserrat, Schwarz/Weiß, `#000`/`#333`/`#DFDFDF`/`rgba(0,0,0,.6)`, keine Farben außerhalb der CI
 - **Wann NICHT:** reine Lesezugriffe, Status-Abfragen, `git status`/`git log`, CLAUDE.md-Anpassungen, lokale Dev-Scripts im `theme-workspace/`
