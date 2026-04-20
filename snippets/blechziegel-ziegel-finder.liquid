@@ -370,6 +370,17 @@
     </div>
   </section>
 
+  {%- if page.content != blank -%}
+  <!-- PAGE-CONTENT (Intro + FAQ, multilang-ready via page.body_html) -->
+  <section class="hp-section hp-section--white zf-pagecontent" aria-label="Ziegel-Finder FAQ">
+    <div class="hp-wrap" style="max-width:820px;">
+      <div class="zf-pagecontent__inner" style="font-size:16px;line-height:1.65;color:var(--bz-text);">
+        {{ page.content }}
+      </div>
+    </div>
+  </section>
+  {%- endif -%}
+
 </div>
 
 <script>
