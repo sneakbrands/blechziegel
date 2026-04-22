@@ -24,7 +24,73 @@
   /* Horizon default heading-Block (meist leer) ausblenden — wir rendern eigenen H1 */
   .search-page__header > [data-block-type="_heading"]:empty,
   .search-page__header > .bz-hide-default-heading { display: none !important; }
+
+  /* Suchvorschlag-Chips (nur bei leerer / 0-Treffer-Suche) */
+  .bz-search-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 14px 0 8px;
+    align-items: center;
+  }
+  .bz-search-suggestions__label {
+    font-size: 13px;
+    color: rgba(0,0,0,0.55);
+    font-family: var(--font-body--family, 'Inter', sans-serif);
+    margin-right: 4px;
+  }
+  .bz-search-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 14px;
+    font-family: var(--font-body--family, 'Inter', sans-serif);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-foreground, #0d1e35);
+    background: #fff;
+    border: 1px solid var(--color-border, #DFDFDF);
+    border-radius: 999px;
+    text-decoration: none;
+    transition: border-color .15s, background .15s, color .15s;
+  }
+  .bz-search-chip:hover {
+    border-color: var(--bz-orange, #f39200);
+    background: var(--bz-orange-light, #fff4e0);
+    color: var(--color-foreground, #0d1e35);
+  }
+
+  /* Search-Input prominenter (Horizon-Default) */
+  .search-page__header [data-block-type="_search-input"] input[type="search"],
+  .search-page__header [data-block-type="_search-input"] .search__input,
+  .search-page__header .search-form input[type="search"] {
+    min-height: 52px !important;
+    font-size: 16px !important;
+    border-radius: 10px !important;
+    border-width: 1.5px !important;
+  }
+  .search-page__header [data-block-type="_search-input"] {
+    margin-top: 4px;
+  }
 </style>
+<script>
+  (function(){
+    // Autofocus auf Search-Input bei leerer / 0-Treffer-Suche — nur Desktop (um iOS-Zoom zu vermeiden)
+    function focusSearchInput(){
+      if (window.matchMedia && window.matchMedia('(max-width: 767px)').matches) return;
+      var input = document.querySelector('.search-page__header input[type="search"], .search-page__header .search__input');
+      if (!input) return;
+      // Nur autofocussen wenn Input leer (damit Ergebnis-Seite nicht Fokus klaut)
+      if (!input.value) {
+        try { input.focus({ preventScroll: true }); } catch(_) { input.focus(); }
+      }
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', focusSearchInput);
+    } else {
+      focusSearchInput();
+    }
+  })();
+</script>
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <div class="section section--page-width color-{{ section.settings.color_scheme }}">
   <div
@@ -34,6 +100,7 @@
       {% render 'spacing-style', settings: section.settings %}
     "
   >
+    {%- assign _show_suggestions = false -%}
     {%- if search.performed -%}
       {%- assign _q = search.terms | escape -%}
       <h1 class="bz-search-headline">
@@ -43,12 +110,25 @@
         {%- if search.results_count > 0 -%}
           {{ search.results_count }} Treffer
         {%- else -%}
-          Keine Treffer — probiere eine andere Schreibweise oder nutze die Suche unten.
+          Keine Treffer — probiere eine andere Schreibweise oder wähle einen Vorschlag.
+          {%- assign _show_suggestions = true -%}
         {%- endif -%}
       </p>
     {%- else -%}
       <h1 class="bz-search-headline">Suche</h1>
       <p class="bz-search-sub">Finde Blechziegel, Dachhaken, Schrauben und Zubehör.</p>
+      {%- assign _show_suggestions = true -%}
+    {%- endif -%}
+
+    {%- if _show_suggestions -%}
+      <div class="bz-search-suggestions" role="list" aria-label="Häufig gesucht">
+        <span class="bz-search-suggestions__label">Häufig gesucht:</span>
+        <a class="bz-search-chip" role="listitem" href="{{ routes.search_url }}?q=Frankfurter+Pfanne&options%5Bprefix%5D=last">Frankfurter Pfanne</a>
+        <a class="bz-search-chip" role="listitem" href="{{ routes.search_url }}?q=Harzer+Pfanne&options%5Bprefix%5D=last">Harzer Pfanne</a>
+        <a class="bz-search-chip" role="listitem" href="{{ routes.search_url }}?q=Dachhaken&options%5Bprefix%5D=last">Dachhaken</a>
+        <a class="bz-search-chip" role="listitem" href="{{ routes.search_url }}?q=Schrauben&options%5Bprefix%5D=last">Schrauben</a>
+        <a class="bz-search-chip" role="listitem" href="{{ routes.search_url }}?q=Versteifungsschiene&options%5Bprefix%5D=last">Versteifungsschiene</a>
+      </div>
     {%- endif -%}
 
     {% assign heading_text = 'content.search' | t %}

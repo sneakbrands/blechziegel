@@ -7,6 +7,30 @@
 ></script>
 
 <style>
+  /* Empfohlene-Produkte-Header (Empty-State) */
+  .template-search .bz-search-recommend-header {
+    margin: 8px 0 20px;
+    padding-top: 12px;
+    border-top: 1px solid var(--color-border, #DFDFDF);
+  }
+  .template-search .bz-search-recommend-header__title {
+    font-family: var(--font-heading--family, 'Montserrat', sans-serif);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-foreground, #0d1e35);
+    margin: 0 0 4px;
+    line-height: 1.3;
+  }
+  .template-search .bz-search-recommend-header__sub {
+    font-family: var(--font-body--family, 'Inter', sans-serif);
+    font-size: 13px;
+    color: rgba(0,0,0,0.6);
+    margin: 0;
+    line-height: 1.5;
+  }
+
   /* ── Search-Result-Card · CI-Polish (Scope: results-list auf template-search) ── */
   .template-search results-list .product-grid {
     row-gap: 40px !important;
@@ -137,6 +161,10 @@
         {% assign default_title = 'content.search_results_resource_products' | t %}
         {% assign title = settings.empty_state_collection.title | default: default_title %}
         {% assign products = collection.products %}
+        <div class="bz-search-recommend-header">
+          <h2 class="bz-search-recommend-header__title">Empfohlene Produkte</h2>
+          <p class="bz-search-recommend-header__sub">Unsere meistgekauften Produkte — oft ein guter Startpunkt.</p>
+        </div>
       {% endif %}
 
       {% capture children %}
