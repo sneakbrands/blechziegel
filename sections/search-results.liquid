@@ -31,105 +31,171 @@
     line-height: 1.5;
   }
 
-  /* ── Search-Result-Card · CI-Polish (Scope: results-list auf template-search) ── */
+  /* ── BZ Search-Card · Premium-B2B-Katalog (ersetzt Horizon-_product-card auf Search) ── */
   .template-search results-list .product-grid {
-    row-gap: 40px !important;
+    row-gap: 28px !important;
+    column-gap: 20px !important;
   }
-  .template-search results-list .product-grid__item {
-    position: relative;
+  .template-search results-list .product-grid__item.bz-search-card {
+    list-style: none;
     background: #fff;
     border: 1px solid var(--color-border, #DFDFDF);
-    border-radius: 12px;
+    border-radius: 10px;
     overflow: hidden;
-    padding: 0 0 14px;
-    transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+    padding: 0;
+    transition: border-color .2s ease, box-shadow .2s ease;
   }
-  .template-search results-list .product-grid__item:hover {
-    border-color: var(--bz-orange, #f39200);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  .template-search results-list .product-grid__item.bz-search-card:hover {
+    border-color: var(--color-foreground, #0d1e35);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.02), 0 8px 24px rgba(13, 30, 53, 0.06);
   }
-  /* Bild-Container — einheitliches 4:3, kein Jumping */
-  .template-search results-list .card-gallery,
-  .template-search results-list .card-gallery__media {
+  .bz-search-card__link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+  }
+  /* Bild-Block */
+  .bz-search-card__media {
+    position: relative;
     aspect-ratio: 4 / 3;
-    height: auto;
     background: var(--bz-surface, #f8f7f4);
+    border-bottom: 1px solid var(--color-border, #DFDFDF);
+    overflow: hidden;
   }
-  .template-search results-list .card-gallery__media img,
-  .template-search results-list .card-gallery img {
-    object-fit: contain !important;
+  .bz-search-card__img {
     width: 100%;
     height: 100%;
+    object-fit: contain;
+    padding: 16px;
+    transition: transform .35s ease;
   }
-  /* Typografie-Hierarchie */
-  .template-search results-list .product-title,
-  .template-search results-list [class*="product-title"] {
-    padding: 14px 14px 4px !important;
+  .bz-search-card:hover .bz-search-card__img { transform: scale(1.015); }
+  .bz-search-card__img--placeholder {
+    background: repeating-linear-gradient(45deg, #f0efec 0 10px, #f8f7f4 10px 20px);
   }
-  .template-search results-list .product-title p,
-  .template-search results-list .product-title a,
-  .template-search results-list [class*="product-title"] p,
-  .template-search results-list [class*="product-title"] a {
+  .bz-search-card__soldout {
+    position: absolute; top: 10px; left: 10px;
     font-family: var(--font-body--family, 'Inter', sans-serif);
-    font-size: 14px !important;
-    font-weight: 600 !important;
-    line-height: 1.35 !important;
-    color: var(--color-foreground, #0d1e35) !important;
-    letter-spacing: 0 !important;
+    font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 4px 10px;
+    background: var(--color-foreground, #0d1e35); color: #fff;
+    border-radius: 3px;
+  }
+  /* Body */
+  .bz-search-card__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 14px 16px 16px;
+    gap: 6px;
+  }
+  /* Kicker-Line: Kategorie + Vendor */
+  .bz-search-card__kicker {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+    font-family: var(--font-body--family, 'Inter', sans-serif);
+    font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(0,0,0,0.5);
+    line-height: 1.3;
+    margin-bottom: 2px;
+  }
+  .bz-search-card__type { color: var(--bz-orange, #f39200); }
+  .bz-search-card__vendor { color: rgba(0,0,0,0.55); font-weight: 500; }
+  .bz-search-card__kicker-sep { color: rgba(0,0,0,0.25); font-weight: 400; }
+  /* Titel */
+  .bz-search-card__title {
+    font-family: var(--font-body--family, 'Inter', sans-serif);
+    font-size: 14.5px;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--color-foreground, #0d1e35);
+    letter-spacing: 0;
+    margin: 0;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     min-height: 2.7em;
   }
-  /* Preis prominent */
-  .template-search results-list .price,
-  .template-search results-list [class*="price-"] {
-    padding: 0 14px !important;
-  }
-  .template-search results-list .price .price__regular,
-  .template-search results-list .price .price__sale,
-  .template-search results-list .price * {
-    font-family: var(--font-body--family, 'Inter', sans-serif) !important;
-    font-size: 17px !important;
-    font-weight: 700 !important;
-    color: var(--color-foreground, #0d1e35) !important;
-    letter-spacing: 0 !important;
-  }
-  /* Steuerhinweis unter Preis (via ::after, statischer Text „inkl. MwSt.") */
-  .template-search results-list .price::after {
-    content: "inkl. MwSt.";
-    display: block;
-    margin: 2px 14px 0;
-    font-size: 11.5px;
-    font-weight: 400;
-    color: rgba(0,0,0,0.55);
+  /* Varianten-/VE-Meta */
+  .bz-search-card__meta {
     font-family: var(--font-body--family, 'Inter', sans-serif);
-    padding: 0;
+    font-size: 12px;
+    color: rgba(0,0,0,0.6);
+    line-height: 1.4;
+    margin-top: 2px;
   }
-  /* Mobile: Titel klein aber lesbar, weniger Padding */
+  /* Footer */
+  .bz-search-card__footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 12px;
+  }
+  .bz-search-card__price {
+    display: flex; flex-direction: column; gap: 2px;
+    font-family: var(--font-body--family, 'Inter', sans-serif);
+  }
+  .bz-search-card__price-prefix {
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(0,0,0,0.5);
+    letter-spacing: 0.02em;
+    text-transform: lowercase;
+    line-height: 1;
+  }
+  .bz-search-card__price-amount {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-foreground, #0d1e35);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.15;
+  }
+  .bz-search-card__price-tax {
+    font-size: 11px;
+    font-weight: 400;
+    color: rgba(0,0,0,0.5);
+    letter-spacing: 0.01em;
+    line-height: 1.3;
+  }
+  .bz-search-card__stock {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-body--family, 'Inter', sans-serif);
+    font-size: 11.5px;
+    font-weight: 500;
+    color: rgba(0,0,0,0.6);
+    flex-shrink: 0;
+    padding-bottom: 3px;
+  }
+  .bz-search-card__stock-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+  .bz-search-card__stock.is-available .bz-search-card__stock-dot { background: #22c55e; }
+  .bz-search-card__stock.is-available .bz-search-card__stock-text { color: #166534; }
+  .bz-search-card__stock.is-soldout .bz-search-card__stock-dot { background: #9ca3af; }
+  .bz-search-card__stock.is-soldout .bz-search-card__stock-text { color: rgba(0,0,0,0.45); }
+
+  /* Mobile: kompakter, aber gleiche Hierarchie */
   @media (max-width: 640px) {
-    .template-search results-list .product-grid { row-gap: 28px !important; }
-    .template-search results-list .product-grid__item { border-radius: 10px; padding-bottom: 10px; }
-    .template-search results-list .product-title p,
-    .template-search results-list .product-title a,
-    .template-search results-list [class*="product-title"] p,
-    .template-search results-list [class*="product-title"] a {
-      font-size: 13px !important;
-      padding: 10px 10px 2px !important;
-      min-height: 2.7em;
+    .template-search results-list .product-grid {
+      row-gap: 16px !important;
+      column-gap: 12px !important;
     }
-    .template-search results-list .product-title,
-    .template-search results-list [class*="product-title"] {
-      padding: 0 !important;
-    }
-    .template-search results-list .price,
-    .template-search results-list [class*="price-"] {
-      padding: 0 10px !important;
-    }
-    .template-search results-list .price * { font-size: 15px !important; }
-    .template-search results-list .price::after { margin: 2px 10px 0; font-size: 11px; }
+    .bz-search-card__body { padding: 12px 12px 14px; gap: 5px; }
+    .bz-search-card__img { padding: 10px; }
+    .bz-search-card__title { font-size: 13px; min-height: 2.6em; }
+    .bz-search-card__kicker { font-size: 9.5px; letter-spacing: 0.08em; }
+    .bz-search-card__meta { font-size: 11px; }
+    .bz-search-card__price-amount { font-size: 16px; }
+    .bz-search-card__price-prefix, .bz-search-card__price-tax, .bz-search-card__stock { font-size: 10.5px; }
+    .bz-search-card__footer { padding-top: 8px; }
   }
 </style>
 
@@ -169,14 +235,84 @@
 
       {% capture children %}
         {% for product in products %}
+          {%- assign _p_type = product.type | default: '' -%}
+          {%- assign _p_vendor = product.vendor | default: '' -%}
+          {%- assign _variant_count = product.variants.size -%}
+          {%- assign _meta_info = '' -%}
+          {%- comment -%} Varianten-Info für B2B-Scanning {%- endcomment -%}
+          {%- if _variant_count > 1 -%}
+            {%- assign _opt_names = '' -%}
+            {%- for _o in product.options_with_values -%}
+              {%- if _o.name == 'Farbe' -%}
+                {%- capture _opt_names -%}{{ _opt_names }}{% if _opt_names != '' %} · {% endif %}{{ _o.values.size }} Farben{%- endcapture -%}
+              {%- elsif _o.name contains 'Länge' or _o.name contains 'Laenge' -%}
+                {%- capture _opt_names -%}{{ _opt_names }}{% if _opt_names != '' %} · {% endif %}{{ _o.values.size }} Längen{%- endcapture -%}
+              {%- elsif _o.name == 'Ausführung' -%}
+                {%- capture _opt_names -%}{{ _opt_names }}{% if _opt_names != '' %} · {% endif %}{{ _o.values.size }} Ausführungen{%- endcapture -%}
+              {%- elsif _o.name == 'Bestellung als' -%}
+                {%- comment -%} Kundentyp-Varianten nicht extra labeln — irrelevant für Erfassung {%- endcomment -%}
+              {%- elsif _o.name != 'Title' -%}
+                {%- capture _opt_names -%}{{ _opt_names }}{% if _opt_names != '' %} · {% endif %}{{ _o.values.size }} {{ _o.name }}{%- endcapture -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- assign _meta_info = _opt_names -%}
+          {%- endif -%}
+          {%- assign _ve = product.metafields.custom.verpackungseinheit -%}
+          {%- if _ve != blank -%}
+            {%- if _meta_info != '' -%}{%- capture _meta_info -%}{{ _meta_info }} · VE {{ _ve }}{%- endcapture -%}
+            {%- else -%}{%- capture _meta_info -%}VE {{ _ve }}{%- endcapture -%}{%- endif -%}
+          {%- endif -%}
+
           <li
             id="{{ section.id }}-{{ product.id }}"
-            class="product-grid__item product-grid__item--{{ forloop.index0 }}"
+            class="product-grid__item product-grid__item--{{ forloop.index0 }} bz-search-card"
             data-page="{{ paginate.current_page }}"
             data-product-id="{{ product.id }}"
+            data-available="{{ product.available }}"
             ref="cards[]"
           >
-            {% content_for 'block', type: '_product-card', id: 'product-card', closest.product: product %}
+            <a class="bz-search-card__link" href="{{ product.url }}" aria-label="{{ product.title | escape }} ansehen">
+              <div class="bz-search-card__media">
+                {%- if product.featured_image -%}
+                  {{ product.featured_image | image_url: width: 600 | image_tag:
+                    loading: 'lazy',
+                    class: 'bz-search-card__img',
+                    widths: '300,400,600,800',
+                    sizes: '(min-width: 992px) 280px, (min-width: 640px) 45vw, 50vw',
+                    alt: product.title
+                  }}
+                {%- else -%}
+                  <div class="bz-search-card__img bz-search-card__img--placeholder" aria-hidden="true"></div>
+                {%- endif -%}
+                {%- unless product.available -%}
+                  <span class="bz-search-card__soldout">Ausverkauft</span>
+                {%- endunless -%}
+              </div>
+              <div class="bz-search-card__body">
+                {%- if _p_type != '' or _p_vendor != '' -%}
+                  <div class="bz-search-card__kicker">
+                    {%- if _p_type != '' -%}<span class="bz-search-card__type">{{ _p_type }}</span>{%- endif -%}
+                    {%- if _p_type != '' and _p_vendor != '' -%}<span class="bz-search-card__kicker-sep" aria-hidden="true">·</span>{%- endif -%}
+                    {%- if _p_vendor != '' -%}<span class="bz-search-card__vendor">{{ _p_vendor }}</span>{%- endif -%}
+                  </div>
+                {%- endif -%}
+                <h3 class="bz-search-card__title">{{ product.title }}</h3>
+                {%- if _meta_info != '' -%}
+                  <div class="bz-search-card__meta">{{ _meta_info }}</div>
+                {%- endif -%}
+                <div class="bz-search-card__footer">
+                  <div class="bz-search-card__price">
+                    {%- if product.price_varies -%}<span class="bz-search-card__price-prefix">ab</span>{%- endif -%}
+                    <span class="bz-search-card__price-amount">{{ product.price_min | money }}</span>
+                    <span class="bz-search-card__price-tax">inkl. MwSt.</span>
+                  </div>
+                  <div class="bz-search-card__stock {% if product.available %}is-available{% else %}is-soldout{% endif %}" aria-label="{% if product.available %}Lagerware{% else %}Ausverkauft{% endif %}">
+                    <span class="bz-search-card__stock-dot" aria-hidden="true"></span>
+                    <span class="bz-search-card__stock-text">{% if product.available %}Lagerware{% else %}Ausverkauft{% endif %}</span>
+                  </div>
+                </div>
+              </div>
+            </a>
           </li>
         {% endfor %}
       {% endcapture %}
