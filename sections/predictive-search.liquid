@@ -1,6 +1,201 @@
 
 
 {%- if predictive_search.performed or search.performed -%}
+  <style>
+    /* ═══ BZ Predictive-Search CI-Polish (scoped) ═══ */
+    #predictive-search-results.predictive-search-dropdown {
+      font-family: var(--font-body--family, 'Inter', sans-serif);
+      color: var(--color-foreground, #0d1e35);
+    }
+    /* Section-Titles („Zuletzt angesehen", „Produkte") */
+    #predictive-search-results .predictive-search-results__title {
+      font-family: var(--font-heading--family, 'Montserrat', sans-serif) !important;
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.14em !important;
+      text-transform: uppercase !important;
+      color: var(--color-foreground, #0d1e35) !important;
+      margin: 0 0 12px !important;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--color-border, #DFDFDF);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    #predictive-search-results .predictive-search-results__clear {
+      font-family: var(--font-body--family, 'Inter', sans-serif) !important;
+      font-size: 11px !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.02em;
+      color: var(--bz-orange-dark, var(--bz-orange, #f39200)) !important;
+      text-transform: none !important;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: transparent;
+      transition: background .15s;
+    }
+    #predictive-search-results .predictive-search-results__clear:hover {
+      background: var(--bz-orange-light, #fff4e0);
+    }
+    /* Grid der Kacheln */
+    #predictive-search-results .predictive-search-results__wrapper-products {
+      display: grid !important;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px !important;
+      padding: 0;
+    }
+    @media (max-width: 768px) {
+      #predictive-search-results .predictive-search-results__wrapper-products {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px !important;
+      }
+    }
+    /* Card als B2B-Mini-Kachel */
+    #predictive-search-results .predictive-search-results__card--product {
+      list-style: none;
+      background: #fff;
+      border: 1px solid var(--color-border, #DFDFDF);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: border-color .18s, box-shadow .18s;
+    }
+    #predictive-search-results .predictive-search-results__card--product:hover {
+      border-color: var(--color-foreground, #0d1e35);
+      box-shadow: 0 4px 14px rgba(13,30,53,0.06);
+    }
+    #predictive-search-results .predictive-search-results__card--product .resource-card {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    #predictive-search-results .predictive-search-results__card--product .resource-card__link {
+      display: flex;
+      flex-direction: column;
+      color: inherit;
+      text-decoration: none;
+      height: 100%;
+    }
+    /* Bild — 4:3, contain, Surface-Background */
+    #predictive-search-results .predictive-search-results__card--product .resource-card__media,
+    #predictive-search-results .predictive-search-results__card--product .resource-card__image-wrapper {
+      aspect-ratio: 4 / 3 !important;
+      height: auto !important;
+      background: var(--bz-surface, #f8f7f4);
+      border-bottom: 1px solid var(--color-border, #DFDFDF);
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #predictive-search-results .predictive-search-results__card--product .resource-card__image,
+    #predictive-search-results .predictive-search-results__card--product .resource-card__image img,
+    #predictive-search-results .predictive-search-results__card--product .resource-card__media img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain !important;
+      padding: 10px;
+      transition: transform .3s;
+    }
+    #predictive-search-results .predictive-search-results__card--product:hover .resource-card__image img {
+      transform: scale(1.02);
+    }
+    /* Content */
+    #predictive-search-results .predictive-search-results__card--product .resource-card__content {
+      padding: 10px 12px 12px !important;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+    }
+    #predictive-search-results .predictive-search-results__card--product .resource-card__title {
+      font-family: var(--font-body--family, 'Inter', sans-serif) !important;
+      font-size: 12.5px !important;
+      font-weight: 600 !important;
+      line-height: 1.35 !important;
+      color: var(--color-foreground, #0d1e35) !important;
+      letter-spacing: 0 !important;
+      margin: 0 !important;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 2.7em;
+    }
+    /* Preis — tabular-nums, prominent */
+    #predictive-search-results .predictive-search-results__card--product .price,
+    #predictive-search-results .predictive-search-results__card--product .price * {
+      font-family: var(--font-body--family, 'Inter', sans-serif) !important;
+      font-size: 14px !important;
+      font-weight: 700 !important;
+      color: var(--color-foreground, #0d1e35) !important;
+      letter-spacing: 0 !important;
+      font-variant-numeric: tabular-nums;
+    }
+    #predictive-search-results .predictive-search-results__card--product .price {
+      margin: 2px 0 0 !important;
+      padding: 0 !important;
+    }
+    /* Steuerhinweis unter Preis */
+    #predictive-search-results .predictive-search-results__card--product .price::after {
+      content: "inkl. MwSt.";
+      display: block;
+      margin-top: 1px;
+      font-size: 10.5px;
+      font-weight: 400;
+      color: rgba(0,0,0,0.5);
+    }
+    /* Alte Vergleichspreise dezent */
+    #predictive-search-results .predictive-search-results__card--product .price__regular + .price__sale,
+    #predictive-search-results .predictive-search-results__card--product .price .price__compare,
+    #predictive-search-results .predictive-search-results__card--product .price s {
+      font-size: 11px !important;
+      font-weight: 400 !important;
+      color: rgba(0,0,0,0.45) !important;
+      text-decoration: line-through;
+    }
+    /* Resource-Carousel-Titles für Collections/Pages/Articles (dieselben) */
+    #predictive-search-results .resource-carousel__title {
+      font-family: var(--font-heading--family, 'Montserrat', sans-serif) !important;
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.14em !important;
+      text-transform: uppercase !important;
+      color: var(--color-foreground, #0d1e35) !important;
+    }
+    /* Query-Pills (Suchvorschläge) */
+    #predictive-search-results .predictive-search-results__wrapper-queries {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--color-border, #DFDFDF);
+    }
+    #predictive-search-results .predictive-search-results__pill {
+      padding: 6px 12px !important;
+      font-size: 12px !important;
+      font-weight: 500 !important;
+      color: var(--color-foreground, #0d1e35) !important;
+      background: #fff !important;
+      border: 1px solid var(--color-border, #DFDFDF) !important;
+      border-radius: 999px !important;
+      text-decoration: none !important;
+      transition: border-color .15s, background .15s;
+    }
+    #predictive-search-results .predictive-search-results__pill:hover {
+      border-color: var(--bz-orange, #f39200) !important;
+      background: var(--bz-orange-light, #fff4e0) !important;
+    }
+    /* No-results */
+    #predictive-search-results .predictive-search-results__no-results {
+      font-size: 13px;
+      color: rgba(0,0,0,0.6);
+      padding: 20px 0;
+      text-align: center;
+    }
+  </style>
   <div
     id="predictive-search-results"
     class="predictive-search-dropdown"
