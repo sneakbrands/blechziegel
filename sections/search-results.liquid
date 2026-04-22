@@ -454,19 +454,31 @@
   {% render 'skip-to-content-link', href: '#ResultsList', text: 'accessibility.skip_to_results_list' %}
 
   {%- comment -%}── BZ 2-Spalten-Layout: Filter-Sidebar + Ergebnis-Grid ──{%- endcomment -%}
+  {%- comment -%}
+    Filter-Quelle bestimmen:
+    - Treffer vorhanden → search.filters
+    - Keine Treffer → Filter der Fallback-Collection (meistgekauft/Empfohlen), damit Kunden trotzdem eingrenzen können.
+  {%- endcomment -%}
+  {%- assign _fallback_collection = settings.empty_state_collection | default: collections.all -%}
+  {%- if search.performed and search.results_count > 0 -%}
+    {%- assign _filter_source = search.filters -%}
+    {%- assign _reset_url = routes.search_url | append: '?q=' | append: search.terms | url_encode | append: '&options[prefix]=last' -%}
+  {%- else -%}
+    {%- assign _filter_source = _fallback_collection.filters -%}
+    {%- assign _reset_url = _fallback_collection.url -%}
+  {%- endif -%}
+
   {%- assign _has_active_filters = false -%}
   {%- assign _meaningful_filter_count = 0 -%}
-  {%- if search.performed -%}
-    {%- for filter in search.filters -%}
-      {%- if filter.active_values.size > 0 -%}{%- assign _has_active_filters = true -%}{%- endif -%}
-      {%- unless filter.label == 'Verfügbarkeit' or filter.type == 'price_range' -%}
-        {%- assign _meaningful_filter_count = _meaningful_filter_count | plus: 1 -%}
-      {%- endunless -%}
-    {%- endfor -%}
-  {%- endif -%}
-  {%- assign _search_base_url = routes.search_url | append: '?q=' | append: search.terms | url_encode | append: '&options[prefix]=last' -%}
+  {%- for filter in _filter_source -%}
+    {%- if filter.active_values.size > 0 -%}{%- assign _has_active_filters = true -%}{%- endif -%}
+    {%- unless filter.label == 'Verfügbarkeit' or filter.type == 'price_range' -%}
+      {%- assign _meaningful_filter_count = _meaningful_filter_count | plus: 1 -%}
+    {%- endunless -%}
+  {%- endfor -%}
+
   {%- assign _show_sidebar = false -%}
-  {%- if search.performed and search.results_count > 0 and search.filters.size > 0 -%}
+  {%- if _filter_source.size > 0 -%}
     {%- assign _show_sidebar = true -%}
   {%- endif -%}
 
@@ -482,13 +494,13 @@
           <div class="bz-filter-header">
             <span class="bz-filter-title">Filter</span>
             {%- if _has_active_filters -%}
-              <a href="{{ _search_base_url }}" class="bz-filter-reset">Alle zurücksetzen</a>
+              <a href="{{ _reset_url }}" class="bz-filter-reset">Alle zurücksetzen</a>
             {%- endif -%}
           </div>
 
           {%- if _has_active_filters -%}
             <div class="bz-active-filters">
-              {%- for filter in search.filters -%}
+              {%- for filter in _filter_source -%}
                 {%- for value in filter.active_values -%}
                   <a href="{{ value.url_to_remove }}" class="bz-filter-pill">
                     {{ value.label }}
@@ -499,7 +511,7 @@
             </div>
           {%- endif -%}
 
-          {%- for filter in search.filters -%}
+          {%- for filter in _filter_source -%}
             {%- unless filter.label == 'Verfügbarkeit' or filter.type == 'price_range' -%}
               {%- assign _is_color = false -%}
               {%- if filter.presentation == 'swatch' -%}{%- assign _is_color = true -%}{%- endif -%}
