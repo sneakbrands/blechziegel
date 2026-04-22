@@ -481,6 +481,18 @@
     outline: none;
     border-color: var(--bz-orange);
   }
+  /* VE-Hinweis (Verpackungseinheit) oberhalb des Länge-Pickers */
+  .bz-ve-hint {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 12px; margin-bottom: 10px;
+    background: var(--bz-surface, #f8f7f4);
+    border: 1px solid var(--bz-border);
+    border-radius: 6px;
+    font-size: 13px; color: var(--bz-navy, #0d1e35);
+  }
+  .bz-ve-hint__icon { flex-shrink: 0; color: var(--bz-orange, #f39200); }
+  .bz-ve-hint strong { font-weight: 600; }
+
   /* Länge-Picker (z.B. Schrauben Länge) — Segment-Pills im Swatch-/Card-Stil */
   .bz-length-pills {
     display: flex;
@@ -1489,6 +1501,12 @@
               {%- endfor -%}
             </select>
           {%- elsif option.name contains 'Länge' or option.name contains 'Laenge' -%}
+            {%- if product.metafields.custom.verpackungseinheit != blank -%}
+              <div class="bz-ve-hint" role="note" aria-label="Verpackungseinheit">
+                <svg class="bz-ve-hint__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                <span><strong>Verpackungseinheit:</strong> {{ product.metafields.custom.verpackungseinheit }}</span>
+              </div>
+            {%- endif -%}
             <div class="bz-length-pills" role="radiogroup" aria-label="{{ option.name | escape }} wählen">
               {%- for value in option.values -%}
                 {%- assign is_selected = false -%}
