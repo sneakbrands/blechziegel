@@ -1555,7 +1555,16 @@
           {%- for _zp in _zub_list -%}
             {%- if _zp and _zp.title != blank -%}
               {%- assign _zv = _zp.selected_or_first_available_variant -%}
-              <div class="bz-inline-zubehoer__item" data-variant-id="{{ _zv.id }}">
+              {%- assign _zp_has_ct = false -%}
+              {%- for _opt in _zp.options_with_values -%}
+                {%- if _opt.name == 'Bestellung als' -%}{%- assign _zp_has_ct = true -%}{%- endif -%}
+              {%- endfor -%}
+              {%- capture _zp_variants_json -%}[{%- for _v in _zp.variants -%}{"id":{{ _v.id }},"option1":{{ _v.option1 | json }},"option2":{{ _v.option2 | json }},"option3":{{ _v.option3 | json }},"price":{{ _v.price }},"available":{{ _v.available }}}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}]{%- endcapture -%}
+              <div class="bz-inline-zubehoer__item"
+                   data-variant-id="{{ _zv.id }}"
+                   data-has-customer-type="{{ _zp_has_ct }}"
+                   data-variants="{{ _zp_variants_json | escape }}"
+                   data-moneyformat="{{ shop.money_format | escape }}">
                 <div class="bz-inline-zubehoer__img">
                   {%- if _zp.featured_image -%}
                     {{ _zp.featured_image | image_url: width: 80 | image_tag: loading: 'lazy', width: 80, height: 80, alt: _zp.title }}
@@ -1809,6 +1818,54 @@
     var val = parseInt(inp.value) + delta;
     if (val < 1) val = 1;
     inp.value = val;
+  }
+
+  // Zubehör Kundentyp-Sync — hält Variante/Preis in .bz-inline-zubehoer__item
+  // synchron mit der aktuell auf der PDP gewählten "Bestellung als"-Option.
+  function bzFormatEuro(cents) {
+    var euros = (cents / 100).toFixed(2).replace('.', ',');
+    return euros + ' €';
+  }
+  function bzGetCurrentCustomerType() {
+    var seg = document.querySelector('.bz-segment-input:checked');
+    return seg ? seg.value : '';
+  }
+  function bzSyncInlineZubehoer() {
+    var ct = bzGetCurrentCustomerType();
+    if (!ct) return;
+    document.querySelectorAll('.bz-inline-zubehoer__item[data-has-customer-type="true"]').forEach(function(item) {
+      var raw = item.getAttribute('data-variants');
+      if (!raw) return;
+      var variants;
+      try { variants = JSON.parse(raw); } catch (_) { return; }
+      var match = variants.find(function(v) {
+        return v.option1 === ct || v.option2 === ct || v.option3 === ct;
+      });
+      if (!match) return;
+      item.dataset.variantId = match.id;
+      var priceEl = item.querySelector('.bz-inline-zubehoer__price');
+      if (priceEl) priceEl.textContent = bzFormatEuro(match.price);
+      var atc = item.querySelector('.bz-inline-zubehoer__atc');
+      if (atc) {
+        if (match.available) {
+          atc.disabled = false;
+          atc.removeAttribute('aria-disabled');
+        } else {
+          atc.disabled = true;
+          atc.setAttribute('aria-disabled', 'true');
+        }
+      }
+    });
+  }
+  document.addEventListener('change', function(e) {
+    if (e.target && e.target.classList && e.target.classList.contains('bz-segment-input')) {
+      bzSyncInlineZubehoer();
+    }
+  });
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bzSyncInlineZubehoer);
+  } else {
+    bzSyncInlineZubehoer();
   }
 
   // Länge Pill-Auswahl (z.B. Schrauben Länge)
