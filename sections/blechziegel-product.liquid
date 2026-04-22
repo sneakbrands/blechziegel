@@ -481,7 +481,35 @@
     outline: none;
     border-color: var(--bz-orange);
   }
-  /* Generischer Varianten-Select (für Optionen ohne Swatch-/Card-Ersatz wie z.B. Schrauben Länge) */
+  /* Länge-Picker (z.B. Schrauben Länge) — Segment-Pills im Swatch-/Card-Stil */
+  .bz-length-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .bz-length-pill {
+    appearance: none; -webkit-appearance: none;
+    display: inline-flex; align-items: baseline; gap: 4px;
+    min-width: 88px;
+    padding: 12px 18px; margin: 0;
+    border-radius: 8px; border: 2px solid var(--bz-border);
+    background: #fff; cursor: pointer;
+    font-family: inherit;
+    color: var(--bz-navy, #0d1e35);
+    text-align: center; justify-content: center;
+    transition: border-color .15s, background .15s, transform .1s;
+  }
+  .bz-length-pill:hover { border-color: var(--bz-orange); background: #fff9ee; }
+  .bz-length-pill:active { transform: scale(0.98); }
+  .bz-length-pill.active,
+  .bz-length-pill[aria-pressed="true"] { border-color: var(--bz-orange); background: var(--bz-orange-light, #fff4e0); }
+  .bz-length-pill__value { font-weight: 700; font-size: 16px; line-height: 1.2; }
+  .bz-length-pill__unit { font-weight: 400; font-size: 13px; color: var(--bz-gray-text, #666); line-height: 1.2; }
+  .bz-length-pill.active .bz-length-pill__unit,
+  .bz-length-pill[aria-pressed="true"] .bz-length-pill__unit { color: var(--bz-navy, #0d1e35); }
+
+  /* Generischer Varianten-Select (Fallback für unerwartete Options ohne eigene UI) */
   .bz-select.bz-select--generic { display: block; }
 
   /* Ausführung Cards (Haken-Stil passend zu Farbswatches) */
@@ -1460,6 +1488,30 @@
                 <option value="{{ value }}" {% if option.selected_value == value %}selected{% endif %}>{{ value }}</option>
               {%- endfor -%}
             </select>
+          {%- elsif option.name contains 'Länge' or option.name contains 'Laenge' -%}
+            <div class="bz-length-pills" role="radiogroup" aria-label="{{ option.name | escape }} wählen">
+              {%- for value in option.values -%}
+                {%- assign is_selected = false -%}
+                {%- if option.selected_value == value -%}{%- assign is_selected = true -%}{%- endif -%}
+                <button
+                  type="button"
+                  class="bz-length-pill {% if is_selected %}active{% endif %}"
+                  data-value="{{ value | escape }}"
+                  data-option="{{ option.position }}"
+                  aria-pressed="{% if is_selected %}true{% else %}false{% endif %}"
+                  aria-label="{{ option.name | escape }} {{ value | escape }} mm wählen"
+                  onclick="bzSelectLength(this)"
+                >
+                  <span class="bz-length-pill__value">{{ value }}</span>
+                  <span class="bz-length-pill__unit">mm</span>
+                </button>
+              {%- endfor -%}
+            </div>
+            <select name="option{{ option.position }}" class="bz-select" data-length-sync="{{ option.position }}" onchange="bzUpdateVariant()" aria-hidden="true" tabindex="-1">
+              {%- for value in option.values -%}
+                <option value="{{ value }}" {% if option.selected_value == value %}selected{% endif %}>{{ value }}</option>
+              {%- endfor -%}
+            </select>
           {%- else -%}
             <select name="option{{ option.position }}" class="bz-select bz-select--generic" onchange="bzUpdateVariant()">
               {%- for value in option.values -%}
@@ -1733,6 +1785,20 @@
     var val = parseInt(inp.value) + delta;
     if (val < 1) val = 1;
     inp.value = val;
+  }
+
+  // Länge Pill-Auswahl (z.B. Schrauben Länge)
+  function bzSelectLength(btn) {
+    var pos = btn.dataset.option;
+    document.querySelectorAll('.bz-length-pill[data-option="' + pos + '"]').forEach(function(c) {
+      c.classList.remove('active');
+      c.setAttribute('aria-pressed', 'false');
+    });
+    btn.classList.add('active');
+    btn.setAttribute('aria-pressed', 'true');
+    var sel = document.querySelector('select[data-length-sync="' + pos + '"]');
+    if (sel) { sel.value = btn.dataset.value; }
+    bzUpdateVariant();
   }
 
   // Ausführung Card-Auswahl
