@@ -197,6 +197,246 @@
     .bz-search-card__price-prefix, .bz-search-card__price-tax, .bz-search-card__stock { font-size: 10.5px; }
     .bz-search-card__footer { padding-top: 8px; }
   }
+
+  /* ═══ FILTER SIDEBAR + 2-SPALTEN-LAYOUT (Scope: template-search) ═══ */
+  .template-search .bz-search-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+  .template-search .bz-col-results { min-width: 0; }
+  .template-search .bz-search-layout .bz-filter-drawer-cb { display: none; }
+  .template-search .bz-search-layout .bz-filter-mobile-toggle { display: none; }
+
+  .template-search .bz-search-layout .bz-filter-sidebar {
+    background: #fff;
+    border: 1px solid var(--color-border, #DFDFDF);
+    border-radius: 12px;
+    box-shadow: 0 1px 2px rgba(13, 30, 53, 0.03), 0 8px 20px rgba(13, 30, 53, 0.04);
+    position: sticky;
+    top: 24px;
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .template-search .bz-filter-sidebar-inner { padding: 18px 18px 10px; }
+
+  .template-search .bz-filter-header {
+    display: flex; justify-content: space-between; align-items: center; gap: 10px;
+    padding: 16px 18px 12px;
+    margin: -18px -18px 2px;
+    border-bottom: 1px solid var(--color-border, #DFDFDF);
+    background: rgba(255,255,255,0.92);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    position: sticky; top: 0; z-index: 2;
+  }
+  .template-search .bz-filter-title {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-heading--family, 'Montserrat', sans-serif);
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--color-foreground, #0d1e35);
+  }
+  .template-search .bz-filter-title::before {
+    content: ""; width: 13px; height: 13px;
+    background: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230d1e35' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolygon points='22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3'/%3E%3C/svg%3E");
+    flex-shrink: 0; opacity: .75;
+  }
+  .template-search .bz-filter-reset {
+    font-size: 11.5px; font-weight: 600; letter-spacing: 0.02em;
+    color: var(--bz-orange-dark, var(--bz-orange, #f39200));
+    text-decoration: none;
+    padding: 5px 10px; border-radius: 999px;
+    transition: background .15s ease, color .15s ease;
+  }
+  .template-search .bz-filter-reset:hover {
+    background: var(--bz-orange-light, #fff4e0);
+    color: var(--color-foreground, #0d1e35);
+  }
+
+  .template-search .bz-filter-sidebar .bz-active-filters {
+    padding: 14px 0 12px;
+    border-bottom: 1px solid var(--color-border, #DFDFDF);
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .template-search .bz-filter-sidebar .bz-active-filters:empty { display: none; }
+  .template-search .bz-filter-sidebar .bz-active-filters::before {
+    content: "Aktive Filter"; display: block; width: 100%;
+    font-family: var(--font-heading--family, 'Montserrat', sans-serif);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(0,0,0,0.5); margin-bottom: 4px;
+  }
+  .template-search .bz-filter-sidebar .bz-filter-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11.5px; padding: 4px 9px 4px 11px;
+    border-radius: 999px;
+    background: var(--bz-orange-light, #fff4e0);
+    border: 1px solid rgba(245,166,35,0.38);
+    color: var(--color-foreground, #0d1e35);
+    font-weight: 600; text-decoration: none;
+    transition: background .12s, border-color .12s;
+  }
+  .template-search .bz-filter-sidebar .bz-filter-pill:hover {
+    background: rgba(245,166,35,0.22);
+    border-color: rgba(245,166,35,0.6);
+  }
+
+  .template-search .bz-filter-group {
+    position: relative; padding: 8px 0 10px;
+    border-bottom: 1px solid var(--color-border, #DFDFDF);
+  }
+  .template-search .bz-filter-group:last-of-type { border-bottom: none; padding-bottom: 4px; }
+  .template-search .bz-filter-group[open] { padding-top: 10px; padding-bottom: 14px; }
+  .template-search .bz-filter-group-summary {
+    display: flex; justify-content: space-between; align-items: center; gap: 10px;
+    cursor: pointer; list-style: none;
+    padding: 8px 8px 8px 0;
+    font-family: var(--font-heading--family, 'Montserrat', sans-serif);
+    font-weight: 700; font-size: 13px;
+    color: var(--color-foreground, #0d1e35);
+    user-select: none;
+    transition: background .12s, color .12s;
+    border-radius: 8px;
+  }
+  .template-search .bz-filter-group-summary:hover { color: var(--bz-orange-dark, var(--bz-orange, #f39200)); background: rgba(245,166,35,0.04); }
+  .template-search .bz-filter-group-summary::-webkit-details-marker { display: none; }
+  .template-search .bz-filter-group-summary::after {
+    content: ""; width: 7px; height: 7px;
+    border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg) translate(-1px,-1px);
+    transition: transform .22s; margin-left: 6px;
+    flex-shrink: 0; opacity: .5;
+  }
+  .template-search .bz-filter-group[open] .bz-filter-group-summary::after {
+    transform: rotate(-135deg) translate(-1px,-1px); opacity: .9;
+  }
+  .template-search .bz-filter-group-title { flex: 1; }
+  .template-search .bz-filter-group-count {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--bz-orange, #f39200); color: var(--color-foreground, #0d1e35);
+    font-size: 10.5px; font-weight: 700;
+    min-width: 20px; height: 20px; padding: 0 6px;
+    border-radius: 999px; margin-left: auto;
+  }
+
+  .template-search .bz-filter-options {
+    margin-top: 8px; display: flex; flex-direction: column; gap: 1px;
+  }
+  .template-search .bz-filter-option {
+    display: flex; align-items: center; gap: 10px;
+    padding: 7px 10px 7px 8px; margin: 0 -8px;
+    border-radius: 8px; cursor: pointer;
+    font-size: 13px; color: var(--color-foreground, #0d1e35);
+    line-height: 1.35;
+    transition: background .12s;
+  }
+  .template-search .bz-filter-option:hover { background: rgba(245,166,35,0.06); }
+  .template-search .bz-filter-option input[type="checkbox"] {
+    appearance: none; -webkit-appearance: none;
+    width: 16px; height: 16px;
+    border: 1.5px solid rgba(13,30,53,0.22);
+    border-radius: 4px; background: #fff;
+    cursor: pointer; flex-shrink: 0; position: relative; margin: 0;
+    transition: background .15s, border-color .15s, box-shadow .15s;
+  }
+  .template-search .bz-filter-option input[type="checkbox"]:checked {
+    background: var(--bz-orange, #f39200);
+    border-color: var(--bz-orange, #f39200);
+  }
+  .template-search .bz-filter-option input[type="checkbox"]:checked::after {
+    content: ""; position: absolute; left: 4px; top: 1px;
+    width: 4px; height: 8px;
+    border-right: 2px solid var(--color-foreground, #0d1e35);
+    border-bottom: 2px solid var(--color-foreground, #0d1e35);
+    transform: rotate(45deg);
+  }
+  .template-search .bz-filter-option:has(input:checked) {
+    background: rgba(245,166,35,0.08); font-weight: 600;
+    box-shadow: inset 2px 0 0 var(--bz-orange, #f39200);
+  }
+  .template-search .bz-filter-option-label { flex: 1; }
+  .template-search .bz-filter-option-count {
+    color: rgba(0,0,0,0.5); font-size: 11.5px; font-weight: 500;
+    font-variant-numeric: tabular-nums; margin-left: auto; flex-shrink: 0;
+  }
+
+  /* Color-Filter */
+  .template-search .bz-filter-group--color .bz-filter-options { gap: 6px; }
+  .template-search .bz-filter-option--color {
+    display: flex; align-items: center; gap: 12px;
+    padding: 6px 10px; border-radius: 8px;
+    border: 2px solid var(--color-border, #DFDFDF);
+    transition: border-color .15s, background .15s;
+  }
+  .template-search .bz-filter-option--color:hover { border-color: var(--bz-orange, #f39200); background: #fff9ee; }
+  .template-search .bz-filter-option--color:has(input:checked) { border-color: var(--bz-orange, #f39200); background: var(--bz-orange-light, #fff4e0); }
+  .template-search .bz-filter-option--color input[type="checkbox"] { display: none; }
+  .template-search .bz-filter-swatch-dot {
+    width: 32px; height: 32px; border-radius: 6px;
+    border: 1px solid rgba(13,30,53,0.1);
+    flex-shrink: 0; display: inline-block;
+  }
+  .template-search .bz-filter-option--color .bz-filter-option-meta { display: flex; flex-direction: column; }
+  .template-search .bz-filter-option--color .bz-filter-option-label {
+    color: var(--color-foreground, #0d1e35); font-weight: 700; font-size: 13px; line-height: 1.3;
+  }
+  .template-search .bz-filter-option--color .bz-filter-ral { font-size: 11px; color: #888; line-height: 1.3; }
+  .template-search .bz-filter-option--color .bz-filter-option-count { margin-left: auto; font-size: 11px; color: #aaa; }
+
+  .template-search .bz-filter-empty {
+    margin-top: 12px; padding: 14px 16px;
+    background: var(--bz-orange-light, #fff4e0);
+    border: 1px solid rgba(245,166,35,0.35);
+    border-radius: 10px; color: var(--color-foreground, #0d1e35);
+  }
+  .template-search .bz-filter-empty strong { display: block; font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .template-search .bz-filter-empty p { margin: 0; font-size: 12px; line-height: 1.5; color: rgba(0,0,0,0.6); }
+
+  /* Results-Head (Zählung + Sort) */
+  .template-search .bz-results-head {
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    padding: 10px 14px; margin-bottom: 16px;
+    background: #fff;
+    border: 1px solid var(--color-border, #DFDFDF);
+    border-radius: 10px;
+    flex-wrap: wrap;
+  }
+  .template-search .bz-results-count { font-size: 13px; color: rgba(0,0,0,0.6); }
+  .template-search .bz-results-count strong { color: var(--color-foreground, #0d1e35); font-weight: 700; }
+  .template-search .bz-sort-select {
+    padding: 8px 32px 8px 12px; border: 1px solid var(--color-border, #DFDFDF);
+    border-radius: 8px; background: #fff;
+    font-family: var(--font-body--family, 'Inter', sans-serif);
+    font-size: 13px; color: var(--color-foreground, #0d1e35);
+    cursor: pointer;
+    appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230d1e35' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 10px center;
+  }
+
+  /* Mobile: Drawer-Toggle per Checkbox-Hack */
+  @media (max-width: 900px) {
+    .template-search .bz-search-layout { grid-template-columns: 1fr; gap: 12px; }
+    .template-search .bz-filter-mobile-toggle {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      padding: 13px 16px; background: #fff;
+      border: 1px solid var(--color-border, #DFDFDF); border-radius: 10px;
+      box-shadow: 0 1px 2px rgba(13,30,53,0.03), 0 6px 18px rgba(13,30,53,0.05);
+      font-family: var(--font-heading--family, 'Montserrat', sans-serif);
+      font-weight: 700; font-size: 13.5px; color: var(--color-foreground, #0d1e35);
+      cursor: pointer; user-select: none;
+    }
+    .template-search .bz-filter-mobile-toggle::before { content: "▾  Filter"; letter-spacing: 0.04em; }
+    .template-search .bz-filter-drawer-cb:checked ~ .bz-filter-mobile-toggle::before { content: "▴  Filter schließen"; }
+    .template-search .bz-filter-sidebar {
+      position: static; max-height: none; overflow: visible;
+      display: none; margin-top: 6px; box-shadow: none;
+    }
+    .template-search .bz-filter-drawer-cb:checked ~ .bz-filter-sidebar { display: block; }
+    .template-search .bz-filter-sidebar-inner { padding: 14px 14px 6px; }
+  }
 </style>
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
@@ -209,6 +449,123 @@
 >
   {% render 'skip-to-content-link', href: '#ResultsList', text: 'accessibility.skip_to_results_list' %}
 
+  {%- comment -%}── BZ 2-Spalten-Layout: Filter-Sidebar + Ergebnis-Grid ──{%- endcomment -%}
+  {%- assign _has_active_filters = false -%}
+  {%- assign _meaningful_filter_count = 0 -%}
+  {%- if search.performed -%}
+    {%- for filter in search.filters -%}
+      {%- if filter.active_values.size > 0 -%}{%- assign _has_active_filters = true -%}{%- endif -%}
+      {%- unless filter.label == 'Verfügbarkeit' or filter.type == 'price_range' -%}
+        {%- assign _meaningful_filter_count = _meaningful_filter_count | plus: 1 -%}
+      {%- endunless -%}
+    {%- endfor -%}
+  {%- endif -%}
+  {%- assign _search_base_url = routes.search_url | append: '?q=' | append: search.terms | url_encode | append: '&options[prefix]=last' -%}
+
+  <div class="bz-search-layout">
+    <input type="checkbox" id="bz-search-filter-drawer" class="bz-filter-drawer-cb">
+    <label for="bz-search-filter-drawer" class="bz-filter-mobile-toggle" aria-controls="bz-search-filter-drawer"></label>
+
+    {%- if search.performed and search.results_count > 0 and search.filters.size > 0 -%}
+      <aside class="bz-filter-sidebar" aria-label="Filter">
+        <div class="bz-filter-sidebar-inner">
+          <div class="bz-filter-header">
+            <span class="bz-filter-title">Filter</span>
+            {%- if _has_active_filters -%}
+              <a href="{{ _search_base_url }}" class="bz-filter-reset">Alle zurücksetzen</a>
+            {%- endif -%}
+          </div>
+
+          {%- if _has_active_filters -%}
+            <div class="bz-active-filters">
+              {%- for filter in search.filters -%}
+                {%- for value in filter.active_values -%}
+                  <a href="{{ value.url_to_remove }}" class="bz-filter-pill">
+                    {{ value.label }}
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  </a>
+                {%- endfor -%}
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+          {%- for filter in search.filters -%}
+            {%- unless filter.label == 'Verfügbarkeit' or filter.type == 'price_range' -%}
+              {%- assign _is_color = false -%}
+              {%- if filter.presentation == 'swatch' -%}{%- assign _is_color = true -%}{%- endif -%}
+              {%- assign _lbl = filter.label | downcase -%}
+              {%- if _lbl contains 'farbe' or _lbl contains 'color' -%}{%- assign _is_color = true -%}{%- endif -%}
+              <details class="bz-filter-group{% if _is_color %} bz-filter-group--color{% endif %}" open>
+                <summary class="bz-filter-group-summary">
+                  <span class="bz-filter-group-title">{{ filter.label }}</span>
+                  {%- if filter.active_values.size > 0 -%}
+                    <span class="bz-filter-group-count">{{ filter.active_values.size }}</span>
+                  {%- endif -%}
+                </summary>
+                <div class="bz-filter-options">
+                  {%- for value in filter.values -%}
+                    {%- assign _swatch = '' -%}
+                    {%- if _is_color -%}
+                      {%- assign _vl = value.label | downcase -%}
+                      {%- if _vl contains 'aluminium' or _vl contains 'alu blank' -%}{%- assign _swatch = 'linear-gradient(135deg,#c7ccd1 0%,#a6abb2 100%)' -%}
+                      {%- elsif _vl contains 'anthrazit' -%}{%- assign _swatch = '#383d42' -%}
+                      {%- elsif _vl contains 'ziegelrot' or _vl contains 'ziegel-rot' -%}{%- assign _swatch = '#8b3a2b' -%}
+                      {%- elsif _vl contains 'schwarz' -%}{%- assign _swatch = '#111111' -%}
+                      {%- elsif _vl contains 'weiß' or _vl contains 'weiss' or _vl contains 'white' -%}{%- assign _swatch = '#f2f1ee' -%}
+                      {%- elsif _vl contains 'grau' -%}{%- assign _swatch = '#7a7a78' -%}
+                      {%- elsif _vl contains 'braun' -%}{%- assign _swatch = '#6b4a32' -%}
+                      {%- elsif value.swatch.color -%}{%- assign _swatch = value.swatch.color -%}
+                      {%- endif -%}
+                    {%- endif -%}
+                    <label class="bz-filter-option{% if _is_color %} bz-filter-option--color{% endif %}">
+                      <input type="checkbox" name="{{ filter.param_name }}" value="{{ value.value }}" {% if value.active %}checked{% endif %} onchange="bzSearchApplyFilter(this)">
+                      {%- if _is_color and _swatch != '' -%}
+                        <span class="bz-filter-swatch-dot" style="background: {{ _swatch }};" aria-hidden="true"></span>
+                      {%- endif -%}
+                      <span class="bz-filter-option-meta">
+                        <span class="bz-filter-option-label">{{ value.label }}</span>
+                        {%- assign _vl2 = value.label | downcase -%}
+                        {%- if _vl2 contains 'aluminium' -%}<span class="bz-filter-ral">unbeschichtet</span>
+                        {%- elsif _vl2 contains 'anthrazit' -%}<span class="bz-filter-ral">RAL 7016</span>
+                        {%- elsif _vl2 contains 'ziegelrot' -%}<span class="bz-filter-ral">RAL 8004</span>
+                        {%- endif -%}
+                      </span>
+                      <span class="bz-filter-option-count">{{ value.count }}</span>
+                    </label>
+                  {%- endfor -%}
+                </div>
+              </details>
+            {%- endunless -%}
+          {%- endfor -%}
+
+          {%- if _meaningful_filter_count == 0 -%}
+            <div class="bz-filter-empty" role="note">
+              <strong>Keine Filter verfügbar</strong>
+              <p>Für diese Suchergebnisse sind keine weiteren Filter-Facetten definiert.</p>
+            </div>
+          {%- endif -%}
+        </div>
+      </aside>
+    {%- endif -%}
+
+    <div class="bz-col-results">
+      {%- if search.performed and search.results_count > 0 -%}
+        <div class="bz-results-head">
+          <div class="bz-results-count">
+            <strong>{{ search.results_count }}</strong> {{ search.results_count | pluralize: 'Treffer', 'Treffer' }}
+          </div>
+          <div class="bz-results-sort">
+            <select class="bz-sort-select" onchange="bzSearchSort(this.value)" aria-label="Sortierung">
+              <option value="relevance" {% if search.sort_by == 'relevance' %}selected{% endif %}>Sortieren: Relevanz</option>
+              <option value="price-ascending" {% if search.sort_by == 'price-ascending' %}selected{% endif %}>Preis: aufsteigend</option>
+              <option value="price-descending" {% if search.sort_by == 'price-descending' %}selected{% endif %}>Preis: absteigend</option>
+              <option value="title-ascending" {% if search.sort_by == 'title-ascending' %}selected{% endif %}>Name: A–Z</option>
+              <option value="created-descending" {% if search.sort_by == 'created-descending' %}selected{% endif %}>Neueste zuerst</option>
+            </select>
+          </div>
+        </div>
+      {%- endif -%}
+
   <div
     class="collection-wrapper grid gap-style"
   >
@@ -220,7 +577,6 @@
 
     {% paginate search.results by products_per_page %}
       {% if search.results_count > 0 %}
-        {% content_for 'block', type: 'filters', id: 'filters', results: search, results_size: search.results_count %}
         {% assign products = search.results | where: 'object_type', 'product' %}
       {% else %}
         {% assign collection = settings.empty_state_collection | default: collections.all %}
@@ -327,7 +683,30 @@
       %}
     {% endpaginate %}
   </div>
+    </div>{%- comment -%} /.bz-col-results {%- endcomment -%}
+  </div>{%- comment -%} /.bz-search-layout {%- endcomment -%}
 </results-list>
+
+<script>
+  function bzSearchApplyFilter(checkbox) {
+    var url = new URL(window.location.href);
+    var name = checkbox.name;
+    var value = checkbox.value;
+    if (checkbox.checked) {
+      url.searchParams.append(name, value);
+    } else {
+      var params = url.searchParams.getAll(name).filter(function(v) { return v !== value; });
+      url.searchParams.delete(name);
+      params.forEach(function(v) { url.searchParams.append(name, v); });
+    }
+    window.location.href = url.toString();
+  }
+  function bzSearchSort(val) {
+    var url = new URL(window.location.href);
+    url.searchParams.set('sort_by', val);
+    window.location.href = url.toString();
+  }
+</script>
 
 {% schema %}
 {
