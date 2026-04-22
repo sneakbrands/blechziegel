@@ -1,0 +1,63 @@
+{%- comment -%}
+  Segmented Control "Ich bestelle als" — Kundentyp-Auswahl.
+
+  Quelle: product.metafields.custom.tax_profile_mapping (list.metaobject_reference → tax_profile).
+  Kein Hardcoding auf bestimmte Kundentyp-Werte. Alle Option-3-Werte werden gerendert.
+  Fehlt ein tax_profile zum Option-Wert, rendert das Segment ohne Sub-Text (Fallback).
+
+  Usage:
+    {%- render 'bz-customer-type-segment', product: product -%}
+{%- endcomment -%}
+
+{%- assign _order_as_option = blank -%}
+{%- for _opt in product.options_with_values -%}
+  {%- if _opt.name == 'Bestellung als' -%}
+    {%- assign _order_as_option = _opt -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- if _order_as_option != blank -%}
+  {%- assign _profiles = product.metafields.custom.tax_profile_mapping.value -%}
+
+  <div class="bz-variant-label">{{ 'product.customer_type.label' | t: default: 'Ich bestelle als' }}</div>
+  <div class="bz-segment" role="radiogroup" aria-label="{{ 'product.customer_type.aria' | t: default: 'Kundentyp wählen' }}">
+    {%- for _value in _order_as_option.values -%}
+      {%- assign _profile = blank -%}
+      {%- if _profiles != blank -%}
+        {%- for _p in _profiles -%}
+          {%- if _p.customer_type_value.value == _value -%}
+            {%- assign _profile = _p -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+
+      {%- assign _seg_id = 'bz-seg-' | append: _order_as_option.position | append: '-' | append: forloop.index -%}
+      {%- assign _label_short = _profile.label_short.value | default: '' -%}
+      {%- assign _label_long = _profile.label_long.value | default: '' -%}
+      {%- assign _vat_rate = _profile.vat_rate.value | default: '' -%}
+      {%- assign _show_project = _profile.show_project_note.value | default: false -%}
+
+      <input
+        type="radio"
+        class="bz-segment-input"
+        id="{{ _seg_id }}"
+        name="option{{ _order_as_option.position }}"
+        value="{{ _value | escape }}"
+        data-customer-type-select
+        data-tax-short="{{ _label_short | escape }}"
+        data-tax-long="{{ _label_long | escape }}"
+        data-vat-rate="{{ _vat_rate }}"
+        data-show-project-note="{{ _show_project }}"
+        {% if _order_as_option.selected_value == _value %}checked{% endif %}
+        onchange="bzUpdateVariant()">
+      <label for="{{ _seg_id }}" class="bz-segment-label">
+        {{ _value }}
+        {%- if _label_short != blank -%}
+          <span class="bz-segment-sub">{{ _label_short }}</span>
+        {%- endif -%}
+      </label>
+    {%- endfor -%}
+  </div>
+{%- endif -%}

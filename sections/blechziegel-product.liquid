@@ -1325,10 +1325,9 @@
           <span class="bz-price-save">Spare {{ savings | money }} · {{ savings_percent }}%</span>
         {%- endif -%}
       </div>
-      <p class="bz-price-note" id="bz-price-note" data-customer-type="{{ product.selected_or_first_available_variant.option3 | default: 'Privatkunde' }}">
-        <span data-tax-private{% if product.selected_or_first_available_variant.option3 == 'Gewerbekunde' %} hidden{% endif %}>inkl. 0% Umsatzsteuer gem. § 12 Abs. 3 UStG</span>
-        <span data-tax-business{% if product.selected_or_first_available_variant.option3 != 'Gewerbekunde' %} hidden{% endif %}>inkl. 19% Umsatzsteuer</span>
-        &middot; zzgl. <a href="{{ routes.root_url }}pages/versand" style="color:var(--bz-orange);">Versandkosten</a>
+      {%- render 'bz-price-tax-note', product: product -%}
+      <p class="bz-price-note-addon" style="margin:4px 0 0;font-size:13px;color:#6b6b6b;">
+        zzgl. <a href="{{ routes.root_url }}pages/versand" style="color:var(--bz-orange);">Versandkosten</a>
       </p>
 
       {%- comment -%}
@@ -1384,30 +1383,7 @@
             {%- continue -%}
           {%- endif -%}
           {%- if option.name == 'Bestellung als' -%}
-            <div class="bz-variant-label">Ich bestelle als</div>
-            <div class="bz-segment" role="radiogroup" aria-label="Kundentyp wählen">
-              {%- for value in option.values -%}
-                {%- if value != 'Privatkunde' and value != 'Gewerbekunde' -%}{%- continue -%}{%- endif -%}
-                {%- assign seg_id = 'bz-seg-' | append: option.position | append: '-' | append: forloop.index -%}
-                <input
-                  type="radio"
-                  class="bz-segment-input"
-                  id="{{ seg_id }}"
-                  name="option{{ option.position }}"
-                  value="{{ value }}"
-                  data-customer-type-select
-                  {% if option.selected_value == value %}checked{% endif %}
-                  onchange="bzUpdateVariant()">
-                <label for="{{ seg_id }}" class="bz-segment-label">
-                  {{ value }}
-                  {%- if value == 'Privatkunde' -%}
-                    <span class="bz-segment-sub">inkl. 0% USt. (§ 12 Abs. 3 UStG)</span>
-                  {%- elsif value == 'Gewerbekunde' -%}
-                    <span class="bz-segment-sub">inkl. 19% USt.</span>
-                  {%- endif -%}
-                </label>
-              {%- endfor -%}
-            </div>
+            {%- render 'bz-customer-type-segment', product: product -%}
           {%- else -%}
           <div class="bz-variant-label">
             {{ option.name }}
@@ -1727,6 +1703,8 @@
   </div>
 </div>
 
+{{ 'bz-customer-type.js' | asset_url | script_tag }}
+
 <script>
   // Galerie
   function bzSetImg(src, thumb) {
@@ -1870,20 +1848,8 @@
     return ctx;
   }
 
-  // Steuerhinweis an Kundentyp koppeln — idempotent, wird bei jeder Variant-Aktualisierung gerufen
-  function bzUpdateTaxNote(customerType) {
-    var note = document.getElementById('bz-price-note');
-    if (!note) return;
-    var priv = note.querySelector('[data-tax-private]');
-    var biz  = note.querySelector('[data-tax-business]');
-    var isBiz = (customerType === 'Gewerbekunde');
-    if (priv) priv.hidden = isBiz;
-    if (biz)  biz.hidden = !isBiz;
-    note.dataset.customerType = customerType || 'Privatkunde';
-    // Projekt-Note bei Gewerbekunde einblenden
-    var projNote = document.getElementById('bz-project-note');
-    if (projNote) projNote.style.display = isBiz ? '' : 'none';
-  }
+  // Steuerhinweis-Toggle lebt jetzt in assets/bz-customer-type.js (datengetrieben).
+  // Hook: window.bzSyncCustomerTypeNote() — wird von bzUpdateVariant aufgerufen.
 
   // Variante aktualisieren
   function bzUpdateVariant() {
@@ -1911,8 +1877,10 @@
     var ctxEl = document.getElementById('bz-sticky-context');
     if (ctxEl) ctxEl.textContent = bzBuildStickyContext(opts);
 
-    // Dynamischer Steuerhinweis basierend auf "Bestellung als" (option3)
-    bzUpdateTaxNote(opts[3] || 'Privatkunde');
+    // Dynamischer Steuerhinweis kommt aus assets/bz-customer-type.js
+    if (typeof window.bzSyncCustomerTypeNote === 'function') {
+      window.bzSyncCustomerTypeNote();
+    }
 
     // Stock-Line an gematchte Variante binden
     var stockLine = document.getElementById('bz-stock-line');

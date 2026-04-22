@@ -295,6 +295,10 @@
   },
   "products": {
     "product": {
+      "customer_type": {
+        "label": "Ich bestelle als",
+        "aria": "Kundentyp wählen"
+      },
       "add_to_cart": "In den Warenkorb legen",
       "added_to_cart": "Zum Warenkorb hinzugefügt",
       "adding_to_cart": "Wird hinzugefügt...",

@@ -1,0 +1,36 @@
+{%- comment -%}
+  Price-Note mit Steuerhinweis — aus tax_profile-Mapping.
+
+  Liest product.metafields.custom.tax_profile_mapping und matcht auf
+  product.selected_or_first_available_variant.option3. Kein hartcodierter String-Vergleich,
+  kein Zwei-Span-hidden-Hack.
+
+  JS (assets/bz-customer-type.js) überschreibt textContent bei Varianten-Wechsel
+  aus dem data-tax-long-Attribut des aktiv ausgewählten Segments.
+
+  Fallback: fehlt Mapping oder Profil → leerer Text, kein Bruch der PDP.
+
+  Usage:
+    {%- render 'bz-price-tax-note', product: product -%}
+{%- endcomment -%}
+
+{%- assign _variant = product.selected_or_first_available_variant -%}
+{%- assign _current_value = _variant.option3 | default: '' -%}
+{%- assign _profiles = product.metafields.custom.tax_profile_mapping.value -%}
+{%- assign _profile = blank -%}
+
+{%- if _profiles != blank and _current_value != '' -%}
+  {%- for _p in _profiles -%}
+    {%- if _p.customer_type_value.value == _current_value -%}
+      {%- assign _profile = _p -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+
+{%- assign _label_long = _profile.label_long.value | default: '' -%}
+
+<p class="bz-price-note"
+   id="bz-price-note"
+   data-customer-type="{{ _current_value | escape }}"
+   data-tax-long="{{ _label_long | escape }}">{{ _label_long }}</p>
