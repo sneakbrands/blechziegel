@@ -20,8 +20,8 @@
 {%- if _order_as_option != blank -%}
   {%- assign _profiles = product.metafields.custom.tax_profile_mapping.value -%}
 
-  <div class="bz-variant-label">{{ 'product.customer_type.label' | t: default: 'Ich bestelle als' }}</div>
-  <div class="bz-segment" role="radiogroup" aria-label="{{ 'product.customer_type.aria' | t: default: 'Kundentyp wählen' }}">
+  <div class="bz-variant-label">{{ 'products.product.customer_type.label' | t }}</div>
+  <div class="bz-segment" role="radiogroup" aria-label="{{ 'products.product.customer_type.aria' | t }}">
     {%- for _value in _order_as_option.values -%}
       {%- assign _profile = blank -%}
       {%- if _profiles != blank -%}
