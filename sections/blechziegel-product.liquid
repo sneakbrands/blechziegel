@@ -1492,16 +1492,16 @@
           {%- endif -%}
         {%- endfor -%}
 
-        {%- comment -%}── Passendes Zubehör (inline, mit Menge + ATC) — NICHT auf Zubehör-PDP ──{%- endcomment -%}
+        {%- comment -%}── Passendes Zubehör — NICHT auf Zubehör-PDP. Quelle: product.metafields.custom.zubehoer (list.product_reference) ──{%- endcomment -%}
         {%- unless template.suffix == 'zubehoer' -%}
+        {%- assign _zub_list = product.metafields.custom.zubehoer.value -%}
+        {%- if _zub_list != blank and _zub_list.size > 0 -%}
         <div class="bz-inline-zubehoer">
           <div class="bz-inline-zubehoer__title">Passendes Zubehör</div>
-          {%- assign _zub_ids = '57893613863296,57893632639360' | split: ',' -%}
-          {%- assign _zub_handles = 'pv-dachhakenschrauben-edelstahl-assyplus,versteifungsschiene-pv-aluminium' | split: ',' -%}
-          {%- for _zh in _zub_handles -%}
-            {%- assign _zp = all_products[_zh] -%}
+          {%- for _zp in _zub_list -%}
             {%- if _zp and _zp.title != blank -%}
-              <div class="bz-inline-zubehoer__item" data-variant-id="{{ _zub_ids[forloop.index0] }}">
+              {%- assign _zv = _zp.selected_or_first_available_variant -%}
+              <div class="bz-inline-zubehoer__item" data-variant-id="{{ _zv.id }}">
                 <div class="bz-inline-zubehoer__img">
                   {%- if _zp.featured_image -%}
                     {{ _zp.featured_image | image_url: width: 80 | image_tag: loading: 'lazy', width: 80, height: 80, alt: _zp.title }}
@@ -1528,6 +1528,7 @@
             {%- endif -%}
           {%- endfor -%}
         </div>
+        {%- endif -%}
         {%- endunless -%}
 
         <hr class="bz-divider">
