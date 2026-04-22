@@ -1,5 +1,30 @@
 
 
+<style>
+  .bz-search-headline {
+    font-family: var(--font-heading--family, 'Montserrat', sans-serif);
+    font-weight: 700;
+    font-size: clamp(22px, 3.2vw, 32px);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-foreground, #0d1e35);
+    line-height: 1.2;
+    margin: 0 0 6px;
+  }
+  .bz-search-headline__query {
+    font-weight: 700;
+    color: var(--color-foreground, #0d1e35);
+  }
+  .bz-search-sub {
+    font-family: var(--font-body--family, 'Inter', sans-serif);
+    font-size: 14px;
+    color: rgba(0,0,0,0.6);
+    margin: 0 0 18px;
+  }
+  /* Horizon default heading-Block (meist leer) ausblenden — wir rendern eigenen H1 */
+  .search-page__header > [data-block-type="_heading"]:empty,
+  .search-page__header > .bz-hide-default-heading { display: none !important; }
+</style>
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <div class="section section--page-width color-{{ section.settings.color_scheme }}">
   <div
@@ -9,15 +34,28 @@
       {% render 'spacing-style', settings: section.settings %}
     "
   >
-    {% assign heading_text = 'content.search' | t %}
+    {%- if search.performed -%}
+      {%- assign _q = search.terms | escape -%}
+      <h1 class="bz-search-headline">
+        Suchergebnisse für <span class="bz-search-headline__query">„{{ _q }}"</span>
+      </h1>
+      <p class="bz-search-sub">
+        {%- if search.results_count > 0 -%}
+          {{ search.results_count }} Treffer
+        {%- else -%}
+          Keine Treffer — probiere eine andere Schreibweise oder nutze die Suche unten.
+        {%- endif -%}
+      </p>
+    {%- else -%}
+      <h1 class="bz-search-headline">Suche</h1>
+      <p class="bz-search-sub">Finde Blechziegel, Dachhaken, Schrauben und Zubehör.</p>
+    {%- endif -%}
 
+    {% assign heading_text = 'content.search' | t %}
     {% if search.performed %}
       {% assign heading_text = 'content.search_results' | t %}
     {% endif %}
-
-    {% capture heading_text %}
-      <h3>{{ heading_text }}</h3>
-    {% endcapture %}
+    {% capture heading_text %}<span class="bz-hide-default-heading"></span>{% endcapture %}
 
     {% content_for 'block', id: 'heading', type: '_heading', text: heading_text %}
     {% content_for 'block', id: 'search', type: '_search-input' %}
