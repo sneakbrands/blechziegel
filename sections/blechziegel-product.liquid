@@ -1185,6 +1185,12 @@
   }
   .bz-inline-zubehoer__atc:hover { background: var(--bz-orange-dark, #d4891a); }
   .bz-inline-zubehoer__atc.added { background: #22c55e; color: #fff; }
+  .bz-inline-zubehoer__error {
+    width: 100%; margin-top: 8px;
+    padding: 8px 12px; border: 1px solid #ef4444;
+    background: #fef2f2; color: #991b1b;
+    border-radius: 6px; font-size: 12.5px; line-height: 1.4;
+  }
   @media (max-width: 480px) {
     .bz-inline-zubehoer__item { flex-wrap: wrap; }
     .bz-inline-zubehoer__actions { width: 100%; justify-content: flex-end; margin-top: 8px; }
@@ -1844,25 +1850,53 @@
   // Zubehör in den Warenkorb (AJAX)
   function bzAddZubehoer(btn) {
     var item = btn.closest('.bz-inline-zubehoer__item');
-    var variantId = item.dataset.variantId;
+    var variantId = parseInt(item.dataset.variantId);
     var qty = parseInt(item.querySelector('.bz-inline-zubehoer__qty-input').value) || 1;
     var origText = btn.innerHTML;
     btn.disabled = true;
     btn.textContent = '...';
+
+    function bzZubShowError(msg) {
+      btn.innerHTML = origText;
+      btn.disabled = false;
+      btn.classList.remove('added');
+      var existing = item.querySelector('.bz-inline-zubehoer__error');
+      if (existing) existing.remove();
+      var err = document.createElement('div');
+      err.className = 'bz-inline-zubehoer__error';
+      err.setAttribute('role', 'alert');
+      err.textContent = msg;
+      item.appendChild(err);
+      setTimeout(function() { if (err.parentNode) err.remove(); }, 5000);
+    }
+
     fetch('/cart/add.js', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ items: [{ id: parseInt(variantId), quantity: qty }] })
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ items: [{ id: variantId, quantity: qty }] })
     })
-    .then(function(r) { return r.json(); })
-    .then(function() {
+    .then(function(r) {
+      return r.json().then(function(data) { return { ok: r.ok, status: r.status, data: data }; });
+    })
+    .then(function(res) {
+      if (!res.ok) {
+        var msg = (res.data && (res.data.description || res.data.message)) || 'Dieser Artikel konnte nicht hinzugefügt werden.';
+        bzZubShowError(msg);
+        return;
+      }
+      // Horizon-Theme Cart-Icon synchronisieren: cart:update auf document dispatchen
+      fetch('/cart.js', { headers: { 'Accept': 'application/json' } })
+        .then(function(r) { return r.json(); })
+        .then(function(cart) {
+          document.dispatchEvent(new CustomEvent('cart:update', {
+            bubbles: true,
+            detail: { data: { itemCount: cart.item_count, source: 'bz-inline-zubehoer' } }
+          }));
+        })
+        .catch(function() {});
+
       btn.classList.add('added');
       btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Hinzugefügt';
-      // Update cart count
-      fetch('/cart.json').then(function(r) { return r.json(); }).then(function(cart) {
-        var badge = document.querySelector('.cart-count, [data-cart-count]');
-        if (badge) badge.textContent = cart.item_count;
-      });
       setTimeout(function() {
         btn.classList.remove('added');
         btn.innerHTML = origText;
@@ -1870,8 +1904,7 @@
       }, 2000);
     })
     .catch(function() {
-      btn.innerHTML = origText;
-      btn.disabled = false;
+      bzZubShowError('Netzwerk-Fehler — bitte erneut versuchen.');
     });
   }
 
