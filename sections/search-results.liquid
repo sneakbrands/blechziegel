@@ -205,6 +205,10 @@
     gap: 28px;
     align-items: start;
   }
+  /* Ohne Sidebar volle Breite — verhindert, dass Ergebnisse in 280px-Spalte quetschen */
+  .template-search .bz-search-layout--no-sidebar {
+    grid-template-columns: 1fr;
+  }
   .template-search .bz-col-results { min-width: 0; }
   .template-search .bz-search-layout .bz-filter-drawer-cb { display: none; }
   .template-search .bz-search-layout .bz-filter-mobile-toggle { display: none; }
@@ -461,12 +465,18 @@
     {%- endfor -%}
   {%- endif -%}
   {%- assign _search_base_url = routes.search_url | append: '?q=' | append: search.terms | url_encode | append: '&options[prefix]=last' -%}
+  {%- assign _show_sidebar = false -%}
+  {%- if search.performed and search.results_count > 0 and search.filters.size > 0 -%}
+    {%- assign _show_sidebar = true -%}
+  {%- endif -%}
 
-  <div class="bz-search-layout">
+  <div class="bz-search-layout{% unless _show_sidebar %} bz-search-layout--no-sidebar{% endunless %}">
+    {%- if _show_sidebar -%}
     <input type="checkbox" id="bz-search-filter-drawer" class="bz-filter-drawer-cb">
     <label for="bz-search-filter-drawer" class="bz-filter-mobile-toggle" aria-controls="bz-search-filter-drawer"></label>
+    {%- endif -%}
 
-    {%- if search.performed and search.results_count > 0 and search.filters.size > 0 -%}
+    {%- if _show_sidebar -%}
       <aside class="bz-filter-sidebar" aria-label="Filter">
         <div class="bz-filter-sidebar-inner">
           <div class="bz-filter-header">
