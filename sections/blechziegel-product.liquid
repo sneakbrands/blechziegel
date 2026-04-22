@@ -481,6 +481,8 @@
     outline: none;
     border-color: var(--bz-orange);
   }
+  /* Generischer Varianten-Select (für Optionen ohne Swatch-/Card-Ersatz wie z.B. Schrauben Länge) */
+  .bz-select.bz-select--generic { display: block; }
 
   /* Ausführung Cards (Haken-Stil passend zu Farbswatches) */
   .bz-ausfuehrung-cards {
@@ -1459,7 +1461,7 @@
               {%- endfor -%}
             </select>
           {%- else -%}
-            <select name="option{{ option.position }}" class="bz-select" onchange="bzUpdateVariant()">
+            <select name="option{{ option.position }}" class="bz-select bz-select--generic" onchange="bzUpdateVariant()">
               {%- for value in option.values -%}
                 <option value="{{ value }}" {% if option.selected_value == value %}selected{% endif %}>{{ value }}</option>
               {%- endfor -%}
