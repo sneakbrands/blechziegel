@@ -30,6 +30,20 @@
 
 {%- assign _label_long = _profile.label_long.value | default: '' -%}
 
+{%- comment -%}
+  Fallback für Standard-Produkte ohne tax_profile_mapping (z.B. ASSYplus Schrauben):
+  — taxable=true  → "inkl. 19% MwSt."
+  — taxable=false → "MwSt.-befreit nach § 12 Abs. 3 UStG"
+  Shop hat taxes_included=true, daher ist der gepflegte Preis brutto.
+{%- endcomment -%}
+{%- if _label_long == '' -%}
+  {%- if _variant.taxable -%}
+    {%- assign _label_long = 'inkl. 19% MwSt.' -%}
+  {%- else -%}
+    {%- assign _label_long = 'MwSt.-befreit nach § 12 Abs. 3 UStG' -%}
+  {%- endif -%}
+{%- endif -%}
+
 <p class="bz-price-note"
    id="bz-price-note"
    data-customer-type="{{ _current_value | escape }}"
