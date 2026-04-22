@@ -1585,66 +1585,51 @@
   <div class="bz-product-wrap">
     <div class="bz-below-grid">
 
-      {%- comment -%}── LINKE SPALTE: TABS ──{%- endcomment -%}
+      {%- comment -%}── LINKE SPALTE: Produktbeschreibung ──{%- endcomment -%}
       <div>
-        <div class="bz-tabs">
-          <div class="bz-tab-nav">
-            <button class="bz-tab-btn active" onclick="bzTab('beschreibung', this)">Produktbeschreibung</button>
-            <button class="bz-tab-btn" onclick="bzTab('technik', this)">Technische Daten</button>
-          </div>
-
-          <!-- Tab: Beschreibung -->
-          <div class="bz-tab-panel active" id="tab-beschreibung">
-            <div class="bz-desc">
-              {%- if product.description != blank -%}
-                {{ product.description }}
-              {%- endif -%}
-            </div>
-          </div>
-
-          <!-- Tab: Technische Daten -->
-          <div class="bz-tab-panel" id="tab-technik">
-            {%- render 'bz-product-metafields', product: product, title: 'Technische Daten' -%}
-            <p style="font-size:12.5px;color:#888;margin-top:14px;">Bitte Dachtyp vor Bestellung prüfen. Montage durch Fachpersonal empfohlen. Statik, Schneelast und projektspezifische Anforderungen müssen bauseits berücksichtigt werden.</p>
-          </div>
-
+        <div class="bz-desc">
+          {%- if product.description != blank -%}
+            {{ product.description }}
+          {%- endif -%}
         </div>
       </div>
 
-      {%- comment -%}── RECHTE SPALTE: Problem/Loesung + Reviews ──{%- endcomment -%}
+      {%- comment -%}── RECHTE SPALTE: Technische Daten ──{%- endcomment -%}
       <div>
-        {%- comment -%} H6 Addon-Block entfernt — Zubehör ist jetzt inline im Kaufbereich {%- endcomment -%}
+        {%- render 'bz-product-metafields', product: product, title: 'Technische Daten' -%}
+        <p style="font-size:12.5px;color:#888;margin-top:14px;">Bitte Dachtyp vor Bestellung prüfen. Montage durch Fachpersonal empfohlen. Statik, Schneelast und projektspezifische Anforderungen müssen bauseits berücksichtigt werden.</p>
+      </div>
 
-        <!-- Problem / Lösung -->
-        <div class="bz-pvl-mini">
-          <div class="bz-pvl-col problem">
-            <div class="bz-pvl-head">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-              Ohne Blechziegel
-            </div>
-            <ul class="bz-pvl-list">
-              <li><span class="ico">&#10007;</span> Tonziegel bricht beim Bohren</li>
-              <li><span class="ico">&#10007;</span> Wassereintritt durch Kabelführung</li>
-              <li><span class="ico">&#10007;</span> Aufwendige Nacharbeit</li>
-              <li><span class="ico">&#10007;</span> Haftungsrisiko</li>
-            </ul>
-          </div>
-          <div class="bz-pvl-col solution">
-            <div class="bz-pvl-head">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-              Mit Blechziegel
-            </div>
-            <ul class="bz-pvl-list">
-              <li><span class="ico" style="color:var(--bz-orange)">&#10003;</span> Kein Bruchrisiko</li>
-              <li><span class="ico" style="color:var(--bz-orange)">&#10003;</span> Dichtes Kabelführungssystem</li>
-              <li><span class="ico" style="color:var(--bz-orange)">&#10003;</span> Fertig in Minuten</li>
-              <li><span class="ico" style="color:var(--bz-orange)">&#10003;</span> Rechtssicher, sauber</li>
-            </ul>
-          </div>
+    </div>
+
+    {%- comment -%}── FULL-WIDTH: Problem/Lösung unter dem Zweispalter ──{%- endcomment -%}
+    <div class="bz-pvl-mini" style="margin-top:40px;">
+      <div class="bz-pvl-col problem">
+        <div class="bz-pvl-head">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          Ohne Blechziegel
         </div>
-
+        <ul class="bz-pvl-list">
+          <li><span class="ico">&#10007;</span> Tonziegel bricht beim Bohren</li>
+          <li><span class="ico">&#10007;</span> Wassereintritt durch Kabelführung</li>
+          <li><span class="ico">&#10007;</span> Aufwendige Nacharbeit</li>
+          <li><span class="ico">&#10007;</span> Haftungsrisiko</li>
+        </ul>
+      </div>
+      <div class="bz-pvl-col solution">
+        <div class="bz-pvl-head">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          Mit Blechziegel
+        </div>
+        <ul class="bz-pvl-list">
+          <li><span class="ico" style="color:var(--bz-orange)">&#10003;</span> Kein Bruchrisiko</li>
+          <li><span class="ico" style="color:var(--bz-orange)">&#10003;</span> Dichtes Kabelführungssystem</li>
+          <li><span class="ico" style="color:var(--bz-orange)">&#10003;</span> Fertig in Minuten</li>
+          <li><span class="ico" style="color:var(--bz-orange)">&#10003;</span> Rechtssicher, sauber</li>
+        </ul>
       </div>
     </div>
+
   </div>
 </div>
 
