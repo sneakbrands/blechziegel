@@ -1429,13 +1429,26 @@
       <form action="{{ routes.cart_add_url }}" method="post" id="bz-product-form">
         <input type="hidden" name="id" id="bz-variant-id" value="{{ product.selected_or_first_available_variant.id }}">
 
+        {%- comment -%}
+          Reihenfolge-Override: „Bestellung als" ist der Bestell-Einstieg (Privat vs. Gewerbe)
+          → muss ZUERST kommen, unabhängig davon, an welcher Position die Option im Produkt definiert ist.
+          Wird vor dem Loop gerendert und im Loop übersprungen.
+        {%- endcomment -%}
+        {%- for _opt in product.options_with_values -%}
+          {%- if _opt.name == 'Bestellung als' -%}
+            {%- render 'bz-customer-type-segment', product: product -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+
         {%- for option in product.options_with_values -%}
           {%- comment -%} Shopify Default-Option "Title" (Produkt ohne echte Varianten) NICHT rendern {%- endcomment -%}
           {%- if option.name == 'Title' and option.values.size == 1 and option.values.first == 'Default Title' -%}
             {%- continue -%}
           {%- endif -%}
           {%- if option.name == 'Bestellung als' -%}
-            {%- render 'bz-customer-type-segment', product: product -%}
+            {%- comment -%} bereits oberhalb des Loops gerendert → überspringen {%- endcomment -%}
+            {%- continue -%}
           {%- else -%}
           <div class="bz-variant-label">
             {{ option.name }}
