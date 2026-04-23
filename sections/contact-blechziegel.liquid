@@ -404,13 +404,17 @@
 }
 </style>
 
-{%- comment -%} Kontaktdaten: Section-Setting (lokaler Override) → sonst globales Setting → sonst Fallback {%- endcomment -%}
-{% assign phone_raw = section.settings.phone | default: settings.contact_phone | strip %}
-{% assign phone_href = phone_raw | remove: ' ' | remove: '(' | remove: ')' | remove: '-' | remove: '/' %}
-{% assign email_raw = section.settings.email | default: settings.contact_email | default: 'web@blechziegel.de' | strip %}
-{% assign whatsapp_raw = section.settings.whatsapp | default: settings.contact_whatsapp | strip %}
-{%- assign has_phone = false -%}{%- if phone_raw != blank -%}{%- assign has_phone = true -%}{%- endif -%}
-{%- assign has_whatsapp = false -%}{%- if whatsapp_raw != blank -%}{%- assign has_whatsapp = true -%}{%- endif -%}
+{%- comment -%} Kontaktdaten: Section-Setting (lokaler Override) → sonst globales Setting → sonst Fallback. Expliziter blank-Check, weil Shopify-Liquid `| default:` nicht immer auf leere Strings triggert. {%- endcomment -%}
+{%- assign phone_raw = section.settings.phone | strip -%}
+{%- if phone_raw == blank -%}{%- assign phone_raw = settings.contact_phone | strip -%}{%- endif -%}
+{%- assign phone_href = phone_raw | remove: ' ' | remove: '(' | remove: ')' | remove: '-' | remove: '/' -%}
+{%- assign email_raw = section.settings.email | strip -%}
+{%- if email_raw == blank -%}{%- assign email_raw = settings.contact_email | strip -%}{%- endif -%}
+{%- if email_raw == blank -%}{%- assign email_raw = 'web@blechziegel.de' -%}{%- endif -%}
+{%- assign whatsapp_raw = section.settings.whatsapp | strip -%}
+{%- if whatsapp_raw == blank -%}{%- assign whatsapp_raw = settings.contact_whatsapp | strip -%}{%- endif -%}
+{%- assign has_phone = false -%}{%- if phone_raw != blank and phone_raw != '' -%}{%- assign has_phone = true -%}{%- endif -%}
+{%- assign has_whatsapp = false -%}{%- if whatsapp_raw != blank and whatsapp_raw != '' -%}{%- assign has_whatsapp = true -%}{%- endif -%}
 
 <div class="cp">
 
