@@ -2302,15 +2302,13 @@
         "type": "text",
         "id": "contact_phone",
         "label": "Telefonnummer (Anzeige-Format)",
-        "info": "Leer lassen, wenn keine Telefonnummer öffentlich angezeigt werden soll. Kein Platzhalter.",
-        "default": ""
+        "info": "Leer lassen, wenn keine Telefonnummer öffentlich angezeigt werden soll. Kein Platzhalter."
       },
       {
         "type": "text",
         "id": "contact_whatsapp",
         "label": "WhatsApp-Nummer (international, ohne +)",
-        "info": "Leer lassen, wenn WhatsApp nicht angeboten werden soll.",
-        "default": ""
+        "info": "Leer lassen, wenn WhatsApp nicht angeboten werden soll."
       }
     ]
   }
