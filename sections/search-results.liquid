@@ -570,11 +570,18 @@
       </aside>
     {%- endif -%}
 
+    {%- comment -%} Results-Head immer zeigen (auch bei leerer Suche → Fallback-Collection) {%- endcomment -%}
+    {%- assign _head_count = search.results_count -%}
+    {%- assign _head_label = 'Treffer' -%}
+    {%- unless search.performed and search.results_count > 0 -%}
+      {%- assign _head_count = _fallback_collection.products_count -%}
+      {%- assign _head_label = 'Produkte' -%}
+    {%- endunless -%}
     <div class="bz-col-results">
-      {%- if search.performed and search.results_count > 0 -%}
+      {%- if _head_count > 0 -%}
         <div class="bz-results-head">
           <div class="bz-results-count">
-            <strong>{{ search.results_count }}</strong> {{ search.results_count | pluralize: 'Treffer', 'Treffer' }}
+            <strong>{{ _head_count }}</strong> {{ _head_label }}
           </div>
           <div class="bz-results-sort">
             <select class="bz-sort-select" onchange="bzSearchSort(this.value)" aria-label="Sortierung">
@@ -605,10 +612,6 @@
         {% assign default_title = 'content.search_results_resource_products' | t %}
         {% assign title = settings.empty_state_collection.title | default: default_title %}
         {% assign products = collection.products %}
-        <div class="bz-search-recommend-header">
-          <h2 class="bz-search-recommend-header__title">Empfohlene Produkte</h2>
-          <p class="bz-search-recommend-header__sub">Unsere meistgekauften Produkte — oft ein guter Startpunkt.</p>
-        </div>
       {% endif %}
 
       {% capture children %}

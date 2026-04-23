@@ -115,8 +115,9 @@
         {%- endif -%}
       </p>
     {%- else -%}
-      <h1 class="bz-search-headline">Suche</h1>
-      <p class="bz-search-sub">Finde Blechziegel, Dachhaken, Schrauben und Zubehör.</p>
+      {%- assign _all_collection = settings.empty_state_collection | default: collections.all -%}
+      <h1 class="bz-search-headline">Alle Produkte</h1>
+      <p class="bz-search-sub">{{ _all_collection.products_count }} Produkte — nutze die Filter oder suche gezielt.</p>
       {%- assign _show_suggestions = true -%}
     {%- endif -%}
 
