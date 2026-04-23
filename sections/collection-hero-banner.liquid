@@ -24,34 +24,36 @@
   }
 </style>
 
+{%- comment -%}
+  Desktop + Mobile-URL: Theme-Editor-Override, sonst CDN-Default (nach fileCreate-Upload).
+{%- endcomment -%}
+{%- assign _desktop_default = 'https://cdn.shopify.com/s/files/1/0986/5986/0864/files/blechziegel-hero-produkt-desktop-2400x800.webp' -%}
+{%- assign _mobile_default = 'https://cdn.shopify.com/s/files/1/0986/5986/0864/files/blechziegel-hero-montage-mobile-750x1000.webp' -%}
+{%- if section.settings.desktop_image != blank -%}
+  {%- assign _desktop_src = section.settings.desktop_image | image_url: width: 2400 -%}
+{%- else -%}
+  {%- assign _desktop_src = _desktop_default -%}
+{%- endif -%}
+{%- if section.settings.mobile_image != blank -%}
+  {%- assign _mobile_src = section.settings.mobile_image | image_url: width: 750 -%}
+{%- else -%}
+  {%- assign _mobile_src = _mobile_default -%}
+{%- endif -%}
+
 <section class="collection-hero-banner" aria-label="{{ section.settings.alt_text | escape }}">
-  {%- if section.settings.desktop_image != blank or section.settings.mobile_image != blank -%}
-    <picture>
-      {%- if section.settings.desktop_image != blank -%}
-        <source media="(min-width: 768px)" srcset="{{ section.settings.desktop_image | image_url: width: 2400 }}" width="2400" height="800">
-      {%- endif -%}
-      {%- if section.settings.mobile_image != blank -%}
-        <source media="(max-width: 767px)" srcset="{{ section.settings.mobile_image | image_url: width: 750 }}" width="750" height="1000">
-      {%- endif -%}
-      {%- assign _fallback = section.settings.desktop_image | default: section.settings.mobile_image -%}
-      <img
-        src="{{ _fallback | image_url: width: 2400 }}"
-        alt="{{ section.settings.alt_text | escape }}"
-        loading="lazy"
-        decoding="async"
-        width="2400"
-        height="800"
-        style="width:100%;height:auto;display:block;"
-      >
-    </picture>
-  {%- else -%}
-    {%- comment -%} Kein Bild gepflegt → Platzhalter nur im Editor {%- endcomment -%}
-    {%- if request.design_mode -%}
-      <div style="padding:40px;text-align:center;background:#f4f4f4;color:#666;font-family:Inter,sans-serif;">
-        Collection Hero Banner — Desktop- und Mobile-Bild im Theme-Editor auswählen.
-      </div>
-    {%- endif -%}
-  {%- endif -%}
+  <picture>
+    <source media="(min-width: 768px)" srcset="{{ _desktop_src }}" width="2400" height="800">
+    <source media="(max-width: 767px)" srcset="{{ _mobile_src }}" width="750" height="1000">
+    <img
+      src="{{ _desktop_src }}"
+      alt="{{ section.settings.alt_text | escape }}"
+      loading="lazy"
+      decoding="async"
+      width="2400"
+      height="800"
+      style="width:100%;height:auto;display:block;"
+    >
+  </picture>
 </section>
 
 {% schema %}
