@@ -1,0 +1,18 @@
+{%- comment -%}
+  ══ Zentrale Kontakt-Ausgabe (Single-Source-of-Truth) ══
+  Quelle: globale Theme-Settings (settings.contact_email / contact_phone / contact_whatsapp).
+  Usage: {% render 'bz-contact', type: 'email' %}
+  Gültige Typen:
+    - email       → E-Mail-Adresse (Text)
+    - phone       → Telefonnummer (Anzeige-Format, leer wenn nicht gepflegt)
+    - phone_href  → Telefon-Wert für tel:-Link (Whitespace/Klammern/Slash/Bindestriche entfernt)
+    - whatsapp    → WhatsApp-Nummer (international, ohne +)
+    - has_phone   → '1' wenn Telefonnummer gepflegt, sonst leer (für if-Guard)
+  Hinweis: contact-blechziegel-Section darf via section.settings.phone/email überschreiben —
+  dafür im Caller die übliche | default:-Fallback-Kette nutzen.
+{%- endcomment -%}
+{%- if type == 'email' -%}{{ settings.contact_email | default: 'web@blechziegel.de' }}{%- endif -%}
+{%- if type == 'phone' -%}{{ settings.contact_phone }}{%- endif -%}
+{%- if type == 'phone_href' -%}{{ settings.contact_phone | remove: ' ' | remove: '(' | remove: ')' | remove: '-' | remove: '/' }}{%- endif -%}
+{%- if type == 'whatsapp' -%}{{ settings.contact_whatsapp }}{%- endif -%}
+{%- if type == 'has_phone' and settings.contact_phone != blank -%}1{%- endif -%}

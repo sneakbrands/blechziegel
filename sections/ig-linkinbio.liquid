@@ -190,7 +190,8 @@
       </svg>
       <p class="ig-page__legal">
         TiWi Trade GmbH · Allersberger Str. 185 · 90461 Nürnberg<br>
-        <a href="mailto:web@blechziegel.de">web@blechziegel.de</a>
+        {%- assign _ig_email = settings.contact_email | default: 'web@blechziegel.de' -%}
+        <a href="mailto:{{ _ig_email }}">{{ _ig_email }}</a>
       </p>
     </footer>
 

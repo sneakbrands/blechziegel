@@ -319,9 +319,8 @@
       </p>
       <div class="bz-footer-addr">
         {{ section.settings.footer_address | default: 'Allersberger Straße 185<br>90461 Nürnberg, Deutschland' }}<br>
-        <a href="mailto:{{ section.settings.footer_email | default: 'web@blechziegel.de' }}">
-          {{ section.settings.footer_email | default: 'web@blechziegel.de' }}
-        </a>
+        {%- assign _footer_email = section.settings.footer_email | default: settings.contact_email | default: 'web@blechziegel.de' -%}
+        <a href="mailto:{{ _footer_email }}">{{ _footer_email }}</a>
       </div>
     </div>
 
@@ -470,7 +469,8 @@
     <strong style="color:rgba(255,255,255,.45);">USt-IdNr.:</strong> DE315239032 &middot;
     <strong style="color:rgba(255,255,255,.45);">HRB:</strong> 39140 Amtsgericht N&uuml;rnberg &middot;
     <strong style="color:rgba(255,255,255,.45);">GF:</strong> Marcus Tischler, David Winkler &middot;
-    <a href="mailto:web@blechziegel.de">web@blechziegel.de</a>
+    {%- assign _legal_email = section.settings.footer_email | default: settings.contact_email | default: 'web@blechziegel.de' -%}
+    <a href="mailto:{{ _legal_email }}">{{ _legal_email }}</a>
   </div>
   <div class="bz-footer-mwst">
     &copy; {{ 'now' | date: '%Y' }} Blechziegel.de &ndash; TiWi Trade GmbH &middot; Alle Rechte vorbehalten.

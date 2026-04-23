@@ -112,7 +112,7 @@
 </style>
 
 {%- liquid
-  assign email_raw = 'web@blechziegel.de'
+  assign email_raw = settings.contact_email | default: 'web@blechziegel.de'
   assign canonical = shop.url | append: '/pages/anfrage-erfolg'
 -%}
 

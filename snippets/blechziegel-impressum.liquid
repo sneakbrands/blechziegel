@@ -342,9 +342,9 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
           Kontakt aufnehmen
         </a>
-        <a href="mailto:web@blechziegel.de" class="hp-btn hp-btn--outline">
+        <a href="mailto:{% render 'bz-contact', type: 'email' %}" class="hp-btn hp-btn--outline">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm8 7L4 6v12h16V6l-8 5z"/></svg>
-          web@blechziegel.de
+          {% render 'bz-contact', type: 'email' %}
         </a>
       </div>
     </div>

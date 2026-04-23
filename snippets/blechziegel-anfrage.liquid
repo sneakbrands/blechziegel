@@ -241,7 +241,7 @@
 </style>
 
 {%- liquid
-  assign email_raw = 'web@blechziegel.de'
+  assign email_raw = settings.contact_email | default: 'web@blechziegel.de'
   assign agb_url = '/pages/agb'
   assign datenschutz_url = '/pages/datenschutz'
   assign canonical = shop.url | append: '/pages/ziegel-anfrage'

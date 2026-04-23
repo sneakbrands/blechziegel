@@ -196,7 +196,7 @@
 </style>
 
 {%- liquid
-  assign email_raw = 'web@blechziegel.de'
+  assign email_raw = settings.contact_email | default: 'web@blechziegel.de'
   assign contact_url = '/pages/contact'
   assign catalog_url = '/collections/pv-dachziegel'
   assign gewerbe_url = '/pages/gewerbe'

@@ -2284,5 +2284,34 @@
         "default": "equal-width-buttons"
       }
     ]
+  },
+  {
+    "name": "Kontaktdaten",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Zentrale Kontaktdaten (Single-Source-of-Truth). Werden in Footer, Header-JSON-LD, Anfrage-Snippets, Policy-Buttons usw. verwendet. Die Kontakt-Section kann diese Werte lokal überschreiben."
+      },
+      {
+        "type": "text",
+        "id": "contact_email",
+        "label": "E-Mail (Haupt-Kontakt)",
+        "default": "web@blechziegel.de"
+      },
+      {
+        "type": "text",
+        "id": "contact_phone",
+        "label": "Telefonnummer (Anzeige-Format)",
+        "info": "Leer lassen, wenn keine Telefonnummer öffentlich angezeigt werden soll. Kein Platzhalter.",
+        "default": ""
+      },
+      {
+        "type": "text",
+        "id": "contact_whatsapp",
+        "label": "WhatsApp-Nummer (international, ohne +)",
+        "info": "Leer lassen, wenn WhatsApp nicht angeboten werden soll.",
+        "default": ""
+      }
+    ]
   }
 ]

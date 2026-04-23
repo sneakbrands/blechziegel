@@ -179,7 +179,7 @@
 </style>
 
 {%- liquid
-  assign email_raw = 'web@blechziegel.de'
+  assign email_raw = settings.contact_email | default: 'web@blechziegel.de'
   assign contact_url = '/pages/contact'
   assign catalog_url = '/collections/pv-dachziegel'
   assign hersteller_url = '/pages/hersteller'
@@ -647,7 +647,7 @@
     },
     { "@type": "FAQPage", "mainEntity": [
       { "@type": "Question", "name": "Brauche ich für PV wirklich Blechziegel oder reicht Bohren?", "acceptedAnswer": { "@type": "Answer", "text": "Bohren ist nicht mehr Stand der Technik. Blechziegel sind dichter, statisch unbedenklich und erhalten die Gewährleistung des Dachziegel-Herstellers." } },
-      { "@type": "Question", "name": "Wie finde ich heraus, welchen Ziegel ich habe?", "acceptedAnswer": { "@type": "Answer", "text": "Hersteller und Modell sind auf der Unterseite eines Tonziegels eingeprägt. Alternativ Foto an web@blechziegel.de — Identifikation in 24 Stunden." } },
+      { "@type": "Question", "name": "Wie finde ich heraus, welchen Ziegel ich habe?", "acceptedAnswer": { "@type": "Answer", "text": "Hersteller und Modell sind auf der Unterseite eines Tonziegels eingeprägt. Alternativ Foto an {% render 'bz-contact', type: 'email' %} — Identifikation in 24 Stunden." } },
       { "@type": "Question", "name": "Wie lange halten Aluminium-Blechziegel?", "acceptedAnswer": { "@type": "Answer", "text": "Bei Qualitätsware aus 1,0 mm pulverbeschichtetem Aluminium: 25 Jahre und mehr." } },
       { "@type": "Question", "name": "Sind Blechziegel mit meinem PV-System kompatibel?", "acceptedAnswer": { "@type": "Answer", "text": "In der Regel ja: K2, Schletter, IBC, Renusol, Esdec und fast alle Nischensysteme werden unterstützt." } },
       { "@type": "Question", "name": "Wie viele brauche ich pro kWp?", "acceptedAnswer": { "@type": "Answer", "text": "Richtwert 4–6 Blechziegel pro kWp, abhängig von Modul-Anzahl und Dachhaken-Raster. 5–10 % Reserve einplanen." } },
