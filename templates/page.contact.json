@@ -10,7 +10,11 @@
   "sections": {
     "contact": {
       "type": "contact-blechziegel",
-      "settings": {}
+      "settings": {
+        "phone": "",
+        "email": "",
+        "whatsapp": ""
+      }
     }
   },
   "order": [
