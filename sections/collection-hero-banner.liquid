@@ -40,6 +40,12 @@
   {%- assign _mobile_src = _mobile_default -%}
 {%- endif -%}
 
+{%- comment -%} Nur auf /collections/all rendern, sonst still {%- endcomment -%}
+{%- assign _handle = collection.handle | default: '' -%}
+{%- assign _limit_handle = section.settings.limit_handle | default: 'all' -%}
+{%- if section.settings.limit_to_handle and _handle != _limit_handle -%}
+  {%- comment -%} Handle passt nicht → nichts rendern {%- endcomment -%}
+{%- else -%}
 <section class="collection-hero-banner" aria-label="{{ section.settings.alt_text | escape }}">
   <picture>
     <source media="(min-width: 768px)" srcset="{{ _desktop_src }}" width="2400" height="800">
@@ -55,6 +61,7 @@
     >
   </picture>
 </section>
+{%- endif -%}
 
 {% schema %}
 {
@@ -75,6 +82,18 @@
       "id": "alt_text",
       "label": "Alt-Text",
       "default": "PV-Dachziegel & Blechziegel – passend für Ihren Dachtyp"
+    },
+    {
+      "type": "checkbox",
+      "id": "limit_to_handle",
+      "label": "Nur auf einer bestimmten Collection zeigen",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "limit_handle",
+      "label": "Collection-Handle (z. B. 'all')",
+      "default": "all"
     }
   ],
   "presets": [

@@ -1,5 +1,13 @@
 {
   "sections": {
+    "hero-banner": {
+      "type": "collection-hero-banner",
+      "settings": {
+        "alt_text": "PV-Dachziegel & Blechziegel – passend für Ihren Dachtyp",
+        "limit_to_handle": true,
+        "limit_handle": "all"
+      }
+    },
     "bz-collection-hero": {
       "type": "blechziegel-collection",
       "settings": {
@@ -8,6 +16,7 @@
     }
   },
   "order": [
+    "hero-banner",
     "bz-collection-hero"
   ]
 }
