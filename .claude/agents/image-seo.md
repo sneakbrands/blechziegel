@@ -282,9 +282,10 @@ python c:/Users/Administrator/blechziegel-admin-tools/generate_blechziegel_produ
 **Was das Tool tut:**
 - Findet Aluminium-Blank-Quellbilder in `mit Haken`/`ohne Haken` (Token `aluminium-blank` im Filename)
 - Pro Quelle 3 Outputs: `aluminium-blank` (sauber neu komponiert), `ral-7021`, `ral-8004` (HSV-Recoloring)
-- Layout: 1600 × 1200 px Canvas, weisser Hintergrund, Produkt mittig + weicher Schatten
-- Label oben links: Hauptzeile schwarz `#111827` (Variant-Name), Unterzeile orange `#E85A1C` (mit/ohne Haken)
-- Wasserzeichen: blechziegel.de-Logo, 3× dezent eingeblendet, ~7 % Opacity
+- Layout: **1600 × 1600 px Canvas (Quadrat — Referenz-Stil)**, weisser Hintergrund, Produkt mittig + weicher Schatten
+- Label oben links bei `(70, 70)` px: Hauptzeile schwarz `#111827` Inter/Arial Bold 58 px (Variant-Name), Unterzeile orange `#E85A1C` 40 px (mit/ohne Haken)
+- Wasserzeichen: blechziegel.de-Logo, 3× dezent (oben rechts, mittig links, unten mittig), ~9 % Opacity, 90 px hoch
+- Recoloring V-Anteil: 18 % Original + 82 % Target → solide RAL-Flaeche mit dezenter 3D-Andeutung an Kanten (keine glaenzenden Highlight-Reste mehr)
 - Bei `mit-haken`: kombinierte Schutzlogik aus (a) **Geometrie** (Morphology Open mit ellipsen-Kernel adaptiv ~`min(h,w)/18`px → entfernt schmale Hook-Protrusionen, behaelt dicken Plattenkoerper) und (b) **Pixel-Eigenschaften** (`silver_strength` = V × (1−S), Schwellwert 0.55 mit Soft-Mapping). Recolor-Alpha = body × (1 − silver × 0.7) × object_mask, anschliessend Gaussian Blur σ=12 → keine harten horizontalen/rechteckigen Kanten.
 - Bei `ohne-haken`: ganze Produktflaeche wird recoloriert (kein Silber-Schutz)
 - Recoloring erfolgt ueber Alpha-Blending zwischen Original und voll-recoloriertem Bild — weiche Uebergaenge an Maskenkanten
