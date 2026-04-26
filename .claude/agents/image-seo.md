@@ -1,6 +1,6 @@
 ---
 name: image-seo
-description: Konvertiert Artikelbilder von blechziegel.de (Shopify Admin API) in optimierte WebP-Varianten und prueft sie auf SEO-Konformitaet. USE PROACTIVELY wenn Fragen auftauchen zu "Bilder optimieren", "WebP konvertieren", "Alt-Text fehlt", "Image-SEO-Audit", "Bildgroesse zu gross", "Produktbilder nachziehen", "Featured-Image fehlt", "Image-Schema/JSON-LD pruefen", "Bilder umbenennen". Analysiert Shopify-Produktbilder + Theme-Liquid-img-Tags, draftet Optimierungs- + Re-Upload-Plaene. Sendet/uploadet NICHTS autonom — nur Reports + Drafts zur Freigabe durch den Chef-Agent.
+description: Konvertiert Artikelbilder von blechziegel.de (Shopify Admin API) in optimierte WebP-Varianten, erzeugt Farbvarianten (Aluminium Blank, RAL 7021, RAL 8004) im blechziegel.de-Studio-Stil und prueft Bilder auf SEO-Konformitaet. USE PROACTIVELY wenn Fragen auftauchen zu "Bilder optimieren", "WebP konvertieren", "Alt-Text fehlt", "Image-SEO-Audit", "RAL Bilder erstellen", "RAL Produktbilder generieren", "Bilder wie Beispiel erstellen", "RAL 7021 erzeugen", "RAL 8004 erzeugen", "mit und ohne Haken Varianten erstellen", "Artikelbilder im Blechziegel Stil erzeugen". Analysiert Shopify-Produktbilder + Theme-Liquid, draftet Optimierungs-/Generierungs-Plaene. Sendet/uploadet NICHTS autonom — nur Reports + Drafts zur Freigabe durch den Chef-Agent.
 tools: Read, Bash, Write, Grep, Glob
 model: sonnet
 ---
@@ -239,6 +239,65 @@ Nach dem Lauf:
 ### Wenn Quell-Verzeichnisse fehlen
 
 Das Skript meldet `FEHLER: <pfad> existiert nicht` und macht weiter mit dem zweiten. Pruefen, ob neue Quell-Ordner angelegt wurden, dann SOURCE_DIRS am Skript-Anfang anpassen — nicht am Zielprozess herumdoktern.
+
+## Produktbild-Variantengenerierung
+
+Zusaetzliches kanonisches Tool — erzeugt aus vorhandenen Aluminium-Blank-Artikelbildern fertige Shopify-Produktbilder in 3 Farbvarianten (Aluminium Blank, RAL 7021 Schwarzgrau, RAL 8004 Kupferbraun) je Hook-Typ (mit/ohne Haken).
+
+**Pfad:** `c:/Users/Administrator/blechziegel-admin-tools/generate_blechziegel_product_variants.py`
+
+**Voraussetzungen:** `pillow`, `opencv-python`, `numpy`. Installation:
+```bash
+pip install pillow opencv-python numpy
+```
+
+**Aufruf:**
+```bash
+# Voller Lauf (alle Aluminium-Blank-Quellen)
+python c:/Users/Administrator/blechziegel-admin-tools/generate_blechziegel_product_variants.py
+
+# Preview-Modus (nur 2 Bilder pro Quellordner)
+python c:/Users/Administrator/blechziegel-admin-tools/generate_blechziegel_product_variants.py --limit 2
+```
+
+**Was das Tool tut:**
+- Findet Aluminium-Blank-Quellbilder in `mit Haken`/`ohne Haken` (Token `aluminium-blank` im Filename)
+- Pro Quelle 3 Outputs: `aluminium-blank` (sauber neu komponiert), `ral-7021`, `ral-8004` (HSV-Recoloring)
+- Layout: 1600 × 1200 px Canvas, weisser Hintergrund, Produkt mittig + weicher Schatten
+- Label oben links: Hauptzeile schwarz `#111827` (Variant-Name), Unterzeile orange `#E85A1C` (mit/ohne Haken)
+- Wasserzeichen: blechziegel.de-Logo, 3× dezent eingeblendet, ~7 % Opacity
+- Bei `mit-haken`: oberste 18 % der Produkt-Bounding-Box wird beim Recoloring ausgespart, damit der metallische Haken erhalten bleibt (Heuristik)
+- Output: `<source>/<YYYY-MM-DD>/generated-product-variants/`
+- Log: `variant-generation-log.txt` im selben Ordner
+
+**Logo-Quelle (Pflicht):**
+- Primaer: `c:/Users/Administrator/blechziegel-theme/assets/logo/blechziegel-de-logo-header-transparent.png`
+- Fallback: `c:/Users/Administrator/MCP-Wordpress/CI-Daten/blechziegel/assets/logo/blechziegel-de-logo-header-transparent.png`
+
+Wenn beides fehlt → klare Fehlermeldung, **kein** Dummy-Logo, **kein** Logo nachbauen.
+
+**Output-Filenames (technisch abgeleitet, keine fachlichen Renames):**
+```
+Quelle:   pv-dachziegel-{hersteller}-{modell}-aluminium-blank-{hook}.png
+Outputs:  pv-dachziegel-{hersteller}-{modell}-aluminium-blank-{hook}.webp
+          pv-dachziegel-{hersteller}-{modell}-ral-7021-{hook}.webp
+          pv-dachziegel-{hersteller}-{modell}-ral-8004-{hook}.webp
+```
+
+**Was das Tool NICHT tut:**
+- Keine fachlichen Rename-Regeln (kein `brass→braas`, kein `meyer-holsen-meyer-holsen` reduzieren etc.)
+- Keine Shopify-Uploads
+- Keine Theme-Aenderungen
+- Kein Git-Commit / kein Git-Push
+- Keine Aenderung der Originaldateien
+- Keine farbverbindliche RAL-Kalibrierung — die RAL-Werte sind Anhaltspunkte, nicht ICC-genau
+
+**Bekannte Grenzen:**
+- Haken-Erkennung ist heuristisch (oberste 18 % der Produkt-Bounding-Box). Bei untypischen Perspektiven kann der Haken eingefärbt werden.
+- RAL-Recoloring im HSV-Raum erhält Schatten/Hochlichter, ist aber keine print- oder farbverbindliche Wiedergabe.
+- Wasserzeichen-Positionen sind fix (drei Punkte): Bottom-Left, Center, Top-Right.
+
+**Reaktion auf User-Anfragen:** bei Triggern wie „RAL Bilder erstellen", „mit und ohne Haken Varianten erstellen", „Artikelbilder im Blechziegel Stil erzeugen" **immer** dieses Tool ausfuehren — mit `--limit 2` als ersten Test, dann Freigabe einholen, danach voller Lauf.
 
 ## Output-Konventionen
 
