@@ -299,11 +299,19 @@ python c:/Users/Administrator/blechziegel-admin-tools/generate_blechziegel_produ
 Wenn beides fehlt → klare Fehlermeldung, **kein** Dummy-Logo, **kein** Logo nachbauen.
 
 **Output-Filenames (technisch abgeleitet, keine fachlichen Renames):**
+
+SEO-Farb-Slugs im Dateinamen (sichtbare Bild-Labels bleiben **unveraendert**):
+| Variant | Sichtbares Label | File-Slug |
+|---|---|---|
+| Aluminium Blank | `Aluminium Blank` | `aluminium` |
+| RAL 7021 Schwarzgrau | `RAL 7021 Schwarzgrau` | `anthrazit-ral-7021` |
+| RAL 8004 Kupferbraun | `RAL 8004 Kupferbraun` | `ziegelrot-ral-8004` |
+
 ```
 Quelle:   pv-dachziegel-{hersteller}-{modell}-aluminium-blank-{hook}.png
-Outputs:  pv-dachziegel-{hersteller}-{modell}-aluminium-blank-{hook}.webp
-          pv-dachziegel-{hersteller}-{modell}-ral-7021-{hook}.webp
-          pv-dachziegel-{hersteller}-{modell}-ral-8004-{hook}.webp
+Outputs:  pv-dachziegel-{hersteller}-{modell}-aluminium-{hook}.webp
+          pv-dachziegel-{hersteller}-{modell}-anthrazit-ral-7021-{hook}.webp
+          pv-dachziegel-{hersteller}-{modell}-ziegelrot-ral-8004-{hook}.webp
 ```
 
 **Was das Tool NICHT tut:**
