@@ -160,43 +160,68 @@ Beispiele:
 
 ### Kanonisches Konvertierungs-Tool (Pflicht)
 
-**Immer dieses Tool verwenden** — keine eigenen Sharp-/ImageMagick-Wrapper schreiben, kein Inline-Pillow-Code, kein anderer Konverter:
+**Immer dieses Tool verwenden** — keine eigenen Sharp-/ImageMagick-Wrapper, kein Inline-Pillow-Code, kein anderer Konverter:
 
 **Pfad:** `c:/Users/Administrator/blechziegel-admin-tools/convert_blechziegel_artikelbilder.py`
 
-**Voraussetzungen:** `pillow`, `requests`, `python-dotenv` (bereits installiert)
-
-**Standard-Aufrufe:**
+**Voraussetzung:** `pillow` (bereits installiert)
 
 ```bash
-# Variante A — lokales Quell-Verzeichnis
-python "c:/Users/Administrator/blechziegel-admin-tools/convert_blechziegel_artikelbilder.py" \
-  --src "C:/temp/raw-bilder" \
-  --output "C:/Claude/Agent/Blechziegel/theme-workspace/image-conversion/{YYYY-MM-DD}/{produkt-slug}"
-
-# Variante B — direkt aus Shopify-Produkt (per Handle)
-python "c:/Users/Administrator/blechziegel-admin-tools/convert_blechziegel_artikelbilder.py" \
-  --product-handle pv-dachziegel-frankfurter-pfanne \
-  --output "C:/Claude/Agent/Blechziegel/theme-workspace/image-conversion/{YYYY-MM-DD}/frankfurter-pfanne"
+pip install pillow
+python c:/Users/Administrator/blechziegel-admin-tools/convert_blechziegel_artikelbilder.py
 ```
 
-**Was das Tool tut:**
-- WebP (Q 82, method 6) + JPG-Fallback (Q 85, progressive, optimize) je 4 srcset-Stufen (400/800/1600/2400 px)
-- Strippt EXIF
-- Erstellt `convert-plan.json` mit Datei-Liste, Bytes pro Variante, Alt-Text-Vorschlaegen (bei Shopify-Quelle)
-- Lädt **NICHTS** hoch — pure lokale Optimierung + Plan-Datei
+### Fixe Quell-Verzeichnisse (im Skript hartkodiert)
 
-**Output-Konvention:** Zielverzeichnis immer `c:/Claude/Agent/Blechziegel/theme-workspace/image-conversion/{YYYY-MM-DD}/{produkt-slug}/` — pro Tag + Produkt ein Ordner.
+| Hook-Typ | Quelle |
+|---|---|
+| `mit-haken` | `C:\Users\Administrator\Desktop\Dokumente\Artikelbilder\mit Haken` |
+| `ohne-haken` | `C:\Users\Administrator\Desktop\Dokumente\Artikelbilder\ohne Haken` |
 
-**Wenn das Tool fehlt oder Pillow nicht installiert ist:**
-```bash
-pip install pillow requests python-dotenv
-```
-Dann pruefen ob die Datei existiert. Falls nicht: Chef-Agent informieren — nicht selbst neu schreiben.
+Das Skript laeuft ohne CLI-Argumente — es prozessiert beide Verzeichnisse automatisch.
+
+### Verhalten je Datei
+
+1. **Format-Filter:** nur `.png`, `.jpg`, `.jpeg` werden verarbeitet
+2. **Flatten auf weissen Hintergrund:** Transparenz wird gegen #FFFFFF kombiniert (sauberes B2B-Produktshot-Render)
+3. **WebP-Output** mit `quality=88`, `method=6`, `optimize=True`
+4. **Dateinamen-Normalisierung:**
+   - `slugify()` mit Umlaut-Replacement (ä→ae, ö→oe, ü→ue, ß→ss, …) und kebab-case
+   - Aufeinanderfolgende doppelte Worte werden zusammengefasst (z. B. `frankfurter-frankfurter-pfanne` → `frankfurter-pfanne`)
+   - **Praefix-Pflicht:** wenn Stem nicht mit `pv-dachziegel-` beginnt → wird automatisch vorangestellt
+   - **Tippfehler-Fix:** `mit-hacken`/`ohne-hacken` → `mit-haken`/`ohne-haken`
+   - **Suffix-Pflicht:** Datei landet in `mit-haken`-Quelle → Suffix `-mit-haken` (analog `-ohne-haken`); falls bereits enthalten, wird der alte abgeschnitten und neu gesetzt
+5. **Kollisionen:** existiert Zieldatei → Counter-Suffix `-2`, `-3`, …
+6. **Output-Ordner:** `<source>/<YYYY-MM-DD>/` (Tagesordner direkt **innerhalb** der Quelle)
+7. **Log:** `conversion-log.txt` im Output-Ordner — eine Zeile pro Datei (`OK:` / `FEHLER:`), wird angehaengt
+
+### Beispiel-Filename-Mapping
+
+| Original | Hook-Quelle | Output |
+|---|---|---|
+| `Frankfurter Pfanne.png` | mit-haken | `pv-dachziegel-frankfurter-pfanne-mit-haken.webp` |
+| `Harzer-Pfanne mit Hacken.jpg` | mit-haken | `pv-dachziegel-harzer-pfanne-mit-haken.webp` (Tippfehler korrigiert + Duplikat verhindert) |
+| `pv-dachziegel-nelskamp-tiefa.jpeg` | ohne-haken | `pv-dachziegel-nelskamp-tiefa-ohne-haken.webp` |
+| `Tegalit ohne haken.png` | ohne-haken | `pv-dachziegel-tegalit-ohne-haken.webp` |
 
 ### Reaktion auf User-Anfragen
 
-Bei jeder Anfrage zur Bildkonvertierung **immer** `convert_blechziegel_artikelbilder.py` ausfuehren — auch wenn der User nicht explizit das Tool nennt. Andere Konvertierungs-Wege (Online-Tools, manuelle ImageMagick-Aufrufe, Sharp/Node) gelten als Fehler.
+Bei jeder Anfrage zur Bildkonvertierung **immer** `convert_blechziegel_artikelbilder.py` ausfuehren — auch wenn der User nicht explizit das Tool nennt. Andere Konvertierungs-Wege (Online-Tools, manuelle ImageMagick-Aufrufe, Sharp/Node, Inline-Pillow) gelten als Fehler.
+
+Aufruf:
+```bash
+python c:/Users/Administrator/blechziegel-admin-tools/convert_blechziegel_artikelbilder.py
+```
+
+Nach dem Lauf:
+- Neue Dateien liegen in `<source>/<YYYY-MM-DD>/`
+- `conversion-log.txt` zeigt OK/FEHLER pro Datei
+- Originale bleiben unangetastet
+- Re-Upload zu Shopify ist separater, manueller Schritt (siehe Re-Upload-Plan)
+
+### Wenn Quell-Verzeichnisse fehlen
+
+Das Skript meldet `FEHLER: <pfad> existiert nicht` und macht weiter mit dem zweiten. Pruefen, ob neue Quell-Ordner angelegt wurden, dann SOURCE_DIRS am Skript-Anfang anpassen — nicht am Zielprozess herumdoktern.
 
 ## Output-Konventionen
 
