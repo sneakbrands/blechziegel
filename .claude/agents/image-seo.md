@@ -286,6 +286,7 @@ python c:/Users/Administrator/blechziegel-admin-tools/generate_blechziegel_produ
 - Label oben links bei `(70, 70)` px: Hauptzeile schwarz `#111827` Inter/Arial Bold 58 px (Variant-Name), Unterzeile orange `#E85A1C` 40 px (mit/ohne Haken)
 - Wasserzeichen: blechziegel.de-Logo, 3× dezent (oben rechts, mittig links, unten mittig), ~9 % Opacity, 90 px hoch
 - Recoloring V-Anteil: 18 % Original + 82 % Target → solide RAL-Flaeche mit dezenter 3D-Andeutung an Kanten (keine glaenzenden Highlight-Reste mehr)
+- **Aluminium-Brightness-Lift:** Quell-Bilder sind oft dunkel (Median ~95). Vor dem Recoloring wird per Gamma-Korrektur (clamp 0.30–0.95) die Helligkeit auf einen Median ~200 angehoben — Aluminium-Blank-Output ist dadurch silbrig hell, RAL-Recoloring sieht sinnvolle Helligkeitsdifferenzen fuer die `silver_strength`-Heuristik
 - Bei `mit-haken`: kombinierte Schutzlogik aus (a) **Geometrie** (Morphology Open mit ellipsen-Kernel adaptiv ~`min(h,w)/18`px → entfernt schmale Hook-Protrusionen, behaelt dicken Plattenkoerper) und (b) **Pixel-Eigenschaften** (`silver_strength` = V × (1−S), Schwellwert 0.55 mit Soft-Mapping). Recolor-Alpha = body × (1 − silver × 0.7) × object_mask, anschliessend Gaussian Blur σ=12 → keine harten horizontalen/rechteckigen Kanten.
 - Bei `ohne-haken`: ganze Produktflaeche wird recoloriert (kein Silber-Schutz)
 - Recoloring erfolgt ueber Alpha-Blending zwischen Original und voll-recoloriertem Bild — weiche Uebergaenge an Maskenkanten
