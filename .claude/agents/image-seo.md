@@ -183,17 +183,19 @@ Das Skript laeuft ohne CLI-Argumente — es prozessiert beide Verzeichnisse auto
 ### Verhalten je Datei
 
 1. **Format-Filter:** nur `.png`, `.jpg`, `.jpeg` werden verarbeitet
-2. **Flatten auf weissen Hintergrund:** Transparenz wird gegen #FFFFFF kombiniert (sauberes B2B-Produktshot-Render)
-3. **WebP-Output** mit `quality=88`, `method=6`, `optimize=True`
-4. **Dateinamen-Normalisierung:**
-   - `slugify()` mit Umlaut-Replacement (ä→ae, ö→oe, ü→ue, ß→ss, …) und kebab-case
-   - Aufeinanderfolgende doppelte Worte werden zusammengefasst (z. B. `frankfurter-frankfurter-pfanne` → `frankfurter-pfanne`)
-   - **Praefix-Pflicht:** wenn Stem nicht mit `pv-dachziegel-` beginnt → wird automatisch vorangestellt
-   - **Tippfehler-Fix:** `mit-hacken`/`ohne-hacken` → `mit-haken`/`ohne-haken`
-   - **Suffix-Pflicht:** Datei landet in `mit-haken`-Quelle → Suffix `-mit-haken` (analog `-ohne-haken`); falls bereits enthalten, wird der alte abgeschnitten und neu gesetzt
-5. **Kollisionen:** existiert Zieldatei → Counter-Suffix `-2`, `-3`, …
-6. **Output-Ordner:** `<source>/<YYYY-MM-DD>/` (Tagesordner direkt **innerhalb** der Quelle)
-7. **Log:** `conversion-log.txt` im Output-Ordner — eine Zeile pro Datei (`OK:` / `FEHLER:`), wird angehaengt
+2. **Resize-Cap:** `MAX_SIZE = 2400` px — wenn die laengste Kante > 2400 px ist, wird das Bild via `Image.LANCZOS` auf 2400 px (laengste Kante) verkleinert; Aspect-Ratio bleibt erhalten. Kleinere Bilder bleiben unveraendert.
+3. **Flatten auf weissen Hintergrund:** Transparenz wird gegen `#FFFFFF` kombiniert (sauberes B2B-Produktshot-Render)
+4. **WebP-Output** mit `quality=88`, `method=6`, `optimize=True`
+5. **Dateinamen-Normalisierung:**
+   - `slugify()` mit Umlaut-Replacement (`ä→ae`, `ö→oe`, `ü→ue`, `ß→ss`, …) und kebab-case
+   - **Globale Duplikat-Entfernung** (set-basiert, nicht nur konsekutiv): jedes Wort taucht im Stem hoechstens einmal auf — z. B. `pv-dachziegel-pv-frankfurter-pfanne-frankfurter` → `pv-dachziegel-frankfurter-pfanne`
+   - **Tippfehler-Fix:** `mit-hacken`/`ohne-hacken` → `mit-haken`/`ohne-haken` (vor der Duplikat-Entfernung)
+   - **Hook-Suffix-Reset:** vorhandenes `-mit-haken` oder `-ohne-haken` am Ende wird komplett abgeschnitten
+   - **Praefix-Pflicht:** wenn Stem nicht mit `pv-dachziegel-` beginnt → wird vorangestellt
+   - **Hook-Suffix-Setzen:** abschliessend wird `-{hook_type}` (`mit-haken`/`ohne-haken`) angehaengt (Quell-Ordner bestimmt den Wert)
+6. **Kollisionen:** existiert Zieldatei → Counter-Suffix `-2`, `-3`, …
+7. **Output-Ordner:** `<source>/<YYYY-MM-DD>/` (Tagesordner direkt **innerhalb** der Quelle)
+8. **Log:** `conversion-log.txt` im Output-Ordner — eine Zeile pro Datei (`OK: <orig> -> <neu>` oder `FEHLER: <orig> -> <msg>`), append-Modus
 
 ### Beispiel-Filename-Mapping
 
