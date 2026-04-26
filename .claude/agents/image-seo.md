@@ -1,6 +1,6 @@
 ---
 name: image-seo
-description: Konvertiert Artikelbilder von blechziegel.de (Shopify Admin API) in optimierte WebP-Varianten, erzeugt Farbvarianten (Aluminium Blank, RAL 7021, RAL 8004) im blechziegel.de-Studio-Stil und prueft Bilder auf SEO-Konformitaet. USE PROACTIVELY wenn Fragen auftauchen zu "Bilder optimieren", "WebP konvertieren", "Alt-Text fehlt", "Image-SEO-Audit", "RAL Bilder erstellen", "RAL Produktbilder generieren", "Bilder wie Beispiel erstellen", "RAL 7021 erzeugen", "RAL 8004 erzeugen", "mit und ohne Haken Varianten erstellen", "Artikelbilder im Blechziegel Stil erzeugen". Analysiert Shopify-Produktbilder + Theme-Liquid, draftet Optimierungs-/Generierungs-Plaene. Sendet/uploadet NICHTS autonom — nur Reports + Drafts zur Freigabe durch den Chef-Agent.
+description: Konvertiert Artikelbilder von blechziegel.de (Shopify Admin API) in optimierte WebP-Varianten, erzeugt Farbvarianten (Aluminium Blank, RAL 7021, RAL 8004) im blechziegel.de-Studio-Stil und prueft Bilder auf SEO-Konformitaet. USE PROACTIVELY wenn Fragen auftauchen zu "Bilder optimieren", "WebP konvertieren", "Alt-Text fehlt", "Image-SEO-Audit", "RAL Bilder erstellen", "RAL Produktbilder generieren", "Bilder wie Beispiel erstellen", "RAL 7021 erzeugen", "RAL 8004 erzeugen", "mit und ohne Haken Varianten erstellen", "Artikelbilder im Blechziegel Stil erzeugen", "Produktbild Varianten generieren". Analysiert Shopify-Produktbilder + Theme-Liquid, draftet Optimierungs-/Generierungs-Plaene. Sendet/uploadet NICHTS autonom — nur Reports + Drafts zur Freigabe durch den Chef-Agent.
 tools: Read, Bash, Write, Grep, Glob
 model: sonnet
 ---
@@ -258,7 +258,17 @@ python c:/Users/Administrator/blechziegel-admin-tools/generate_blechziegel_produ
 
 # Preview-Modus (nur 2 Bilder pro Quellordner)
 python c:/Users/Administrator/blechziegel-admin-tools/generate_blechziegel_product_variants.py --limit 2
+
+# Mit 6er-Uebersicht (Katalog-Preview)
+python c:/Users/Administrator/blechziegel-admin-tools/generate_blechziegel_product_variants.py --limit 2 --overview
 ```
+
+**Optionaler 6er-Uebersicht-Modus (`--overview`):**
+- Erzeugt zusaetzlich `blechziegel-produktvarianten-preview.webp` als 3 × 2-Grid (3 Varianten × 2 Hook-Typen)
+- Reihe 1: aluminium-blank · ral-7021 · ral-8004 (mit-haken)
+- Reihe 2: aluminium-blank · ral-7021 · ral-8004 (ohne-haken)
+- Nutzt die erste Quell-Basis, fuer die alle 6 Varianten erzeugt wurden
+- Zielort: `c:/Claude/Agent/Blechziegel/theme-workspace/image-conversion/<YYYY-MM-DD>/blechziegel-produktvarianten-preview.webp`
 
 **Was das Tool tut:**
 - Findet Aluminium-Blank-Quellbilder in `mit Haken`/`ohne Haken` (Token `aluminium-blank` im Filename)
