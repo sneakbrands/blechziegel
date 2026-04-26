@@ -182,20 +182,35 @@ Das Skript laeuft ohne CLI-Argumente — es prozessiert beide Verzeichnisse auto
 
 ### Verhalten je Datei
 
-1. **Format-Filter:** nur `.png`, `.jpg`, `.jpeg` werden verarbeitet
+1. **Format-Filter:** nur `.png`, `.jpg`, `.jpeg` werden verarbeitet. Unterordner werden ignoriert.
 2. **Resize-Cap:** `MAX_SIZE = 2400` px — wenn die laengste Kante > 2400 px ist, wird das Bild via `Image.LANCZOS` auf 2400 px (laengste Kante) verkleinert; Aspect-Ratio bleibt erhalten. Kleinere Bilder bleiben unveraendert.
-3. **Flatten auf weissen Hintergrund:** Transparenz wird gegen `#FFFFFF` kombiniert (sauberes B2B-Produktshot-Render)
+3. **Flatten auf weissen Hintergrund:** Transparenz wird gegen `#FFFFFF` kombiniert (sauberes B2B-Produktshot-Render). EXIF/Metadaten werden nicht uebernommen.
 4. **WebP-Output** mit `quality=88`, `method=6`, `optimize=True`
-5. **Dateinamen-Normalisierung:**
+5. **Dateinamen-Normalisierung (rein technisch — keine fachlichen Renames):**
    - `slugify()` mit Umlaut-Replacement (`ä→ae`, `ö→oe`, `ü→ue`, `ß→ss`, …) und kebab-case
-   - **Globale Duplikat-Entfernung** (set-basiert, nicht nur konsekutiv): jedes Wort taucht im Stem hoechstens einmal auf — z. B. `pv-dachziegel-pv-frankfurter-pfanne-frankfurter` → `pv-dachziegel-frankfurter-pfanne`
-   - **Tippfehler-Fix:** `mit-hacken`/`ohne-hacken` → `mit-haken`/`ohne-haken` (vor der Duplikat-Entfernung)
-   - **Hook-Suffix-Reset:** vorhandenes `-mit-haken` oder `-ohne-haken` am Ende wird komplett abgeschnitten
+   - **Konsekutive Duplikat-Entfernung** (Token-basiert, nur direkt aufeinanderfolgend):
+     - `braas-braas-granat` → `braas-granat` ✓
+     - `meyer-holsen-meyer-holsen` bleibt unveraendert (kein konsekutives Duplikat auf Token-Ebene)
+     - `jacobi-walther-jacobi` bleibt unveraendert
+   - **Tippfehler-Fix Hook-Begriff:** `mit-hacken`/`ohne-hacken` → `mit-haken`/`ohne-haken` (rein technisch, einziger erlaubter Texteingriff)
+   - **Hook-Suffix-Reset:** vorhandenes `-mit-haken` oder `-ohne-haken` am Ende wird abgeschnitten
    - **Praefix-Pflicht:** wenn Stem nicht mit `pv-dachziegel-` beginnt → wird vorangestellt
-   - **Hook-Suffix-Setzen:** abschliessend wird `-{hook_type}` (`mit-haken`/`ohne-haken`) angehaengt (Quell-Ordner bestimmt den Wert)
+   - **Hook-Suffix-Setzen:** abschliessend wird `-{hook_type}` aus Quell-Ordner angehaengt
 6. **Kollisionen:** existiert Zieldatei → Counter-Suffix `-2`, `-3`, …
 7. **Output-Ordner:** `<source>/<YYYY-MM-DD>/` (Tagesordner direkt **innerhalb** der Quelle)
-8. **Log:** `conversion-log.txt` im Output-Ordner — eine Zeile pro Datei (`OK: <orig> -> <neu>` oder `FEHLER: <orig> -> <msg>`), append-Modus
+8. **Log:** `conversion-log.txt` im Output-Ordner mit Header (Start/Quelle/Ziel/Hook/Q/MAX_SIZE), Zeilen pro Datei (`OK: <orig> -> <neu>` oder `FEHLER: <orig> -> <msg>`), Footer (Anzahl Konvertiert / Fehler / Ende), append-Modus
+
+### Verbotene Eingriffe im Skript
+
+Das Skript fuehrt **keine fachlichen Namenskorrekturen** durch. Folgende Beispiele sind explizit nicht im Skript:
+
+- `brass` → `braas` (Hersteller-Schreibweise) — **NICHT** automatisch
+- `meyer-holsen-meyer-holsen` → `meyer-holsen` — **NICHT** automatisch (kein konsekutives Duplikat)
+- `jacobi-walther-jacobi` → `jacobi-walther` — **NICHT** automatisch
+- Globale (set-basierte) Duplikat-Entfernung — **NICHT** im Skript
+- Hersteller-/Modell-Mapping — **NICHT** im Skript
+
+Solche Korrekturen erfolgen separat in den Stammdaten — nicht im Konvertierungs-Tool.
 
 ### Beispiel-Filename-Mapping
 
