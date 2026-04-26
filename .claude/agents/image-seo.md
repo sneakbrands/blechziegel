@@ -158,14 +158,45 @@ Beispiele:
 
 ## Tools-Setup
 
-Falls Sharp lokal noch nicht installiert:
+### Kanonisches Konvertierungs-Tool (Pflicht)
+
+**Immer dieses Tool verwenden** — keine eigenen Sharp-/ImageMagick-Wrapper schreiben, kein Inline-Pillow-Code, kein anderer Konverter:
+
+**Pfad:** `c:/Users/Administrator/blechziegel-admin-tools/convert_blechziegel_artikelbilder.py`
+
+**Voraussetzungen:** `pillow`, `requests`, `python-dotenv` (bereits installiert)
+
+**Standard-Aufrufe:**
 
 ```bash
-cd c:/Users/Administrator/blechziegel-admin-tools
-npm install sharp
+# Variante A — lokales Quell-Verzeichnis
+python "c:/Users/Administrator/blechziegel-admin-tools/convert_blechziegel_artikelbilder.py" \
+  --src "C:/temp/raw-bilder" \
+  --output "C:/Claude/Agent/Blechziegel/theme-workspace/image-conversion/{YYYY-MM-DD}/{produkt-slug}"
+
+# Variante B — direkt aus Shopify-Produkt (per Handle)
+python "c:/Users/Administrator/blechziegel-admin-tools/convert_blechziegel_artikelbilder.py" \
+  --product-handle pv-dachziegel-frankfurter-pfanne \
+  --output "C:/Claude/Agent/Blechziegel/theme-workspace/image-conversion/{YYYY-MM-DD}/frankfurter-pfanne"
 ```
 
-Sharp-Wrapper-Skript-Vorlage: `c:/Users/Administrator/blechziegel-admin-tools/optimize-image.mjs` (Agent erstellt es bei erstem Run, falls fehlt).
+**Was das Tool tut:**
+- WebP (Q 82, method 6) + JPG-Fallback (Q 85, progressive, optimize) je 4 srcset-Stufen (400/800/1600/2400 px)
+- Strippt EXIF
+- Erstellt `convert-plan.json` mit Datei-Liste, Bytes pro Variante, Alt-Text-Vorschlaegen (bei Shopify-Quelle)
+- Lädt **NICHTS** hoch — pure lokale Optimierung + Plan-Datei
+
+**Output-Konvention:** Zielverzeichnis immer `c:/Claude/Agent/Blechziegel/theme-workspace/image-conversion/{YYYY-MM-DD}/{produkt-slug}/` — pro Tag + Produkt ein Ordner.
+
+**Wenn das Tool fehlt oder Pillow nicht installiert ist:**
+```bash
+pip install pillow requests python-dotenv
+```
+Dann pruefen ob die Datei existiert. Falls nicht: Chef-Agent informieren — nicht selbst neu schreiben.
+
+### Reaktion auf User-Anfragen
+
+Bei jeder Anfrage zur Bildkonvertierung **immer** `convert_blechziegel_artikelbilder.py` ausfuehren — auch wenn der User nicht explizit das Tool nennt. Andere Konvertierungs-Wege (Online-Tools, manuelle ImageMagick-Aufrufe, Sharp/Node) gelten als Fehler.
 
 ## Output-Konventionen
 
