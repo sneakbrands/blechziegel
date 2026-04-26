@@ -266,10 +266,11 @@ python c:/Users/Administrator/blechziegel-admin-tools/generate_blechziegel_produ
 python c:/Users/Administrator/blechziegel-admin-tools/generate_blechziegel_product_variants.py --limit 2 --overview --debug-mask
 ```
 
-**Optionaler `--debug-mask`-Modus:** Speichert pro RAL-Variante drei Graustufen-WebPs unter `<output>/debug-masks/<variant-stem>/`:
-- `object-mask.webp` — Produkt-Maske (weiss = Produkt, schwarz = Hintergrund)
-- `recolor-mask.webp` — finale Alpha-Maske (weiss = voll recoloriert, schwarz = original/geschuetzt), nach Gaussian-Blur
-- `protected-silver-mask.webp` — Silber-Strength-Map (weiss = stark silbrig, schuetzt vor Recoloring)
+**Optionaler `--debug-mask`-Modus:** Speichert pro RAL-Variante vier Graustufen-WebPs **direkt im Output-Ordner** (kein Unterordner):
+- `<base>-object-mask.webp` — Produkt-Maske (weiss = Produkt, schwarz = Hintergrund)
+- `<base>-body-mask.webp` — geometrischer Plattenkoerper nach Morphology-Open (Hook entfernt)
+- `<base>-protected-silver-mask.webp` — Silber-Strength-Heatmap (weiss = stark silbrig)
+- `<base>-recolor-mask.webp` — finale Alpha-Maske (weiss = voll recoloriert, schwarz = original/geschuetzt), nach Gaussian-Blur σ=12
 
 **Optionaler 6er-Uebersicht-Modus (`--overview`):**
 - Erzeugt zusaetzlich `blechziegel-produktvarianten-preview.webp` als 3 × 2-Grid (3 Varianten × 2 Hook-Typen)
@@ -284,7 +285,7 @@ python c:/Users/Administrator/blechziegel-admin-tools/generate_blechziegel_produ
 - Layout: 1600 × 1200 px Canvas, weisser Hintergrund, Produkt mittig + weicher Schatten
 - Label oben links: Hauptzeile schwarz `#111827` (Variant-Name), Unterzeile orange `#E85A1C` (mit/ohne Haken)
 - Wasserzeichen: blechziegel.de-Logo, 3× dezent eingeblendet, ~7 % Opacity
-- Bei `mit-haken`: pixel-basierter Silber-Schutz ueber `silver_strength` (V × (1−S), Schwellwert 0.55) — helle, entsaettigte Pixel (Haken, Bohrplatte, glaenzende Hochlichter) werden geschuetzt; dunklere/farbige Plattenbereiche werden recoloriert. Maske wird mit Gaussian Blur (σ=4) weichgezeichnet → keine harten Rechteckkanten.
+- Bei `mit-haken`: kombinierte Schutzlogik aus (a) **Geometrie** (Morphology Open mit ellipsen-Kernel adaptiv ~`min(h,w)/18`px → entfernt schmale Hook-Protrusionen, behaelt dicken Plattenkoerper) und (b) **Pixel-Eigenschaften** (`silver_strength` = V × (1−S), Schwellwert 0.55 mit Soft-Mapping). Recolor-Alpha = body × (1 − silver × 0.7) × object_mask, anschliessend Gaussian Blur σ=12 → keine harten horizontalen/rechteckigen Kanten.
 - Bei `ohne-haken`: ganze Produktflaeche wird recoloriert (kein Silber-Schutz)
 - Recoloring erfolgt ueber Alpha-Blending zwischen Original und voll-recoloriertem Bild — weiche Uebergaenge an Maskenkanten
 - Produkt-Skalierung: ca. 70 % der Canvas-Breite (Side-Padding 240 px), Top-Padding 240 px für Label-Luft
