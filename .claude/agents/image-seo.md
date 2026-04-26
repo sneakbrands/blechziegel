@@ -261,7 +261,15 @@ python c:/Users/Administrator/blechziegel-admin-tools/generate_blechziegel_produ
 
 # Mit 6er-Uebersicht (Katalog-Preview)
 python c:/Users/Administrator/blechziegel-admin-tools/generate_blechziegel_product_variants.py --limit 2 --overview
+
+# Mit Debug-Masken (object-mask, recolor-mask, protected-silver-mask je RAL-Variante)
+python c:/Users/Administrator/blechziegel-admin-tools/generate_blechziegel_product_variants.py --limit 2 --overview --debug-mask
 ```
+
+**Optionaler `--debug-mask`-Modus:** Speichert pro RAL-Variante drei Graustufen-WebPs unter `<output>/debug-masks/<variant-stem>/`:
+- `object-mask.webp` — Produkt-Maske (weiss = Produkt, schwarz = Hintergrund)
+- `recolor-mask.webp` — finale Alpha-Maske (weiss = voll recoloriert, schwarz = original/geschuetzt), nach Gaussian-Blur
+- `protected-silver-mask.webp` — Silber-Strength-Map (weiss = stark silbrig, schuetzt vor Recoloring)
 
 **Optionaler 6er-Uebersicht-Modus (`--overview`):**
 - Erzeugt zusaetzlich `blechziegel-produktvarianten-preview.webp` als 3 × 2-Grid (3 Varianten × 2 Hook-Typen)
@@ -276,7 +284,10 @@ python c:/Users/Administrator/blechziegel-admin-tools/generate_blechziegel_produ
 - Layout: 1600 × 1200 px Canvas, weisser Hintergrund, Produkt mittig + weicher Schatten
 - Label oben links: Hauptzeile schwarz `#111827` (Variant-Name), Unterzeile orange `#E85A1C` (mit/ohne Haken)
 - Wasserzeichen: blechziegel.de-Logo, 3× dezent eingeblendet, ~7 % Opacity
-- Bei `mit-haken`: oberste 18 % der Produkt-Bounding-Box wird beim Recoloring ausgespart, damit der metallische Haken erhalten bleibt (Heuristik)
+- Bei `mit-haken`: pixel-basierter Silber-Schutz ueber `silver_strength` (V × (1−S), Schwellwert 0.55) — helle, entsaettigte Pixel (Haken, Bohrplatte, glaenzende Hochlichter) werden geschuetzt; dunklere/farbige Plattenbereiche werden recoloriert. Maske wird mit Gaussian Blur (σ=4) weichgezeichnet → keine harten Rechteckkanten.
+- Bei `ohne-haken`: ganze Produktflaeche wird recoloriert (kein Silber-Schutz)
+- Recoloring erfolgt ueber Alpha-Blending zwischen Original und voll-recoloriertem Bild — weiche Uebergaenge an Maskenkanten
+- Produkt-Skalierung: ca. 70 % der Canvas-Breite (Side-Padding 240 px), Top-Padding 240 px für Label-Luft
 - Output: `<source>/<YYYY-MM-DD>/generated-product-variants/`
 - Log: `variant-generation-log.txt` im selben Ordner
 
