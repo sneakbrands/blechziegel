@@ -37,6 +37,21 @@ body {
   --surface-transition-timing: var(--ease-out-quad);
   --submenu-animation-speed: 360ms;
   --submenu-animation-easing: cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  /* Blechziegel Brand-Tokens (Single Source of Truth).
+     Lokale Snippets duerfen einzelne Werte (z.B. --bz-navy) ueberschreiben,
+     wenn sie eine eigene Page-Variante brauchen — Default-Pfad ist hier. */
+  --bz-navy: #0d1e35;
+  --bz-navy-mid: #152840;
+  --bz-navy-rgb: 13, 30, 53;
+  --bz-orange: #f5a623;
+  --bz-orange-dark: #d4891a;
+  --bz-orange-light: #fff4e0;
+  --bz-orange-rgb: 245, 166, 35;
+  --bz-border: #e2e0d8;
+  --bz-gray-50: #f8f8f6;
+  --bz-gray-100: #f0efeb;
+  --bz-gray-text: #5a5955;
 }
 
 html {
