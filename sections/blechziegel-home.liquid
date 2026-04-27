@@ -207,14 +207,14 @@
   /* Premium Produktkarte */
   .bz-product-card {
     background: #ffffff;
-    border: 1px solid rgba(13, 30, 53, 0.08);
-    border-radius: 22px;
+    border: 1px solid rgba(var(--bz-navy-rgb), 0.08);
+    border-radius: 14px;
     overflow: hidden;
     position: relative;
     display: flex;
     flex-direction: column;
     transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
-    box-shadow: 0 8px 24px rgba(13, 30, 53, 0.05);
+    box-shadow: 0 8px 24px rgba(var(--bz-navy-rgb), 0.05);
   }
   .bz-product-card:hover {
     transform: translateY(-6px);
@@ -579,7 +579,7 @@
     .bz-dach-grid { grid-template-columns: 1fr; }
     .bz-usp-grid { grid-template-columns: 1fr; }
     .bz-products-grid { grid-template-columns: 1fr; }
-    .bz-product-card { border-radius: 18px; }
+    .bz-product-card { border-radius: 12px; }
     .bz-product-img { padding: 12px; }
     .bz-product-img img { padding: 8px; }
     .bz-product-body { padding: 16px 14px 14px; }
