@@ -262,6 +262,12 @@
     color: var(--bz-white);
   }
   .bz-cart-actions .bz-btn-primary:hover { background: var(--bz-hover); }
+  .bz-cart-actions .bz-btn-primary.is-disabled {
+    background: rgba(0,0,0,0.18);
+    color: rgba(255,255,255,0.85);
+    pointer-events: none;
+    cursor: not-allowed;
+  }
 
   @media (max-width: 480px) {
     .bz-cart-panel { max-width: 100%; }
@@ -356,11 +362,11 @@
         <div class="bz-cart-shipping-bar-fill" id="bz-cart-shipping-fill"></div>
       </div>
       <p class="bz-cart-shipping-hint" id="bz-cart-shipping-hint">
-        Noch <strong>50,00 €</strong> bis zum kostenlosen Versand.
+        Noch <strong>50,00 €</strong> bis zum Mindestbestellwert.
       </p>
       <div class="bz-cart-actions">
         <a href="{{ routes.cart_url }}" class="bz-btn-secondary">Warenkorb</a>
-        <a href="{{ routes.cart_url }}/checkout" class="bz-btn-primary">Zur Kasse</a>
+        <a href="{{ routes.cart_url }}/checkout" class="bz-btn-primary" id="bz-cart-checkout-btn" data-min-order-cents="5000">Zur Kasse</a>
       </div>
     </div>
   </aside>
@@ -370,7 +376,10 @@
 (function() {
   'use strict';
 
-  var FREE_SHIPPING_CENTS = 5000; // 50 EUR
+  // 50 EUR Mindestbestellwert DE — entspricht zugleich der einzigen Versandschwelle
+  // (Standard ab 50 EUR kostenlos; unter 50 EUR existiert keine Versandmethode mehr).
+  var MIN_ORDER_CENTS = 5000;
+  var FREE_SHIPPING_CENTS = MIN_ORDER_CENTS; // beibehalten für Bar-Berechnung
   var drawer = document.getElementById('bz-cart-drawer');
   if (!drawer) return;
 
@@ -432,17 +441,39 @@
 
     if (subtotalEl) subtotalEl.textContent = formatEUR(cart.total_price);
 
-    var remaining = FREE_SHIPPING_CENTS - cart.total_price;
+    var remaining = MIN_ORDER_CENTS - cart.total_price;
+    var checkoutBtn = document.getElementById('bz-cart-checkout-btn');
+    var hasItems = cart.items && cart.items.length > 0;
+
     if (hintEl) {
-      if (remaining <= 0) {
-        hintEl.innerHTML = '<strong>Kostenloser Versand freigeschaltet.</strong>';
+      if (!hasItems) {
+        hintEl.innerHTML = 'Mindestbestellwert <strong>50,00 €</strong> · Versand kostenlos.';
+      } else if (remaining <= 0) {
+        hintEl.innerHTML = '<strong>Mindestbestellwert erreicht · Versand kostenlos.</strong>';
       } else {
-        hintEl.innerHTML = 'Noch <strong>' + formatEUR(remaining) + '</strong> bis zum kostenlosen Versand.';
+        hintEl.innerHTML = 'Noch <strong>' + formatEUR(remaining) + '</strong> bis zum Mindestbestellwert.';
       }
     }
     if (fillEl) {
-      var pct = Math.min(100, Math.max(0, (cart.total_price / FREE_SHIPPING_CENTS) * 100));
+      var pct = Math.min(100, Math.max(0, (cart.total_price / MIN_ORDER_CENTS) * 100));
       fillEl.style.width = pct + '%';
+    }
+
+    // Checkout-Button serverseitige Mindestbestellwert-Sperre frontend-mitteilen.
+    // Shopify-Server blockiert unter 50 EUR ohnehin (keine Versandmethode), aber UX
+    // wird hier sauberer geführt.
+    if (checkoutBtn) {
+      if (!hasItems || remaining > 0) {
+        checkoutBtn.classList.add('is-disabled');
+        checkoutBtn.setAttribute('aria-disabled', 'true');
+        checkoutBtn.removeAttribute('href');
+        checkoutBtn.textContent = hasItems ? ('Mindestbestellwert 50 €') : 'Warenkorb leer';
+      } else {
+        checkoutBtn.classList.remove('is-disabled');
+        checkoutBtn.removeAttribute('aria-disabled');
+        checkoutBtn.setAttribute('href', '{{ routes.cart_url }}/checkout');
+        checkoutBtn.textContent = 'Zur Kasse';
+      }
     }
   }
 
