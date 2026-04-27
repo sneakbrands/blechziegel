@@ -131,8 +131,8 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* Action (Dachdecker + Blechziegel) bleibt zentral, Solarpanel rechts wandert hinter das Vorteils-Panel-Overlay */
-    object-position: 30% 55%;
+    /* Action (Blechziegel + Dachhaken) bleibt rechts-zentral, Solarpanel oben rechts wandert hinter das Vorteils-Panel-Overlay */
+    object-position: 70% 50%;
   }
   .bz-hc-panel {
     position: absolute;
@@ -293,10 +293,12 @@
           loading="eager" fetchpriority="high"
           width="{{ hero_img.width }}" height="{{ hero_img.height }}">
       {%- else -%}
-        {%- comment -%} Fallback: bestehendes Theme-Asset (Dachdecker + Blechziegel + Solar) {%- endcomment -%}
+        {%- comment -%} Fallback: Theme-Asset (Blechziegel mit Dachhaken auf Anthrazit-Dach + Solarpanel) {%- endcomment -%}
         <img
-          src="{{ 'ratgeber-hero-dachdecker-blechziegel-montage.webp' | asset_url }}"
-          alt="Dachdecker setzt einen Blechziegel auf ein anthrazitfarbenes Schrägdach mit Solarpanel"
+          src="{{ 'hero-pv-blechziegel-anthrazit-1440.webp' | asset_url }}"
+          srcset="{{ 'hero-pv-blechziegel-anthrazit-1024.webp' | asset_url }} 1024w, {{ 'hero-pv-blechziegel-anthrazit-1440.webp' | asset_url }} 1440w, {{ 'hero-pv-blechziegel-anthrazit-1920.webp' | asset_url }} 1920w"
+          sizes="(max-width: 749px) 100vw, 45vw"
+          alt="Blechziegel mit Dachhaken auf anthrazitfarbenem Schrägdach unter Solarpanel"
           loading="eager" fetchpriority="high">
       {%- endif -%}
 
