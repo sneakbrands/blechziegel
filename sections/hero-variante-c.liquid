@@ -1,0 +1,410 @@
+{%- comment -%}
+  Hero Variante C — Hybrid / Conversion-Optimiert
+  Zweispaltiger Hero mit Bild + Vorteils-Panel-Overlay.
+
+  CI-Tokens: --bz-navy, --bz-orange, --bz-gray-text aus assets/base.css.
+  Inter + Montserrat werden vom Horizon-Theme global geladen.
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign hero_img = s.hero_image
+  assign primary_label = s.primary_cta_label | default: 'Passenden Blechziegel finden'
+  assign primary_link  = s.primary_cta_link  | default: '/pages/ziegel-finder'
+  assign secondary_label = s.secondary_cta_label | default: 'Beratung anfordern'
+  assign secondary_link  = s.secondary_cta_link  | default: '/pages/anfrage'
+-%}
+
+<style>
+  .bz-hc-section {
+    background: #fff;
+    color: var(--bz-navy);
+    padding: 24px 0 0;
+  }
+  .bz-hc-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 0;
+    max-width: 1480px;
+    margin: 0 auto;
+    align-items: stretch;
+  }
+  .bz-hc-text {
+    padding: 56px 56px 48px 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .bz-hc-h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.4rem, 4.6vw, 3.6rem);
+    line-height: 1.0;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin: 0 0 18px;
+  }
+  .bz-hc-h1__top { color: var(--bz-navy); display: block; }
+  .bz-hc-h1__bottom { color: var(--bz-orange); display: block; }
+  .bz-hc-subhead {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 1.125rem;
+    line-height: 1.35;
+    color: var(--bz-navy);
+    margin: 0 0 14px;
+  }
+  .bz-hc-lead {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--bz-gray-text);
+    max-width: 480px;
+    margin: 0 0 28px;
+  }
+  .bz-hc-ctas {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .bz-hc-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 56px;
+    padding: 0 28px;
+    border-radius: 14px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.875rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background .15s ease, color .15s ease, border-color .15s ease, transform .15s ease;
+    cursor: pointer;
+  }
+  .bz-hc-btn--primary {
+    background: var(--bz-navy);
+    color: #fff;
+    border: 1px solid var(--bz-navy);
+  }
+  .bz-hc-btn--primary:hover { background: var(--bz-navy-mid); }
+  .bz-hc-btn--primary:focus-visible { outline: 2px solid var(--bz-orange); outline-offset: 2px; }
+  .bz-hc-btn--secondary {
+    background: transparent;
+    color: var(--bz-navy);
+    border: 1px solid var(--bz-navy);
+  }
+  .bz-hc-btn--secondary:hover { background: rgba(var(--bz-navy-rgb), 0.06); }
+  .bz-hc-btn--secondary:focus-visible { outline: 2px solid var(--bz-orange); outline-offset: 2px; }
+
+  .bz-hc-trust {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    color: var(--bz-gray-text);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+  .bz-hc-trust__item { display: inline-flex; align-items: center; gap: 8px; }
+  .bz-hc-trust__sep {
+    width: 1px; height: 18px;
+    background: var(--bz-border);
+    display: inline-block;
+  }
+  .bz-hc-trust__icon { width: 18px; height: 18px; flex: 0 0 18px; }
+  .bz-hc-trust__icon svg { width: 100%; height: 100%; display: block; }
+
+  .bz-hc-media {
+    position: relative;
+    min-height: 460px;
+    background: var(--bz-navy);
+    overflow: hidden;
+  }
+  .bz-hc-media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  .bz-hc-panel {
+    position: absolute;
+    top: 28px;
+    right: 28px;
+    width: min(360px, calc(100% - 56px));
+    background: var(--bz-navy);
+    color: #fff;
+    border-radius: 14px;
+    padding: 22px 22px 16px;
+    box-shadow: 0 18px 48px rgba(var(--bz-navy-rgb), 0.35);
+  }
+  .bz-hc-panel__title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 1.0625rem;
+    line-height: 1.2;
+    margin: 0 0 16px;
+  }
+  .bz-hc-panel__list { list-style: none; padding: 0; margin: 0 0 16px; }
+  .bz-hc-panel__item {
+    display: flex;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .bz-hc-panel__item:last-child { border-bottom: 0; }
+  .bz-hc-panel__icon {
+    flex: 0 0 28px;
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--bz-orange);
+  }
+  .bz-hc-panel__icon svg { width: 22px; height: 22px; }
+  .bz-hc-panel__text { display: flex; flex-direction: column; gap: 2px; }
+  .bz-hc-panel__h {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.9375rem;
+    line-height: 1.3;
+    color: #fff;
+  }
+  .bz-hc-panel__p {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.72);
+  }
+  .bz-hc-panel__badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: var(--bz-orange);
+    color: var(--bz-navy);
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.8125rem;
+    line-height: 1.3;
+  }
+  .bz-hc-panel__badge svg { width: 16px; height: 16px; flex: 0 0 16px; }
+
+  /* Tablet */
+  @media (max-width: 1100px) {
+    .bz-hc-text { padding: 40px 32px 36px; }
+    .bz-hc-media { min-height: 380px; }
+    .bz-hc-panel { width: min(300px, calc(100% - 32px)); top: 16px; right: 16px; padding: 18px 16px 14px; }
+    .bz-hc-panel__title { font-size: 1rem; margin-bottom: 12px; }
+    .bz-hc-panel__h { font-size: 0.875rem; }
+    .bz-hc-panel__p { font-size: 0.75rem; }
+  }
+
+  /* Mobile (Stack) */
+  @media (max-width: 749px) {
+    .bz-hc-grid { grid-template-columns: 1fr; }
+    .bz-hc-text { padding: 28px 20px 24px; order: 1; }
+    .bz-hc-media { order: 2; min-height: 280px; }
+    .bz-hc-panel {
+      position: static;
+      width: auto;
+      margin: 0 20px 24px;
+      order: 3;
+      background: var(--bz-navy);
+    }
+    .bz-hc-section { padding-bottom: 0; }
+    .bz-hc-grid { gap: 0; }
+    .bz-hc-mobile-panel-wrap { display: block; }
+  }
+
+  /* Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    .bz-hc-btn { transition: none; }
+  }
+</style>
+
+<section class="bz-hc-section" aria-labelledby="bz-hc-h1">
+  <div class="bz-hc-grid">
+
+    <div class="bz-hc-text">
+      <h1 class="bz-hc-h1" id="bz-hc-h1">
+        <span class="bz-hc-h1__top">{{ s.headline_top | default: 'Kein Ziegelbruch' }}</span>
+        <span class="bz-hc-h1__bottom">{{ s.headline_bottom | default: 'bei der PV-Montage.' }}</span>
+      </h1>
+
+      {%- if s.subhead != blank -%}
+        <p class="bz-hc-subhead">{{ s.subhead }}</p>
+      {%- else -%}
+        <p class="bz-hc-subhead">Profi-Qualität. Einfache Montage. Made in Germany.</p>
+      {%- endif -%}
+
+      {%- if s.body_text != blank -%}
+        <div class="bz-hc-lead">{{ s.body_text }}</div>
+      {%- else -%}
+        <p class="bz-hc-lead">Passgenaue Blechziegel, Dachhaken und Zubehör für eine sichere Solarinstallation.</p>
+      {%- endif -%}
+
+      <div class="bz-hc-ctas">
+        <a class="bz-hc-btn bz-hc-btn--primary" href="{{ primary_link }}">{{ primary_label }}</a>
+        <a class="bz-hc-btn bz-hc-btn--secondary" href="{{ secondary_link }}">{{ secondary_label }}</a>
+      </div>
+
+      <div class="bz-hc-trust" role="list">
+        <span class="bz-hc-trust__item" role="listitem">
+          <span class="bz-hc-trust__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="5.33" y="0" fill="#000"/><rect width="24" height="5.33" y="5.33" fill="#DD0000"/><rect width="24" height="5.33" y="10.66" fill="#FFCE00"/></svg>
+          </span>
+          <span>{{ s.trust_1 | default: 'Made in Germany' }}</span>
+        </span>
+        <span class="bz-hc-trust__sep" aria-hidden="true"></span>
+        <span class="bz-hc-trust__item" role="listitem">
+          <span class="bz-hc-trust__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.27 6.96 8.73 5.05 8.73-5.05"/><path d="M12 22.08V12"/></svg>
+          </span>
+          <span>{{ s.trust_2 | default: 'Lagerware' }}</span>
+        </span>
+        <span class="bz-hc-trust__sep" aria-hidden="true"></span>
+        <span class="bz-hc-trust__item" role="listitem">
+          <span class="bz-hc-trust__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
+          </span>
+          <span>{{ s.trust_3 | default: '1–3 Werktage' }}</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="bz-hc-media">
+      {%- if hero_img != blank -%}
+        <img
+          src="{{ hero_img | image_url: width: 1600 }}"
+          srcset="{{ hero_img | image_url: width: 800 }} 800w, {{ hero_img | image_url: width: 1200 }} 1200w, {{ hero_img | image_url: width: 1600 }} 1600w, {{ hero_img | image_url: width: 2000 }} 2000w"
+          sizes="(max-width: 749px) 100vw, 45vw"
+          alt="{{ hero_img.alt | default: 'Blechziegel mit Dachhaken auf einem Schrägdach unter Solarmodul' }}"
+          loading="eager" fetchpriority="high"
+          width="{{ hero_img.width }}" height="{{ hero_img.height }}">
+      {%- else -%}
+        {%- comment -%} Fallback: existierendes Hero-Asset aus Theme {%- endcomment -%}
+        <img
+          src="{{ 'blechziegel-projekt-anfrage-hero-1440.webp' | asset_url }}"
+          alt="Blechziegel mit Dachhaken auf einem Schrägdach unter Solarmodul"
+          loading="eager" fetchpriority="high">
+      {%- endif -%}
+
+      <aside class="bz-hc-panel" aria-label="Vorteile von blechziegel.de">
+        <h2 class="bz-hc-panel__title">{{ s.panel_title | default: 'Deine Vorteile auf einen Blick' }}</h2>
+        <ul class="bz-hc-panel__list">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'benefit' -%}
+              <li class="bz-hc-panel__item" {{ block.shopify_attributes }}>
+                <span class="bz-hc-panel__icon" aria-hidden="true">
+                  {%- case block.settings.icon -%}
+                    {%- when 'shield' -%}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                    {%- when 'puzzle' -%}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19.439 7.85c-.049.322.059.648.289.878l1.568 1.568c.47.47.706 1.087.706 1.704s-.235 1.233-.706 1.704l-1.611 1.611a.98.98 0 0 1-.837.276c-.47-.07-.802-.48-.968-.925a2.501 2.501 0 1 0-3.214 3.214c.446.166.855.497.925.968a.979.979 0 0 1-.276.837l-1.61 1.61a2.404 2.404 0 0 1-1.705.707 2.402 2.402 0 0 1-1.704-.706l-1.568-1.568a1.026 1.026 0 0 0-.877-.29c-.493.074-.84.504-1.02.968a2.5 2.5 0 1 1-3.237-3.237c.464-.18.894-.527.967-1.02a1.026 1.026 0 0 0-.289-.877l-1.568-1.568A2.402 2.402 0 0 1 1.998 12c0-.617.236-1.234.706-1.704L4.23 8.77c.24-.24.581-.353.917-.303.515.077.877.528 1.073 1.01a2.5 2.5 0 1 0 3.259-3.259c-.482-.196-.933-.558-1.01-1.073-.05-.336.062-.676.303-.917l1.525-1.525A2.402 2.402 0 0 1 12 1.998c.617 0 1.234.236 1.704.706l1.568 1.568c.23.23.556.338.877.29.493-.074.84-.504 1.02-.968a2.5 2.5 0 1 1 3.237 3.237c-.464.18-.894.527-.967 1.02Z"/></svg>
+                    {%- when 'clock' -%}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    {%- when 'paintroller' -%}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="6" rx="1"/><path d="M22 9v3a1 1 0 0 1-1 1H10v6"/><circle cx="10" cy="20" r="2"/></svg>
+                    {%- else -%}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  {%- endcase -%}
+                </span>
+                <span class="bz-hc-panel__text">
+                  <span class="bz-hc-panel__h">{{ block.settings.title }}</span>
+                  <span class="bz-hc-panel__p">{{ block.settings.subtitle }}</span>
+                </span>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+
+        {%- if s.badge_text != blank -%}
+          <div class="bz-hc-panel__badge">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 2.39 7.36H22l-6.18 4.49 2.36 7.36L12 16.27 5.82 21.21l2.36-7.36L2 9.36h7.61z"/></svg>
+            <span>{{ s.badge_text }}</span>
+          </div>
+        {%- endif -%}
+      </aside>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero — Variante C",
+  "tag": "section",
+  "class": "shopify-section--hero-variante-c",
+  "settings": [
+    { "type": "header", "content": "Headline" },
+    { "type": "text",   "id": "headline_top",    "label": "Headline (Navy, oben)",    "default": "Kein Ziegelbruch" },
+    { "type": "text",   "id": "headline_bottom", "label": "Headline (Orange, unten)", "default": "bei der PV-Montage." },
+    { "type": "text",     "id": "subhead", "label": "Subheadline", "default": "Profi-Qualität. Einfache Montage. Made in Germany." },
+    { "type": "richtext", "id": "body_text", "label": "Lead-Text", "default": "<p>Passgenaue Blechziegel, Dachhaken und Zubehör für eine sichere Solarinstallation.</p>" },
+
+    { "type": "header", "content": "Buttons" },
+    { "type": "text", "id": "primary_cta_label", "label": "Primary CTA Label", "default": "Passenden Blechziegel finden" },
+    { "type": "url",  "id": "primary_cta_link",  "label": "Primary CTA Link" },
+    { "type": "text", "id": "secondary_cta_label", "label": "Secondary CTA Label", "default": "Beratung anfordern" },
+    { "type": "url",  "id": "secondary_cta_link",  "label": "Secondary CTA Link" },
+
+    { "type": "header", "content": "Trust-Row" },
+    { "type": "text", "id": "trust_1", "label": "Trust 1", "default": "Made in Germany" },
+    { "type": "text", "id": "trust_2", "label": "Trust 2", "default": "Lagerware" },
+    { "type": "text", "id": "trust_3", "label": "Trust 3", "default": "1–3 Werktage" },
+
+    { "type": "header", "content": "Bild (rechts)" },
+    { "type": "image_picker", "id": "hero_image", "label": "Hero-Bild" },
+
+    { "type": "header", "content": "Vorteils-Panel (Overlay)" },
+    { "type": "text", "id": "panel_title", "label": "Panel-Titel", "default": "Deine Vorteile auf einen Blick" },
+    { "type": "text", "id": "badge_text",  "label": "Trust-Badge (Orange) — leer lassen zum Ausblenden", "default": "Über 10.000 zufriedene Kunden vertrauen auf blechziegel.de" }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Vorteil",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "select", "id": "icon", "label": "Icon",
+          "options": [
+            { "value": "shield",      "label": "Schild / Witterung" },
+            { "value": "puzzle",      "label": "Puzzle / Passgenau" },
+            { "value": "clock",       "label": "Uhr / Schnell" },
+            { "value": "paintroller", "label": "Farbroller / Optik" },
+            { "value": "check",       "label": "Check (Generic)" }
+          ],
+          "default": "shield"
+        },
+        { "type": "text", "id": "title",    "label": "Titel" },
+        { "type": "text", "id": "subtitle", "label": "Untertitel (1 Zeile)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero — Variante C (Hybrid)",
+      "blocks": [
+        { "type": "benefit", "settings": { "icon": "shield",      "title": "Witterungsbeständiges Aluminium", "subtitle": "Für maximale Langlebigkeit auf dem Dach." } },
+        { "type": "benefit", "settings": { "icon": "puzzle",      "title": "Passgenau für alle gängigen Ziegelprofile", "subtitle": "Kein Flexen. Kein Anpassen. Einfach passt." } },
+        { "type": "benefit", "settings": { "icon": "clock",       "title": "Montage in wenigen Minuten", "subtitle": "Kein Ziegelbruch. Kein Spezialwerkzeug." } },
+        { "type": "benefit", "settings": { "icon": "paintroller", "title": "Optisch perfekt integriert", "subtitle": "Erhält die Optik deines Daches." } }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["index", "page"]
+  }
+}
+{% endschema %}
