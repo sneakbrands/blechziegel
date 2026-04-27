@@ -77,29 +77,18 @@
   .bz-btn-outline:hover { background: var(--bz-navy); color: #fff; }
 
   /* ── 1. HERO ── */
-  .bz-hero {
-    background: var(--bz-navy);
-    position: relative;
-    overflow: hidden;
-    /* Width-Cap auf Bild-Native-Breite (1920) — auf Ultrawide-Displays bleibt der
-       Hero zentriert, statt das Bild horizontal zu zerstrecken. */
-    max-width: 1920px;
-    margin: 0 auto;
-  }
+  .bz-hero { background: var(--bz-navy); position: relative; overflow: hidden; }
   .bz-hero-img {
     width: 100%; display: block;
-    /* Höhe folgt natürlicher Bild-Aspect (≈2.36:1) bis Viewport ≤ 1920 px,
-       darüber Width-Cap der Section — kein aggressives Cropping mehr. */
-    aspect-ratio: 1920 / 815;
-    height: auto;
-    max-height: 815px;
-    object-fit: cover;
-    object-position: 70% center;
+    /* Höhe skaliert mit Viewport, kappt aber bei breiten/ultrawiden Displays:
+       <1300 px: 45vw natürlich, ~380–585 px
+       1300–1920: ~585–720 px (capped)
+       >1920 px (Ultrawide): bleibt 720 px statt aggressiv zu beschneiden */
+    height: clamp(380px, 45vw, 720px);
+    object-fit: cover; object-position: 70% center;
   }
   .bz-hero-img-placeholder {
-    width: 100%;
-    aspect-ratio: 1920 / 815;
-    max-height: 815px;
+    width: 100%; height: clamp(380px, 45vw, 720px);
     background: linear-gradient(135deg, #0d1e35 0%, #1e3a56 100%);
   }
   .bz-hero-overlay {
