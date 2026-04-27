@@ -1,6 +1,7 @@
 scripts/.notify_state.json
 .env
 .claude/settings.local.json
+.claude/skills/
 scripts/nav-test/node_modules/
 scripts/nav-test/run.log
 scripts/nav-test/package-lock.json
