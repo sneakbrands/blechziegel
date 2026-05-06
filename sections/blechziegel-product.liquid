@@ -2352,6 +2352,157 @@
 
 {%- comment -%} Zubehör Section entfernt — Zubehör ist jetzt inline im Kaufbereich {%- endcomment -%}
 
+{%- comment -%} Sticky Add-to-Cart Bar — erscheint nur, wenn der Haupt-ATC nicht im Viewport ist {%- endcomment -%}
+<div class="bz-sticky-atc" id="bz-sticky-atc" aria-hidden="true" role="region" aria-label="Schnellzugriff Warenkorb">
+  <div class="bz-sticky-atc__inner">
+    {%- if product.featured_image -%}
+      <img class="bz-sticky-atc__img" src="{{ product.featured_image | image_url: width: 120 }}" alt="" loading="lazy" width="48" height="48">
+    {%- endif -%}
+    <div class="bz-sticky-atc__meta">
+      <span class="bz-sticky-atc__title">{{ product.title | escape }}</span>
+      <span class="bz-sticky-atc__price" id="bz-sticky-price">{{ product.price | money }}</span>
+    </div>
+    <button type="button" class="bz-sticky-atc__btn" id="bz-sticky-atc-btn" aria-label="In den Warenkorb">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span class="bz-sticky-atc__btn-label">In den Warenkorb</span>
+    </button>
+  </div>
+</div>
+<style>
+  .bz-sticky-atc {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 60;
+    background: #fff;
+    border-top: 1px solid #DFDFDF;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+    transform: translateY(100%);
+    transition: transform .25s ease;
+    pointer-events: none;
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+  .bz-sticky-atc[data-visible="true"] {
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .bz-sticky-atc__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+  }
+  .bz-sticky-atc__img {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: #f5f5f5;
+    flex-shrink: 0;
+  }
+  .bz-sticky-atc__meta {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+  }
+  .bz-sticky-atc__title {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .bz-sticky-atc__price {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: rgba(0,0,0,0.6);
+    font-variant-numeric: tabular-nums;
+  }
+  .bz-sticky-atc__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    padding: 12px 18px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .15s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .bz-sticky-atc__btn:hover { background: #333; }
+  .bz-sticky-atc__btn:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
+  .bz-sticky-atc__btn:disabled { background: #999; cursor: not-allowed; }
+  @media (max-width: 540px) {
+    .bz-sticky-atc__title { font-size: 13px; }
+    .bz-sticky-atc__btn { padding: 10px 14px; font-size: 13px; }
+    .bz-sticky-atc__btn-label { display: none; }
+    .bz-sticky-atc__img { width: 40px; height: 40px; }
+  }
+</style>
+<script>
+  (function(){
+    var bar = document.getElementById('bz-sticky-atc');
+    var btn = document.getElementById('bz-sticky-atc-btn');
+    var priceEl = document.getElementById('bz-sticky-price');
+    var mainAtc = document.getElementById('bz-atc');
+    var mainPrice = document.querySelector('.bz-price__current') || document.querySelector('[data-bz-price-current]');
+    var form = document.getElementById('bz-product-form');
+    if (!bar || !btn || !mainAtc || !form) return;
+
+    /* Sichtbarkeit per IntersectionObserver — Bar zeigt sich, wenn Haupt-ATC weg ist */
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          bar.setAttribute('data-visible', entry.isIntersecting ? 'false' : 'true');
+        });
+      }, { rootMargin: '0px 0px -20% 0px' });
+      io.observe(mainAtc);
+    } else {
+      bar.setAttribute('data-visible', 'true');
+    }
+
+    /* Klick → Haupt-Form submitten */
+    btn.addEventListener('click', function(){
+      btn.disabled = true;
+      btn.querySelector('.bz-sticky-atc__btn-label') && (btn.querySelector('.bz-sticky-atc__btn-label').textContent = 'Wird hinzugefügt…');
+      if (typeof form.requestSubmit === 'function') form.requestSubmit();
+      else form.submit();
+      setTimeout(function(){
+        btn.disabled = false;
+        var lbl = btn.querySelector('.bz-sticky-atc__btn-label');
+        if (lbl) lbl.textContent = 'In den Warenkorb';
+      }, 1500);
+    });
+
+    /* Preis-Sync: Live-Update bei Variantenwechsel (lauscht auf Mutationen am Haupt-Preis) */
+    if (mainPrice && priceEl) {
+      var mo = new MutationObserver(function(){
+        priceEl.textContent = mainPrice.textContent.trim();
+      });
+      mo.observe(mainPrice, { childList: true, subtree: true, characterData: true });
+    }
+
+    /* Variant-Verfügbarkeit — disable wenn Haupt-ATC disabled */
+    var atcMo = new MutationObserver(function(){
+      btn.disabled = mainAtc.disabled;
+    });
+    atcMo.observe(mainAtc, { attributes: true, attributeFilter: ['disabled'] });
+  })();
+</script>
+
 {% schema %}
 {
   "name": "Blechziegel Produktseite",
