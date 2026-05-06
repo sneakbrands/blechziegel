@@ -399,7 +399,7 @@
           "handle": {{ product.handle | json }},
           "title":  {{ product.title | json }},
           "url":    {{ product.url | json }},
-          "image":  {{ product.featured_image | image_url: width: 600 | prepend: 'https:' | json }},
+          "image":  {%- if product.featured_image -%}{{ product.featured_image | image_url: width: 600 | prepend: 'https:' | json }}{%- else -%}null{%- endif -%},
           "price_min": {{ product.price_min | divided_by: 100.0 }},
           "laenge": {{ l | default: 0 }},
           "breite": {{ b | default: 0 }},
