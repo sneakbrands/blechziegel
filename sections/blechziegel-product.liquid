@@ -2142,6 +2142,8 @@
         if (mainImg) mainImg.src = 'https:' + imgSrcBase + sep + 'width=800';
         var stickyImg = document.getElementById('bz-sticky-image');
         if (stickyImg) stickyImg.src = 'https:' + imgSrcBase + sep + 'width=120';
+        var stickyCartImg = document.getElementById('bz-sticky-cart-img');
+        if (stickyCartImg) stickyCartImg.src = 'https:' + imgSrcBase + sep + 'width=120';
 
         // Aktiven Thumbnail-State auf das passende Thumb spiegeln
         document.querySelectorAll('.bz-gallery-thumb').forEach(function(t) {
@@ -2356,7 +2358,7 @@
 <div class="bz-sticky-cart" id="bz-sticky-cart" data-visible="false" role="region" aria-label="Schnellzugriff Warenkorb">
   <div class="bz-sticky-cart__inner">
     {%- if product.featured_image -%}
-      <img class="bz-sticky-cart__img" src="{{ product.featured_image | image_url: width: 120 }}" alt="" loading="lazy" width="48" height="48">
+      <img class="bz-sticky-cart__img" id="bz-sticky-cart-img" src="{{ product.featured_image | image_url: width: 120 }}" alt="" loading="lazy" width="48" height="48">
     {%- endif -%}
     <div class="bz-sticky-cart__meta">
       <span class="bz-sticky-cart__title">{{ product.title | escape }}</span>
