@@ -1441,6 +1441,21 @@
           {%- endif -%}
         {%- endfor -%}
 
+        <!-- Menge + ATC (über der Farbauswahl) -->
+        <div class="bz-qty-cta">
+          <div class="bz-qty">
+            <button type="button" onclick="bzQty(-1)">&#8722;</button>
+            <input type="number" name="quantity" id="bz-qty-input" value="1" min="1" max="999">
+            <button type="button" onclick="bzQty(1)">&#43;</button>
+          </div>
+          <button type="submit" class="bz-atc-btn" id="bz-atc">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            In den Warenkorb
+          </button>
+        </div>
+
+        <hr class="bz-divider">
+
         {%- for option in product.options_with_values -%}
           {%- comment -%} Shopify Default-Option "Title" (Produkt ohne echte Varianten) NICHT rendern {%- endcomment -%}
           {%- if option.name == 'Title' and option.values.size == 1 and option.values.first == 'Default Title' -%}
@@ -1612,19 +1627,6 @@
         {%- endunless -%}
 
         <hr class="bz-divider">
-
-        <!-- Menge + ATC -->
-        <div class="bz-qty-cta">
-          <div class="bz-qty">
-            <button type="button" onclick="bzQty(-1)">&#8722;</button>
-            <input type="number" name="quantity" id="bz-qty-input" value="1" min="1" max="999">
-            <button type="button" onclick="bzQty(1)">&#43;</button>
-          </div>
-          <button type="submit" class="bz-atc-btn" id="bz-atc">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-            In den Warenkorb
-          </button>
-        </div>
 
         {%- comment -%} Projekt-Note: nur sichtbar bei Gewerbekunde {%- endcomment -%}
         <div class="bz-project-note" id="bz-project-note" role="note" style="display:none;">
