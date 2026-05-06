@@ -2362,6 +2362,11 @@
       <span class="bz-sticky-cart__title">{{ product.title | escape }}</span>
       <span class="bz-sticky-cart__price" id="bz-sticky-cart-price">{{ product.price | money }}</span>
     </div>
+    <div class="bz-sticky-cart__qty" role="group" aria-label="Menge">
+      <button type="button" class="bz-sticky-cart__qty-btn" data-qty-step="-1" aria-label="Menge verringern">−</button>
+      <input type="number" class="bz-sticky-cart__qty-input" id="bz-sticky-cart-qty" value="1" min="1" max="999" inputmode="numeric" aria-label="Menge">
+      <button type="button" class="bz-sticky-cart__qty-btn" data-qty-step="1" aria-label="Menge erhöhen">+</button>
+    </div>
     <button type="button" class="bz-sticky-cart__btn" id="bz-sticky-cart-btn" aria-label="In den Warenkorb">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
       <span class="bz-sticky-cart__btn-label">In den Warenkorb</span>
@@ -2426,31 +2431,76 @@
     color: rgba(0,0,0,0.6);
     font-variant-numeric: tabular-nums;
   }
+  .bz-sticky-cart__qty {
+    display: inline-flex;
+    align-items: stretch;
+    border: 1px solid #DFDFDF;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    flex-shrink: 0;
+    height: 44px;
+  }
+  .bz-sticky-cart__qty-btn {
+    width: 36px;
+    background: #fff;
+    border: none;
+    color: #0d1e35;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .15s ease;
+    line-height: 1;
+  }
+  .bz-sticky-cart__qty-btn:hover { background: #f5f5f5; }
+  .bz-sticky-cart__qty-input {
+    width: 44px;
+    border: none;
+    border-left: 1px solid #DFDFDF;
+    border-right: 1px solid #DFDFDF;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #0d1e35;
+    -moz-appearance: textfield;
+    background: #fff;
+  }
+  .bz-sticky-cart__qty-input::-webkit-outer-spin-button,
+  .bz-sticky-cart__qty-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .bz-sticky-cart__qty-input:focus { outline: none; }
   .bz-sticky-cart__btn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: #000;
+    background: #0d1e35;
     color: #fff;
     border: none;
     border-radius: 14px;
-    padding: 12px 18px;
+    padding: 0 22px;
+    height: 44px;
     font-family: 'Inter', sans-serif;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     transition: background .15s ease;
     white-space: nowrap;
     flex-shrink: 0;
   }
-  .bz-sticky-cart__btn:hover { background: #333; }
-  .bz-sticky-cart__btn:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
+  .bz-sticky-cart__btn:hover { background: #152840; }
+  .bz-sticky-cart__btn:focus-visible { outline: 2px solid #0d1e35; outline-offset: 2px; }
   .bz-sticky-cart__btn:disabled { background: #999; cursor: not-allowed; }
   @media (max-width: 540px) {
+    .bz-sticky-cart__inner { gap: 8px; padding: 8px 12px; }
     .bz-sticky-cart__title { font-size: 13px; }
-    .bz-sticky-cart__btn { padding: 10px 14px; font-size: 13px; }
+    .bz-sticky-cart__price { font-size: 12px; }
+    .bz-sticky-cart__btn { padding: 0 14px; font-size: 13px; }
     .bz-sticky-cart__btn-label { display: none; }
     .bz-sticky-cart__img { width: 40px; height: 40px; }
+    .bz-sticky-cart__qty { height: 40px; }
+    .bz-sticky-cart__qty-btn { width: 30px; font-size: 16px; }
+    .bz-sticky-cart__qty-input { width: 36px; font-size: 13px; }
+    .bz-sticky-cart__btn { height: 40px; }
   }
 </style>
 <script>
@@ -2475,7 +2525,39 @@
         bar.setAttribute('data-visible', 'true');
       }
 
+      // Mengen-Sync zwischen Sticky-Qty und Haupt-Qty (#bz-qty-input)
+      var stickyQty = document.getElementById('bz-sticky-cart-qty');
+      var mainQty = document.getElementById('bz-qty-input');
+      function clampQty(v){ v = parseInt(v, 10); if (isNaN(v) || v < 1) v = 1; if (v > 999) v = 999; return v; }
+      if (stickyQty && mainQty) {
+        // Initial-Sync
+        stickyQty.value = clampQty(mainQty.value);
+        // Sticky → Main
+        stickyQty.addEventListener('input', function(){
+          var v = clampQty(stickyQty.value);
+          stickyQty.value = v;
+          mainQty.value = v;
+          mainQty.dispatchEvent(new Event('input', { bubbles: true }));
+          mainQty.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+        // Main → Sticky
+        mainQty.addEventListener('input', function(){
+          stickyQty.value = clampQty(mainQty.value);
+        });
+      }
+      // Sticky-Qty +/- Buttons
+      bar.querySelectorAll('.bz-sticky-cart__qty-btn').forEach(function(b){
+        b.addEventListener('click', function(){
+          if (!stickyQty) return;
+          var step = parseInt(b.getAttribute('data-qty-step'), 10) || 0;
+          stickyQty.value = clampQty((parseInt(stickyQty.value, 10) || 1) + step);
+          stickyQty.dispatchEvent(new Event('input', { bubbles: true }));
+        });
+      });
+
       btn.addEventListener('click', function(){
+        // Vor Submit: Sticky-Qty in Haupt-Qty schreiben (Form sendet name="quantity" vom Haupt-Input)
+        if (stickyQty && mainQty) mainQty.value = clampQty(stickyQty.value);
         btn.disabled = true;
         var lbl = btn.querySelector('.bz-sticky-cart__btn-label');
         if (lbl) lbl.textContent = 'Wird hinzugefügt…';
