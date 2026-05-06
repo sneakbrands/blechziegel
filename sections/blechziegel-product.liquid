@@ -2060,11 +2060,47 @@
     });
 
     var variants = {{ product.variants | json }};
+    var productImages = {{ product.images | json }};
     var matched = variants.find(function(v) {
       return Object.keys(opts).every(function(pos) {
         return v['option' + pos] === opts[pos];
       });
     });
+
+    // Filename-basierter Fallback fuer Bilder, wenn die Variant→Image-Verknuepfung
+    // im Shopify-Admin nicht gesetzt ist. Erwartetes Schema:
+    // <slug>-<farb-slug>-<haken-slug>.webp
+    function bzColorSlug(value) {
+      if (!value) return '';
+      var v = String(value).toLowerCase();
+      if (v.indexOf('aluminium') !== -1) return 'aluminium-blank';
+      if (v.indexOf('anthrazit')  !== -1) return 'anthrazit';
+      if (v.indexOf('ziegelrot')  !== -1) return 'ziegelrot';
+      return '';
+    }
+    function bzHakenSlug(value) {
+      if (!value) return '';
+      var v = String(value).toLowerCase();
+      if (v.indexOf('mit') !== -1)  return 'mit-haken';
+      if (v.indexOf('ohne') !== -1) return 'ohne-haken';
+      return '';
+    }
+    function bzFindImageByFilename(variant) {
+      if (!variant || !productImages || !productImages.length) return null;
+      var color = bzColorSlug(variant.option1);
+      var haken = bzHakenSlug(variant.option2);
+      if (!color) return null;
+      // Erst exakter Match (Farbe + Haken), dann nur Farbe
+      var exact = null, partial = null;
+      for (var i = 0; i < productImages.length; i++) {
+        var url = String(productImages[i] || '').toLowerCase();
+        var hasColor = url.indexOf(color) !== -1;
+        var hasHaken = haken && url.indexOf(haken) !== -1;
+        if (hasColor && hasHaken && !exact) exact = productImages[i];
+        if (hasColor && !partial)            partial = productImages[i];
+      }
+      return exact || partial;
+    }
 
     // Sticky-Kontext immer aktualisieren (auch wenn keine Variante matcht)
     var ctxEl = document.getElementById('bz-sticky-context');
@@ -2090,12 +2126,30 @@
       document.getElementById('bz-price').textContent = price;
       document.getElementById('bz-sticky-price').textContent = price;
 
-      // Bild wechseln wenn vorhanden
-      if (matched.featured_image) {
+      // Bild wechseln — Primaerquelle: Variant-Image-Mapping aus Shopify-Admin.
+      // Fallback: Filename-Match in product.images (resilient gegen fehlende Mappings).
+      var imgSrcBase = null;
+      if (matched.featured_image && matched.featured_image.src) {
+        imgSrcBase = matched.featured_image.src; // protokolllos: //cdn.shopify.com/...
+      } else {
+        var fb = bzFindImageByFilename(matched);
+        if (fb) imgSrcBase = String(fb).replace(/^https?:/, '');
+      }
+      if (imgSrcBase) {
+        // Vorhandene ?v=...-Querystrings beibehalten, width hinten anhaengen
+        var sep = imgSrcBase.indexOf('?') === -1 ? '?' : '&';
         var mainImg = document.getElementById('bz-main-img-tag');
-        if (mainImg) mainImg.src = 'https:' + matched.featured_image.src + '&width=800';
+        if (mainImg) mainImg.src = 'https:' + imgSrcBase + sep + 'width=800';
         var stickyImg = document.getElementById('bz-sticky-image');
-        if (stickyImg) stickyImg.src = 'https:' + matched.featured_image.src + '&width=120';
+        if (stickyImg) stickyImg.src = 'https:' + imgSrcBase + sep + 'width=120';
+
+        // Aktiven Thumbnail-State auf das passende Thumb spiegeln
+        document.querySelectorAll('.bz-gallery-thumb').forEach(function(t) {
+          var ds = (t.dataset.src || '').toLowerCase();
+          var match = ds.indexOf(imgSrcBase.split('?')[0].toLowerCase()) !== -1;
+          t.classList.toggle('active', match);
+          t.setAttribute('aria-current', match ? 'true' : 'false');
+        });
       }
 
       // ATC Status (Haupt + Sticky synchron)
