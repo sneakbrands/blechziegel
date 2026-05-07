@@ -386,31 +386,12 @@
 <script>
   (function(){
     /* ══ DATEN ══
-       SHOPIFY_PRODUCTS: dynamisch aus Collection "pv-dachziegel"
-       + deren Metafields (Länge, Breite, passende Hersteller).
+       SHOPIFY_PRODUCTS: aus assets/ziegel-finder-data.json (per Admin-API-Build).
+       Umgeht das 50-Produkt-Limit von Liquid-collections und liefert alle 143
+       aktiv gepflegten Ziegel-Produkte.
     */
-    var SHOPIFY_PRODUCTS = [
-      {%- for product in collections.pv-dachziegel.products -%}
-        {%- assign l = product.metafields.custom.laenge.value -%}
-        {%- assign b = product.metafields.custom.breite.value -%}
-        {%- assign h = product.metafields.custom.passende_hersteller.value -%}
-        {%- if h -%}
-        {
-          "handle": {{ product.handle | json }},
-          "title":  {{ product.title | json }},
-          "url":    {{ product.url | json }},
-          "image":  {%- if product.featured_image -%}{{ product.featured_image | image_url: width: 600 | prepend: 'https:' | json }}{%- else -%}null{%- endif -%},
-          "price_min": {{ product.price_min | divided_by: 100.0 }},
-          "laenge": {{ l | default: 0 }},
-          "breite": {{ b | default: 0 }},
-          "profiles": [
-            {%- for v in h -%}{{ v | json }}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}
-          ],
-          "desc": {{ product.description | strip_html | truncate: 140 | json }}
-        }{%- unless forloop.last -%},{%- endunless -%}
-        {%- endif -%}
-      {%- endfor -%}
-    ].filter(p => p && p.handle);
+    var DATA_URL = {{ 'ziegel-finder-data.json' | asset_url | json }};
+    var SHOPIFY_PRODUCTS = [];
 
     /* ══ MFR_MAP ══
        Abgeleitet aus SHOPIFY_PRODUCTS. Einzige Finder-Datenquelle.
@@ -419,7 +400,7 @@
        Produkt-Dimensionen gelten als Profil-Dimensionen (Blechziegel-Semantik).
     */
     var MFR_MAP = {};
-    (function buildMfrMap(){
+    function buildMfrMap(){
       var seen = {};
       SHOPIFY_PRODUCTS.forEach(function(p){
         if (!p) return;
@@ -444,7 +425,7 @@
           });
         });
       });
-    })();
+    }
 
     var body = document.getElementById('zf-body');
     var stepsEls = document.querySelectorAll('.zf-step');
@@ -718,7 +699,18 @@
     }
 
     updateStepper();
-    render();
+
+    fetch(DATA_URL, { credentials: 'omit' })
+      .then(function(r){ if (!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+      .then(function(data){
+        SHOPIFY_PRODUCTS = Array.isArray(data) ? data.filter(function(p){ return p && p.handle; }) : [];
+        buildMfrMap();
+        render();
+      })
+      .catch(function(err){
+        body.innerHTML = '<div class="zf-empty">Finder-Daten konnten nicht geladen werden. Bitte Seite neu laden oder <a href="{{ anfrage_url }}" style="color:var(--bz-orange-dark);font-weight:700;">Beratung anfragen</a>.</div>';
+        if (window.console) console.error('[ziegel-finder]', err);
+      });
   })();
 </script>
 
