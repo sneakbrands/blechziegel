@@ -685,8 +685,14 @@
       <h2>Die meistgekauften PV-Dachziegel</h2>
     </div>
     <div class="bz-products-grid">
-      {%- for product in bestseller_collection.products limit: 3 -%}
-        {% render 'bz-product-card', product: product, show_bestseller: forloop.first %}
+      {%- assign _bs_shown = 0 -%}
+      {%- for product in bestseller_collection.products -%}
+        {%- comment -%} Zubehoer (Dachhaken/Schraube/Versteifung etc.) ueberspringen {%- endcomment -%}
+        {%- if product.type == 'Ziegel' -%}
+          {% render 'bz-product-card', product: product, show_bestseller: _bs_shown == 0 %}
+          {%- assign _bs_shown = _bs_shown | plus: 1 -%}
+          {%- if _bs_shown >= 3 -%}{%- break -%}{%- endif -%}
+        {%- endif -%}
       {%- endfor -%}
     </div>
     <div class="bz-products-more">
