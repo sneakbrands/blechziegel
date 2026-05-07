@@ -786,6 +786,24 @@
     flex-direction: column;
     gap: 1px;
   }
+  .bz-filter-dropdown {
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    background: #fff;
+    border: 1.5px solid var(--bz-border, #DFDFDF);
+    border-radius: 8px;
+    padding: 10px 36px 10px 12px;
+    font: 500 14px 'Inter', sans-serif;
+    color: var(--bz-navy, #0d1e35);
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%230d1e35' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    transition: border-color .15s;
+  }
+  .bz-filter-dropdown:hover { border-color: var(--bz-orange, #f5a623); }
+  .bz-filter-dropdown:focus { outline: 2px solid var(--bz-orange, #f5a623); outline-offset: 2px; border-color: var(--bz-orange, #f5a623); }
   .bz-filter-option {
     display: flex;
     align-items: center;
@@ -1375,7 +1393,9 @@
             {%- if filter.presentation == 'swatch' -%}{%- assign bz_is_color = true -%}{%- endif -%}
             {%- assign label_lower = filter.label | downcase -%}
             {%- if label_lower contains 'farbe' or label_lower contains 'color' -%}{%- assign bz_is_color = true -%}{%- endif -%}
-            <details class="bz-filter-group{% if bz_is_color %} bz-filter-group--color{% endif %}" open>
+            {%- assign bz_is_hersteller = false -%}
+            {%- if filter.param_name == 'filter.p.m.custom.passende_hersteller' -%}{%- assign bz_is_hersteller = true -%}{%- endif -%}
+            <details class="bz-filter-group{% if bz_is_color %} bz-filter-group--color{% endif %}{% if bz_is_hersteller %} bz-filter-group--dropdown{% endif %}"{% if filter.active_values.size > 0 %} open{% endif %}>
               <summary class="bz-filter-group-summary">
                 <span class="bz-filter-group-title">{{ filter.label }}</span>
                 {%- if filter.active_values.size > 0 -%}
@@ -1383,6 +1403,16 @@
                 {%- endif -%}
               </summary>
               <div class="bz-filter-options">
+                {%- if bz_is_hersteller -%}
+                  {%- assign _active_h = '' -%}
+                  {%- if filter.active_values.size > 0 -%}{%- assign _active_h = filter.active_values.first.value -%}{%- endif -%}
+                  <select class="bz-filter-dropdown" data-param="{{ filter.param_name }}" onchange="bzApplyDropdownFilter(this)" aria-label="{{ filter.label | escape }}">
+                    <option value="">Alle Hersteller</option>
+                    {%- for value in filter.values -%}
+                      <option value="{{ value.value | escape }}" data-url="{{ value.url | escape }}"{% if value.active %} selected{% endif %}>{{ value.label }} ({{ value.count }})</option>
+                    {%- endfor -%}
+                  </select>
+                {%- else -%}
                 {%- for value in filter.values -%}
                   {%- assign swatch_color = '' -%}
                   {%- if bz_is_color -%}
@@ -1420,6 +1450,7 @@
                     <span class="bz-filter-option-count">{{ value.count }}</span>
                   </label>
                 {%- endfor -%}
+                {%- endif -%}
               </div>
             </details>
           {%- endunless -%}
@@ -1596,6 +1627,17 @@
 
   function bzResetDachtyp() {
     window.location.href = '{{ collection.url }}';
+  }
+
+  function bzApplyDropdownFilter(sel) {
+    var url = new URL(window.location.href);
+    var name = sel.dataset.param;
+    url.searchParams.delete(name);
+    if (sel.value) {
+      url.searchParams.append(name, sel.value);
+    }
+    url.searchParams.delete('page');
+    window.location.href = url.toString();
   }
 
   // Reset-Button anzeigen wenn Filter aktiv
