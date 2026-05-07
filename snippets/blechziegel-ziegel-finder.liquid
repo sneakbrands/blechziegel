@@ -260,7 +260,7 @@
                   {{ 'blechziegel-ziegel-finder-hero-1920.jpg' | asset_url }} 1920w"
           sizes="100vw"
           alt="Dachziegel-Unterseite mit Herstellerprägung wird mit Aluminium-Blechziegel-Profilen auf Werkbank verglichen – Ziegel Finder bei blechziegel.de"
-          title="Ziegel Finder – Passenden Blechziegel nach Hersteller und Maß finden"
+          title="Ziegel Finder – Passenden Blechziegel nach Hersteller und Ziegeltyp finden"
           width="1920" height="814"
           loading="eager" fetchpriority="high" decoding="async">
       </picture>
@@ -272,7 +272,7 @@
       </div>
       <h1 id="zf-hero-title">Passenden <span>Blechziegel finden.</span><br>In drei Schritten zum richtigen Produkt.</h1>
       <p class="hp-hero__sub">
-        Wählen Sie Hersteller und Maße Ihres Dachziegels — wir führen Sie anhand von Hersteller und Maß zum passenden Produkt.
+        Wählen Sie Hersteller und Ziegeltyp/Modell Ihres Dachziegels — beides steht meistens auf der Unterseite eingeprägt. Der Finder führt Sie zum passenden Aluminium-Blechziegel.
       </p>
       <div class="hp-hero__cta">
         <a href="#zf-app" class="hp-btn hp-btn--primary">
@@ -285,7 +285,7 @@
       </div>
       <div class="hp-hero__trust">
         <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Passendes Produkt direkt finden</div>
-        <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Auswahl nach Hersteller &amp; Maß</div>
+        <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Auswahl nach Hersteller &amp; Ziegeltyp</div>
         <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Sonderanfertigungen möglich</div>
         <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Rückmeldung in der Regel in 24 Std. (Werktage)</div>
       </div>
@@ -308,18 +308,13 @@
           </div>
           <div class="zf-step" data-step-ind="2" role="button" tabindex="-1">
             <span class="zf-step__num">02</span>
-            <span class="zf-step__label">Länge</span>
+            <span class="zf-step__label">Ziegeltyp / Modell</span>
             <span class="zf-step__val" data-val="2"></span>
           </div>
           <div class="zf-step" data-step-ind="3" role="button" tabindex="-1">
             <span class="zf-step__num">03</span>
-            <span class="zf-step__label">Breite</span>
-            <span class="zf-step__val" data-val="3"></span>
-          </div>
-          <div class="zf-step" data-step-ind="4" role="button" tabindex="-1">
-            <span class="zf-step__num">04</span>
             <span class="zf-step__label">Ergebnis</span>
-            <span class="zf-step__val" data-val="4"></span>
+            <span class="zf-step__val" data-val="3"></span>
           </div>
         </nav>
 
@@ -337,8 +332,8 @@
         </div>
         <div class="zf-tip">
           <div class="zf-tip__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H6V4h12v16zM8 9h8v2H8zm0 4h8v2H8z"/></svg></div>
-          <div class="zf-tip__title">Maße messen</div>
-          <div class="zf-tip__text">Länge = längere Seite, Breite = kürzere Seite. Gemessen an der sichtbaren Oberseite in Millimetern.</div>
+          <div class="zf-tip__title">Modell ablesen</div>
+          <div class="zf-tip__text">Direkt unter dem Hersteller steht meistens der Ziegeltyp, z.&nbsp;B. „Harzer Pfanne", „Frankfurter Pfanne" oder „Rubin 13".</div>
         </div>
         <div class="zf-tip">
           <div class="zf-tip__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 2L7.2 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.2L15 2H9zm3 15a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/></svg></div>
@@ -397,62 +392,69 @@
        Abgeleitet aus SHOPIFY_PRODUCTS (Asset ziegel-finder-data.json).
        Datenquelle ist `matches` pro Produkt — bereits normalisiert auf
        {profil, hersteller}-Paare im Build-Skript.
+
+       Zielstruktur (3-Schritt-Flow):
+         MFR_MAP[hersteller] = [ { profil, products: [product, ...] }, ... ]
+         — gruppiert nach Hersteller + Profil, dedupliziert per product.handle.
     */
     var MFR_MAP = {};
     function buildMfrMap(){
       MFR_MAP = {};
-      var seen = {};
+      // tmp: hersteller -> profil -> { profil, productsByHandle:{} }
+      var tmp = {};
       SHOPIFY_PRODUCTS.forEach(function(p){
-        if (!p) return;
-        if (typeof p.laenge !== 'number' || typeof p.breite !== 'number') return;
-        if (p.laenge <= 0 || p.breite <= 0) return;
+        if (!p || !p.handle) return;
         if (!Array.isArray(p.matches)) return;
+        // Dedupliziere matches pro Produkt nach hersteller|profil
+        var seenPair = {};
         p.matches.forEach(function(m){
           if (!m || !m.hersteller || !m.profil) return;
-          var profil = String(m.profil).trim();
           var hersteller = String(m.hersteller).trim();
-          if (!profil || !hersteller) return;
-          var key = hersteller + '|' + profil + '|' + p.laenge + '|' + p.breite + '|' + p.handle;
-          if (seen[key]) return;
-          seen[key] = true;
-          (MFR_MAP[hersteller] = MFR_MAP[hersteller] || []).push({
-            profil: profil,
-            laenge: p.laenge,
-            breite: p.breite,
-            product: p
-          });
+          var profil = String(m.profil).trim();
+          if (!hersteller || !profil) return;
+          var pairKey = hersteller + '|' + profil;
+          if (seenPair[pairKey]) return;
+          seenPair[pairKey] = true;
+
+          if (!tmp[hersteller]) tmp[hersteller] = {};
+          if (!tmp[hersteller][profil]) tmp[hersteller][profil] = { profil: profil, productsByHandle: {} };
+          tmp[hersteller][profil].productsByHandle[p.handle] = p;
+        });
+      });
+
+      Object.keys(tmp).forEach(function(h){
+        var profiles = Object.keys(tmp[h]).sort(function(a,b){ return a.localeCompare(b, 'de'); });
+        MFR_MAP[h] = profiles.map(function(profName){
+          var entry = tmp[h][profName];
+          var products = Object.keys(entry.productsByHandle).map(function(k){ return entry.productsByHandle[k]; });
+          return { profil: entry.profil, products: products };
         });
       });
     }
 
     var body = document.getElementById('zf-body');
     var stepsEls = document.querySelectorAll('.zf-step');
-    var state = { step:1, mfrName:null, laenge:null, breite:null };
+    var state = { step:1, mfrName:null, profil:null };
 
     function updateStepper() {
       stepsEls.forEach(function(el, i){
         var idx = i + 1;
         el.classList.remove('zf-step--active','zf-step--done','zf-step--clickable');
-        if (idx < state.step) el.classList.add('zf-step--done');
-        if (idx < state.step) el.classList.add('zf-step--clickable');
+        if (idx < state.step) { el.classList.add('zf-step--done'); el.classList.add('zf-step--clickable'); }
         if (idx === state.step) el.classList.add('zf-step--active');
       });
-      // Werte befüllen
       var v1 = document.querySelector('[data-val="1"]'); if (v1) v1.textContent = state.mfrName || '';
-      var v2 = document.querySelector('[data-val="2"]'); if (v2) v2.textContent = state.laenge ? state.laenge + ' mm' : '';
-      var v3 = document.querySelector('[data-val="3"]'); if (v3) v3.textContent = state.breite ? state.breite + ' mm' : '';
-      var v4 = document.querySelector('[data-val="4"]'); if (v4) v4.textContent = '';
+      var v2 = document.querySelector('[data-val="2"]'); if (v2) v2.textContent = state.profil || '';
+      var v3 = document.querySelector('[data-val="3"]'); if (v3) v3.textContent = '';
     }
 
     function goto(step) {
       // Reset deeper state when jumping back
-      if (step <= 1) { state.mfrName = null; state.laenge = null; state.breite = null; }
-      if (step <= 2) { state.laenge = null; state.breite = null; }
-      if (step <= 3) { state.breite = null; }
+      if (step <= 1) { state.mfrName = null; state.profil = null; }
+      if (step <= 2) { state.profil = null; }
       state.step = step;
       updateStepper();
       render();
-      // Scroll in view (sanft, nur wenn nicht sichtbar)
       var shell = document.querySelector('.zf-shell');
       if (shell) {
         var r = shell.getBoundingClientRect();
@@ -460,13 +462,11 @@
           shell.scrollIntoView({ behavior:'smooth', block:'start' });
         }
       }
-      // Tracking-Hook
       if (typeof window.dataLayer !== 'undefined') {
-        window.dataLayer.push({ event:'ziegel_finder_step', step: step, mfrName: state.mfrName, laenge: state.laenge, breite: state.breite });
+        window.dataLayer.push({ event:'ziegel_finder_step', step: step, mfrName: state.mfrName, profil: state.profil });
       }
     }
 
-    // Step-Indikator klickbar machen (zurückspringen zu abgeschlossenen Schritten)
     stepsEls.forEach(function(el){
       el.addEventListener('click', function(){
         var target = parseInt(el.dataset.stepInd, 10);
@@ -477,20 +477,44 @@
     /* ══ RENDER ══ */
     function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
 
+    // Suchnormalisierung: lowercase, Umlaute, ß, diakritische Zeichen
+    function normalize(s) {
+      if (!s) return '';
+      var v = String(s).toLowerCase();
+      v = v.replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss');
+      try { v = v.normalize('NFD').replace(/[̀-ͯ]/g, ''); } catch (e) {}
+      return v.replace(/\s+/g,' ').trim();
+    }
+
     function backBtn(toStep, label) {
       return '<button type="button" class="zf-back" data-goto="' + toStep + '">'+
         '<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M11.67 3.87L9.9 2.1 0 12l9.9 9.9 1.77-1.77L3.54 12z"/></svg>'+
         esc(label) + '</button>';
     }
 
+    function formatPrice(n) {
+      if (typeof n !== 'number' || !isFinite(n)) return null;
+      return 'ab ' + n.toFixed(2).replace('.', ',') + ' €';
+    }
+
+    function consultBlock() {
+      return '<div class="zf-help">'+
+        '<div class="zf-help__icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></div>'+
+        '<div>'+
+          '<div class="zf-help__title">Unsicher, ob das Profil wirklich passt?</div>'+
+          '<div class="zf-help__sub">Foto von Ober- und Unterseite reicht uns — Rückmeldung in der Regel innerhalb von 24 Stunden (Werktage).</div>'+
+        '</div>'+
+        '<a class="zf-help__cta" href="{{ anfrage_url }}">Foto senden</a>'+
+      '</div>';
+    }
+
     function renderStep1() {
       var names = Object.keys(MFR_MAP).sort(function(a,b){ return a.localeCompare(b, 'de'); });
 
-      // Empty-State
       if (names.length === 0) {
         body.innerHTML =
           '<div class="zf-body__head">'+
-            '<h2>Hersteller wählen</h2>'+
+            '<h2>1. Hersteller wählen</h2>'+
           '</div>'+
           '<article class="zf-result-card" style="grid-template-columns:1fr;">'+
             '<div class="zf-result-card__body">'+
@@ -506,21 +530,22 @@
 
       var html = '<div class="zf-body__head">'+
         '<h2>1. Hersteller wählen</h2>'+
-        '<p>Welcher Hersteller hat Ihren Dachziegel gefertigt? Der Name steht meistens eingeprägt auf der Unterseite.</p></div>'+
+        '<p>Welcher Hersteller steht auf Ihrem Dachziegel? Der Name ist häufig auf der Unterseite eingeprägt.</p></div>'+
         '<div class="zf-options zf-mfr-grid" role="radiogroup" aria-label="Hersteller auswählen">';
       names.forEach(function(n){
+        var count = MFR_MAP[n].length;
+        var label = count === 1 ? '1 Ziegeltyp' : count + ' Ziegeltypen';
         html += '<button type="button" class="zf-option" role="radio" data-mfr="'+ esc(n) +'">'+
           '<span class="zf-option__name">' + esc(n) + '</span>'+
-          '<span class="zf-option__meta">' + MFR_MAP[n].length + ' Profile</span>'+
+          '<span class="zf-option__meta">' + label + '</span>'+
           '<span class="zf-option__badge zf-option__badge--stock">Ab Lager</span>'+
           '</button>';
       });
       html += '</div>';
 
-      // Pflicht-CTA: Hersteller nicht in Liste → Beratung
       html += '<div style="text-align:center; margin-top:22px; padding-top:18px; border-top:1px solid var(--bz-border);">'+
         '<a href="{{ anfrage_url }}" class="hp-btn hp-btn--primary" style="background:transparent; color:var(--bz-navy); border-color:var(--bz-border);">'+
-          'Mein Hersteller ist nicht dabei? Beratung anfragen →'+
+          'Mein Hersteller ist nicht dabei? Foto senden / Beratung anfragen →'+
         '</a></div>';
 
       body.innerHTML = html;
@@ -533,138 +558,141 @@
     }
 
     function renderStep2() {
-      var entries = MFR_MAP[state.mfrName] || [];
-      var lenSet = {};
-      entries.forEach(function(e){ lenSet[e.laenge] = true; });
-      var lens = Object.keys(lenSet).map(Number).sort(function(a,b){ return a - b; });
+      var profiles = MFR_MAP[state.mfrName] || [];
 
       var html = backBtn(1, 'Hersteller ändern') +
         '<div class="zf-body__head">'+
-        '<h2>2. Länge wählen — ' + esc(state.mfrName) + '</h2>'+
-        '<p>Länge = längere Seite des Ziegels, gemessen an der Oberseite in Millimetern.</p></div>'+
-        '<div class="zf-options zf-options--measure" role="radiogroup" aria-label="Länge auswählen">';
+        '<h2>2. Ziegeltyp / Modell wählen — ' + esc(state.mfrName) + '</h2>'+
+        '<p>Wählen Sie den Ziegeltyp, der auf Ihrem Dachziegel steht, z.&nbsp;B. Harzer Pfanne, Rubin 13 oder Frankfurter Pfanne.</p></div>';
 
-      lens.forEach(function(l){
-        var atLen = entries.filter(function(e){ return e.laenge === l; });
-        var profSet = {};
-        atLen.forEach(function(e){ profSet[e.profil] = true; });
-        var profNames = Object.keys(profSet).sort(function(a,b){ return a.localeCompare(b,'de'); }).join(', ');
-        html += '<button type="button" class="zf-option" role="radio" data-laenge="' + l + '">'+
-          '<span class="zf-option__name">' + l + ' mm</span>'+
-          '<span class="zf-option__meta">' + esc(profNames) + '</span>'+
+      // Empty-State: Hersteller hat keine Profile
+      if (profiles.length === 0) {
+        html += '<div class="zf-empty" data-zf-empty>Für <strong>' + esc(state.mfrName) + '</strong> sind aktuell keine Ziegeltypen hinterlegt.</div>';
+        html += consultBlock();
+        body.innerHTML = html;
+        attachBack();
+        return;
+      }
+
+      // Suchfeld
+      html += '<div style="margin-bottom:18px;">'+
+        '<label for="zf-profil-search" class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">Ziegeltyp suchen</label>'+
+        '<input id="zf-profil-search" type="search" autocomplete="off" '+
+          'placeholder="Modell suchen, z. B. Harzer Pfanne" '+
+          'aria-label="Ziegeltyp suchen" '+
+          'style="width:100%;padding:12px 16px;border:1.5px solid var(--bz-border);border-radius:var(--bz-radius);font:inherit;font-size:15px;background:var(--bz-white);color:var(--bz-text);">'+
+        '</div>';
+
+      html += '<div class="zf-options zf-mfr-grid" role="radiogroup" aria-label="Ziegeltyp auswählen" data-zf-profil-list>';
+      profiles.forEach(function(entry){
+        var count = entry.products.length;
+        var meta = count === 1 ? '1 passendes Produkt' : count + ' passende Produkte';
+        // Such-Haystack: profil + alle Produkt-Titel
+        var haystack = entry.profil;
+        entry.products.forEach(function(p){ if (p && p.title) haystack += ' ' + p.title; });
+        html += '<button type="button" class="zf-option" role="radio" data-profil="'+ esc(entry.profil) +'" data-haystack="'+ esc(normalize(haystack)) +'">'+
+          '<span class="zf-option__name">' + esc(entry.profil) + '</span>'+
+          '<span class="zf-option__meta">' + meta + '</span>'+
+          '<span class="zf-option__meta" style="font-size:11.5px;opacity:.75;">Maße werden im Ergebnis angezeigt</span>'+
           '</button>';
       });
       html += '</div>';
 
+      html += '<div data-zf-no-match style="display:none;">'+
+        '<div class="zf-empty">Kein passender Ziegeltyp gefunden.</div>'+
+        consultBlock() +
+      '</div>';
+
       body.innerHTML = html;
-      body.querySelectorAll('[data-laenge]').forEach(function(btn){
+
+      // Such-Filter
+      var input = document.getElementById('zf-profil-search');
+      var list = body.querySelector('[data-zf-profil-list]');
+      var noMatch = body.querySelector('[data-zf-no-match]');
+      function applyFilter() {
+        var q = normalize(input.value);
+        var visible = 0;
+        list.querySelectorAll('[data-haystack]').forEach(function(el){
+          var hit = !q || el.dataset.haystack.indexOf(q) !== -1;
+          el.style.display = hit ? '' : 'none';
+          if (hit) visible++;
+        });
+        if (noMatch) noMatch.style.display = visible === 0 ? '' : 'none';
+        if (list) list.style.display = visible === 0 ? 'none' : '';
+      }
+      input.addEventListener('input', applyFilter);
+
+      body.querySelectorAll('[data-profil]').forEach(function(btn){
         btn.addEventListener('click', function(){
-          state.laenge = parseInt(btn.dataset.laenge, 10);
-          var matches = entries.filter(function(e){ return e.laenge === state.laenge; });
-          var breitenSet = {};
-          matches.forEach(function(e){ breitenSet[e.breite] = true; });
-          if (Object.keys(breitenSet).length === 1) {
-            state.breite = matches[0].breite;
-            goto(4);
-          } else {
-            goto(3);
-          }
+          state.profil = btn.dataset.profil;
+          goto(3);
         });
       });
       attachBack();
-    }
 
-    function renderStep3() {
-      var entries = MFR_MAP[state.mfrName] || [];
-      var matches = entries.filter(function(e){ return e.laenge === state.laenge; });
-      var breitenSet = {};
-      matches.forEach(function(e){ breitenSet[e.breite] = true; });
-      var breiten = Object.keys(breitenSet).map(Number).sort(function(a,b){ return a - b; });
-
-      var html = backBtn(2, 'Länge ändern') +
-        '<div class="zf-body__head">'+
-        '<h2>3. Breite wählen</h2>'+
-        '<p>Für die Länge ' + state.laenge + ' mm gibt es bei <strong>' + esc(state.mfrName) + '</strong> mehrere Profile. Breite = kürzere Seite.</p></div>'+
-        '<div class="zf-options zf-options--measure" role="radiogroup" aria-label="Breite auswählen">';
-
-      breiten.forEach(function(b){
-        var atB = matches.filter(function(e){ return e.breite === b; });
-        var profSet = {};
-        atB.forEach(function(e){ profSet[e.profil] = true; });
-        var profNames = Object.keys(profSet).sort(function(a,b){ return a.localeCompare(b,'de'); }).join(', ');
-        html += '<button type="button" class="zf-option" role="radio" data-breite="' + b + '">'+
-          '<span class="zf-option__name">' + b + ' mm</span>'+
-          '<span class="zf-option__meta">' + esc(profNames) + '</span>'+
-          '</button>';
-      });
-      html += '</div>';
-
-      body.innerHTML = html;
-      body.querySelectorAll('[data-breite]').forEach(function(btn){
-        btn.addEventListener('click', function(){
-          state.breite = parseInt(btn.dataset.breite, 10);
-          goto(4);
-        });
-      });
-      attachBack();
+      // Autofocus auf Suchfeld auf Desktop (nicht auf Mobile, damit kein Keyboard aufpoppt)
+      if (window.matchMedia && window.matchMedia('(min-width: 901px)').matches) {
+        try { input.focus({ preventScroll: true }); } catch(e) { input.focus(); }
+      }
     }
 
     function renderResult() {
-      var entries = MFR_MAP[state.mfrName] || [];
-      var matches = entries.filter(function(e){
-        return e.laenge === state.laenge && e.breite === state.breite;
-      });
+      var profiles = MFR_MAP[state.mfrName] || [];
+      var entry = null;
+      for (var i = 0; i < profiles.length; i++) {
+        if (profiles[i].profil === state.profil) { entry = profiles[i]; break; }
+      }
+      var products = entry ? entry.products.slice() : [];
 
-      var html = backBtn(state.breite != null ? 3 : 2, 'Zurück');
+      var html = backBtn(2, 'Ziegeltyp ändern');
       html += '<div class="zf-body__head">'+
-        '<h2>Ihr Ergebnis</h2>'+
-        '<p>' + esc(state.mfrName) + ' · ' + state.laenge + ' mm' + (state.breite ? ' × ' + state.breite + ' mm' : '') + '</p></div>'+
+        '<h2>Ihr passender Blechziegel</h2>'+
+        '<p>' + esc(state.mfrName) + ' · ' + esc(state.profil || '') + '</p></div>'+
         '<div class="zf-result">';
 
-      // Deduplizieren nach product.handle — jeder Match hat bereits .product aus MFR_MAP
+      if (products.length === 0) {
+        html += '<div class="zf-empty">Für diesen Ziegeltyp ist aktuell kein Produkt hinterlegt.</div>';
+      }
+
+      // Sortierung: stabil nach Titel (deutsch)
+      products.sort(function(a,b){ return String(a.title||'').localeCompare(String(b.title||''), 'de'); });
+
       var seen = {};
       var productCards = 0;
-      matches.forEach(function(e){
-        if (!e.product || seen[e.product.handle]) return;
-        seen[e.product.handle] = true;
+      products.forEach(function(p){
+        if (!p || !p.handle || seen[p.handle]) return;
+        seen[p.handle] = true;
         productCards++;
-        var p = e.product;
+        var priceLabel = formatPrice(p.price_min);
+        var hasDims = (typeof p.laenge === 'number' && p.laenge > 0 && typeof p.breite === 'number' && p.breite > 0);
         html += '<article class="zf-result-card">'+
           '<div class="zf-result-card__img">' + (p.image ? '<img src="' + esc(p.image) + '" alt="' + esc(p.title) + '" loading="lazy">' : '') + '</div>'+
           '<div class="zf-result-card__body">'+
             '<div class="zf-result-card__pills">'+
               '<span class="zf-result-card__pill">Ab Lager</span>'+
               '<span class="zf-result-card__pill" style="background:#dbeafe;color:#1e3a8a">' + esc(state.mfrName) + '</span>'+
-              '<span class="zf-result-card__pill" style="background:#f3f4f6;color:#374151">' + esc(e.profil) + '</span>'+
+              '<span class="zf-result-card__pill" style="background:#f3f4f6;color:#374151">' + esc(state.profil) + '</span>'+
             '</div>'+
-            '<div class="zf-result-card__title">' + esc(p.title) + '</div>'+
+            '<div class="zf-result-card__title">' + esc(p.title || '') + '</div>'+
             '<div class="zf-result-card__desc">' + esc(p.desc || '') + '</div>'+
             '<div class="zf-result-card__specs">'+
-              '<span>Maße: <strong>' + p.laenge + ' × ' + p.breite + ' mm</strong></span>'+
-              '<span>Profil: <strong>' + esc(e.profil) + '</strong></span>'+
+              '<span>Ziegeltyp: <strong>' + esc(state.profil) + '</strong></span>'+
+              (hasDims ? '<span>Technische Maße: <strong>' + p.laenge + ' × ' + p.breite + ' mm</strong></span>' : '') +
             '</div>'+
-            '<div class="zf-result-card__price">ab ' + p.price_min.toFixed(2).replace('.',',') + ' €<span>pro Stück</span></div>'+
+            (priceLabel
+              ? '<div class="zf-result-card__price">' + priceLabel + '<span>pro Stück</span></div>'
+              : '<div class="zf-result-card__price" style="font-size:14px;color:var(--bz-text-light);font-weight:600;">Preis im Produkt</div>') +
             '<div class="zf-result-card__actions">'+
-              '<a class="hp-btn hp-btn--primary" href="' + esc(p.url) + '">Zum Produkt</a>'+
+              (p.url ? '<a class="hp-btn hp-btn--primary" href="' + esc(p.url) + '">Zum Produkt</a>' : '') +
               '<a class="hp-btn hp-btn--secondary" href="{{ anfrage_url }}">Beratung anfragen</a>'+
             '</div>'+
           '</div>'+
         '</article>';
       });
 
-      // Beratungs-CTA bleibt immer unter dem Ergebnis sichtbar
-      html += '<div class="zf-help">'+
-        '<div class="zf-help__icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></div>'+
-        '<div>'+
-          '<div class="zf-help__title">Unsicher, ob das Profil wirklich passt?</div>'+
-          '<div class="zf-help__sub">Foto von Ober- und Unterseite reicht uns — Rückmeldung in der Regel innerhalb von 24 Stunden (Werktage).</div>'+
-        '</div>'+
-        '<a class="zf-help__cta" href="{{ anfrage_url }}">Foto senden</a>'+
-      '</div>';
-
+      html += consultBlock();
       html += '</div>';
 
-      // Neu starten
       html += '<div style="margin-top:18px; text-align:center;">'+
         '<button type="button" class="zf-back" data-goto="1" style="display:inline-flex;">'+
           '<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="currentColor"><path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>'+
@@ -677,7 +705,8 @@
       if (typeof window.dataLayer !== 'undefined') {
         window.dataLayer.push({
           event: 'ziegel_finder_result',
-          mfrName: state.mfrName, laenge: state.laenge, breite: state.breite,
+          mfrName: state.mfrName,
+          profil: state.profil,
           product_matches: productCards
         });
       }
@@ -692,8 +721,7 @@
     function render() {
       if (state.step === 1) renderStep1();
       else if (state.step === 2) renderStep2();
-      else if (state.step === 3) renderStep3();
-      else if (state.step === 4) renderResult();
+      else if (state.step === 3) renderResult();
     }
 
     updateStepper();
@@ -722,7 +750,7 @@
     ]},
     { "@type": "WebPage", "@id": "{{ canonical }}#webpage", "url": "{{ canonical }}",
       "name": "Ziegel Finder — Passenden Blechziegel für Ihr Dach finden",
-      "description": "Finden Sie den passenden Aluminium-Blechziegel nach Hersteller und Maßen. Der Finder basiert auf den aktuell gepflegten Produktdaten im Shop. Für nicht gelistete Profile bieten wir Beratung per Foto-Anfrage.",
+      "description": "Finden Sie den passenden Aluminium-Blechziegel nach Hersteller und Ziegeltyp / Modell. Der Finder basiert auf den aktuell gepflegten Produktdaten im Shop. Für nicht gelistete Profile bieten wir Beratung per Foto-Anfrage.",
       "inLanguage": "de-DE",
       "isPartOf": { "@type": "WebSite", "url": "{{ shop.url }}/", "name": "{{ shop.name | escape }}" },
       "potentialAction": { "@type": "SearchAction",
