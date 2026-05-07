@@ -1481,25 +1481,31 @@
       {%- endfor -%}
     </div>
 
-    {%- comment -%} Pagination {%- endcomment -%}
+    {%- comment -%} Pagination — Endlos-Scroll (mit Fallback auf klassische Buttons via .bz-pagination-fallback wenn JS aus) {%- endcomment -%}
     {%- if paginate.pages > 1 -%}
-      <div style="display:flex;justify-content:center;gap:8px;margin-top:40px;flex-wrap:wrap;">
-        {%- if paginate.previous -%}
-          <a href="{{ paginate.previous.url }}" style="padding:10px 18px;border:1.5px solid var(--bz-border);border-radius:var(--bz-r);font-size:13px;font-weight:600;color:var(--bz-navy);text-decoration:none;">&larr; Zurück</a>
-        {%- endif -%}
-        {%- for part in paginate.parts -%}
-          {%- if part.is_link -%}
-            <a href="{{ part.url }}" style="padding:10px 16px;border:1.5px solid var(--bz-border);border-radius:var(--bz-r);font-size:13px;color:var(--bz-navy);text-decoration:none;">{{ part.title }}</a>
-          {%- elsif part.title == paginate.current_page -%}
-            <span style="padding:10px 16px;border:1.5px solid var(--bz-orange);border-radius:var(--bz-r);font-size:13px;font-weight:700;color:var(--bz-navy);background:var(--bz-orange-light);">{{ part.title }}</span>
-          {%- else -%}
-            <span style="padding:10px 16px;font-size:13px;color:#aaa;">{{ part.title }}</span>
-          {%- endif -%}
-        {%- endfor -%}
-        {%- if paginate.next -%}
-          <a href="{{ paginate.next.url }}" style="padding:10px 18px;border:1.5px solid var(--bz-border);border-radius:var(--bz-r);font-size:13px;font-weight:600;color:var(--bz-navy);text-decoration:none;">Weiter &rarr;</a>
-        {%- endif -%}
+      <div id="bz-infinite-sentinel" data-next-url="{{ paginate.next.url }}" data-current-page="{{ paginate.current_page }}" data-total-pages="{{ paginate.pages }}" style="height:40px;margin-top:32px;"></div>
+      <div id="bz-infinite-status" style="display:none;text-align:center;padding:20px;font-size:13px;color:var(--bz-gray-text);">
+        <span class="bz-infinite-loading">Lade weitere Produkte …</span>
       </div>
+      <noscript>
+        <div class="bz-pagination-fallback" style="display:flex;justify-content:center;gap:8px;margin-top:40px;flex-wrap:wrap;">
+          {%- if paginate.previous -%}
+            <a href="{{ paginate.previous.url }}" style="padding:10px 18px;border:1.5px solid var(--bz-border);border-radius:var(--bz-r);font-size:13px;font-weight:600;color:var(--bz-navy);text-decoration:none;">&larr; Zurück</a>
+          {%- endif -%}
+          {%- for part in paginate.parts -%}
+            {%- if part.is_link -%}
+              <a href="{{ part.url }}" style="padding:10px 16px;border:1.5px solid var(--bz-border);border-radius:var(--bz-r);font-size:13px;color:var(--bz-navy);text-decoration:none;">{{ part.title }}</a>
+            {%- elsif part.title == paginate.current_page -%}
+              <span style="padding:10px 16px;border:1.5px solid var(--bz-orange);border-radius:var(--bz-r);font-size:13px;font-weight:700;color:var(--bz-navy);background:var(--bz-orange-light);">{{ part.title }}</span>
+            {%- else -%}
+              <span style="padding:10px 16px;font-size:13px;color:#aaa;">{{ part.title }}</span>
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if paginate.next -%}
+            <a href="{{ paginate.next.url }}" style="padding:10px 18px;border:1.5px solid var(--bz-border);border-radius:var(--bz-r);font-size:13px;font-weight:600;color:var(--bz-navy);text-decoration:none;">Weiter &rarr;</a>
+          {%- endif -%}
+        </div>
+      </noscript>
     {%- endif -%}
 
   {%- else -%}
@@ -1653,6 +1659,61 @@
       if (!d.contains(e.target)) d.removeAttribute('open');
     });
   });
+
+  // ── Endlos-Scroll für Produkt-Grid ──────────────────────────────
+  (function() {
+    var sentinel = document.getElementById('bz-infinite-sentinel');
+    var status = document.getElementById('bz-infinite-status');
+    var grid = document.getElementById('bz-product-grid');
+    if (!sentinel || !grid || !window.IntersectionObserver) return;
+
+    var nextUrl = sentinel.dataset.nextUrl;
+    var totalPages = parseInt(sentinel.dataset.totalPages, 10) || 1;
+    var currentPage = parseInt(sentinel.dataset.currentPage, 10) || 1;
+    var loading = false;
+    var done = !nextUrl || currentPage >= totalPages;
+
+    function loadNext() {
+      if (loading || done) return;
+      loading = true;
+      if (status) status.style.display = 'block';
+      fetch(nextUrl, { headers: { 'Accept': 'text/html' } })
+        .then(function(r) { return r.text(); })
+        .then(function(html) {
+          var parser = new DOMParser();
+          var doc = parser.parseFromString(html, 'text/html');
+          var newGrid = doc.getElementById('bz-product-grid');
+          var newSentinel = doc.getElementById('bz-infinite-sentinel');
+          if (newGrid) {
+            Array.prototype.forEach.call(newGrid.children, function(card) {
+              grid.appendChild(card.cloneNode(true));
+            });
+          }
+          if (newSentinel && newSentinel.dataset.nextUrl) {
+            nextUrl = newSentinel.dataset.nextUrl;
+            currentPage = parseInt(newSentinel.dataset.currentPage, 10) || (currentPage + 1);
+            done = currentPage >= totalPages;
+          } else {
+            done = true;
+          }
+          if (done) {
+            sentinel.style.display = 'none';
+            if (status) status.style.display = 'none';
+          }
+          loading = false;
+          if (status) status.style.display = done ? 'none' : 'none';
+        })
+        .catch(function() {
+          loading = false;
+          if (status) status.innerHTML = '<a href="' + nextUrl + '" style="color:var(--bz-orange-dark);text-decoration:underline;">Weitere Produkte laden</a>';
+        });
+    }
+
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) { if (e.isIntersecting) loadNext(); });
+    }, { rootMargin: '400px 0px' });
+    io.observe(sentinel);
+  })();
 </script>
 
 {% schema %}
