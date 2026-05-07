@@ -131,6 +131,43 @@
 .zf-option__badge--stock { background:var(--bz-green-bg); color:#166534; border:1px solid #bbf7d0; }
 .zf-option__badge--request { background:#f3f4f6; color:#4b5563; border:1px solid #e5e7eb; }
 
+.zf-option--has-thumb {
+  padding-right:112px;
+  min-height:112px;
+}
+.zf-option__thumb {
+  position:absolute;
+  top:14px;
+  right:14px;
+  width:84px;
+  height:58px;
+  border-radius:10px;
+  overflow:hidden;
+  background:#f8fafc;
+  border:1px solid var(--bz-border);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
+}
+.zf-option__thumb img {
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+}
+@media (max-width:480px) {
+  .zf-option--has-thumb {
+    padding-right:18px;
+    padding-top:86px;
+  }
+  .zf-option__thumb {
+    left:18px;
+    right:auto;
+    top:14px;
+  }
+}
+
 .zf-options--measure .zf-option { align-items:center; text-align:center; padding:22px 16px; }
 .zf-options--measure .zf-option__name { font-size:22px; }
 .zf-options--measure .zf-option__meta { text-align:center; }
@@ -497,6 +534,23 @@
       return 'ab ' + n.toFixed(2).replace('.', ',') + ' €';
     }
 
+    function getProfilPreviewImage(entry) {
+      if (!entry || !Array.isArray(entry.products)) return null;
+      var products = entry.products.slice().sort(function(a,b){
+        return String(a && a.title || '').localeCompare(String(b && b.title || ''), 'de');
+      });
+      for (var i = 0; i < products.length; i++) {
+        var p = products[i];
+        if (p && p.ursprungsartikel_image) {
+          return {
+            src: p.ursprungsartikel_image,
+            alt: p.ursprungsartikel_alt || p.title || entry.profil
+          };
+        }
+      }
+      return null;
+    }
+
     function consultBlock() {
       return '<div class="zf-help">'+
         '<div class="zf-help__icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></div>'+
@@ -587,11 +641,23 @@
       profiles.forEach(function(entry){
         var count = entry.products.length;
         var meta = count === 1 ? '1 passendes Produkt' : count + ' passende Produkte';
-        // Such-Haystack: profil + alle Produkt-Titel
+
         var haystack = entry.profil;
-        entry.products.forEach(function(p){ if (p && p.title) haystack += ' ' + p.title; });
-        html += '<button type="button" class="zf-option" role="radio" data-profil="'+ esc(entry.profil) +'" data-haystack="'+ esc(normalize(haystack)) +'">'+
-          '<span class="zf-option__name">' + esc(entry.profil) + '</span>'+
+        entry.products.forEach(function(p){
+          if (p && p.title) haystack += ' ' + p.title;
+        });
+
+        var preview = getProfilPreviewImage(entry);
+
+        html += '<button type="button" class="zf-option' + (preview ? ' zf-option--has-thumb' : '') + '" role="radio" data-profil="'+ esc(entry.profil) +'" data-haystack="'+ esc(normalize(haystack)) +'">';
+
+        if (preview) {
+          html += '<span class="zf-option__thumb" aria-hidden="true">' +
+            '<img src="' + esc(preview.src) + '" alt="" loading="lazy">' +
+            '</span>';
+        }
+
+        html += '<span class="zf-option__name">' + esc(entry.profil) + '</span>'+
           '<span class="zf-option__meta">' + meta + '</span>'+
           '<span class="zf-option__meta" style="font-size:11.5px;opacity:.75;">Maße werden im Ergebnis angezeigt</span>'+
           '</button>';
