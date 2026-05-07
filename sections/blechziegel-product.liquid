@@ -1378,16 +1378,20 @@
       </div>
       {%- endif -%}
 
-      <!-- Preis -->
+      <!-- Preis (aus selected_or_first_available_variant — wird per JS bei Variantenwechsel aktualisiert) -->
+      {%- assign _cv = product.selected_or_first_available_variant -%}
       <div class="bz-price-wrap">
         <span class="bz-price-current" id="bz-price">
-          {{ product.price_min | money }}
+          {{ _cv.price | money }}
         </span>
-        {%- if product.compare_at_price_min > product.price_min -%}
-          <span class="bz-price-compare">{{ product.compare_at_price_min | money }}</span>
-          {%- assign savings = product.compare_at_price_min | minus: product.price_min -%}
-          {%- assign savings_percent = savings | times: 100.0 | divided_by: product.compare_at_price_min | round -%}
-          <span class="bz-price-save">Spare {{ savings | money }} · {{ savings_percent }}%</span>
+        {%- if _cv.compare_at_price > _cv.price -%}
+          {%- assign savings = _cv.compare_at_price | minus: _cv.price -%}
+          {%- assign savings_percent = savings | times: 100.0 | divided_by: _cv.compare_at_price | round -%}
+          <span class="bz-price-compare" id="bz-price-compare">{{ _cv.compare_at_price | money }}</span>
+          <span class="bz-price-save" id="bz-price-save">Spare {{ savings | money }} · {{ savings_percent }}%</span>
+        {%- else -%}
+          <span class="bz-price-compare" id="bz-price-compare" style="display:none;"></span>
+          <span class="bz-price-save" id="bz-price-save" style="display:none;"></span>
         {%- endif -%}
       </div>
       {%- render 'bz-price-tax-note', product: product -%}
@@ -2139,9 +2143,24 @@
 
     if (matched) {
       document.getElementById('bz-variant-id').value = matched.id;
-      var price = (matched.price / 100).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+      var fmt = function(c) { return (c / 100).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' }); };
+      var price = fmt(matched.price);
       document.getElementById('bz-price').textContent = price;
       document.getElementById('bz-sticky-price').textContent = price;
+
+      // Compare-at-Price + Ersparnis dynamisch
+      var compareEl = document.getElementById('bz-price-compare');
+      var saveEl = document.getElementById('bz-price-save');
+      var cap = matched.compare_at_price;
+      if (cap && cap > matched.price) {
+        var diff = cap - matched.price;
+        var pct = Math.round(diff * 100 / cap);
+        if (compareEl) { compareEl.textContent = fmt(cap); compareEl.style.display = ''; }
+        if (saveEl)    { saveEl.textContent = 'Spare ' + fmt(diff) + ' · ' + pct + '%'; saveEl.style.display = ''; }
+      } else {
+        if (compareEl) compareEl.style.display = 'none';
+        if (saveEl)    saveEl.style.display = 'none';
+      }
 
       // Bild wechseln — Primaerquelle: Variant-Image-Mapping aus Shopify-Admin.
       // Fallback: Filename-Match in product.images (resilient gegen fehlende Mappings).
