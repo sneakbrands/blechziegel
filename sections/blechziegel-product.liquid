@@ -817,9 +817,22 @@
   .bz-tab-panel.active { display: block; }
 
   /* Beschreibung */
-  .bz-desc { font-size: 15px; color: var(--bz-gray-text); line-height: 1.75; }
-  .bz-desc h3 { color: var(--bz-navy); font-size: 1rem; margin: 20px 0 8px; }
-  .bz-desc ul { padding-left: 18px; display: flex; flex-direction: column; gap: 6px; margin: 8px 0; }
+  .bz-desc { font-size: 15px; color: var(--bz-gray-text); line-height: 1.75; font-family: 'Inter', sans-serif; }
+  .bz-desc h2 {
+    color: var(--bz-navy, #0d1e35);
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 1.3;
+    margin: 28px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--bz-border, #DFDFDF);
+  }
+  .bz-desc h2:first-child { margin-top: 0; }
+  .bz-desc h3 { color: var(--bz-navy); font-size: 16px; font-weight: 600; margin: 20px 0 8px; }
+  .bz-desc p { margin: 0 0 12px; }
+  .bz-desc ul { padding-left: 18px; display: flex; flex-direction: column; gap: 6px; margin: 8px 0 14px; }
   .bz-desc li { font-size: 14px; }
   .bz-desc strong { color: var(--bz-navy); }
 
