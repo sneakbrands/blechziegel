@@ -394,25 +394,23 @@
     var SHOPIFY_PRODUCTS = [];
 
     /* ══ MFR_MAP ══
-       Abgeleitet aus SHOPIFY_PRODUCTS. Einzige Finder-Datenquelle.
-       Jeder passende_hersteller-Eintrag im Format "Profil (Hersteller)"
-       wird zu einem MFR_MAP-Eintrag {profil, laenge, breite, product}.
-       Produkt-Dimensionen gelten als Profil-Dimensionen (Blechziegel-Semantik).
+       Abgeleitet aus SHOPIFY_PRODUCTS (Asset ziegel-finder-data.json).
+       Datenquelle ist `matches` pro Produkt — bereits normalisiert auf
+       {profil, hersteller}-Paare im Build-Skript.
     */
     var MFR_MAP = {};
     function buildMfrMap(){
+      MFR_MAP = {};
       var seen = {};
       SHOPIFY_PRODUCTS.forEach(function(p){
         if (!p) return;
         if (typeof p.laenge !== 'number' || typeof p.breite !== 'number') return;
         if (p.laenge <= 0 || p.breite <= 0) return;
-        if (!Array.isArray(p.profiles)) return;
-        p.profiles.forEach(function(entry){
-          if (typeof entry !== 'string' || !entry.trim()) return;
-          var m = entry.match(/^(.+?)\s*\(([^)]+)\)\s*$/);
-          if (!m) return;
-          var profil = m[1].trim();
-          var hersteller = m[2].trim();
+        if (!Array.isArray(p.matches)) return;
+        p.matches.forEach(function(m){
+          if (!m || !m.hersteller || !m.profil) return;
+          var profil = String(m.profil).trim();
+          var hersteller = String(m.hersteller).trim();
           if (!profil || !hersteller) return;
           var key = hersteller + '|' + profil + '|' + p.laenge + '|' + p.breite + '|' + p.handle;
           if (seen[key]) return;
