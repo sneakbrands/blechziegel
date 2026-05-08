@@ -1,0 +1,175 @@
+{%- comment -%}
+  bz-finder-compact.liquid
+  Kompakter 2-Step Ziegel-Finder fuer Top-Bereich /collections/*
+  Datenquelle: assets/ziegel-finder-data.json (gleiche Datei wie /pages/ziegel-finder)
+{%- endcomment -%}
+
+<style>
+  .bz-finder-compact{
+    --bzfc-navy:#0d1e35;
+    --bzfc-navy-mid:#152840;
+    --bzfc-orange:#f5a623;
+    --bzfc-orange-dark:#d4891a;
+    --bzfc-border:rgba(255,255,255,.18);
+    --bzfc-r:6px;
+    --bzfc-r-lg:12px;
+
+    margin:0 0 14px;
+    background:var(--bzfc-navy);
+    color:#fff;
+    border:1px solid var(--bzfc-border);
+    border-radius:var(--bzfc-r-lg);
+    padding:20px 22px;
+    display:grid;
+    grid-template-columns:auto 1fr 1fr auto;
+    gap:14px;
+    align-items:end;
+    font-family:var(--font-body-family,'Inter',sans-serif);
+    box-sizing:border-box;
+  }
+  .bz-finder-compact *{box-sizing:border-box}
+  .bz-finder-compact__head{display:flex;flex-direction:column;gap:4px;align-self:center;padding-right:8px;min-width:170px}
+  .bz-finder-compact__label{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--bzfc-orange)}
+  .bz-finder-compact__title{font-size:15px;font-weight:700;line-height:1.25;color:#fff}
+  .bz-finder-compact__title small{display:block;font-size:12px;font-weight:400;color:rgba(255,255,255,.6);margin-top:2px}
+
+  .bz-finder-compact__field{display:flex;flex-direction:column;gap:6px;min-width:0}
+  .bz-finder-compact__field label{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+  .bz-finder-compact__field select{
+    appearance:none;-webkit-appearance:none;
+    width:100%;
+    background:rgba(255,255,255,.06);
+    color:#fff;
+    border:1.5px solid var(--bzfc-border);
+    border-radius:var(--bzfc-r);
+    padding:11px 36px 11px 14px;
+    font-size:14px;font-weight:600;
+    line-height:1.2;
+    cursor:pointer;
+    transition:border-color .15s ease,background .15s ease;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23f5a623' stroke-width='2.5'><path d='M6 9l6 6 6-6'/></svg>");
+    background-repeat:no-repeat;
+    background-position:right 12px center;
+    font-family:inherit;
+  }
+  .bz-finder-compact__field select:focus{outline:none;border-color:var(--bzfc-orange);background:rgba(255,255,255,.1)}
+  .bz-finder-compact__field select:disabled{opacity:.5;cursor:not-allowed}
+  .bz-finder-compact__field select option{color:#000;background:#fff}
+
+  .bz-finder-compact__cta{
+    background:var(--bzfc-orange);color:var(--bzfc-navy);
+    border:0;border-radius:var(--bzfc-r);
+    padding:13px 22px;
+    font-size:14px;font-weight:700;
+    cursor:pointer;
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    transition:background .15s ease, transform .15s ease, opacity .15s ease;
+    height:46px;
+    white-space:nowrap;
+    text-decoration:none;
+    font-family:inherit;
+  }
+  .bz-finder-compact__cta:hover{background:var(--bzfc-orange-dark);color:var(--bzfc-navy)}
+  .bz-finder-compact__cta[aria-disabled="true"]{opacity:.4;pointer-events:none;background:rgba(255,255,255,.18);color:rgba(255,255,255,.55)}
+  .bz-finder-compact__cta svg{width:14px;height:14px;flex-shrink:0}
+
+  .bz-finder-compact__hint{
+    grid-column:1 / -1;
+    display:flex;justify-content:space-between;align-items:center;gap:12px;
+    font-size:12px;color:rgba(255,255,255,.55);margin-top:4px;flex-wrap:wrap;
+  }
+  .bz-finder-compact__hint a{color:var(--bzfc-orange);text-decoration:underline;text-underline-offset:2px;font-weight:600}
+  .bz-finder-compact__hint a:hover{color:#fff}
+
+  @media(max-width:900px){
+    .bz-finder-compact{grid-template-columns:1fr 1fr;gap:12px;padding:18px}
+    .bz-finder-compact__head{grid-column:1 / -1;padding-right:0;min-width:0}
+    .bz-finder-compact__cta{grid-column:1 / -1;margin-top:4px}
+  }
+  @media(max-width:560px){
+    .bz-finder-compact{grid-template-columns:1fr}
+  }
+</style>
+
+<div class="bz-finder-compact" data-bz-finder-compact data-src="{{ 'ziegel-finder-data.json' | asset_url }}" role="region" aria-label="Ziegel-Finder kompakt">
+  <div class="bz-finder-compact__head">
+    <span class="bz-finder-compact__label">Ziegel-Finder</span>
+    <span class="bz-finder-compact__title">In 2 Schritten zum passenden Blechziegel<small>auf Basis unserer aktuellen Produktdaten</small></span>
+  </div>
+  <div class="bz-finder-compact__field">
+    <label for="bzfc-h">Hersteller</label>
+    <select id="bzfc-h" data-role="hersteller" aria-label="Hersteller waehlen"><option value="">— Hersteller wählen —</option></select>
+  </div>
+  <div class="bz-finder-compact__field">
+    <label for="bzfc-p">Ziegeltyp / Modell</label>
+    <select id="bzfc-p" data-role="profil" disabled aria-label="Ziegeltyp waehlen"><option value="">— erst Hersteller wählen —</option></select>
+  </div>
+  <a href="#" class="bz-finder-compact__cta" data-role="cta" aria-disabled="true">Passende anzeigen
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </a>
+  <div class="bz-finder-compact__hint">
+    <span>Profil unbekannt? <a href="/pages/ziegel-anfrage">Foto senden</a> — Antwort &lt; 24 h (Werktage)</span>
+    <span><a href="/pages/ziegel-finder">Detail-Finder öffnen →</a></span>
+  </div>
+</div>
+
+<script>
+(function(){
+  var root = document.querySelector('[data-bz-finder-compact]');
+  if(!root || root.__bzInit) return;
+  root.__bzInit = true;
+  var src = root.getAttribute('data-src');
+  var hSel = root.querySelector('[data-role="hersteller"]');
+  var pSel = root.querySelector('[data-role="profil"]');
+  var cta  = root.querySelector('[data-role="cta"]');
+
+  function setCtaEnabled(href){
+    if(href){ cta.setAttribute('href', href); cta.setAttribute('aria-disabled','false'); }
+    else    { cta.setAttribute('href', '#');  cta.setAttribute('aria-disabled','true'); }
+  }
+  function refreshCta(map){
+    var h=hSel.value, p=pSel.value;
+    if(h && p && map[h] && map[h][p] && map[h][p].length) setCtaEnabled('/products/' + map[h][p][0]);
+    else setCtaEnabled(null);
+  }
+
+  fetch(src,{credentials:'same-origin'}).then(function(r){return r.json();}).then(function(data){
+    var map = {};
+    data.forEach(function(p){
+      (p.matches||[]).forEach(function(m){
+        if(!m||!m.hersteller||!m.profil) return;
+        var H=String(m.hersteller).trim(), P=String(m.profil).trim();
+        if(!H||!P) return;
+        if(!map[H]) map[H]={};
+        if(!map[H][P]) map[H][P]=[];
+        if(map[H][P].indexOf(p.handle)<0) map[H][P].push(p.handle);
+      });
+    });
+    var herstellers = Object.keys(map).sort(function(a,b){return a.localeCompare(b,'de');});
+    herstellers.forEach(function(h){
+      var o=document.createElement('option');
+      o.value=h; o.textContent=h+' ('+Object.keys(map[h]).length+')';
+      hSel.appendChild(o);
+    });
+    hSel.addEventListener('change', function(){
+      pSel.innerHTML = '<option value="">— Profil wählen —</option>';
+      var h = hSel.value;
+      if(!h){ pSel.disabled=true; refreshCta(map); return; }
+      var profs = Object.keys(map[h]).sort(function(a,b){return a.localeCompare(b,'de');});
+      profs.forEach(function(pr){
+        var o=document.createElement('option'); o.value=pr; o.textContent=pr; pSel.appendChild(o);
+      });
+      pSel.disabled=false;
+      refreshCta(map);
+    });
+    pSel.addEventListener('change', function(){ refreshCta(map); });
+    cta.addEventListener('click', function(e){
+      if(cta.getAttribute('aria-disabled')==='true'){ e.preventDefault(); }
+    });
+  }).catch(function(e){
+    console.error('[bz-finder-compact] data load failed', e);
+    hSel.innerHTML = '<option value="">— Finder nicht verfügbar —</option>';
+    hSel.disabled = true;
+  });
+})();
+</script>
