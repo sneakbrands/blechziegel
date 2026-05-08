@@ -95,24 +95,68 @@
       {%- endif -%}
     {%- endif -%}
 
-    {%- comment -%} Tidio Chat-Widget oberhalb des Ziegel-Finder-Launchers stapeln (rechts unten) {%- endcomment -%}
-    <style>
+    {%- comment -%} Tidio Chat-Widget oberhalb des Ziegel-Finder-Launchers (rechts unten) {%- endcomment -%}
+    <style id="bz-tidio-pos">
+      /* CSS-Override fuer alle bekannten Tidio-Iframe-Varianten. Tidio setzt
+         haeufig inline-styles mit hoher Spezifitaet — daher !important. */
       iframe#tidio-chat-iframe,
-      iframe[id^="tidio-chat-iframe"] {
+      iframe[id^="tidio-chat-iframe"],
+      iframe[title="Tidio Chat"],
+      iframe[title*="tidio" i],
+      #tidio-chat iframe,
+      #tidio-chat-iframe-wrapper iframe {
         bottom: 92px !important;
       }
       @media (max-width: 640px) {
         iframe#tidio-chat-iframe,
-        iframe[id^="tidio-chat-iframe"] {
+        iframe[id^="tidio-chat-iframe"],
+        iframe[title="Tidio Chat"],
+        #tidio-chat iframe {
           bottom: 78px !important;
         }
-        /* Vollbild-Iframe (Chat geoeffnet) nicht verschieben — nutzt 100% Hoehe */
         iframe#tidio-chat-iframe[style*="height: 100%"],
         iframe#tidio-chat-iframe[style*="height:100%"] {
           bottom: 0 !important;
         }
       }
     </style>
+    <script>
+      // Failsafe: Tidio setzt sein bottom oft inline NACH Page-Load und
+      // ueberschreibt CSS-only-Versuche. MutationObserver auf <body> erwartet
+      // den Tidio-Iframe und setzt ein inline bottom mit !important via cssText.
+      (function () {
+        var DESKTOP = 92, MOBILE = 78;
+        function applyPos(el) {
+          if (!el || el.dataset.bzPos === '1') return;
+          var isFullscreen = (el.style.height === '100%' || el.style.height === '100vh');
+          var isMobile = window.matchMedia('(max-width: 640px)').matches;
+          if (isMobile && isFullscreen) return;
+          var px = isMobile ? MOBILE : DESKTOP;
+          // setProperty mit important ueberschreibt inline-style ohne diesen
+          // komplett zu zerstoeren (Tidio liest seine eigenen Inline-Werte zurueck).
+          el.style.setProperty('bottom', px + 'px', 'important');
+          el.dataset.bzPos = '1';
+        }
+        function scan() {
+          var els = document.querySelectorAll(
+            'iframe#tidio-chat-iframe, iframe[id^="tidio-chat-iframe"], iframe[title="Tidio Chat"]'
+          );
+          els.forEach(applyPos);
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', scan);
+        } else { scan(); }
+        var mo = new MutationObserver(function () { scan(); });
+        mo.observe(document.documentElement, { childList: true, subtree: true });
+        // Auch periodisch fuer den Fall, dass Tidio das style-Attribut
+        // nach Initialisierung erneut setzt.
+        var t = 0;
+        var iv = setInterval(function () {
+          scan();
+          if (++t > 30) clearInterval(iv); // 30 * 1s = 30s
+        }, 1000);
+      })();
+    </script>
   </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }} template-{{ request.page_type | handle }}{% if page.handle %} page-{{ page.handle }}{% endif %}">
