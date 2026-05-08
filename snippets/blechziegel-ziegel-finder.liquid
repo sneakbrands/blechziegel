@@ -270,6 +270,40 @@
   .hp-hero { min-height:300px; padding:44px 16px 48px; }
   .hp-hero__media img { object-position:right center; }
 }
+
+/* ── FAQ / Page-Content im Produkt-CI (Navy #1d3686 + Orange #e88a18) ── */
+.zf-pagecontent__inner { font-family:'Inter',sans-serif; color:#333; font-size:15px; line-height:1.75; }
+.zf-pagecontent__inner h2 {
+  color:#1d3686;
+  font-family:'Inter',sans-serif;
+  font-size:22px;
+  font-weight:700;
+  letter-spacing:0;
+  line-height:1.25;
+  margin:36px 0 14px;
+  padding-bottom:8px;
+  border-bottom:2px solid #e88a18;
+}
+.zf-pagecontent__inner > h2:first-child,
+.zf-pagecontent__inner > p:first-child + h2 { margin-top:0; }
+.zf-pagecontent__inner h3 {
+  color:#1d3686;
+  font-family:'Inter',sans-serif;
+  font-size:17px;
+  font-weight:600;
+  margin:22px 0 8px;
+  line-height:1.35;
+}
+.zf-pagecontent__inner p { margin:0 0 14px; }
+.zf-pagecontent__inner ul { padding-left:18px; display:flex; flex-direction:column; gap:6px; margin:8px 0 16px; }
+.zf-pagecontent__inner li { font-size:14px; }
+.zf-pagecontent__inner strong { color:#1d3686; font-weight:600; }
+.zf-pagecontent__inner a { color:#e88a18; text-decoration:underline; text-underline-offset:3px; font-weight:600; }
+.zf-pagecontent__inner a:hover { color:#1d3686; }
+@media (max-width:640px) {
+  .zf-pagecontent__inner h2 { font-size:20px; margin-top:28px; }
+  .zf-pagecontent__inner h3 { font-size:16px; }
+}
 </style>
 
 {%- liquid
