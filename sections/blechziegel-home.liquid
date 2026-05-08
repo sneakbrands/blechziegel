@@ -691,12 +691,13 @@
         {%- if product.type == 'Ziegel' -%}
           {% render 'bz-product-card', product: product, show_bestseller: _bs_shown == 0 %}
           {%- assign _bs_shown = _bs_shown | plus: 1 -%}
-          {%- if _bs_shown >= 3 -%}{%- break -%}{%- endif -%}
+          {%- if _bs_shown >= 6 -%}{%- break -%}{%- endif -%}
         {%- endif -%}
       {%- endfor -%}
     </div>
     <div class="bz-products-more">
-      <a href="{{ routes.collections_url }}/all" class="bz-btn bz-btn-navy">Alle Produkte ansehen <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      {%- assign _all_count = collections.all.all_products_count -%}
+      <a href="{{ routes.collections_url }}/all" class="bz-btn bz-btn-navy">Alle{%- if _all_count and _all_count > 0 %} {{ _all_count }}{%- endif %} Artikel ansehen <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
   </div>
 </section>
@@ -1179,7 +1180,7 @@
       "type": "collection",
       "id": "bestseller_collection",
       "label": "Bestseller-Kollektion",
-      "info": "Die ersten 3 Produkte dieser Collection werden als Bestseller angezeigt."
+      "info": "Die ersten 6 Produkte dieser Collection werden als Bestseller angezeigt."
     }
   ],
   "presets": [
