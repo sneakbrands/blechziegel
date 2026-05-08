@@ -45,6 +45,8 @@
     .bz-fl-launcher__label{display:none}
     .bz-fl-launcher__icon{width:32px;height:32px}
   }
+  /* Wenn Warenkorb-Drawer offen ist, Launcher verbergen — sonst ueberlagert er das Cart-Panel */
+  body.bz-cart-open .bz-fl-launcher{display:none !important}
 
   .bz-fl-backdrop{
     --bzfl-navy:#0d1e35;

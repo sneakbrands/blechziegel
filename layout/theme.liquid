@@ -107,6 +107,11 @@
       #tidio-chat-iframe-wrapper iframe {
         bottom: 92px !important;
       }
+      /* Cart-Drawer offen: Tidio ausblenden, sonst ueberlagert er das Cart-Panel */
+      body.bz-cart-open iframe#tidio-chat-iframe,
+      body.bz-cart-open iframe[id^="tidio-chat-iframe"],
+      body.bz-cart-open iframe[title="Tidio Chat"],
+      body.bz-cart-open #tidio-chat iframe { display: none !important; }
       @media (max-width: 640px) {
         iframe#tidio-chat-iframe,
         iframe[id^="tidio-chat-iframe"],
