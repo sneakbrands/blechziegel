@@ -22,6 +22,11 @@
   }
 {% endjavascript %}
 
+{% stylesheet %}
+  /* Produkt-Counter ('146 Produkte') auf Collection-Seiten ausblenden — visuell entfernt, aber im DOM fuer Screenreader/Tests erhalten */
+  .products-count-wrapper { display: none !important; }
+{% endstylesheet %}
+
 {% comment %} We always render this full-width, as the child blocks have width: page/full settings {% endcomment %}
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <results-list
