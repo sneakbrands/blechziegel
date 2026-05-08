@@ -1341,17 +1341,7 @@
     </a>
   </div>
 
-  <div class="bz-results-head">
-    <div class="bz-results-sort">
-      <select class="bz-sort-select" onchange="bzSort(this.value)">
-        <option value="manual" {% if current_sort == 'manual' %}selected{% endif %}>Sortieren: Beliebtheit</option>
-        <option value="price-ascending" {% if current_sort == 'price-ascending' %}selected{% endif %}>Preis: aufsteigend</option>
-        <option value="price-descending" {% if current_sort == 'price-descending' %}selected{% endif %}>Preis: absteigend</option>
-        <option value="title-ascending" {% if current_sort == 'title-ascending' %}selected{% endif %}>Name: A–Z</option>
-        <option value="created-descending" {% if current_sort == 'created-descending' %}selected{% endif %}>Neueste zuerst</option>
-      </select>
-    </div>
-  </div>
+  {%- comment -%} Results-Head (Counter + Sort) entfernt — Sort wird per Filter-Sidebar gesteuert {%- endcomment -%}
 </div>
 
 <div class="bz-col-layout">
