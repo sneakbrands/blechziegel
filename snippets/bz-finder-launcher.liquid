@@ -1,0 +1,271 @@
+{%- comment -%}
+  bz-finder-launcher.liquid
+  Floating Ziegel-Finder Launcher (Variante A) — auf jeder Seite verfuegbar.
+  Datenquelle: assets/ziegel-finder-data.json
+  Versteckt auf Cart + Checkout (lenkt vom Kaufabschluss ab).
+{%- endcomment -%}
+
+{%- if template != 'cart' and template != 'checkout' -%}
+
+<style>
+  .bz-fl-launcher{
+    --bzfl-navy:#0d1e35;
+    --bzfl-navy-mid:#152840;
+    --bzfl-orange:#f5a623;
+    --bzfl-orange-dark:#d4891a;
+    --bzfl-border:rgba(255,255,255,.18);
+    --bzfl-r:6px;
+
+    position:fixed;
+    right:22px; bottom:22px;
+    z-index:9998;
+    background:var(--bzfl-navy);
+    color:#fff;
+    border:0;
+    border-radius:999px;
+    padding:14px 22px 14px 16px;
+    font-family:var(--font-body-family,'Inter',sans-serif);
+    font-size:14px;font-weight:700;
+    cursor:pointer;
+    display:inline-flex;align-items:center;gap:10px;
+    box-shadow:0 8px 28px rgba(13,30,53,.32);
+    transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+  }
+  .bz-fl-launcher:hover{background:var(--bzfl-navy-mid);transform:translateY(-2px);box-shadow:0 12px 32px rgba(13,30,53,.42)}
+  .bz-fl-launcher__icon{
+    width:30px;height:30px;border-radius:50%;
+    background:var(--bzfl-orange);color:var(--bzfl-navy);
+    display:inline-flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .bz-fl-launcher__icon svg{width:16px;height:16px}
+  .bz-fl-launcher__label{display:inline}
+  @media(max-width:560px){
+    .bz-fl-launcher{padding:12px;border-radius:50%;right:14px;bottom:14px}
+    .bz-fl-launcher__label{display:none}
+    .bz-fl-launcher__icon{width:32px;height:32px}
+  }
+
+  .bz-fl-backdrop{
+    --bzfl-navy:#0d1e35;
+    position:fixed;inset:0;background:rgba(13,30,53,.55);
+    opacity:0;pointer-events:none;
+    transition:opacity .25s ease;
+    z-index:9998;
+  }
+  .bz-fl-backdrop[data-open="true"]{opacity:1;pointer-events:auto}
+
+  .bz-fl-drawer{
+    --bzfl-navy:#0d1e35;
+    --bzfl-navy-mid:#152840;
+    --bzfl-orange:#f5a623;
+    --bzfl-orange-dark:#d4891a;
+    --bzfl-border:rgba(255,255,255,.18);
+    --bzfl-r:6px;
+
+    position:fixed;top:0;right:0;bottom:0;
+    width:min(440px, 100%);
+    background:var(--bzfl-navy);
+    color:#fff;
+    z-index:9999;
+    transform:translateX(100%);
+    transition:transform .3s cubic-bezier(.4,0,.2,1);
+    display:flex;flex-direction:column;
+    box-shadow:-12px 0 40px rgba(0,0,0,.25);
+    font-family:var(--font-body-family,'Inter',sans-serif);
+    box-sizing:border-box;
+  }
+  .bz-fl-drawer *{box-sizing:border-box}
+  .bz-fl-drawer[data-open="true"]{transform:translateX(0)}
+  .bz-fl-drawer__head{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 22px;
+    border-bottom:1px solid var(--bzfl-border);
+  }
+  .bz-fl-drawer__title{font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--bzfl-orange);margin:0}
+  .bz-fl-drawer__close{
+    background:transparent;border:0;color:#fff;cursor:pointer;
+    width:36px;height:36px;border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;
+    transition:background .15s ease;
+  }
+  .bz-fl-drawer__close:hover{background:rgba(255,255,255,.1)}
+  .bz-fl-drawer__close svg{width:18px;height:18px}
+
+  .bz-fl-drawer__body{padding:24px 22px;overflow-y:auto;flex:1}
+  .bz-fl-drawer__lede{font-size:18px;font-weight:700;line-height:1.3;margin:0 0 6px;color:#fff}
+  .bz-fl-drawer__sub{font-size:13px;color:rgba(255,255,255,.6);margin:0 0 20px;line-height:1.5}
+
+  .bz-fl-field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+  .bz-fl-field label{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+  .bz-fl-field select{
+    appearance:none;-webkit-appearance:none;
+    background:rgba(255,255,255,.06);
+    color:#fff;
+    border:1.5px solid var(--bzfl-border);
+    border-radius:var(--bzfl-r);
+    padding:12px 36px 12px 14px;
+    font-size:15px;font-weight:600;
+    line-height:1.2;
+    cursor:pointer;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23f5a623' stroke-width='2.5'><path d='M6 9l6 6 6-6'/></svg>");
+    background-repeat:no-repeat;
+    background-position:right 12px center;
+    font-family:inherit;
+  }
+  .bz-fl-field select:focus{outline:none;border-color:var(--bzfl-orange)}
+  .bz-fl-field select:disabled{opacity:.5;cursor:not-allowed}
+  .bz-fl-field select option{color:#000;background:#fff}
+
+  .bz-fl-cta{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    background:var(--bzfl-orange);color:var(--bzfl-navy);
+    border:0;border-radius:var(--bzfl-r);
+    padding:14px 22px;
+    font-size:15px;font-weight:700;
+    cursor:pointer;
+    text-decoration:none;
+    transition:background .15s ease, opacity .15s ease;
+    margin-top:8px;
+    width:100%;
+    font-family:inherit;
+  }
+  .bz-fl-cta:hover{background:var(--bzfl-orange-dark);color:var(--bzfl-navy)}
+  .bz-fl-cta[aria-disabled="true"]{opacity:.4;pointer-events:none;background:rgba(255,255,255,.18);color:rgba(255,255,255,.55)}
+  .bz-fl-cta svg{width:14px;height:14px;flex-shrink:0}
+
+  .bz-fl-hint{margin-top:18px;padding-top:18px;border-top:1px solid var(--bzfl-border);font-size:13px;color:rgba(255,255,255,.55);line-height:1.65}
+  .bz-fl-hint a{color:var(--bzfl-orange);text-decoration:underline;text-underline-offset:2px;font-weight:600}
+  .bz-fl-hint a:hover{color:#fff}
+
+  @media(max-width:560px){
+    .bz-fl-drawer{
+      top:auto;left:0;right:0;bottom:0;
+      width:100%;
+      max-height:88vh;
+      transform:translateY(100%);
+      border-radius:18px 18px 0 0;
+    }
+    .bz-fl-drawer[data-open="true"]{transform:translateY(0)}
+  }
+</style>
+
+<button class="bz-fl-launcher" type="button" data-bz-fl-toggle aria-haspopup="dialog" aria-controls="bz-fl-drawer" aria-label="Ziegel-Finder oeffnen">
+  <span class="bz-fl-launcher__icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  </span>
+  <span class="bz-fl-launcher__label">Ziegel-Finder</span>
+</button>
+
+<div class="bz-fl-backdrop" data-bz-fl-close aria-hidden="true"></div>
+
+<aside class="bz-fl-drawer" id="bz-fl-drawer" role="dialog" aria-modal="true" aria-labelledby="bz-fl-title" aria-hidden="true" data-src="{{ 'ziegel-finder-data.json' | asset_url }}">
+  <div class="bz-fl-drawer__head">
+    <h3 class="bz-fl-drawer__title" id="bz-fl-title">Ziegel-Finder</h3>
+    <button class="bz-fl-drawer__close" type="button" data-bz-fl-close aria-label="Schließen">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div class="bz-fl-drawer__body">
+    <p class="bz-fl-drawer__lede">In 2 Schritten zum passenden Blechziegel</p>
+    <p class="bz-fl-drawer__sub">Hersteller wählen, dann Ziegeltyp — du landest direkt auf dem passenden Produkt.</p>
+
+    <div class="bz-fl-field">
+      <label for="bzfl-h">Hersteller</label>
+      <select id="bzfl-h" data-role="hersteller"><option value="">— Hersteller wählen —</option></select>
+    </div>
+    <div class="bz-fl-field">
+      <label for="bzfl-p">Ziegeltyp / Modell</label>
+      <select id="bzfl-p" data-role="profil" disabled><option value="">— erst Hersteller wählen —</option></select>
+    </div>
+
+    <a href="#" class="bz-fl-cta" data-role="cta" aria-disabled="true">
+      Passenden Blechziegel ansehen
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+
+    <div class="bz-fl-hint">
+      Profil unbekannt? <a href="/pages/ziegel-anfrage">Foto senden</a> — Antwort &lt; 24 h (Werktage).<br>
+      <a href="/pages/ziegel-finder">Detail-Finder mit Maß-Auswahl öffnen →</a>
+    </div>
+  </div>
+</aside>
+
+<script>
+(function(){
+  var drawer = document.getElementById('bz-fl-drawer');
+  if(!drawer || drawer.__bzInit) return;
+  drawer.__bzInit = true;
+
+  var src = drawer.getAttribute('data-src');
+  var hSel = drawer.querySelector('[data-role="hersteller"]');
+  var pSel = drawer.querySelector('[data-role="profil"]');
+  var cta  = drawer.querySelector('[data-role="cta"]');
+  var backdrop = document.querySelector('.bz-fl-backdrop');
+
+  function open(){
+    drawer.setAttribute('data-open','true');
+    drawer.setAttribute('aria-hidden','false');
+    if(backdrop){backdrop.setAttribute('data-open','true');}
+    document.body.style.overflow='hidden';
+    if(!drawer.__loaded) loadData();
+  }
+  function close(){
+    drawer.setAttribute('data-open','false');
+    drawer.setAttribute('aria-hidden','true');
+    if(backdrop){backdrop.setAttribute('data-open','false');}
+    document.body.style.overflow='';
+  }
+  document.querySelectorAll('[data-bz-fl-toggle]').forEach(function(b){b.addEventListener('click',open);});
+  document.querySelectorAll('[data-bz-fl-close]').forEach(function(b){b.addEventListener('click',close);});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&drawer.getAttribute('data-open')==='true')close();});
+
+  function setCtaEnabled(href){
+    if(href){ cta.setAttribute('href', href); cta.setAttribute('aria-disabled','false'); }
+    else    { cta.setAttribute('href', '#');  cta.setAttribute('aria-disabled','true'); }
+  }
+
+  function loadData(){
+    drawer.__loaded = true;
+    fetch(src,{credentials:'same-origin'}).then(function(r){return r.json();}).then(function(data){
+      var map = {};
+      data.forEach(function(p){
+        (p.matches||[]).forEach(function(m){
+          if(!m||!m.hersteller||!m.profil) return;
+          var H=String(m.hersteller).trim(), P=String(m.profil).trim();
+          if(!H||!P) return;
+          if(!map[H]) map[H]={};
+          if(!map[H][P]) map[H][P]=[];
+          if(map[H][P].indexOf(p.handle)<0) map[H][P].push(p.handle);
+        });
+      });
+      var herstellers = Object.keys(map).sort(function(a,b){return a.localeCompare(b,'de');});
+      herstellers.forEach(function(h){
+        var o=document.createElement('option'); o.value=h; o.textContent=h+' ('+Object.keys(map[h]).length+')'; hSel.appendChild(o);
+      });
+      function refreshCta(){
+        var h=hSel.value, p=pSel.value;
+        if(h && p && map[h] && map[h][p] && map[h][p].length) setCtaEnabled('/products/'+map[h][p][0]);
+        else setCtaEnabled(null);
+      }
+      hSel.addEventListener('change', function(){
+        pSel.innerHTML = '<option value="">— Profil wählen —</option>';
+        var h = hSel.value;
+        if(!h){ pSel.disabled=true; refreshCta(); return; }
+        var profs = Object.keys(map[h]).sort(function(a,b){return a.localeCompare(b,'de');});
+        profs.forEach(function(pr){var o=document.createElement('option'); o.value=pr; o.textContent=pr; pSel.appendChild(o);});
+        pSel.disabled=false;
+        refreshCta();
+      });
+      pSel.addEventListener('change', refreshCta);
+      cta.addEventListener('click', function(e){if(cta.getAttribute('aria-disabled')==='true')e.preventDefault();});
+    }).catch(function(e){
+      console.error('[bz-finder-launcher] data load failed', e);
+      hSel.innerHTML='<option value="">— Finder nicht verfügbar —</option>';
+      hSel.disabled=true;
+    });
+  }
+})();
+</script>
+
+{%- endif -%}
