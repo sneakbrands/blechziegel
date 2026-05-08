@@ -33,7 +33,7 @@
   {%- endfor -%}
 {%- endif -%}
 
-<div class="bz-product-card">
+<div class="bz-product-card" data-product-type="{{ product.type | escape }}">
   <a href="{{ product.url }}{% if active_color_filter != '' %}?variant={{ variant.id }}{% endif %}" class="bz-product-img-link" aria-label="{{ product.title | escape }}">
     <div class="bz-product-img">
       {%- if card_image -%}

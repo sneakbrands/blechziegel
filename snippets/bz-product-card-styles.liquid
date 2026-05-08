@@ -1,5 +1,8 @@
 <style>
   .bz-products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  /* Zubehoer (alles, was nicht product.type 'Ziegel' ist) immer ans Ende des sichtbaren Grids sortieren */
+  .bz-products-grid .bz-product-card { order: 0; }
+  .bz-products-grid .bz-product-card:not([data-product-type="Ziegel"]) { order: 1; }
 
   .bz-product-card {
     background: #ffffff;
