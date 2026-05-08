@@ -696,7 +696,7 @@
       {%- endfor -%}
     </div>
     <div class="bz-products-more">
-      {%- assign _all_count = collections.all.all_products_count -%}
+      {%- assign _all_count = section.settings.total_articles_count -%}
       <a href="{{ routes.collections_url }}/all" class="bz-btn bz-btn-navy">Alle{%- if _all_count and _all_count > 0 %} {{ _all_count }}{%- endif %} Artikel ansehen <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
   </div>
@@ -1181,6 +1181,13 @@
       "id": "bestseller_collection",
       "label": "Bestseller-Kollektion",
       "info": "Die ersten 6 Produkte dieser Collection werden als Bestseller angezeigt."
+    },
+    {
+      "type": "number",
+      "id": "total_articles_count",
+      "label": "Gesamt-Artikelanzahl im CTA",
+      "info": "Wird im Button 'Alle X Artikel ansehen' angezeigt. Aktuell 143 aktive PV-Dachziegel. Leer lassen, um die Zahl auszublenden.",
+      "default": 143
     }
   ],
   "presets": [
