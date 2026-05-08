@@ -271,6 +271,19 @@
   .hp-hero__media img { object-position:right center; }
 }
 
+/* ── Bestseller (analog Startseite) ── */
+.zf-bestseller { background:#f8f8f6; }
+.zf-bestseller .bz-products-grid,
+.zf-bestseller__grid { margin-top:28px; }
+.zf-bestseller__more { display:flex; justify-content:center; margin-top:32px; }
+.zf-bestseller__more .hp-btn { display:inline-flex; align-items:center; gap:8px; }
+@media (max-width:900px){
+  .zf-bestseller__grid.bz-products-grid { grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width:560px){
+  .zf-bestseller__grid.bz-products-grid { grid-template-columns:1fr; }
+}
+
 /* ── FAQ / Page-Content im Produkt-CI (Navy #1d3686 + Orange #e88a18) ── */
 .zf-pagecontent__inner { font-family:'Inter',sans-serif; color:#333; font-size:15px; line-height:1.75; }
 .zf-pagecontent__inner h2 {
@@ -506,6 +519,40 @@
 
     </div>
   </section>
+
+  {%- comment -%}══ BESTSELLER (analog Startseite, unter dem 3er-Grid) ══{%- endcomment -%}
+  {%- assign zf_bs_collection = collections['frontpage'] | default: collections['all'] -%}
+  {%- assign _zf_bs_count = 0 -%}
+  {%- for _p in zf_bs_collection.products -%}
+    {%- if _p.type == 'Ziegel' -%}{%- assign _zf_bs_count = _zf_bs_count | plus: 1 -%}{%- endif -%}
+    {%- if _zf_bs_count >= 1 -%}{%- break -%}{%- endif -%}
+  {%- endfor -%}
+  {%- if _zf_bs_count > 0 -%}
+  {% render 'bz-product-card-styles' %}
+  <section class="hp-section hp-section--white zf-bestseller" aria-labelledby="zf-bestseller-title">
+    <div class="hp-wrap">
+      <span class="hp-section-label">Bestseller</span>
+      <h2 class="hp-section-title" id="zf-bestseller-title">Die meistgekauften PV-Dachziegel</h2>
+      <p class="hp-section-sub">Diese Aluminium-Blechziegel werden am häufigsten bestellt — falls dein Profil in der Liste ist, kannst du direkt einsteigen.</p>
+      <div class="bz-products-grid zf-bestseller__grid">
+        {%- assign _bs_shown = 0 -%}
+        {%- for product in zf_bs_collection.products -%}
+          {%- if product.type == 'Ziegel' -%}
+            {% render 'bz-product-card', product: product, show_bestseller: _bs_shown == 0 %}
+            {%- assign _bs_shown = _bs_shown | plus: 1 -%}
+            {%- if _bs_shown >= 6 -%}{%- break -%}{%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      <div class="zf-bestseller__more">
+        <a href="{{ routes.collections_url }}/all" class="hp-btn hp-btn--primary">
+          Alle Artikel ansehen
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+  {%- endif -%}
 
   <!-- BERATUNG / UNSICHER -->
   <section class="hp-section hp-section--white zf-consult-section" aria-labelledby="zf-consult-title">
