@@ -176,7 +176,7 @@
     </div>
     <div class="bz-fl-field">
       <label for="bzfl-p">Ziegeltyp / Modell</label>
-      <select id="bzfl-p" data-role="profil" disabled><option value="">— erst Hersteller wählen —</option></select>
+      <select id="bzfl-p" data-role="profil"><option value="">— Ziegeltyp wählen —</option></select>
     </div>
 
     <a href="#" class="bz-fl-cta" data-role="cta" aria-disabled="true">
@@ -228,7 +228,8 @@
   function loadData(){
     drawer.__loaded = true;
     fetch(src,{credentials:'same-origin'}).then(function(r){return r.json();}).then(function(data){
-      var map = {};
+      var map = {};   // H -> P -> [handles]
+      var pmap = {};  // P -> H -> [handles]
       data.forEach(function(p){
         (p.matches||[]).forEach(function(m){
           if(!m||!m.hersteller||!m.profil) return;
@@ -237,27 +238,57 @@
           if(!map[H]) map[H]={};
           if(!map[H][P]) map[H][P]=[];
           if(map[H][P].indexOf(p.handle)<0) map[H][P].push(p.handle);
+          if(!pmap[P]) pmap[P]={};
+          if(!pmap[P][H]) pmap[P][H]=[];
+          if(pmap[P][H].indexOf(p.handle)<0) pmap[P][H].push(p.handle);
         });
       });
-      var herstellers = Object.keys(map).sort(function(a,b){return a.localeCompare(b,'de');});
-      herstellers.forEach(function(h){
-        var o=document.createElement('option'); o.value=h; o.textContent=h+' ('+Object.keys(map[h]).length+')'; hSel.appendChild(o);
-      });
-      function refreshCta(){
-        var h=hSel.value, p=pSel.value;
-        if(h && p && map[h] && map[h][p] && map[h][p].length) setCtaEnabled('/products/'+map[h][p][0]);
-        else setCtaEnabled(null);
+      var allH = Object.keys(map).sort(function(a,b){return a.localeCompare(b,'de');});
+      var allP = Object.keys(pmap).sort(function(a,b){return a.localeCompare(b,'de');});
+
+      function bestHref(h, p){
+        if(h && p){ return (map[h]&&map[h][p]&&map[h][p].length) ? '/products/'+map[h][p][0] : null; }
+        if(p && !h){
+          var hs = Object.keys(pmap[p]||{}).sort(function(a,b){return a.localeCompare(b,'de');});
+          for(var i=0;i<hs.length;i++){ var arr=pmap[p][hs[i]]; if(arr&&arr.length) return '/products/'+arr[0]; }
+        }
+        return null;
       }
-      hSel.addEventListener('change', function(){
-        pSel.innerHTML = '<option value="">— Profil wählen —</option>';
-        var h = hSel.value;
-        if(!h){ pSel.disabled=true; refreshCta(); return; }
-        var profs = Object.keys(map[h]).sort(function(a,b){return a.localeCompare(b,'de');});
-        profs.forEach(function(pr){var o=document.createElement('option'); o.value=pr; o.textContent=pr; pSel.appendChild(o);});
-        pSel.disabled=false;
-        refreshCta();
-      });
-      pSel.addEventListener('change', refreshCta);
+      function rebuild(sel, values, current, placeholder){
+        sel.innerHTML = '';
+        var ph = document.createElement('option'); ph.value=''; ph.textContent = placeholder; sel.appendChild(ph);
+        var has = false;
+        values.forEach(function(v){
+          var o=document.createElement('option'); o.value=v.value; o.textContent=v.label; sel.appendChild(o);
+          if (v.value === current) has = true;
+        });
+        sel.value = has ? current : '';
+      }
+      function herstellerOpts(p){
+        var list = p ? Object.keys(pmap[p]||{}) : allH;
+        list = list.sort(function(a,b){return a.localeCompare(b,'de');});
+        return list.map(function(h){
+          var n = p ? (pmap[p][h]||[]).length : Object.keys(map[h]).length;
+          return { value:h, label: h + ' (' + n + ')' };
+        });
+      }
+      function profilOpts(h){
+        var list = h ? Object.keys(map[h]||{}) : allP;
+        list = list.sort(function(a,b){return a.localeCompare(b,'de');});
+        return list.map(function(p){ return { value:p, label:p }; });
+      }
+
+      rebuild(hSel, herstellerOpts(null), '', '— Hersteller wählen —');
+      rebuild(pSel, profilOpts(null), '', '— Ziegeltyp wählen —');
+
+      function refresh(){
+        var h = hSel.value, p = pSel.value;
+        rebuild(hSel, herstellerOpts(p || null), h, '— Hersteller wählen —');
+        rebuild(pSel, profilOpts(h || null), p, '— Ziegeltyp wählen —');
+        setCtaEnabled(bestHref(hSel.value, pSel.value));
+      }
+      hSel.addEventListener('change', refresh);
+      pSel.addEventListener('change', refresh);
       cta.addEventListener('click', function(e){if(cta.getAttribute('aria-disabled')==='true')e.preventDefault();});
     }).catch(function(e){
       console.error('[bz-finder-launcher] data load failed', e);

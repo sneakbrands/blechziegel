@@ -102,7 +102,7 @@
   </div>
   <div class="bz-finder-compact__field">
     <label for="bzfc-p">Ziegeltyp / Modell</label>
-    <select id="bzfc-p" data-role="profil" disabled aria-label="Ziegeltyp waehlen"><option value="">— erst Hersteller wählen —</option></select>
+    <select id="bzfc-p" data-role="profil" aria-label="Ziegeltyp waehlen"><option value="">— Ziegeltyp wählen —</option></select>
   </div>
   <a href="#" class="bz-finder-compact__cta" data-role="cta" aria-disabled="true">Passende anzeigen
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -127,14 +127,39 @@
     if(href){ cta.setAttribute('href', href); cta.setAttribute('aria-disabled','false'); }
     else    { cta.setAttribute('href', '#');  cta.setAttribute('aria-disabled','true'); }
   }
-  function refreshCta(map){
-    var h=hSel.value, p=pSel.value;
-    if(h && p && map[h] && map[h][p] && map[h][p].length) setCtaEnabled('/products/' + map[h][p][0]);
-    else setCtaEnabled(null);
+
+  // map: hersteller -> profil -> [handle, ...]
+  // pmap: profil -> hersteller -> [handle, ...]   (Reverse-Index fuer Profile-First-Flow)
+  function bestHrefFor(map, pmap, h, p){
+    if(h && p){
+      if(map[h] && map[h][p] && map[h][p].length) return '/products/' + map[h][p][0];
+      return null;
+    }
+    if(p && !h){
+      // alle Hersteller mit diesem Profil — nimm den ersten alphabetisch (deutsch)
+      var hs = Object.keys(pmap[p] || {}).sort(function(a,b){return a.localeCompare(b,'de');});
+      for (var i=0;i<hs.length;i++){
+        var arr = pmap[p][hs[i]];
+        if (arr && arr.length) return '/products/' + arr[0];
+      }
+    }
+    return null;
+  }
+
+  function rebuildOptions(sel, values, currentValue, placeholder){
+    sel.innerHTML = '';
+    var ph = document.createElement('option'); ph.value=''; ph.textContent = placeholder; sel.appendChild(ph);
+    var has = false;
+    values.forEach(function(v){
+      var o=document.createElement('option'); o.value=v.value; o.textContent=v.label; sel.appendChild(o);
+      if (v.value === currentValue) has = true;
+    });
+    if (has) sel.value = currentValue; else sel.value = '';
   }
 
   fetch(src,{credentials:'same-origin'}).then(function(r){return r.json();}).then(function(data){
-    var map = {};
+    var map = {};   // H -> P -> [handles]
+    var pmap = {};  // P -> H -> [handles]
     data.forEach(function(p){
       (p.matches||[]).forEach(function(m){
         if(!m||!m.hersteller||!m.profil) return;
@@ -143,26 +168,43 @@
         if(!map[H]) map[H]={};
         if(!map[H][P]) map[H][P]=[];
         if(map[H][P].indexOf(p.handle)<0) map[H][P].push(p.handle);
+        if(!pmap[P]) pmap[P]={};
+        if(!pmap[P][H]) pmap[P][H]=[];
+        if(pmap[P][H].indexOf(p.handle)<0) pmap[P][H].push(p.handle);
       });
     });
-    var herstellers = Object.keys(map).sort(function(a,b){return a.localeCompare(b,'de');});
-    herstellers.forEach(function(h){
-      var o=document.createElement('option');
-      o.value=h; o.textContent=h+' ('+Object.keys(map[h]).length+')';
-      hSel.appendChild(o);
-    });
-    hSel.addEventListener('change', function(){
-      pSel.innerHTML = '<option value="">— Profil wählen —</option>';
-      var h = hSel.value;
-      if(!h){ pSel.disabled=true; refreshCta(map); return; }
-      var profs = Object.keys(map[h]).sort(function(a,b){return a.localeCompare(b,'de');});
-      profs.forEach(function(pr){
-        var o=document.createElement('option'); o.value=pr; o.textContent=pr; pSel.appendChild(o);
+
+    var allHerstellers = Object.keys(map).sort(function(a,b){return a.localeCompare(b,'de');});
+    var allProfiles    = Object.keys(pmap).sort(function(a,b){return a.localeCompare(b,'de');});
+
+    function herstellerOptions(filterProfil){
+      var list = filterProfil ? Object.keys(pmap[filterProfil]||{}) : allHerstellers;
+      list = list.sort(function(a,b){return a.localeCompare(b,'de');});
+      return list.map(function(h){
+        var n = filterProfil ? (pmap[filterProfil][h]||[]).length : Object.keys(map[h]).length;
+        return { value:h, label: h + ' (' + n + ')' };
       });
-      pSel.disabled=false;
-      refreshCta(map);
-    });
-    pSel.addEventListener('change', function(){ refreshCta(map); });
+    }
+    function profilOptions(filterHersteller){
+      var list = filterHersteller ? Object.keys(map[filterHersteller]||{}) : allProfiles;
+      list = list.sort(function(a,b){return a.localeCompare(b,'de');});
+      return list.map(function(p){ return { value:p, label:p }; });
+    }
+
+    // Initial: beide Dropdowns voll befuellt
+    rebuildOptions(hSel, herstellerOptions(null), '', '— Hersteller wählen —');
+    rebuildOptions(pSel, profilOptions(null), '', '— Ziegeltyp wählen —');
+
+    function refresh(){
+      var h = hSel.value, p = pSel.value;
+      // gegenseitige Filter
+      rebuildOptions(hSel, herstellerOptions(p || null), h, '— Hersteller wählen —');
+      rebuildOptions(pSel, profilOptions(h || null), p, '— Ziegeltyp wählen —');
+      setCtaEnabled(bestHrefFor(map, pmap, hSel.value, pSel.value));
+    }
+
+    hSel.addEventListener('change', refresh);
+    pSel.addEventListener('change', refresh);
     cta.addEventListener('click', function(e){
       if(cta.getAttribute('aria-disabled')==='true'){ e.preventDefault(); }
     });
