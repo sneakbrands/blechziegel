@@ -276,16 +276,14 @@
 .zf-pagecontent__inner h2 {
   color:#1d3686;
   font-family:'Inter',sans-serif;
-  font-size:22px;
+  font-size:26px;
   font-weight:700;
   letter-spacing:0;
-  line-height:1.25;
-  margin:36px 0 14px;
-  padding-bottom:8px;
+  line-height:1.2;
+  margin:0 0 14px;
+  padding-bottom:10px;
   border-bottom:2px solid #e88a18;
 }
-.zf-pagecontent__inner > h2:first-child,
-.zf-pagecontent__inner > p:first-child + h2 { margin-top:0; }
 .zf-pagecontent__inner h3 {
   color:#1d3686;
   font-family:'Inter',sans-serif;
@@ -300,9 +298,102 @@
 .zf-pagecontent__inner strong { color:#1d3686; font-weight:600; }
 .zf-pagecontent__inner a { color:#e88a18; text-decoration:underline; text-underline-offset:3px; font-weight:600; }
 .zf-pagecontent__inner a:hover { color:#1d3686; }
+
+/* Eyebrow + Lede */
+.zf-pagecontent__inner .zf-faq-eyebrow {
+  font-family:var(--bz-head, 'Montserrat',sans-serif);
+  font-size:11px; font-weight:700;
+  letter-spacing:.25em; text-transform:uppercase;
+  color:rgba(0,0,0,.55);
+  margin:0 0 10px;
+}
+.zf-pagecontent__inner .zf-faq-lede {
+  font-size:16px; color:rgba(0,0,0,.6); margin:0 0 28px; max-width:640px; line-height:1.6;
+}
+
+/* Intro-Block (mit Trennlinie) */
+.zf-pagecontent__inner .zf-faq-intro {
+  margin:0 0 28px; padding:0 0 24px;
+  border-bottom:1px solid #e6e6e6;
+}
+.zf-pagecontent__inner .zf-faq-intro p { color:rgba(0,0,0,.7); font-size:15px; line-height:1.7; }
+
+/* Accordion */
+.zf-pagecontent__inner .zf-faq-list {
+  display:grid; gap:0;
+  border-top:1px solid #e6e6e6;
+}
+.zf-pagecontent__inner details.zf-faq-item {
+  border-bottom:1px solid #e6e6e6;
+  padding:0;
+}
+.zf-pagecontent__inner details.zf-faq-item > summary {
+  list-style:none;
+  cursor:pointer;
+  padding:20px 48px 20px 0;
+  position:relative;
+  font-family:'Inter',sans-serif;
+  font-size:17px;
+  font-weight:600;
+  line-height:1.4;
+  color:#1d3686;
+  transition:color .15s ease;
+}
+.zf-pagecontent__inner details.zf-faq-item > summary::-webkit-details-marker { display:none; }
+.zf-pagecontent__inner details.zf-faq-item > summary:hover { color:#e88a18; }
+.zf-pagecontent__inner details.zf-faq-item > summary::after {
+  content:""; position:absolute; right:8px; top:50%;
+  width:12px; height:12px;
+  border-right:2px solid #e88a18;
+  border-bottom:2px solid #e88a18;
+  transform:translateY(-70%) rotate(45deg);
+  transition:transform .2s ease;
+}
+.zf-pagecontent__inner details.zf-faq-item[open] > summary::after {
+  transform:translateY(-30%) rotate(-135deg);
+}
+.zf-pagecontent__inner details.zf-faq-item > .zf-faq-answer {
+  padding:0 48px 22px 0;
+  font-size:15px; line-height:1.7;
+  color:#333;
+}
+.zf-pagecontent__inner details.zf-faq-item > .zf-faq-answer p { margin:0 0 12px; }
+.zf-pagecontent__inner details.zf-faq-item > .zf-faq-answer p:last-child { margin-bottom:0; }
+
+/* CTA-Box */
+.zf-pagecontent__inner .zf-faq-cta {
+  margin-top:28px; padding:22px 24px;
+  border:1px solid #e6e6e6;
+  border-radius:14px;
+  display:flex; flex-wrap:wrap; gap:18px;
+  align-items:center; justify-content:space-between;
+  background:#fafafa;
+}
+.zf-pagecontent__inner .zf-faq-cta__text {
+  font-size:14px; line-height:1.55;
+  color:rgba(0,0,0,.7); max-width:480px;
+}
+.zf-pagecontent__inner .zf-faq-cta__text strong { color:#1d3686; font-weight:700; }
+.zf-pagecontent__inner .zf-faq-cta__btn {
+  display:inline-flex; align-items:center; justify-content:center;
+  background:#e88a18; color:#1d3686 !important;
+  font-family:'Inter',sans-serif; font-size:14px; font-weight:700;
+  padding:13px 22px; border-radius:14px;
+  text-decoration:none; border:0; cursor:pointer;
+  transition:background .15s ease, transform .15s ease;
+  letter-spacing:.02em; white-space:nowrap;
+}
+.zf-pagecontent__inner .zf-faq-cta__btn:hover {
+  background:#d97a0e; color:#1d3686 !important;
+  transform:translateY(-1px);
+}
+
 @media (max-width:640px) {
-  .zf-pagecontent__inner h2 { font-size:20px; margin-top:28px; }
+  .zf-pagecontent__inner h2 { font-size:22px; }
   .zf-pagecontent__inner h3 { font-size:16px; }
+  .zf-pagecontent__inner details.zf-faq-item > summary { font-size:16px; padding-right:36px; }
+  .zf-pagecontent__inner .zf-faq-cta { flex-direction:column; align-items:stretch; }
+  .zf-pagecontent__inner .zf-faq-cta__btn { text-align:center; }
 }
 </style>
 
