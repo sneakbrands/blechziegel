@@ -1342,9 +1342,6 @@
   </div>
 
   <div class="bz-results-head">
-    <div class="bz-results-count">
-      <strong>{{ collection.products_count }}</strong> {{ collection.products_count | pluralize: 'Produkt', 'Produkte' }}
-    </div>
     <div class="bz-results-sort">
       <select class="bz-sort-select" onchange="bzSort(this.value)">
         <option value="manual" {% if current_sort == 'manual' %}selected{% endif %}>Sortieren: Beliebtheit</option>
