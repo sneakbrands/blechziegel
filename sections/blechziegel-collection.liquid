@@ -575,7 +575,7 @@
   .bz-col-top .bz-results-head { margin-bottom: 0; }
   .bz-col-layout {
     display: grid;
-    grid-template-columns: 296px 1fr;
+    grid-template-columns: 1fr;
     gap: 32px;
     align-items: start;
     max-width: 1280px;
@@ -583,7 +583,8 @@
     padding: 14px 20px 40px;
   }
   .bz-filter-drawer-cb { display: none; }
-  .bz-filter-mobile-toggle { display: none; }
+  .bz-filter-mobile-toggle { display: none !important; }
+  .bz-filter-sidebar { display: none !important; }
 
   .bz-filter-sidebar {
     background: #fff;
