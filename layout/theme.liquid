@@ -94,6 +94,23 @@
         {%- endif -%}
       {%- endif -%}
     {%- endif -%}
+
+    {%- comment -%} Tidio Chat-Widget auf die linke Seite schieben {%- endcomment -%}
+    <style>
+      #tidio-chat-iframe,
+      iframe#tidio-chat-iframe,
+      iframe[id^="tidio-chat-iframe"] {
+        left: 9px !important;
+        right: auto !important;
+      }
+      /* Mobile Tidio-Vollbild-Iframe nicht versetzen — der nutzt links:0/right:0 */
+      @media (max-width: 640px) {
+        iframe#tidio-chat-iframe[style*="width: 100%"],
+        iframe#tidio-chat-iframe[style*="width:100%"] {
+          left: 0 !important;
+        }
+      }
+    </style>
   </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }} template-{{ request.page_type | handle }}{% if page.handle %} page-{{ page.handle }}{% endif %}">
