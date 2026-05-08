@@ -1679,7 +1679,15 @@
             if (status) status.style.display = 'none';
           }
           loading = false;
-          if (status) status.style.display = done ? 'none' : 'none';
+          if (status) status.style.display = 'none';
+          // Wenn Sentinel weiterhin im Viewport (rootMargin) liegt, gleich naechste Seite laden —
+          // IntersectionObserver feuert nicht erneut, solange der Status 'intersecting' bleibt.
+          if (!done) {
+            var r = sentinel.getBoundingClientRect();
+            if (r.top < window.innerHeight + 400 && r.bottom > -400) {
+              loadNext();
+            }
+          }
         })
         .catch(function() {
           loading = false;
