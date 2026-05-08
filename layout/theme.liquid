@@ -95,19 +95,21 @@
       {%- endif -%}
     {%- endif -%}
 
-    {%- comment -%} Tidio Chat-Widget auf die linke Seite schieben {%- endcomment -%}
+    {%- comment -%} Tidio Chat-Widget oberhalb des Ziegel-Finder-Launchers stapeln (rechts unten) {%- endcomment -%}
     <style>
-      #tidio-chat-iframe,
       iframe#tidio-chat-iframe,
       iframe[id^="tidio-chat-iframe"] {
-        left: 9px !important;
-        right: auto !important;
+        bottom: 92px !important;
       }
-      /* Mobile Tidio-Vollbild-Iframe nicht versetzen — der nutzt links:0/right:0 */
       @media (max-width: 640px) {
-        iframe#tidio-chat-iframe[style*="width: 100%"],
-        iframe#tidio-chat-iframe[style*="width:100%"] {
-          left: 0 !important;
+        iframe#tidio-chat-iframe,
+        iframe[id^="tidio-chat-iframe"] {
+          bottom: 78px !important;
+        }
+        /* Vollbild-Iframe (Chat geoeffnet) nicht verschieben — nutzt 100% Hoehe */
+        iframe#tidio-chat-iframe[style*="height: 100%"],
+        iframe#tidio-chat-iframe[style*="height:100%"] {
+          bottom: 0 !important;
         }
       }
     </style>
