@@ -204,7 +204,15 @@
     }
 
     hSel.addEventListener('change', refresh);
-    pSel.addEventListener('change', refresh);
+    pSel.addEventListener('change', function(){
+      refresh();
+      // Direkt-Navigation wenn der Nutzer einen Ziegeltyp gewaehlt hat und
+      // wir ein eindeutiges Produkt aufloesen koennen (mit oder ohne Hersteller).
+      var href = bestHrefFor(map, pmap, hSel.value, pSel.value);
+      if (pSel.value && href) {
+        window.location.assign(href);
+      }
+    });
     cta.addEventListener('click', function(e){
       if(cta.getAttribute('aria-disabled')==='true'){ e.preventDefault(); }
     });

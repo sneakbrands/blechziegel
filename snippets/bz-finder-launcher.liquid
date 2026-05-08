@@ -288,7 +288,11 @@
         setCtaEnabled(bestHref(hSel.value, pSel.value));
       }
       hSel.addEventListener('change', refresh);
-      pSel.addEventListener('change', refresh);
+      pSel.addEventListener('change', function(){
+        refresh();
+        var href = bestHref(hSel.value, pSel.value);
+        if (pSel.value && href) { window.location.assign(href); }
+      });
       cta.addEventListener('click', function(e){if(cta.getAttribute('aria-disabled')==='true')e.preventDefault();});
     }).catch(function(e){
       console.error('[bz-finder-launcher] data load failed', e);
