@@ -2314,7 +2314,7 @@
   "sku": {{ seo_variant.sku | default: product.id | json }},
   "mpn": {{ product.id | append: '-' | append: seo_variant.id | json }},
   "url": {{ shop.url | append: product.url | json }},
-  "brand": { "@type": "Brand", "name": "Blechziegel.de" },
+  "brand": { "@type": "Brand", "name": {% if brand_name != blank %}{{ brand_name | json }}{% else %}"Blechziegel.de"{% endif %} },
   "manufacturer": { "@type": "Organization", "name": "TiWi Trade GmbH", "url": {{ shop.url | json }} },
   {%- if mf_typ != blank -%}
   "category": {{ mf_typ.value | json }},
@@ -2328,12 +2328,17 @@
     {%- endif -%}
   ],
   {%- endif -%}
+  {%- comment -%}
+    isRelatedTo entfernt: Schema.org-Vorgabe ist, dass jedes Product-Node
+    offers/aggregateRating/review enthaelt. Die zuvor hier emittierten
+    "Hersteller-Profil"-Eintraege (z.B. "Frankfurter Pfanne (Braas)")
+    sind keine Produkte im Shop und haben keine Preise/Reviews. Sie sorgten
+    fuer 16 GSC-"ungueltige Product-Items"-Warnungen. Die Kompatibilitaet
+    bleibt ueber description, additionalProperty (Laenge/Breite/Material)
+    und keywords (siehe unten) abgedeckt -- ohne irrefuehrende Schema-Nodes.
+  {%- endcomment -%}
   {%- if mf_hersteller != blank -%}
-  "isRelatedTo": [
-    {%- for h in mf_hersteller.value -%}
-      { "@type": "Product", "name": {{ h | json }} }{%- unless forloop.last -%},{%- endunless -%}
-    {%- endfor -%}
-  ],
+  "keywords": "{%- for h in mf_hersteller.value -%}{{ h }}{%- unless forloop.last -%}, {%- endunless -%}{%- endfor -%}",
   {%- endif -%}
   "offers": {
     "@type": "AggregateOffer",
