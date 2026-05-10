@@ -1468,7 +1468,7 @@
       <noscript>
         <div class="bz-pagination-fallback" style="display:flex;justify-content:center;gap:8px;margin-top:40px;flex-wrap:wrap;">
           {%- if paginate.previous -%}
-            <a href="{{ paginate.previous.url }}" style="padding:10px 18px;border:1.5px solid var(--bz-border);border-radius:var(--bz-r);font-size:13px;font-weight:600;color:var(--bz-navy);text-decoration:none;">&larr; Zurück</a>
+            <a href="{{ paginate.previous.url }}" rel="prev" aria-label="Vorherige Produktseite" style="padding:10px 18px;border:1.5px solid var(--bz-border);border-radius:var(--bz-r);font-size:13px;font-weight:600;color:var(--bz-navy);text-decoration:none;">&larr; Vorherige Produktseite</a>
           {%- endif -%}
           {%- for part in paginate.parts -%}
             {%- if part.is_link -%}
@@ -1480,7 +1480,7 @@
             {%- endif -%}
           {%- endfor -%}
           {%- if paginate.next -%}
-            <a href="{{ paginate.next.url }}" style="padding:10px 18px;border:1.5px solid var(--bz-border);border-radius:var(--bz-r);font-size:13px;font-weight:600;color:var(--bz-navy);text-decoration:none;">Weiter &rarr;</a>
+            <a href="{{ paginate.next.url }}" rel="next" aria-label="Naechste Produktseite" style="padding:10px 18px;border:1.5px solid var(--bz-border);border-radius:var(--bz-r);font-size:13px;font-weight:600;color:var(--bz-navy);text-decoration:none;">Naechste Produktseite &rarr;</a>
           {%- endif -%}
         </div>
       </noscript>
