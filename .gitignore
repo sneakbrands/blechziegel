@@ -22,3 +22,4 @@ backups/
 PDP_PREVIEW.html
 scripts/coll-test/screenshots/
 scripts/coll-test/**/*.log
+audits/
