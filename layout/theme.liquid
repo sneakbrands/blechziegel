@@ -65,6 +65,18 @@
     {{ content_for_header }}
 
     {%- comment -%}
+      EN-Locale ist publiziert, aber inhaltlich noch nicht uebersetzt
+      (Translate & Adapt liefert deutsche Quelltexte unter /en/*).
+      Bis zur echten EN-Umsetzung: noindex fuer alle /en/*-Routen, damit
+      Google keine halbfertigen EN-Seiten in den Index nimmt und keine
+      Duplicate-Content-Probleme entstehen. Folge-Links bleiben crawlbar.
+      Entfernen, sobald EN-Inhalte real uebersetzt sind.
+    {%- endcomment -%}
+    {%- if request.locale.iso_code == 'en' -%}
+      <meta name="robots" content="noindex, follow">
+    {%- endif -%}
+
+    {%- comment -%}
       Fallback Meta-Description fuer Collection-Seiten ohne admin-gepflegte
       collection.description. Erzeugt eine sachliche, brand-spezifische
       Beschreibung aus dem im Theme gepflegten hersteller_blurb.
