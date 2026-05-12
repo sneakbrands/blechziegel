@@ -4238,11 +4238,6 @@ product-recommendations:has([data-has-recommendations='false']) {
   }
 }
 
-.cc-revoke,
-.cc-widget,
-[data-ccm19-fingerprint],
-#ccm19-fingerprint,
-.ccm-widget,
-.ccm-fingerprint {
+.ccm-settings-summoner {
   display: none !important;
 }
