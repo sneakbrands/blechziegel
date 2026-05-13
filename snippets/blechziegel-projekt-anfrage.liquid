@@ -306,7 +306,7 @@
               <input type="hidden" name="_template" value="table">
               <input type="hidden" name="_next" value="{{ shop.url }}/pages/anfrage-erfolg">
               <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;">
-              <input type="hidden" name="_cc" id="pa-cc" value="info@sneak-brands.de">
+              <input type="hidden" name="_cc" id="pa-cc" value="info@sneak-brands.de,anfrage@blechziegel.de">
 
               <!-- Block 1: Projekt / Menge -->
               <div class="hp-form__block">
@@ -627,7 +627,7 @@
     // Festes internes CC bleibt erhalten, Kunden-Mail wird angehaengt.
     var emailEl = document.getElementById('pa-email');
     var ccEl    = document.getElementById('pa-cc');
-    var INTERNAL_CC = 'info@sneak-brands.de';
+    var INTERNAL_CC = 'info@sneak-brands.de,anfrage@blechziegel.de';
     var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     function syncCcFromEmail(){
       if (!emailEl || !ccEl) return;
