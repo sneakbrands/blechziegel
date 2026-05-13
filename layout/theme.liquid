@@ -174,6 +174,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }, 1000);
       })();
     </script>
+    {% render 'ultimate-datalayer' %}
   </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }} template-{{ request.page_type | handle }}{% if page.handle %} page-{{ page.handle }}{% endif %}">
