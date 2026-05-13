@@ -322,7 +322,7 @@
               <input type="hidden" name="_template" value="table">
               <input type="hidden" name="_next" value="{{ shop.url }}/pages/anfrage-erfolg">
               <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;">
-              <input type="hidden" name="_cc" id="af-cc" value="">
+              <input type="hidden" name="_cc" id="af-cc" value="info@sneak-brands.de">
 
               <!-- Block 1: Foto + Maße (Trigger-first) -->
               <div class="hp-form__group">
@@ -582,13 +582,15 @@
     }
 
     // CC-Sync: Nutzer erhält Kopie seiner Anfrage (FormSubmit _cc)
+    // Festes internes CC bleibt erhalten, Kunden-Mail wird angehaengt.
     var emailEl = document.getElementById('af-email');
     var ccEl    = document.getElementById('af-cc');
+    var INTERNAL_CC = 'info@sneak-brands.de';
     var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     function syncCcFromEmail(){
       if (!emailEl || !ccEl) return;
       var v = (emailEl.value || '').trim();
-      ccEl.value = EMAIL_RE.test(v) ? v : '';
+      ccEl.value = EMAIL_RE.test(v) ? INTERNAL_CC + ',' + v : INTERNAL_CC;
     }
     if (emailEl) {
       emailEl.addEventListener('input', syncCcFromEmail);
