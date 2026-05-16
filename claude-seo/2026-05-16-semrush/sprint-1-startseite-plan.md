@@ -2,7 +2,13 @@
 
 ## Ziel
 
-Startseite klar auf PV-Blechziegel / Aluminium-Ersatzdachziegel für PV-Montage positionieren.
+Startseite von Position 24/26 Richtung Top 10 bringen fuer:
+- `blech ziegel` (aktuell Pos 24, SV 70)
+- `pv blechziegel` (aktuell Pos 26, SV 110)
+- `blechziegel für photovoltaik` (aktuell Pos 56, SV 70)
+
+Sekundaeres Ziel: klare Positionierung als „PV-Blechziegel / Aluminium-Ersatzdachziegel
+fuer PV-Montage" — Solarziegel-Abgrenzung sichtbar.
 
 ## Nicht-Ziel
 
@@ -15,11 +21,11 @@ Stand 2026-05-16, Workspace `claude-seo/2026-05-16-semrush/`:
 - `competitors.csv` (gefuellt) — Wettbewerber-Rollen definiert
 - `theme-url-mapping.md` (vollstaendig) — Technische Karte aller Code-Hooks
 - `seo-target-pages.md` (gefuellt) — Zielseiten-Matrix
-- `keyword-priorities.md` (aktualisiert mit P1/P2/P3 + Semrush-Datenbasis)
+- `keyword-priorities.md` (aktualisiert mit P1/P2/P3 + Semrush-Datenbasis + Top-Chancen)
 - `domain-overview-de.csv` **gefuellt** — Organic + Ads je Domain
 - `backlinks-overview.csv` **gefuellt** — Backlinks + Ref-Dom + Follow/Nofollow + AS/TS
 - `top-pages-de.csv` **gefuellt** — 19 Top-Pages ueber 5 Domains
-- `organic-keywords-de.csv` — **weiter Platzhalter**, Keyword-Rankings noch offen
+- `organic-keywords-de.csv` — **inline ueber Sprint-Briefing geliefert** (9 priorisierte KW + Stoerkeyword); CSV-Export im Workspace noch ausstehend
 
 **Konsequenz:** Sprint 1 ist datenbasiert auf Domain/Backlink/Top-Page-Ebene.
 Konkrete Keyword-Position-Empfehlungen folgen nach Keyword-Export.
@@ -58,14 +64,17 @@ Konkrete Keyword-Position-Empfehlungen folgen nach Keyword-Export.
 - Section: `sections/blechziegel-home.liquid`
 - Optional auch beruehrt: `layout/theme.liquid` (Meta-Tags + JSON-LD-Struktur), `snippets/meta-tags.liquid`
 
-## Zielkeywords
+## Zielkeywords (datenbasiert)
 
-- PV-Blechziegel
-- Blechziegel PV
-- PV-Dachziegel aus Aluminium
-- Aluminium-Ersatzdachziegel für PV-Montage
-- Ersatzdachziegel für Photovoltaik
-- Blechersatzziegel PV
+Primaer (Position 24-26, „eine Stufe vor Seite 1"):
+- `blech ziegel` (Pos 24, SV 70)
+- `pv blechziegel` (Pos 26, SV 110)
+
+Sekundaer (Position 51-60, Stretch-Goals):
+- `blechziegel für photovoltaik` (Pos 56, SV 70)
+
+Markenbegriffe (Hub-Linking, sollen Startseite mitziehen):
+- PV-Blechziegel · Blechziegel PV · PV-Dachziegel aus Aluminium · Aluminium-Ersatzdachziegel für PV-Montage · Ersatzdachziegel für Photovoltaik · Blechersatzziegel PV
 
 ## Pflicht-Abgrenzung
 

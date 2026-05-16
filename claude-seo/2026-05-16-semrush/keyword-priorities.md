@@ -5,9 +5,8 @@
 - Schaetzwerte -- **nicht** Google-Search-Console-Livewerte
 
 ## Datenstand
-- _Stand der Exporte:_ 2026-05-16 — Domain-Overview, Backlinks und Top-Pages **importiert**
-- _Letzter Import:_ Domain Overview DE + Backlink Overview + Top Pages DE (alle Semrush-Schaetzung)
-- _Weiterhin offen:_ `organic-keywords-de.csv` (keine Keyword-Rankings importiert)
+- _Stand der Exporte:_ 2026-05-16 — Domain-Overview, Backlinks, Top-Pages **importiert**; Organic-Keywords-Auszug **inline ueber Sprint-Briefing geliefert** (CSV-Import folgt)
+- _Letzter Import:_ Domain Overview DE + Backlink Overview + Top Pages DE (Semrush-Schaetzung) + Organic-Keywords-Auszug 2026-05-16 (Sprint-Briefing)
 
 ## Datenvalidierung (Stand 2026-05-16)
 | Datei | Status | Bemerkung |
@@ -15,14 +14,19 @@
 | `domain-overview-de.csv` | **gefuellt** | 5 Domains, Organic + Ads, AS-Spalte leer |
 | `backlinks-overview.csv` | **gefuellt** | 5 Domains, Backlinks/RefDom/Follow/AS/TS |
 | `top-pages-de.csv` | **gefuellt** | 19 Pages ueber 5 Domains |
-| `organic-keywords-de.csv` | Platzhalter | keine Keywords/Rankings importiert |
+| `organic-keywords-de.csv` | **inline geliefert** (Sprint-Briefing) | 9 priorisierte KW + Stoerkeyword; CSV-Export im Workspace noch ausstehend |
 | `competitors.csv` | gefuellt | Wettbewerberliste + Rollen + Notizen |
-| `keyword-priorities.md` | aktualisiert | P1/P2/P3 + Semrush-Datenbasis |
+| `keyword-priorities.md` | aktualisiert | P1/P2/P3 + Semrush-Datenbasis + Top-Chancen |
 | `theme-url-mapping.md` | vollstaendig | Code-Inventar, technisch belegt |
 | `seo-target-pages.md` | gefuellt | Zielseiten-Matrix mit Pflichten |
 
-**Belastbar fuer Sprint 1:** Produktdefinition, Wettbewerber-Rollen, Theme-Mapping, Zielseiten-Matrix, **Domain-Sichtbarkeit, Top-Pages, Backlink-Profil**.
-**Nicht bestaetigbar:** konkrete Keyword-Rankings + Suchvolumen + Position-Drift (organic-keywords-de.csv noch leer).
+**Belastbar fuer Sprint 1:** Produktdefinition, Wettbewerber-Rollen, Theme-Mapping, Zielseiten-Matrix, Domain-Sichtbarkeit, Top-Pages, Backlink-Profil, **priorisierte Keyword-Positionen blechziegel.de**.
+
+**Weiterhin offene Datenluecken:**
+- **GSC + GA4** fehlen — keine echten CTR/Click/Impression-Werte
+- **Keyword-Gap gegen Wettbewerber** ist noch nicht als separate Datei importiert (Semrush-Bulk-Keyword-Gap)
+- **Referring-Domain-Detail** fehlt weiterhin (welche Domains genau verlinken)
+- Semrush bleibt **Schaetzung**, kein Google-Livewert
 
 ## Bestaetigte Semrush-Datenbasis, Stand 2026-05-16
 
@@ -82,11 +86,22 @@ Markierte Benchmarks fett.
 6. **0 Follow-Links bei blechziegel.de ist BESTAETIGT** (siehe Backlink Overview). Das ist das groesste Off-Page-Risiko und blockiert Ranking-Aufbau strukturell.
 7. **PV-Ziegel/Solarziegel-Cluster:** ohne `organic-keywords-de.csv` keine konkrete Position-Aussage moeglich — Verwechslungsrisiko bleibt aber strategisch zu adressieren ueber Pflicht-Abgrenzung.
 
-## Top-Chancen
-_(Position 11-30, ausreichend Volumen, akzeptable Keyword Difficulty, gute Produktrelevanz)_
+## Top-Chancen (Semrush-Schaetzung, Stand 2026-05-16)
 
-| Keyword | Position | Suchvolumen | URL aktuell | Empfehlung |
-|---|---|---|---|---|
+Quelle: Sprint-Briefing 2026-05-16 (inline aus `organic-keywords-de.csv`-Export).
+Priorisiert nach: Naehe Seite 1 → Produktrelevanz → Suchvolumen → Solarziegel-Verwechslungsrisiko → vorhandene Zielseite.
+
+| Keyword | Position | Suchvolumen | URL aktuell | Verwechslungsrisiko | Empfehlung |
+|---|---:|---:|---|---|---|
+| blech ziegel | 24 | 70 | `/` | niedrig | Startseite staerken, Title/H1/Intro praezisieren |
+| pv blechziegel | 26 | 110 | `/` | niedrig | Startseite als Hauptzielseite fuer PV-Blechziegel aufbauen |
+| ziegel braas | 35 | 480 | `/collections/braas` | niedrig | Braas-Collection ausbauen |
+| braas dachziegel | 38/41 | 3.600 | `/collections/braas` | mittel (gemischte Suchintention Tonziegel↔Blechziegel) | Braas-Seite staerken mit klarer Abgrenzung „Aluminium-Ersatzdachziegel" |
+| braas solarziegel | 38 | 390 | `/collections/braas` | **hoch** | nur mit Pflicht-Abgrenzung nutzen, sonst Bounce-Risiko |
+| nelskamp dachziegel | 46 | 1.000 | `/collections/nelskamp` | mittel | Nelskamp-Collection ausbauen |
+| blechziegel für photovoltaik | 56 | 70 | `/` | niedrig | Startseite + Ratgeber intern staerken |
+| braas pv | 59 | 70 | `/collections/braas` | **hoch** (kann „Braas-Solarziegel" implizieren) | nur mit Pflicht-Abgrenzung nutzen |
+| dachziegel hersteller | 63 | 260 | `/pages/hersteller` | niedrig | Herstellerseite als Hub staerken, alle 5 Marken sichtbar verlinken |
 
 ## Keywords mit Solarziegel-Verwechslungsrisiko
 Begriffe, die zwar Volumen liefern aber falsche Suchintention transportieren koennen
@@ -146,47 +161,78 @@ Sinnvolle Quellen:
 > sind weiterhin offen; konkrete Position-Verbesserungen werden nach diesem Import
 > nachpriorisiert.
 
-### P1 — Sofortmassnahmen (jetzt datenbestaetigt)
+## Stoerkeyword `allersberger straße 185 dhl` — BESTAETIGT
 
-1. **Startseite fuer Kernpositionierung staerken**
-   - Zielkeywords: PV-Blechziegel · Blechziegel PV · PV-Dachziegel aus Aluminium · Aluminium-Ersatzdachziegel fuer PV-Montage
+Datenbestaetigung (Sprint-Briefing 2026-05-16):
+
+| Position | URL | Bewertung |
+|---:|---|---|
+| 54 | `/pages/montageanleitung-mit-dachhaken` | unpassende KW-URL-Zuordnung |
+| 75 | `/collections/nelskamp` | unpassende KW-URL-Zuordnung |
+| 87 | `/pages/hersteller` | unpassende KW-URL-Zuordnung |
+
+→ Der Begriff ist offensichtlich die Geschaeftsadresse des Shops kombiniert mit „DHL" und rankt auf drei verschiedenen URLs. Das ist klassisches **Stoerkeyword-Signal**: irgendwo im Theme oder in einer wiederverwendeten Snippet-Komponente liegt Text, der „Allersberger Straße 185" plus „DHL" enthaelt und auf mehreren Seiten ausgeliefert wird.
+
+### Technische Pruefempfehlung (noch keine Theme-Aenderung)
+
+Zu pruefen — read-only:
+
+- `sections/footer.liquid` — Adressblock + DHL-Versand-Hinweis
+- `snippets/bz-impressum-content.liquid` + `snippets/blechziegel-impressum.liquid` — Adressfeld
+- `snippets/blechziegel-versand.liquid` + `snippets/bz-versand-content.liquid` — DHL-Versand-Hinweis
+- `sections/contact-blechziegel.liquid` — Kontakt-Section
+- JSON-LD / strukturierte Daten in `sections/blechziegel-product.liquid` + `layout/theme.liquid`
+- Alt-Texte fuer DHL-Logos/Icons in `sections/footer.liquid`
+- Automatisch generierte Snippets (`bz-product-card`, `bz-cart-drawer` — DHL-Versandzeit-Hinweise)
+- Wiederverwendete Textbausteine (z. B. „Versand ab Allersberger Straße 185 mit DHL")
+- Tracking-/Versand-Integrationen (Shopify-Shipping-Snippets, DHL-Express-Block)
+
+Ergebnis-Ziel: Stelle finden, an der die Wortgruppe steht. Falls unbeabsichtigt ueberall ausgespielt: in Sprint 2 reduzieren auf Impressum/Versand-Seite.
+
+---
+
+### P1 — Sofortmassnahmen (datenbestaetigt nach Organic-Keyword-Import)
+
+1. **Startseite auf Position-24/26-Chance optimieren** (groesster Hebel)
+   - Zielkeywords: `blech ziegel` (Pos 24, SV 70) · `pv blechziegel` (Pos 26, SV 110) · `blechziegel für photovoltaik` (Pos 56, SV 70)
    - Hebel: H1, Hero-Intro, Meta Title, Meta Description, Trust-Block, JSON-LD
-   - Datei: `sections/blechziegel-home.liquid` (Plan in `sprint-1-startseite-plan.md`)
-   - Datenbestaetigung: Top-Pages-Export zeigt `/` mit nur 4 KW + 0 Traffic — Hebel vorhanden, Sichtbarkeit muss massiv wachsen
+   - Datei: `sections/blechziegel-home.liquid` (Plan in `sprint-1-startseite-plan.md` + Umsetzungsvorschau in `sprint-1-umsetzungsvorschau.md`)
+   - Datenbestaetigung: Top-Pages-Export zeigt `/` mit 4 KW + 0 Traffic; Position 24/26 ist „eine Sichtbarkeits-Stufe von Seite 1 entfernt"
 
-2. **Backlink-Basis aufbauen — bestaetigtes P1-Risiko**
+2. **Braas-Collection — P1/P2-Grenzfall mit hoher Hebelwirkung**
+   - Zielkeywords: `ziegel braas` (Pos 35, SV 480) · `braas dachziegel` (Pos 38/41, **SV 3.600**) · `braas solarziegel` (Pos 38, SV 390) · `braas pv` (Pos 59, SV 70)
+   - Hebel: H1 + Intro + FAQ mit Pflicht-Abgrenzung; interne Linkpower von `/` und `/pages/hersteller`
+   - **Verwechslungsrisiko hoch:** `braas solarziegel` + `braas pv` bedeuten in Wirklichkeit oft „stromerzeugende Solarziegel" — ohne Pflicht-Abgrenzung kommt Pogosticking
+   - Datei: `sections/blechziegel-collection.liquid` (Hero-Block) + Admin-Description fuer Collection `braas`
+
+3. **Nelskamp-Collection — P2**
+   - Zielkeyword: `nelskamp dachziegel` (Pos 46, SV 1.000)
+   - Plus indirekt: `nelskamp ziegel` / `dachziegel nelskamp` (Sprint-Briefing nennt sie als Cluster, konkrete Position noch zu pruefen sobald vollstaendiger Export vorliegt)
+   - Hebel: H1 + Intro + FAQ + Pflicht-Abgrenzung; Linkpower von `/` und `/pages/hersteller`
+
+4. **Herstellerseite `/pages/hersteller` als Hub fuer `dachziegel hersteller` (Pos 63, SV 260)**
+   - Hebel: H1 enthaelt „PV-Dachziegel nach Hersteller" + Pflicht-Abgrenzung; sichtbare Marken-Liste mit Klick auf jede Hersteller-Collection
+   - Datei: `templates/page.hersteller.json` + `snippets/blechziegel-hersteller.liquid`
+
+5. **Stoerkeyword `allersberger straße 185 dhl` als technisches SEO-Ticket**
+   - Status: **bestaetigt** (Pos 54/75/87 auf 3 unpassenden URLs)
+   - Maßnahme Sprint 2 (nicht Sprint 1): Quelle im Theme identifizieren, dann ggf. zentralisieren oder Sprache anpassen
+   - Maßnahme Sprint 1: nur Inventarisierung (welche Datei enthaelt die Wortgruppe), keine Aenderung
+
+6. **Backlink-Basis aufbauen — bestaetigtes P1-Risiko**
    - **0 Follow-Links bei blechziegel.de — BESTAETIGT** (`backlinks-overview.csv`, 21 backlinks, 17 ref dom, 0 follow, AS=0).
-   - Strukturelles Ranking-Blocker: ohne Follow-Links wird die Domain bei jedem ernsthaft umkaempften KW von Mitbewerbern ueberholt.
-   - Ziel Sprint 1-3: erste **10–20 thematisch passende Follow-Links** ueber:
+   - Strukturelles Ranking-Blocker: Onpage-Optimierung allein bringt nicht Pos 24 → Top 10. Parallel Follow-Link-Aufbau.
+   - Ziel Sprint 1–3: erste **10–20 thematisch passende Follow-Links** ueber:
      - Hersteller-/Partnerseiten (Braas, Nelskamp, Creaton, Bramac, Erlus, BHE Metalle)
      - PV-Fachbetriebe + Solarteure (regionales Verzeichnis)
      - Dachdecker-Innungen + regionale Handwerksverzeichnisse
      - Ratgeber-Blogs + Fachforen (PV-Magazin, Solarserver, photovoltaikforum.com)
      - Regionale Unternehmensprofile (Nuernberg + Mittelfranken)
-   - Benchmark: ziegel-koenig.com (145 Follow-Links, AS=8) zeigt realistisches Niveau fuer Ziegel-Handel-Domain.
+   - Benchmark: ziegel-koenig.com (145 Follow-Links, AS=8).
 
-3. **Interne Linkstruktur staerken**
-   - Hub-Verlinkung in beide Richtungen, kontextuell:
-     - Startseite ⇄ Ziegel-Finder
-     - Startseite ⇄ Braas-Collection (`/collections/braas`) — 6 KW lt. Top-Pages
-     - Startseite ⇄ Nelskamp-Collection (`/collections/nelskamp`) — 4 KW lt. Top-Pages
-     - Startseite ⇄ Herstellerseite (`/pages/hersteller`) — 2 KW lt. Top-Pages
-     - Startseite ⇄ Frankfurter-Pfanne-PDP (`/products/pv-dachziegel-frankfurter-pfanne`) — Wettbewerber blechziegel.com rankt hier auf 10 KW + 6 Traffic
-     - Startseite ⇄ Ratgeber (`/pages/ratgeber`) + Montageanleitungen (`/pages/montageanleitung-mit-dachhaken` 1 KW, `.../ohne-dachhaken`)
-   - Hebel: kontextuelle Text-Links in Hero/USPs/FAQ-Bloecken, keine Footer-Spam-Liste
-
-4. **Klare Abgrenzung zu Solarziegeln**
-   - Pflichtformulierung auf Startseite + auf allen Seiten, die einen Solarziegel-Verwechslungs-Begriff nennen:
-     > „Unsere PV-Blechziegel sind keine stromerzeugenden Solarziegel,
-     > sondern Aluminium-Ersatzdachziegel fuer die sichere Montage von
-     > Photovoltaikanlagen auf Ziegeldaechern."
-   - Hebel: 1 Snippet (z. B. `snippets/bz-pv-disclaimer.liquid`) einmal anlegen, an mehreren Stellen einbinden.
-
-5. **Top-Pages-Luecke schliessen — bestaetigt datenbasiert**
-   - blechziegel.de hat 5 sichtbare Top-Pages, ALLE mit geschaetztem Traffic = 0 (`top-pages-de.csv`).
-   - Heisst: Indexierung steht, aber Position + Snippet bringen keine Klicks.
-   - Sprint-1-Action: Title/Description/H1 + interne Linkpower fuer die 5 Pages (`/collections/braas`, `/`, `/collections/nelskamp`, `/pages/hersteller`, `/pages/montageanleitung-mit-dachhaken`) ueber Admin API setzen.
-   - Stoerkeyword „allersberger straße 185 dhl": **offen** — `organic-keywords-de.csv` ist Platzhalter („Ich kann das nicht bestaetigen, weil `organic-keywords-de.csv` noch leer ist."). Pruefen, sobald KW-Export kommt.
+7. **Pflicht-Abgrenzung zu Solarziegeln (operativer P1-Block)**
+   - Schon im Vor-Sprint gelistet; nach Organic-Import jetzt **akut**, weil `braas solarziegel` (SV 390) und `braas pv` aktiv ranken und Pogosticking-Risiko produzieren.
+   - Hebel: 1 Snippet `snippets/bz-pv-disclaimer.liquid` anlegen, einbinden in Startseite + Braas-Collection + Nelskamp-Collection + Hersteller-Hub.
 
 ### P2 — Seiten-/Content-Ausbau
 
