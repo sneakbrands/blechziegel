@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Freigaben — blechziegel.de</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--navy:#0d1e35;--navy-mid:#152840;--orange:#f5a623;--orange-dark:#d4891a;--border:#e6e3df;--muted:rgba(0,0,0,.6);--bg:#f7f5f2}
+  *{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:'Inter',system-ui,sans-serif;color:#222}
+  .wrap{max-width:920px;margin:0 auto;padding:48px 24px}
+  h1{font-family:'Inter';font-size:28px;font-weight:700;margin:0 0 6px}
+  .eyebrow{font-family:'Montserrat';font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:28px}
+  th,td{padding:14px 18px;text-align:left;border-bottom:1px solid var(--border);font-size:14px;vertical-align:top}
+  th{background:#fafaf7;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  tr:last-child td{border-bottom:0}
+  td a{color:var(--navy);text-decoration:none;font-weight:600}
+  td a:hover{color:var(--orange-dark);text-decoration:underline}
+  .badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .b-pending{background:#fff4e0;color:#a06808;border:1px solid var(--orange)}
+  .b-live{background:#e8f6ec;color:#1d6132;border:1px solid #58a86a}
+  .b-rejected{background:#fde8e8;color:#8a2222;border:1px solid #c46060}
+  .meta{font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">blechziegel.de · Freigabe-Center</p>
+  <h1>Offline-Vorschauen vor Live-Schaltung</h1>
+  <p class="meta">Liste der offenen + abgeschlossenen Freigaben. Jeder Eintrag verlinkt auf eine self-contained Preview-HTML, die ohne Server lokal geöffnet werden kann.</p>
+
+  <table>
+    <thead><tr><th>Datum</th><th>Titel</th><th>Live-Ziel</th><th>Preview</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>2026-05-16</td>
+        <td>Sprint 1 Startseite SEO-Optimierung</td>
+        <td><a href="https://blechziegel.de/" target="_blank">https://blechziegel.de/</a></td>
+        <td><a href="2026-05-16-sprint-1-startseite-seo/preview.html">preview.html</a></td>
+        <td><span class="badge b-pending">PENDING</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>
