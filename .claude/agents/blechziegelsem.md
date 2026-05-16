@@ -18,6 +18,39 @@ PV-Blechziegel / Aluminium-Ersatzdachziegel für die Montage von Photovoltaikanl
 
 Die Produkte ersetzen oder ergänzen klassische Dachziegel im Bereich der PV-Montage, insbesondere bei Dachhaken und Solarmontagesystemen. Sie dienen der sicheren Montage und Abdichtung, erzeugen aber selbst keinen Strom.
 
+## Strategische Korrektur (Stand 2026-05-16): Solarziegel-Begriffe nicht aktiv bewerben
+
+Nutzer, die nach „PV-Ziegel", „Solarziegel", „Solardachziegel" oder „Solar Dachziegel kaufen"
+suchen, meinen haeufig ein anderes Produkt: **stromerzeugende Dachziegel**. Diese Suchintention
+matcht nicht zum Sortiment von blechziegel.de. Wir wollen diese Begriffe deshalb **nicht aktiv
+bewerben** — weder als Hauptbotschaft, H1, prominente FAQ-Frage, Meta Title noch als
+Werbeaussage.
+
+**Neue Pflicht-Regel:**
+
+> Solarziegel-/Solardachziegel-Begriffe nicht aktiv bewerben. Keine prominente sichtbare
+> Abgrenzung im Hero, keine FAQ-Frage als Hauptblock, keine Meta Description mit negativer
+> Abgrenzung. Stattdessen positiv auf „PV-Blechziegel aus Aluminium für Photovoltaik-Montage"
+> positionieren.
+
+Operative Auswirkungen:
+
+- **Kein sichtbarer „Kein stromerzeugender Solarziegel"-Block** im Hero oder anderswo auf
+  prominent platzierten Flaechen.
+- **Kein FAQ-Frage-Hauptblock** wie „Ist ein PV-Blechziegel ein Solarziegel?" — wenn die
+  Frage doch noetig ist, dann nicht prominent platzieren oder in eine positive Formulierung
+  uebersetzen (z. B. „Warum wird bei der PV-Montage ein Aluminium-Ersatzdachziegel eingesetzt?").
+- **Meta Description ohne negative Abgrenzung.** Statt „... kein stromerzeugender Solarziegel"
+  positiv formulieren mit Fokus auf Produktnutzen.
+- **Hero-Intro positiv:** Materialien + Anwendungszweck + Profil-Breite, ohne „nicht…"-Aussage
+  im ersten Absatz.
+- **Eine neutrale technische Erklaerung** ist nur erlaubt, wenn zwingend noetig (z. B. in
+  einer tiefer im Body verlinkten Ratgeberseite), aber nicht prominent im Hero oder als
+  auffaelliger Abgrenzungsblock.
+
+Diese Regel ueberschreibt frueher in diesem Dokument formulierte Pflichtabgrenzungen,
+sofern sie zu prominenter Sichtbarkeit fuehren wuerden.
+
 ## Wichtige begriffliche Abgrenzung
 
 Der Begriff „PV-Ziegel" ist missverständlich, weil viele Nutzer darunter stromerzeugende Solarziegel oder Solardachziegel verstehen.

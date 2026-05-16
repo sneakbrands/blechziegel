@@ -5,6 +5,14 @@
 **Preview:** [`preview.html`](preview.html) (lokal oeffnen)
 **Plan:** `claude-seo/2026-05-16-semrush/sprint-1-umsetzungsvorschau.md`
 
+> **Strategische Korrektur (2026-05-16):** Solarziegel-/Solardachziegel-Begriffe werden
+> nicht aktiv beworben, weil diese Suchintention haeufig ein anderes Produkt meint
+> (stromerzeugende Dachziegel). Die Preview positioniert blechziegel.de deshalb positiv
+> als Anbieter von PV-Blechziegeln aus Aluminium fuer die Photovoltaik-Montage —
+> ohne prominente sichtbare Gegen-Abgrenzung im Hero, ohne FAQ-Frage als Hauptblock
+> und ohne negative Meta Description. Der zuvor geplante Solarziegel-Abgrenzungs-Block
+> wurde entfernt. Hero-Intro, FAQ-Frage 2 und Meta Description sind positiv umformuliert.
+
 > Hinweis Repo-Hygiene: laut CLAUDE.md gehoeren Freigabe-Previews
 > eigentlich in `theme-workspace/freigabe/`. Dieser Ordner liegt auf
 > expliziten User-Auftrag im Repo, damit ChatGPT/externe Tools die

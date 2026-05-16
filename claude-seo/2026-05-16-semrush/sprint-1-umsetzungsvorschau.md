@@ -3,6 +3,13 @@
 > Stand 2026-05-16. **Noch keine Live-Aenderung.** Alle Vorschlaege in
 > diesem Dokument sind PLAN — erst nach Freigabe werden Theme-Dateien
 > angefasst und Shopify Admin API Writes ausgefuehrt.
+>
+> **Strategische Korrektur 2026-05-16:** Solarziegel-/Solardachziegel-Begriffe werden
+> **nicht aktiv beworben**. Diese Suchintention meint haeufig stromerzeugende
+> Dachziegel und passt nicht zu unserem Sortiment. Keine prominente sichtbare
+> Abgrenzung im Hero, keine FAQ-Frage als Hauptblock, keine Meta Description
+> mit negativer Abgrenzung. Stattdessen positive Positionierung auf
+> „PV-Blechziegel aus Aluminium für Photovoltaik-Montage".
 
 ## 1. Datenbasis
 
@@ -68,31 +75,32 @@ Begruendung: enthaelt beide Primaer-KW (`pv blechziegel`, indirekt
 
 ### 4.2 Hero-Intro (`sections/blechziegel-home.liquid`)
 
-**Vorschlag:**
+**Vorschlag (positiv, ohne prominente Solarziegel-Abgrenzung):**
 
 > PV-Blechziegel ersetzen den vorhandenen Dachziegel im Bereich der
 > Solarmontage und schaffen eine stabile Grundlage für Dachhaken auf
-> Ziegeldächern. Unsere PV-Blechziegel sind keine stromerzeugenden
-> Solarziegel, sondern Aluminium-Ersatzdachziegel für die sichere
-> Montage von Photovoltaikanlagen.
+> Ziegeldächern. Die Aluminium-Ersatzdachziegel sind für die Montage
+> von Photovoltaikanlagen konzipiert und für viele gängige Dachziegelprofile
+> erhältlich.
 
-Begruendung: erste Saetze enthalten Kern-Keywords + Pflicht-Abgrenzung,
-ohne Strom-Erzeugungs-Behauptung.
+Begruendung: positive Produktpositionierung; Kern-KW „PV-Blechziegel",
+„Aluminium-Ersatzdachziegel", „Photovoltaik-Montage", „Dachhaken",
+„Ziegeldächer" sind enthalten. Keine „nicht…"-Aussage im Hero
+(strategische Korrektur 2026-05-16).
 
-### 4.3 Solarziegel-Abgrenzung (zentrales Snippet)
+### 4.3 Solarziegel-Abgrenzung — **gestrichen**
 
-Vorschlag: neues Snippet `snippets/bz-pv-disclaimer.liquid` mit der
-Pflichtformulierung; eingebunden:
+Der zuvor geplante zentrale Abgrenzungs-Block + das Snippet
+`snippets/bz-pv-disclaimer.liquid` werden **nicht umgesetzt**. Grund: die
+Begriffe „PV-Ziegel" / „Solarziegel" / „Solardachziegel" sollen nicht
+aktiv beworben werden, weil ihre Suchintention haeufig stromerzeugende
+Dachziegel meint. Eine prominente sichtbare Gegen-Abgrenzung wuerde
+diese Begriffe semantisch sogar verstaerken und Nutzer mit falscher
+Intention auf die Seite ziehen, die dann pogosticken.
 
-- in `sections/blechziegel-home.liquid` (sichtbar im Hero/USP-Block)
-- spaeter in `sections/blechziegel-collection.liquid` fuer Braas + Nelskamp
-- spaeter in `snippets/blechziegel-hersteller.liquid`
-
-Pflicht-Wortlaut (unveraendert):
-
-> „Unsere PV-Blechziegel sind keine stromerzeugenden Solarziegel,
-> sondern Aluminium-Ersatzdachziegel für die sichere Montage von
-> Photovoltaikanlagen auf Ziegeldächern."
+Eine neutrale technische Erklaerung kann spaeter in einer
+Ratgeber-Sub-Page (z. B. `/pages/ratgeber` oder einer Detail-Seite)
+stehen, aber nicht im Startseiten-Hero oder als auffaelliger Block.
 
 ### 4.4 Interne Links
 
@@ -107,17 +115,18 @@ Plan: kontextuelle Text-Links auf der Startseite zu:
 
 ### 4.5 FAQ-Block (auf der Startseite)
 
-Vorschlagsfragen:
+Vorschlagsfragen (Frage 2 ersetzt nach strategischer Korrektur 2026-05-16):
 
 1. Was ist ein PV-Blechziegel?
-2. Ist ein PV-Blechziegel ein Solarziegel?
+2. Warum wird bei der PV-Montage ein Aluminium-Ersatzdachziegel eingesetzt?
 3. Wofür wird ein Aluminium-Ersatzdachziegel bei PV-Anlagen verwendet?
 4. Welche Dachziegel-Profile gibt es?
 5. Was tun, wenn ich mein Ziegelprofil nicht kenne?
 
 Inhaltliche Leitlinien:
 
-- Frage 2 enthaelt die Pflicht-Abgrenzung
+- Frage 2 erklaert positiv den Anwendungsfall (Dachhaken-Bereich, sichere PV-Montage,
+  Ziegelbruch-Vermeidung). **Keine** Solarziegel-Abgrenzung in der Frage selbst.
 - Frage 5 verlinkt aktiv auf `/pages/ziegel-finder`
 - Frage 4 verlinkt auf `/pages/hersteller` + Braas/Nelskamp-Collection
 
@@ -134,9 +143,10 @@ zu Page-Titles, wo „| Shop-Name" appended wird) — pruefen.
 
 **Vorschlag:**
 
-> PV-Blechziegel aus Aluminium für die sichere Montage von Photovoltaikanlagen auf Ziegeldächern. Ersatzdachziegel für Dachhaken – kein stromerzeugender Solarziegel.
+> PV-Blechziegel aus Aluminium für die sichere Montage von Photovoltaikanlagen auf Ziegeldächern. Ersatzdachziegel für Dachhaken, passend für viele Profile.
 
-Laenge: 165 Zeichen. Ggf. um 5 Zeichen kuerzen damit Google nichts abschneidet.
+Laenge: 153 Zeichen. Positive Formulierung ohne negative Solarziegel-Abgrenzung
+(strategische Korrektur 2026-05-16).
 
 ### 4.8 JSON-LD / strukturierte Daten — Pruefung
 
@@ -154,10 +164,10 @@ Validierung via Google Rich Results Test nach Umsetzung.
 | Element | Text |
 |---|---|
 | **H1** | PV-Blechziegel aus Aluminium für Photovoltaik-Montage |
-| **Hero-Intro** | PV-Blechziegel ersetzen den vorhandenen Dachziegel im Bereich der Solarmontage und schaffen eine stabile Grundlage für Dachhaken auf Ziegeldächern. Unsere PV-Blechziegel sind keine stromerzeugenden Solarziegel, sondern Aluminium-Ersatzdachziegel für die sichere Montage von Photovoltaikanlagen. |
-| **Solarziegel-Abgrenzung (separater Block)** | „Unsere PV-Blechziegel sind keine stromerzeugenden Solarziegel, sondern Aluminium-Ersatzdachziegel für die sichere Montage von Photovoltaikanlagen auf Ziegeldächern." |
+| **Hero-Intro** | PV-Blechziegel ersetzen den vorhandenen Dachziegel im Bereich der Solarmontage und schaffen eine stabile Grundlage für Dachhaken auf Ziegeldächern. Die Aluminium-Ersatzdachziegel sind für die Montage von Photovoltaikanlagen konzipiert und für viele gängige Dachziegelprofile erhältlich. |
+| **Solarziegel-Abgrenzung (separater Block)** | **entfaellt** — strategische Korrektur 2026-05-16, keine prominente Abgrenzung |
 | **Meta Title** | PV-Blechziegel aus Aluminium für Photovoltaik-Montage |
-| **Meta Description** | PV-Blechziegel aus Aluminium für die sichere Montage von Photovoltaikanlagen auf Ziegeldächern. Ersatzdachziegel für Dachhaken – kein stromerzeugender Solarziegel. |
+| **Meta Description** | PV-Blechziegel aus Aluminium für die sichere Montage von Photovoltaikanlagen auf Ziegeldächern. Ersatzdachziegel für Dachhaken, passend für viele Profile. |
 
 ## 6. Risiken
 
