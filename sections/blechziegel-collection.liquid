@@ -1187,13 +1187,28 @@
     <h1>
       {%- if collection.handle == 'all' -%}
         PV-Dachziegel &amp; Blechziegel –<br><em>passend für Ihren Dachtyp</em>
+      {%- elsif collection.handle == 'braas' -%}
+        PV-Blechziegel für <em>Braas-Dachziegelprofile</em>
       {%- elsif is_hersteller -%}
         PV-Dachziegel für <em>{{ hersteller_name }}</em>
       {%- else -%}
         {{ collection.title }}
       {%- endif -%}
     </h1>
-    {%- if is_hersteller -%}
+    {%- if collection.handle == 'braas' -%}
+      <div class="bz-manufacturer-intro">
+        <p>
+          PV-Blechziegel aus Aluminium für die Photovoltaik-Montage auf Ziegeldächern
+          mit Braas-Profilen. Wählen Sie das passende Dachziegelprofil aus oder nutzen
+          Sie den Ziegel-Finder, wenn Sie Ihr Modell nicht sicher kennen.
+        </p>
+        <div class="bz-mini-benefits">
+          <span>✓ Aluminium-Ersatzdachziegel</span>
+          <span>✓ passend für viele Braas-Profile</span>
+          <span>✓ Profil vor Bestellung prüfen</span>
+        </div>
+      </div>
+    {%- elsif is_hersteller -%}
       <div class="bz-manufacturer-intro">
         <p>
           Passgenaue Blechziegel für {{ hersteller_name }}-Dachziegel –
@@ -1544,6 +1559,182 @@
     <p>Bei blechziegel.de finden Dachdecker, PV-Installateure und Privatkunden den passenden <strong>Ersatzziegel PV</strong> für ihre Dachziegelform. Unsere Aluminium-Blechziegel sind passgenau für Frankfurter Pfanne, Biberschwanz, Hohlfalzziegel und weitere Typen gefertigt.</p>
     <p>Der <strong>PV-Dachziegel</strong> ersetzt den vorhandenen Tonziegel an der Montagestelle vollständig – kein Bohren, kein Ziegelbruch, keine Undichtigkeiten. Einfach entnehmen, einsetzen, Dachhaken positionieren, fertig. Lieferung in 1–3 Werktagen, Made in Germany.</p>
     <p>Alle <strong>Dachziegel Solar</strong>-Produkte sind in drei Farben erhältlich: Aluminium blank, Anthrazit RAL 7016 und Ziegelrot RAL 8004 – für eine optisch einwandfreie Integration in Ihr Dachbild.</p>
+  </div>
+</section>
+{%- endif -%}
+
+{%- comment -%}══ 5b. BRAAS-SPECIFIC HINWEIS + HUB-KARTEN + FAQ (Sprint 2) ══{%- endcomment -%}
+{%- if collection.handle == 'braas' -%}
+<style>
+  .bz-braas-hint {
+    background: #fff4e0;
+    border: 1px solid rgba(245,166,35,.4);
+    border-left: 4px solid var(--bz-orange);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin: 32px 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 18px;
+    align-items: start;
+    max-width: 980px;
+  }
+  .bz-braas-hint__icon {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--bz-orange);
+    color: var(--bz-navy);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 18px; flex-shrink: 0;
+  }
+  .bz-braas-hint__title { font-size: 15px; font-weight: 700; color: var(--bz-navy); margin: 0 0 4px; }
+  .bz-braas-hint__text { font-size: 14px; color: var(--bz-navy); margin: 0; line-height: 1.55; }
+
+  .bz-braas-hub { margin: 28px 0 8px; }
+  .bz-braas-hub__head { max-width: 680px; margin: 0 0 18px; }
+  .bz-braas-hub__eyebrow {
+    font-family: var(--bz-head, 'Montserrat', sans-serif);
+    font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--bz-orange); font-weight: 700; margin: 0 0 6px;
+  }
+  .bz-braas-hub__title { font-size: 22px; font-weight: 700; color: var(--bz-navy); margin: 0; line-height: 1.2; }
+  .bz-braas-hub__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .bz-braas-hub__card {
+    background: #fff;
+    border: 1px solid var(--bz-border, #e6e3df);
+    border-radius: 12px;
+    padding: 18px;
+    text-decoration: none;
+    color: inherit;
+    transition: all .18s ease;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .bz-braas-hub__card:hover { border-color: var(--bz-orange); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(13,30,53,.08); }
+  .bz-braas-hub__cat {
+    font-family: var(--bz-head, 'Montserrat', sans-serif);
+    font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+    color: rgba(0,0,0,.55); font-weight: 700; margin: 0;
+  }
+  .bz-braas-hub__t { font-size: 14.5px; font-weight: 700; color: var(--bz-navy); margin: 0; line-height: 1.3; }
+  .bz-braas-hub__cta { margin-top: auto; font-size: 12.5px; font-weight: 700; color: #b86d00; }
+  .bz-braas-hub__cta::after { content: " →"; }
+
+  .bz-braas-faq { margin: 36px 0 0; max-width: 880px; }
+  .bz-braas-faq__head { margin: 0 0 16px; }
+  .bz-braas-faq details {
+    background: #fff;
+    border: 1px solid var(--bz-border, #e6e3df);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .bz-braas-faq summary {
+    padding: 16px 22px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14.5px;
+    color: var(--bz-navy);
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+  }
+  .bz-braas-faq summary::-webkit-details-marker { display: none; }
+  .bz-braas-faq summary::after {
+    content: "+";
+    font-size: 22px;
+    color: var(--bz-orange);
+    line-height: 1;
+    font-weight: 300;
+  }
+  .bz-braas-faq details[open] summary::after { content: "−"; }
+  .bz-braas-faq details > div {
+    padding: 0 22px 16px;
+    font-size: 13.5px;
+    color: rgba(0,0,0,.65);
+    line-height: 1.65;
+  }
+  .bz-braas-faq a { color: var(--bz-orange); font-weight: 600; }
+  @media (max-width: 900px) {
+    .bz-braas-hub__grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 560px) {
+    .bz-braas-hub__grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<section class="bz-col-seo">
+  <div class="bz-col-seo-inner">
+
+    <div class="bz-braas-hint" role="note">
+      <div class="bz-braas-hint__icon" aria-hidden="true">!</div>
+      <div>
+        <p class="bz-braas-hint__title">Profil vor Bestellung prüfen</p>
+        <p class="bz-braas-hint__text">Braas-Dachziegel gibt es in unterschiedlichen Profilen und Abmessungen. Bitte prüfen Sie vor der Bestellung das genaue Modell oder nutzen Sie den <a href="/pages/ziegel-finder">Ziegel-Finder</a>. Bei Unsicherheit hilft ein Foto des vorhandenen Dachziegels.</p>
+      </div>
+    </div>
+
+    <div class="bz-braas-hub" aria-label="Weiterführende Seiten">
+      <div class="bz-braas-hub__head">
+        <p class="bz-braas-hub__eyebrow">Weiterführen</p>
+        <h2 class="bz-braas-hub__title">Profil finden, Modell wählen, montieren</h2>
+      </div>
+      <div class="bz-braas-hub__grid">
+        <a class="bz-braas-hub__card" href="/pages/ziegel-finder">
+          <p class="bz-braas-hub__cat">Identifikation</p>
+          <p class="bz-braas-hub__t">Braas-Profil über den Ziegel-Finder bestimmen</p>
+          <span class="bz-braas-hub__cta">Ziegel-Finder öffnen</span>
+        </a>
+        <a class="bz-braas-hub__card" href="/pages/hersteller">
+          <p class="bz-braas-hub__cat">Übersicht</p>
+          <p class="bz-braas-hub__t">Alle unterstützten Hersteller im Überblick</p>
+          <span class="bz-braas-hub__cta">Hersteller-Hub öffnen</span>
+        </a>
+        <a class="bz-braas-hub__card" href="/pages/montageanleitung-mit-dachhaken">
+          <p class="bz-braas-hub__cat">Montage</p>
+          <p class="bz-braas-hub__t">Montage mit Dachhaken verstehen</p>
+          <span class="bz-braas-hub__cta">Anleitung lesen</span>
+        </a>
+        <a class="bz-braas-hub__card" href="/collections/nelskamp">
+          <p class="bz-braas-hub__cat">Hersteller</p>
+          <p class="bz-braas-hub__t">Weitere PV-Blechziegel für Nelskamp-Profile</p>
+          <span class="bz-braas-hub__cta">Nelskamp öffnen</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="bz-braas-faq" itemscope itemtype="https://schema.org/FAQPage">
+      <div class="bz-braas-faq__head">
+        <p class="bz-braas-hub__eyebrow">FAQ</p>
+        <h2 class="bz-braas-hub__title">Häufige Fragen zu Braas-Profilen</h2>
+      </div>
+      <details open itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <summary itemprop="name">Welche PV-Blechziegel gibt es für Braas-Dachziegelprofile?</summary>
+        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">Die passenden PV-Blechziegel richten sich nach dem konkreten Braas-Dachziegelprofil. Über die Braas-Collection, Produktseiten oder den <a href="/pages/ziegel-finder">Ziegel-Finder</a> kann das passende Modell eingegrenzt werden.</div></div>
+      </details>
+      <details itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <summary itemprop="name">Wie finde ich das passende Braas-Profil?</summary>
+        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">Vergleichen Sie Form, Länge, Breite und Profil des vorhandenen Dachziegels. Wenn Sie unsicher sind, nutzen Sie den <a href="/pages/ziegel-finder">Ziegel-Finder</a> oder senden Sie ein Foto des Dachziegels.</div></div>
+      </details>
+      <details itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <summary itemprop="name">Wofür wird ein Aluminium-Ersatzdachziegel bei der PV-Montage eingesetzt?</summary>
+        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">Er ersetzt den vorhandenen Dachziegel im Bereich des Dachhakens und unterstützt eine stabile Montage der Photovoltaikanlage auf dem Ziegeldach. Details zur <a href="/pages/montageanleitung-mit-dachhaken">Montage mit Dachhaken</a> stehen in der Anleitung.</div></div>
+      </details>
+      <details itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <summary itemprop="name">Passt ein PV-Blechziegel für jedes Braas-Modell?</summary>
+        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">Nein, entscheidend ist das konkrete Dachziegelprofil. Deshalb sollte das Modell vor der Bestellung geprüft werden.</div></div>
+      </details>
+      <details itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <summary itemprop="name">Was tun, wenn ich mein Braas-Profil nicht sicher erkenne?</summary>
+        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">Nutzen Sie den <a href="/pages/ziegel-finder">Ziegel-Finder</a> oder senden Sie ein Foto. So kann das passende Profil schneller eingegrenzt werden.</div></div>
+      </details>
+    </div>
+
   </div>
 </section>
 {%- endif -%}
