@@ -13,12 +13,12 @@
       "type": "blechziegel-home",
       "settings": {
         "hero_image": "shopify://shop_images/pv-dachziegel-blechziegel-solarmontage-ziegeldach-hero.webp",
-        "hero_headline": "Kein Ziegelbruch bei der PV-Montage.",
-        "hero_sub": "Aluminium-Ersatzziegel passgenau für alle gängigen Dachziegeltypen.",
-        "hero_cta_primary_text": "Passenden Blechziegel finden",
+        "hero_headline": "PV-Blechziegel aus Aluminium für Photovoltaik-Montage",
+        "hero_sub": "PV-Blechziegel ersetzen den vorhandenen Dachziegel im Bereich der Solarmontage und schaffen eine stabile Grundlage für Dachhaken auf Ziegeldächern. Die Aluminium-Ersatzdachziegel sind für die Montage von Photovoltaikanlagen konzipiert und für viele gängige Dachziegelprofile erhältlich.",
+        "hero_cta_primary_text": "Ziegelprofil finden",
         "hero_cta_primary_url": "/pages/ziegel-finder",
-        "hero_cta_secondary_text": "Beratung anfordern",
-        "hero_cta_secondary_url": "",
+        "hero_cta_secondary_text": "Alle PV-Blechziegel ansehen",
+        "hero_cta_secondary_url": "/collections/all",
         "bestseller_collection": ""
       }
     }
