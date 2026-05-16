@@ -10,7 +10,7 @@ PV-Blechziegel aus Aluminium für Photovoltaik-Montage
 
 ## Vorschlag Meta Description
 
-PV-Blechziegel aus Aluminium für die sichere Montage von Photovoltaikanlagen auf Ziegeldächern. Ersatzdachziegel für Dachhaken, passend für viele Profile.
+PV-Blechziegel aus Aluminium für die sichere Montage von Photovoltaikanlagen auf Ziegeldächern. Ersatzdachziegel mit Dachhaken, passend für viele Profile.
 
 ## Strategische Hinweise
 
