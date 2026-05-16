@@ -2,7 +2,14 @@
 
 ## Ziel
 
-Die Collection `/collections/braas` soll als starke Hersteller-/Profil-Seite für PV-Blechziegel aus Aluminium für Braas-Dachziegelprofile ausgebaut werden.
+Die Collection `/collections/braas` soll als starke Hersteller-Seite für PV-Blechziegel aus Aluminium für Braas-Dachziegel ausgebaut werden.
+
+## Sprachregel (neu, 2026-05-16)
+
+**Kundensichtbar / verkaufsnah:** „Ziegel", „Braas-Dachziegel", „passender Ziegel", „Braas-Ziegel".
+**Fachlich / prüfend / erklärend:** „Profil", „Modell", „Profil prüfen", „exaktes Modell vor Bestellung kontrollieren".
+
+Begründung: nähere Anlehnung an die Semrush-Suchbegriffe (`braas dachziegel`, `ziegel braas`, `pv dachziegel braas`, `braas frankfurter pfanne`). „Profil" bleibt nur dort, wo es fachlich um die genaue Modell-/Profilprüfung geht.
 
 ## Nicht-Ziel
 
@@ -55,24 +62,25 @@ Hinweis: Semrush ist Schätzung, kein Google-Search-Console-Livewert.
 
 Empfohlene Hauptpositionierung:
 
-PV-Blechziegel aus Aluminium für Braas-Dachziegelprofile
+PV-Blechziegel aus Aluminium für Braas-Dachziegel
 
 Alternative H1-Vorschläge:
 
-1. PV-Blechziegel für Braas-Dachziegelprofile
-2. PV-Blechziegel aus Aluminium für Braas-Profile
-3. Aluminium-Ersatzdachziegel für Braas-Profile und PV-Montage
+1. PV-Blechziegel für Braas-Dachziegel
+2. PV-Blechziegel aus Aluminium für Braas-Dachziegel
+3. Aluminium-Ersatzdachziegel für Braas-Dachziegel und PV-Montage
 
-**Bevorzugte H1:** PV-Blechziegel für Braas-Dachziegelprofile
+**Bevorzugte H1:** PV-Blechziegel für Braas-Dachziegel
 
 ## Vorsichtige Markenformulierung
 
-**Erlaubte Formulierungen:**
-- für Braas-Dachziegelprofile
-- passend für viele Braas-Profile
-- Profil prüfen
+**Erlaubte Formulierungen (kundensichtbar bevorzugt „Ziegel"/„Braas-Dachziegel"):**
+- für Braas-Dachziegel
+- passend für viele Braas-Dachziegel
+- Ziegel prüfen
+- Modell und Profil vor Bestellung kontrollieren
+- PV-Blechziegel für die Montage auf Ziegeldächern mit Braas-Dachziegeln
 - kompatible PV-Blechziegel für die Montage auf Braas-Ziegeldächern
-- für die Photovoltaik-Montage auf Braas-Dachziegelprofilen
 
 **Nicht verwenden:**
 - Original Braas
@@ -87,7 +95,7 @@ Alternative H1-Vorschläge:
 
 1. Hero / Collection-Intro
 2. Produktgrid bleibt im Fokus
-3. Kurzer Profil-Hinweis (Hinweisbox „Profil vor Bestellung prüfen")
+3. Kurzer Profil-Hinweis (Hinweisbox „Ziegel vor Bestellung prüfen")
 4. Interne Links (Hub-Karten — bewusst KEIN Frankfurter-Pfanne-Produkt-Link, weil die Braas-Collection als Hersteller-/Profilseite wirken soll und nicht zu frueh auf ein einzelnes Modell lenken darf):
    - `/pages/ziegel-finder`
    - `/pages/hersteller`
@@ -98,11 +106,11 @@ Alternative H1-Vorschläge:
 
 ## Empfohlene FAQ-Fragen
 
-1. Welche PV-Blechziegel gibt es für Braas-Dachziegelprofile?
-2. Wie finde ich das passende Braas-Profil?
+1. Welche PV-Blechziegel gibt es für Braas-Dachziegel?
+2. Wie finde ich den passenden Braas-Ziegel?
 3. Wofür wird ein Aluminium-Ersatzdachziegel bei der PV-Montage eingesetzt?
-4. Passt ein PV-Blechziegel für jedes Braas-Modell?
-5. Was tun, wenn ich mein Braas-Profil nicht sicher erkenne?
+4. Passt ein PV-Blechziegel für jeden Braas-Dachziegel?
+5. Was tun, wenn ich meinen Braas-Ziegel nicht sicher erkenne?
 
 ## Risiken
 
