@@ -1189,6 +1189,8 @@
         PV-Dachziegel &amp; Blechziegel –<br><em>passend für Ihren Dachtyp</em>
       {%- elsif collection.handle == 'braas' -%}
         PV-Blechziegel für <em>Braas-Dachziegel</em>
+      {%- elsif collection.handle == 'nelskamp' -%}
+        PV-Blechziegel für <em>Nelskamp-Dachziegel</em>
       {%- elsif is_hersteller -%}
         PV-Dachziegel für <em>{{ hersteller_name }}</em>
       {%- else -%}
@@ -1205,6 +1207,19 @@
         <div class="bz-mini-benefits">
           <span>✓ Aluminium-Ersatzdachziegel</span>
           <span>✓ passend für viele Braas-Dachziegel</span>
+          <span>✓ Ziegel vor Bestellung prüfen</span>
+        </div>
+      </div>
+    {%- elsif collection.handle == 'nelskamp' -%}
+      <div class="bz-manufacturer-intro">
+        <p>
+          PV-Blechziegel aus Aluminium für die Photovoltaik-Montage auf Ziegeldächern
+          mit Nelskamp-Dachziegeln. Wählen Sie den passenden Ziegel aus oder nutzen
+          Sie den Ziegel-Finder, wenn Sie Ihr Modell nicht sicher kennen.
+        </p>
+        <div class="bz-mini-benefits">
+          <span>✓ Aluminium-Ersatzdachziegel</span>
+          <span>✓ passend für viele Nelskamp-Dachziegel</span>
           <span>✓ Ziegel vor Bestellung prüfen</span>
         </div>
       </div>
@@ -1563,8 +1578,8 @@
 </section>
 {%- endif -%}
 
-{%- comment -%}══ 5b. BRAAS-SPECIFIC HINWEIS + HUB-KARTEN + FAQ (Sprint 2) ══{%- endcomment -%}
-{%- if collection.handle == 'braas' -%}
+{%- comment -%}══ 5b. BRAAS / NELSKAMP HINWEIS + HUB-KARTEN + FAQ (Sprint 2 / Sprint 3) ══{%- endcomment -%}
+{%- if collection.handle == 'braas' or collection.handle == 'nelskamp' -%}
 <style>
   .bz-braas-hint {
     background: #fff4e0;
@@ -1668,6 +1683,7 @@
   }
 </style>
 
+{%- if collection.handle == 'braas' -%}
 <section class="bz-col-seo">
   <div class="bz-col-seo-inner">
 
@@ -1731,6 +1747,76 @@
       </details>
       <details itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
         <summary itemprop="name">Was tun, wenn ich meinen Braas-Ziegel nicht sicher erkenne?</summary>
+        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">Nutzen Sie den <a href="/pages/ziegel-finder">Ziegel-Finder</a> oder senden Sie ein Foto. So kann der passende Ziegel schneller eingegrenzt werden.</div></div>
+      </details>
+    </div>
+
+  </div>
+</section>
+{%- elsif collection.handle == 'nelskamp' -%}
+<section class="bz-col-seo">
+  <div class="bz-col-seo-inner">
+
+    <div class="bz-braas-hint" role="note">
+      <div class="bz-braas-hint__icon" aria-hidden="true">!</div>
+      <div>
+        <p class="bz-braas-hint__title">Ziegel vor Bestellung prüfen</p>
+        <p class="bz-braas-hint__text">Nelskamp-Dachziegel gibt es in unterschiedlichen Formen, Abmessungen und Profilen. Bitte prüfen Sie vor der Bestellung das genaue Modell oder nutzen Sie den <a href="/pages/ziegel-finder">Ziegel-Finder</a>. Bei Unsicherheit hilft ein Foto des vorhandenen Dachziegels.</p>
+      </div>
+    </div>
+
+    <div class="bz-braas-hub" aria-label="Weiterführende Seiten">
+      <div class="bz-braas-hub__head">
+        <p class="bz-braas-hub__eyebrow">Weiterführen</p>
+        <h2 class="bz-braas-hub__title">Ziegel finden, Modell wählen, montieren</h2>
+      </div>
+      <div class="bz-braas-hub__grid">
+        <a class="bz-braas-hub__card" href="/pages/ziegel-finder">
+          <p class="bz-braas-hub__cat">Identifikation</p>
+          <p class="bz-braas-hub__t">Nelskamp-Ziegel über den Ziegel-Finder bestimmen</p>
+          <span class="bz-braas-hub__cta">Ziegel-Finder öffnen</span>
+        </a>
+        <a class="bz-braas-hub__card" href="/pages/hersteller">
+          <p class="bz-braas-hub__cat">Übersicht</p>
+          <p class="bz-braas-hub__t">Alle unterstützten Hersteller im Überblick</p>
+          <span class="bz-braas-hub__cta">Hersteller-Hub öffnen</span>
+        </a>
+        <a class="bz-braas-hub__card" href="/pages/montageanleitung-mit-dachhaken">
+          <p class="bz-braas-hub__cat">Montage</p>
+          <p class="bz-braas-hub__t">Montage mit Dachhaken verstehen</p>
+          <span class="bz-braas-hub__cta">Anleitung lesen</span>
+        </a>
+        <a class="bz-braas-hub__card" href="/collections/braas">
+          <p class="bz-braas-hub__cat">Hersteller</p>
+          <p class="bz-braas-hub__t">Weitere PV-Blechziegel für Braas-Dachziegel</p>
+          <span class="bz-braas-hub__cta">Braas öffnen</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="bz-braas-faq" itemscope itemtype="https://schema.org/FAQPage">
+      <div class="bz-braas-faq__head">
+        <p class="bz-braas-hub__eyebrow">FAQ</p>
+        <h2 class="bz-braas-hub__title">Häufige Fragen zu Nelskamp-Dachziegeln</h2>
+      </div>
+      <details open itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <summary itemprop="name">Welche PV-Blechziegel gibt es für Nelskamp-Dachziegel?</summary>
+        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">Die passenden PV-Blechziegel richten sich nach dem konkreten Nelskamp-Dachziegelmodell. Über die Nelskamp-Collection, Produktseiten oder den <a href="/pages/ziegel-finder">Ziegel-Finder</a> kann der passende Ziegel eingegrenzt werden.</div></div>
+      </details>
+      <details itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <summary itemprop="name">Wie finde ich den passenden Nelskamp-Ziegel?</summary>
+        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">Vergleichen Sie Form, Länge, Breite und Profil des vorhandenen Dachziegels. Wenn Sie unsicher sind, nutzen Sie den <a href="/pages/ziegel-finder">Ziegel-Finder</a> oder senden Sie ein Foto des Dachziegels.</div></div>
+      </details>
+      <details itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <summary itemprop="name">Wofür wird ein Aluminium-Ersatzdachziegel bei der PV-Montage eingesetzt?</summary>
+        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">Er ersetzt den vorhandenen Dachziegel im Bereich des Dachhakens und unterstützt eine stabile Montage der Photovoltaikanlage auf dem Ziegeldach. Details zur <a href="/pages/montageanleitung-mit-dachhaken">Montage mit Dachhaken</a> stehen in der Anleitung.</div></div>
+      </details>
+      <details itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <summary itemprop="name">Passt ein PV-Blechziegel für jeden Nelskamp-Dachziegel?</summary>
+        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">Nein, entscheidend ist das konkrete Dachziegelmodell und Profil. Deshalb sollte der vorhandene Ziegel vor der Bestellung geprüft werden.</div></div>
+      </details>
+      <details itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <summary itemprop="name">Was tun, wenn ich meinen Nelskamp-Ziegel nicht sicher erkenne?</summary>
         <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">Nutzen Sie den <a href="/pages/ziegel-finder">Ziegel-Finder</a> oder senden Sie ein Foto. So kann der passende Ziegel schneller eingegrenzt werden.</div></div>
       </details>
     </div>
