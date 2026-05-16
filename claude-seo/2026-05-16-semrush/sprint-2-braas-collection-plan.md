@@ -88,8 +88,7 @@ Alternative H1-Vorschläge:
 1. Hero / Collection-Intro
 2. Produktgrid bleibt im Fokus
 3. Kurzer Profil-Hinweis (Hinweisbox „Profil vor Bestellung prüfen")
-4. Interne Links:
-   - `/products/pv-dachziegel-frankfurter-pfanne`
+4. Interne Links (Hub-Karten — bewusst KEIN Frankfurter-Pfanne-Produkt-Link, weil die Braas-Collection als Hersteller-/Profilseite wirken soll und nicht zu frueh auf ein einzelnes Modell lenken darf):
    - `/pages/ziegel-finder`
    - `/pages/hersteller`
    - `/collections/nelskamp`
