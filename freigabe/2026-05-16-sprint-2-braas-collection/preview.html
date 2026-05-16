@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Preview · Sprint 2 Braas-Collection SEO-Optimierung</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0d1e35;--navy-mid:#152840;--orange:#f5a623;--orange-dark:#d4891a;
+    --border:#e6e3df;--muted:rgba(0,0,0,.62);--bg:#f7f5f2;--r:8px;--r-lg:14px;
+  }
+  *{box-sizing:border-box}html,body{margin:0;padding:0;background:var(--bg);color:#222;font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:16px;line-height:1.55}
+  .stage{max-width:1280px;margin:0 auto;padding:36px 24px 80px}
+  .stage h1{font-family:'Inter';font-size:24px;font-weight:700;margin:0 0 6px;color:var(--navy)}
+  .stage .lead{color:var(--muted);font-size:14px;margin:0 0 28px}
+  .meta-band{background:#fff;border:1px solid var(--border);border-left:4px solid var(--orange);border-radius:var(--r);padding:14px 18px;font-size:13px;margin:0 0 32px;line-height:1.55}
+  .meta-band strong{color:var(--navy)}
+  .meta-band code{background:#f0efed;padding:1px 6px;border-radius:3px;font-size:12px;font-family:inherit}
+  .frame-label{font-family:'Montserrat';font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+  .preview-desktop{background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:48px}
+
+  /* Hero — collection-hero gradient */
+  .hero{background:linear-gradient(180deg,var(--navy) 0%,var(--navy-mid) 100%);color:#fff;padding:60px 56px 44px;position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;right:-80px;bottom:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(245,166,35,.15) 0%,rgba(245,166,35,0) 70%);pointer-events:none}
+  .hero__crumb{font-family:'Montserrat';font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.55);margin:0 0 14px;font-weight:700}
+  .hero__crumb a{color:rgba(255,255,255,.55);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}
+  .hero h1{font-family:'Inter';font-size:38px;font-weight:800;line-height:1.1;margin:0 0 14px;max-width:780px;letter-spacing:-.01em}
+  .hero__sub{font-size:16px;color:rgba(255,255,255,.78);max-width:680px;margin:0;line-height:1.6}
+
+  /* Hinweisbox */
+  .hint{background:#fff4e0;border-top:1px solid rgba(245,166,35,.4);border-bottom:1px solid rgba(245,166,35,.4);padding:24px 56px}
+  .hint__inner{max-width:920px;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start}
+  .hint__icon{width:40px;height:40px;border-radius:50%;background:var(--orange);color:var(--navy);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;flex-shrink:0}
+  .hint__title{font-family:'Inter';font-size:16px;font-weight:700;color:var(--navy);margin:0 0 4px}
+  .hint__text{font-size:14.5px;color:var(--navy);margin:0;line-height:1.55}
+
+  /* Produktgrid placeholder */
+  .grid-zone{padding:48px 56px;background:#fff}
+  .grid-zone__head{margin:0 0 22px}
+  .gz-eyebrow{font-family:'Montserrat';font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--orange);font-weight:700;margin:0 0 8px}
+  .gz-title{font-family:'Inter';font-size:22px;font-weight:700;color:var(--navy);margin:0;line-height:1.2}
+  .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+  .ph-card{background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:10px}
+  .ph-img{background:linear-gradient(135deg,#f4f1ed,#e6e3df);border-radius:var(--r);aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;color:#a3a09a;font-size:11px;font-family:'Montserrat';letter-spacing:.15em;text-transform:uppercase}
+  .ph-meta{font-family:'Montserrat';font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .ph-modell{font-family:'Inter';font-size:15.5px;font-weight:700;color:var(--navy);line-height:1.3;min-height:38px}
+  .ph-vars{font-size:12.5px;color:var(--muted);line-height:1.45}
+  .ph-vars b{color:var(--navy);font-weight:600}
+  .ph-cta{margin-top:auto;background:var(--navy);color:#fff;text-align:center;font-weight:700;font-size:13.5px;padding:11px;border-radius:var(--r);text-decoration:none;letter-spacing:.02em}
+  .ph-cta:hover{background:var(--navy-mid)}
+
+  /* Hub-Karten */
+  .hub{padding:48px 56px;background:var(--bg);border-top:1px solid var(--border)}
+  .hub__head{max-width:680px;margin:0 0 24px}
+  .hub__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+  .card{background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;text-decoration:none;color:inherit;transition:all .18s ease}
+  .card:hover{border-color:var(--orange);transform:translateY(-2px);box-shadow:0 10px 24px rgba(13,30,53,.08)}
+  .card__cat{font-family:'Montserrat';font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:0 0 6px}
+  .card__title{font-family:'Inter';font-size:15.5px;font-weight:700;color:var(--navy);margin:0 0 6px;line-height:1.3}
+  .card__url{font-size:11.5px;color:var(--muted);margin:0 0 12px;word-break:break-all}
+  .card__cta{font-size:13px;font-weight:700;color:var(--orange-dark)}
+  .card__cta::after{content:" →"}
+
+  /* FAQ */
+  .faq{padding:48px 56px;background:#fff;border-top:1px solid var(--border)}
+  .faq__head{max-width:680px;margin:0 0 22px}
+  details{background:#fff;border:1px solid var(--border);border-radius:var(--r);margin-bottom:10px;overflow:hidden}
+  details[open]{box-shadow:0 6px 18px rgba(13,30,53,.06)}
+  summary{padding:16px 22px;cursor:pointer;font-weight:700;font-size:15px;color:var(--navy);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:14px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";font-size:24px;font-weight:300;color:var(--orange);line-height:1}
+  details[open] summary::after{content:"−"}
+  details > div{padding:0 22px 18px;font-size:14px;color:var(--muted);line-height:1.65}
+
+  /* SERP */
+  .meta-preview{padding:48px 56px;background:var(--bg);border-top:1px solid var(--border)}
+  .meta-preview__inner{max-width:680px}
+  .serp{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;margin-top:16px;font-family:Arial,sans-serif}
+  .serp__site{font-size:13px;color:#5f6368}
+  .serp__url{font-size:13px;color:#202124}
+  .serp__title{font-size:20px;color:#1a0dab;margin:6px 0;line-height:1.3}
+  .serp__desc{font-size:14px;color:#4d5156;line-height:1.5}
+
+  /* Datafoot */
+  .datafoot{padding:30px 56px 40px;background:#0a182a;color:rgba(255,255,255,.7);font-size:12px;line-height:1.65}
+  .datafoot strong{color:#fff}
+  .datafoot ul{margin:8px 0 0;padding-left:18px}
+
+  /* Mobile frame */
+  .mobile-wrap{display:flex;justify-content:center;margin-top:36px}
+  .mobile-frame{width:390px;border:10px solid #111;border-radius:42px;overflow:hidden;background:var(--bg);box-shadow:0 12px 40px rgba(0,0,0,.22)}
+  .mobile-frame iframe{width:100%;height:844px;border:0;display:block}
+
+  @media(max-width:900px){
+    .hero{padding:40px 28px}.hero h1{font-size:28px}
+    .hint,.grid-zone,.hub,.faq,.meta-preview,.datafoot{padding-left:28px;padding-right:28px}
+    .grid,.hub__grid{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:560px){.grid,.hub__grid{grid-template-columns:1fr}.hero h1{font-size:24px}}
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <h1>Sprint 2 — Braas-Collection SEO-Optimierung (Freigabe-Preview)</h1>
+  <p class="lead">Offline prüfbare Vorschau für <strong>https://blechziegel.de/collections/braas</strong>. Status: <strong>PENDING</strong>. Keine Live-Änderung durchgeführt.</p>
+
+  <div class="meta-band">
+    <strong>Datenbasis:</strong> Semrush-Schätzung (Stand 2026-05-16) — <strong>kein Google-Search-Console-Livewert</strong>.
+    Braas-Cluster: <code>braas dachziegel</code> Pos 38/41 (SV 3.600), <code>ziegel braas</code> Pos 35 (SV 480), <code>braas frankfurter pfanne</code> SV 3.600.
+    <strong>Solarziegel-/PV-Ziegel-Begriffe werden nicht aktiv beworben.</strong>
+  </div>
+
+  <p class="frame-label">Desktop · 1280 px Container</p>
+  <div class="preview-desktop">
+
+    <!-- A · HERO -->
+    <section class="hero">
+      <p class="hero__crumb"><a href="#">Startseite</a> &nbsp;·&nbsp; <a href="#">Hersteller</a> &nbsp;·&nbsp; Braas</p>
+      <h1>PV-Blechziegel für Braas-Dachziegelprofile</h1>
+      <p class="hero__sub">PV-Blechziegel aus Aluminium für die Photovoltaik-Montage auf Ziegeldächern mit Braas-Profilen. Wählen Sie das passende Dachziegelprofil aus oder nutzen Sie den Ziegel-Finder, wenn Sie Ihr Modell nicht sicher kennen.</p>
+    </section>
+
+    <!-- C · HINWEISBOX -->
+    <section class="hint">
+      <div class="hint__inner">
+        <div class="hint__icon">!</div>
+        <div>
+          <p class="hint__title">Profil vor Bestellung prüfen</p>
+          <p class="hint__text">Braas-Dachziegel gibt es in unterschiedlichen Profilen und Abmessungen. Bitte prüfen Sie vor der Bestellung das genaue Modell oder nutzen Sie den Ziegel-Finder. Bei Unsicherheit hilft ein Foto des vorhandenen Dachziegels.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- E · PRODUKTGRID PLACEHOLDER -->
+    <section class="grid-zone">
+      <div class="grid-zone__head">
+        <p class="gz-eyebrow">Produkte</p>
+        <h2 class="gz-title">PV-Blechziegel für Braas-Profile</h2>
+      </div>
+      <div class="grid">
+        <a class="ph-card" href="#">
+          <div class="ph-img">Produktbild</div>
+          <p class="ph-meta">Braas-Profil</p>
+          <p class="ph-modell">PV-Blechziegel Frankfurter Pfanne</p>
+          <p class="ph-vars">Varianten: <b>Aluminium blank</b> · <b>Anthrazit</b> · <b>Ziegelrot</b></p>
+          <a class="ph-cta" href="#">Produkt ansehen</a>
+        </a>
+        <a class="ph-card" href="#">
+          <div class="ph-img">Produktbild</div>
+          <p class="ph-meta">Braas-Profil</p>
+          <p class="ph-modell">PV-Blechziegel Harzer Pfanne</p>
+          <p class="ph-vars">Varianten: <b>Aluminium blank</b> · <b>Anthrazit</b> · <b>Ziegelrot</b></p>
+          <a class="ph-cta" href="#">Produkt ansehen</a>
+        </a>
+        <a class="ph-card" href="#">
+          <div class="ph-img">Produktbild</div>
+          <p class="ph-meta">Braas-Profil</p>
+          <p class="ph-modell">Weiteres Modell</p>
+          <p class="ph-vars">Varianten: <b>Aluminium blank</b> · <b>Anthrazit</b> · <b>Ziegelrot</b></p>
+          <a class="ph-cta" href="#">Produkt ansehen</a>
+        </a>
+      </div>
+      <p style="margin-top:18px;color:var(--muted);font-size:12px"><em>Hinweis: Platzhalter-Modelle. Reale Produkte + Preise werden zur Live-Schaltung aus dem Shopify-Shop gezogen — in dieser Preview werden keine Preise erfunden.</em></p>
+    </section>
+
+    <!-- D · HUB-KARTEN -->
+    <section class="hub">
+      <div class="hub__head">
+        <p class="gz-eyebrow">Weiterführen</p>
+        <h2 class="gz-title">Profil finden, Modell wählen, montieren</h2>
+      </div>
+      <div class="hub__grid">
+        <a class="card" href="#">
+          <p class="card__cat">Modell</p>
+          <p class="card__title">PV-Blechziegel Frankfurter Pfanne ansehen</p>
+          <p class="card__url">/products/pv-dachziegel-frankfurter-pfanne</p>
+          <span class="card__cta">Zur Produktseite</span>
+        </a>
+        <a class="card" href="#">
+          <p class="card__cat">Identifikation</p>
+          <p class="card__title">Braas-Profil über den Ziegel-Finder bestimmen</p>
+          <p class="card__url">/pages/ziegel-finder</p>
+          <span class="card__cta">Ziegel-Finder öffnen</span>
+        </a>
+        <a class="card" href="#">
+          <p class="card__cat">Übersicht</p>
+          <p class="card__title">Alle Hersteller und Profile ansehen</p>
+          <p class="card__url">/pages/hersteller</p>
+          <span class="card__cta">Hersteller-Hub öffnen</span>
+        </a>
+        <a class="card" href="#">
+          <p class="card__cat">Montage</p>
+          <p class="card__title">Montage mit Dachhaken verstehen</p>
+          <p class="card__url">/pages/montageanleitung-mit-dachhaken</p>
+          <span class="card__cta">Anleitung lesen</span>
+        </a>
+        <a class="card" href="#">
+          <p class="card__cat">Hersteller</p>
+          <p class="card__title">Weitere PV-Blechziegel für Nelskamp-Profile</p>
+          <p class="card__url">/collections/nelskamp</p>
+          <span class="card__cta">Nelskamp öffnen</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- F · FAQ -->
+    <section class="faq">
+      <div class="faq__head">
+        <p class="gz-eyebrow">FAQ</p>
+        <h2 class="gz-title">Häufige Fragen zu Braas-Profilen</h2>
+      </div>
+      <details open>
+        <summary>Welche PV-Blechziegel gibt es für Braas-Dachziegelprofile?</summary>
+        <div>Die passenden PV-Blechziegel richten sich nach dem konkreten Braas-Dachziegelprofil. Über die Braas-Collection, Produktseiten oder den Ziegel-Finder kann das passende Modell eingegrenzt werden.</div>
+      </details>
+      <details>
+        <summary>Wie finde ich das passende Braas-Profil?</summary>
+        <div>Vergleichen Sie Form, Länge, Breite und Profil des vorhandenen Dachziegels. Wenn Sie unsicher sind, nutzen Sie den Ziegel-Finder oder senden Sie ein Foto des Dachziegels.</div>
+      </details>
+      <details>
+        <summary>Wofür wird ein Aluminium-Ersatzdachziegel bei der PV-Montage eingesetzt?</summary>
+        <div>Er ersetzt den vorhandenen Dachziegel im Bereich des Dachhakens und unterstützt eine stabile Montage der Photovoltaikanlage auf dem Ziegeldach.</div>
+      </details>
+      <details>
+        <summary>Passt ein PV-Blechziegel für jedes Braas-Modell?</summary>
+        <div>Nein, entscheidend ist das konkrete Dachziegelprofil. Deshalb sollte das Modell vor der Bestellung geprüft werden.</div>
+      </details>
+      <details>
+        <summary>Was tun, wenn ich mein Braas-Profil nicht sicher erkenne?</summary>
+        <div>Nutzen Sie den Ziegel-Finder oder senden Sie ein Foto. So kann das passende Profil schneller eingegrenzt werden.</div>
+      </details>
+    </section>
+
+    <!-- G · META-VORSCHAU -->
+    <section class="meta-preview">
+      <div class="meta-preview__inner">
+        <p class="gz-eyebrow">Google-Snippet-Vorschau</p>
+        <h2 class="gz-title">So sieht's in den Suchergebnissen aus</h2>
+        <p style="color:var(--muted);font-size:14px;margin:6px 0 0">Vorschlag — wird separat freigegeben und im Shopify Admin gesetzt.</p>
+        <div class="serp">
+          <div class="serp__site">blechziegel.de</div>
+          <div class="serp__url">https://blechziegel.de/collections/braas</div>
+          <div class="serp__title">PV-Blechziegel für Braas-Dachziegelprofile</div>
+          <div class="serp__desc">PV-Blechziegel aus Aluminium für Braas-Dachziegelprofile und Photovoltaik-Montage mit Dachhaken. Passendes Profil finden oder Ziegel-Finder nutzen.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- H · DATENBASIS -->
+    <section class="datafoot">
+      <p><strong>Datenbasis (Semrush-Schätzung, Stand 2026-05-16):</strong></p>
+      <ul>
+        <li><code>braas dachziegel</code> Position 38/41, SV 3.600</li>
+        <li><code>ziegel braas</code> Position 35, SV 480</li>
+        <li><code>braas pv</code> Position 59, SV 70</li>
+        <li><code>pv dachziegel braas</code> SV 110</li>
+        <li><code>blechziegel braas</code> SV 20</li>
+      </ul>
+      <p style="margin-top:12px"><strong>Hinweis:</strong> Keine Google-Search-Console-Livewerte. Braas-Begriffe „Solarziegel" / „PV-Ziegel" werden bewusst <strong>nicht</strong> aktiv beworben.</p>
+    </section>
+
+  </div>
+
+  <!-- MOBILE FRAME -->
+  <p class="frame-label">Mobile · 390 × 844 (iPhone-Frame)</p>
+  <div class="mobile-wrap">
+    <div class="mobile-frame">
+      <iframe srcdoc='<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700&display=swap" rel="stylesheet"><style>:root{--navy:#0d1e35;--orange:#f5a623;--orange-dark:#d4891a;--border:#e6e3df;--muted:rgba(0,0,0,.62)}*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,sans-serif;background:#f7f5f2;color:#222;font-size:14.5px;line-height:1.5}.hero{background:linear-gradient(180deg,#0d1e35,#152840);color:#fff;padding:28px 18px}.cr{font-family:Montserrat;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 10px;font-weight:700}h1{font-size:22px;font-weight:800;line-height:1.15;margin:0 0 10px}.sub{font-size:13.5px;color:rgba(255,255,255,.78);margin:0;line-height:1.55}.hint{background:#fff4e0;border-top:1px solid rgba(245,166,35,.4);border-bottom:1px solid rgba(245,166,35,.4);padding:16px 18px;display:flex;gap:12px}.hint .ic{width:30px;height:30px;border-radius:50%;background:var(--orange);color:var(--navy);display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;font-size:16px}.hint b{display:block;color:var(--navy);font-size:14px;margin-bottom:3px}.hint p{margin:0;font-size:13px;color:var(--navy);line-height:1.5}.section{padding:22px 18px;background:#fff}.eb{font-family:Montserrat;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--orange);font-weight:700;margin:0 0 6px}.ht{font-size:18px;font-weight:700;color:var(--navy);margin:0 0 14px;line-height:1.2}.card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:13px;display:block;text-decoration:none;color:inherit;margin-bottom:8px}.card .cat{font-family:Montserrat;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:0 0 4px}.card .t{font-size:14px;font-weight:700;color:var(--navy);margin:0 0 3px;line-height:1.3}.card .u{font-size:10.5px;color:var(--muted);margin:0}details{background:#fff;border:1px solid var(--border);border-radius:8px;margin-bottom:7px;overflow:hidden}summary{padding:13px 16px;cursor:pointer;font-weight:700;font-size:13.5px;color:var(--navy);list-style:none;display:flex;justify-content:space-between;gap:10px}summary::-webkit-details-marker{display:none}summary::after{content:"+";color:var(--orange);font-size:18px;line-height:1;font-weight:300}details[open] summary::after{content:"−"}details > div{padding:0 16px 14px;font-size:13px;color:var(--muted);line-height:1.55}.foot{background:#0a182a;color:rgba(255,255,255,.7);padding:18px;font-size:11px;line-height:1.55}.foot b{color:#fff}</style></head><body><section class="hero"><p class="cr">Hersteller · Braas</p><h1>PV-Blechziegel für Braas-Dachziegelprofile</h1><p class="sub">Aluminium-Ersatzdachziegel für die Photovoltaik-Montage auf Ziegeldächern mit Braas-Profilen.</p></section><section class="hint"><div class="ic">!</div><div><b>Profil vor Bestellung prüfen</b><p>Braas-Dachziegel gibt es in unterschiedlichen Profilen. Profil prüfen oder Foto schicken.</p></div></section><section class="section"><p class="eb">Weiterführen</p><h2 class="ht">Modell wählen</h2><a class="card" href="#"><p class="cat">Modell</p><p class="t">PV-Blechziegel Frankfurter Pfanne</p><p class="u">/products/pv-dachziegel-frankfurter-pfanne</p></a><a class="card" href="#"><p class="cat">Identifikation</p><p class="t">Braas-Profil über Ziegel-Finder bestimmen</p><p class="u">/pages/ziegel-finder</p></a><a class="card" href="#"><p class="cat">Übersicht</p><p class="t">Alle Hersteller und Profile</p><p class="u">/pages/hersteller</p></a><a class="card" href="#"><p class="cat">Montage</p><p class="t">Montage mit Dachhaken</p><p class="u">/pages/montageanleitung-mit-dachhaken</p></a></section><section class="section" style="background:#f7f5f2"><p class="eb">FAQ</p><h2 class="ht">Häufige Fragen zu Braas-Profilen</h2><details open><summary>Welche PV-Blechziegel gibt es für Braas-Profile?</summary><div>Die passenden Modelle richten sich nach dem konkreten Braas-Dachziegelprofil — über Produktseiten oder Ziegel-Finder eingrenzbar.</div></details><details><summary>Wie finde ich das passende Profil?</summary><div>Form, Länge, Breite vergleichen oder Foto schicken — Ziegel-Finder hilft.</div></details><details><summary>Wofür ein Aluminium-Ersatzdachziegel?</summary><div>Im Bereich des Dachhakens — schafft stabile, regensichere Grundlage für die PV-Montage.</div></details><details><summary>Passt ein Modell für jeden Braas?</summary><div>Nein, entscheidend ist das konkrete Profil. Vor Bestellung prüfen.</div></details><details><summary>Profil nicht sicher erkannt?</summary><div>Ziegel-Finder nutzen oder Foto senden.</div></details></section><section class="foot"><p><b>Semrush-Schätzung 2026-05-16:</b> braas dachziegel Pos 38/41 SV 3.600 · ziegel braas Pos 35 SV 480. Kein GSC-Livewert. Solarziegel-Begriffe nicht aktiv beworben.</p></section></body></html>'></iframe>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
