@@ -15,40 +15,37 @@ Stand 2026-05-16, Workspace `claude-seo/2026-05-16-semrush/`:
 - `competitors.csv` (gefuellt) — Wettbewerber-Rollen definiert
 - `theme-url-mapping.md` (vollstaendig) — Technische Karte aller Code-Hooks
 - `seo-target-pages.md` (gefuellt) — Zielseiten-Matrix
-- `keyword-priorities.md` (qualitativ gefuellt + P1/P2/P3) — Strategiegrundlage
-- `domain-overview-de.csv`, `backlinks-overview.csv`, `top-pages-de.csv`,
-  `organic-keywords-de.csv` — **leer / Platzhalter**, Semrush-Zahlen noch nicht importiert
+- `keyword-priorities.md` (aktualisiert mit P1/P2/P3 + Semrush-Datenbasis)
+- `domain-overview-de.csv` **gefuellt** — Organic + Ads je Domain
+- `backlinks-overview.csv` **gefuellt** — Backlinks + Ref-Dom + Follow/Nofollow + AS/TS
+- `top-pages-de.csv` **gefuellt** — 19 Top-Pages ueber 5 Domains
+- `organic-keywords-de.csv` — **weiter Platzhalter**, Keyword-Rankings noch offen
 
-**Konsequenz:** Sprint 1 priorisiert auf strategischer Ebene (Positionierung +
-Pflicht-Abgrenzung + Hub-Verlinkung). Eine zweite Priorisierungs-Runde nach
-Semrush-Daten-Import ist eingeplant.
+**Konsequenz:** Sprint 1 ist datenbasiert auf Domain/Backlink/Top-Page-Ebene.
+Konkrete Keyword-Position-Empfehlungen folgen nach Keyword-Export.
 
-## SEO-Benchmark (qualitativ, ohne Semrush-Zahlen)
+## SEO-Benchmark (Semrush-Schaetzung, Stand 2026-05-16)
 
-| Domain | Rolle | Was wir vergleichen wollen | Aktuell bestaetigbar |
-|---|---|---|---|
-| blechziegel.de | owner | -- | nein (Daten fehlen) |
-| blechziegel.com | Namespace-Wettbewerber | Produktnaehe, Marken-Konflikt-Risiko | nein |
-| ziegel-koenig.com | Ziegel-Handel | Marken-/Produktpositionierung, Backlink-Profil | nein |
-| bau.shop | Bau-Marktplatz | Kategorie-Benchmark (Blechziegel-Kategorie) | nein |
-| venturama-solar.de | PV-/Solarmontage | Markt-/Montage-Benchmark, breiter Solar-Kontext | nein |
+| Domain | Rolle | Organic KW | Organic Traffic | Follow-Links | AS |
+|---|---|---:|---:|---:|---:|
+| **blechziegel.de** | owner | **17** | **0** | **0** ⚠ | 0 |
+| blechziegel.com | Namespace-Wettbewerber | 126 | 131 | 3 | 0 |
+| ziegel-koenig.com | Ziegel-Handel / Offpage-Benchmark | 18 | 195 | **145** | **8** |
+| bau.shop | Bau-Marktplatz (Kategorie-Benchmark `/Blechziegel`: 30 KW / 382 Traffic) | 2.038 | 4.914 | 17.789 | 10 |
+| venturama-solar.de | PV-/Solarmontage-Spezialist | 4.418 | 17.286 | 544 | 28 |
 
-> Numerische Werte (organische Keywords, Traffic, Cost, Ads, Backlinks, Authority Score)
-> sind aktuell **nicht bestaetigbar** — alle CSVs sind Platzhalter.
-> „Ich kann das nicht bestaetigen, weil die Datenquellen noch leer sind."
+## Strategische Schlussfolgerungen (datenbasiert)
 
-## Strategische Schlussfolgerungen (qualitativ)
-
-1. **Warum blechziegel.de organisch wahrscheinlich schwaecher ist:** kann **nicht bestaetigt** werden ohne Semrush-Werte. Hypothesen-frei.
-2. **Welche Wettbewerber wofuer relevant sind:**
-   - `bau.shop/Blechziegel` als direkter Kategorie-Benchmark (Sortimentsbreite + Filter + Listings)
-   - `blechziegel.com` als thematischer Namespace-Wettbewerber (Marken-Konflikt-Risiko)
-   - `venturama-solar.de` als breiter PV-/Solarmontage-Markt-Benchmark
-   - `ziegel-koenig.com` als Backlinkprofil-/Produkt-Positionierungs-Benchmark
-3. **Benchmark-Seiten:** zu identifizieren nach Top-Pages-Export
-4. **Groesste Content-/Keyword-Luecke:** zu identifizieren nach Organic-Keywords-Export +
-   Keyword-Gap-Analyse — Pre-Hypothese laut Agent-Spec: „PV-Blechziegel"-Cluster + Hersteller-/Modell-Cluster
-5. **Groesste Backlink-Luecke:** zu identifizieren nach Backlinks-Export
+1. **blechziegel.de organisch quasi unsichtbar:** 17 KW, 0 geschaetzter Traffic auf jeder bekannten Top-Page. Indexierung steht, aber Position+Snippet bringen keine Klicks (Semrush-Schaetzung).
+2. **Welche Wettbewerber wofuer relevant sind (bestaetigt):**
+   - `bau.shop/Blechziegel` (**30 KW / 382 Traffic**) = Kategorie-Benchmark: zeigt, welche Suchintention bei „Blechziegel"-Suchen aktuell bedient wird
+   - `blechziegel.com/` (**29 KW / 117 Traffic**) = Namespace-Wettbewerber Home
+   - `blechziegel.com/products/pv-dachziegel-frankfurter-pfanne` (**10 KW / 6 Traffic**) = direkter PDP-Benchmark fuer unsere Frankfurter-Pfanne-PDP
+   - `venturama-solar.de` (4.418 KW total) = breiter PV-/Solarmontage-Markt-Benchmark
+   - `ziegel-koenig.com` (145 Follow-Links / AS 8) = Backlink-Profil-Benchmark fuer Ziegel-Handel-Domain
+3. **Benchmark-Seiten:** s. Tabelle in `keyword-priorities.md` (Top-Pages).
+4. **Groesste Backlink-Luecke (bestaetigt):** blechziegel.de hat **0 Follow-Links bei 21 Backlinks** — strukturelles Ranking-Blockade. ziegel-koenig.com im selben Vertical erreicht 145 Follow-Links + AS 8.
+5. **Groesste Content-/Keyword-Luecke:** noch nicht detailliert pro KW — wartet auf `organic-keywords-de.csv`. Pre-Hypothese: „PV-Blechziegel"-Cluster + Hersteller-/Modell-Cluster.
 6. **Warum „PV-Ziegel" / „Solarziegel" nicht unkritisch:** Semantik-Konflikt — die Begriffe
    bedienen in Wirklichkeit zwei verschiedene Suchintentionen (stromerzeugende Solarziegel
    vs. Aluminium-Ersatzdachziegel). Ohne Pflicht-Abgrenzung im Snippet faellt der Traffic-Wert auf 0,
@@ -124,6 +121,7 @@ Semrush-Daten-Import ist eingeplant.
 - **Marken-/Modellnennung sauber formulieren:** keine Aussage „kompatibel mit allen Bramac-Profilen" wenn nur ein Subset abgedeckt ist
 - **Keine Behauptung, dass der Blechziegel Strom erzeugt** — Pflicht-Abgrenzung ist Schutz
 - **Keine Conversion-Verschlechterung im Hero** — wenn die Pflicht-Abgrenzung zu prominent ist, kann das die Hauptbotschaft verwaessern; Test in Mobile-Frame
+- **Bestaetigtes Off-Page-Risiko:** 0 Follow-Links bei blechziegel.de — ohne paralleles Backlink-Programm bleibt die Sprint-1-Onpage-Arbeit ohne Reichweiten-Hebel (Semrush-Schaetzung)
 
 ## Pruefpunkte nach spaeterer Umsetzung
 
