@@ -29,7 +29,8 @@ const SEEDS = [
   'https://blechziegel.de/pages/datenschutz',
   'https://blechziegel.de/policies/refund-policy',
   'https://blechziegel.de/pages/impressum',
-  'https://blechziegel.de/pages/zahlung',
+  // /pages/zahlung gibt es bewusst NICHT — Zahlungsinformationen sind auf
+  // /pages/versand integriert ("Versand & Zahlung").
   'https://blechziegel.de/pages/anfrage-erfolg',
   'https://blechziegel.de/collections/all',
   'https://blechziegel.de/collections/braas',
@@ -166,6 +167,7 @@ const issues = {
   ralLegacyMentions: [],      // 'RAL 7016' im HTML (sollte 'RAL 2021' sein)
   shippingThresholdLegacy: [],// '50 €' / '50,00 €' Versand-Wording (sollte '100 €' sein)
   shippingThresholdTarget: [],// '100 €' / '100,00 €' Versand-Wording (Soll-Zustand)
+  legacyPaymentPageLinks: [], // interne Links auf /pages/zahlung (existiert nicht; Ziel ist /pages/versand)
 };
 
 const externalLinks = new Map();   // dedupe across pages
@@ -239,6 +241,11 @@ for (const [url, r] of audited) {
       internalCount++;
       const key = a.href.split('#')[0];
       internalLinkCount[key] = (internalLinkCount[key]||0) + 1;
+      // Legacy-Payment-Page-Detektion: /pages/zahlung existiert bewusst nicht,
+      // Zahlungsinformationen leben auf /pages/versand.
+      if (/\/pages\/zahlung(\/|$|\?)/.test(key)) {
+        issues.legacyPaymentPageLinks.push({ url, href: key, text: (a.innerText||'').trim().slice(0,60) });
+      }
     }
     const txt = (a.innerText || '').trim();
     const ariaOrTitle = (a.ariaLabel || a.title || '').trim();
