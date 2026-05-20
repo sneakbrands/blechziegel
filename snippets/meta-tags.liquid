@@ -130,11 +130,13 @@
   endif
 
   # Noindex fuer System-/Funktionsseiten, damit kein Index-Bloat entsteht.
+  # WICHTIG: /policies/* (Refund, Privacy, Legal Notice, AGB-Shopify) sind
+  # rechtliche Pflichtseiten und MUESSEN indexierbar bleiben — nicht ausschliessen.
   assign _noindex_page = false
   if request.page_type == 'search' or request.page_type == 'cart'
     assign _noindex_page = true
   endif
-  if request.path contains '/account' or request.path contains '/challenge' or request.path contains '/policies/'
+  if request.path contains '/account' or request.path contains '/challenge'
     assign _noindex_page = true
   endif
 -%}
@@ -147,6 +149,22 @@
   rel="canonical"
   href="{{ _canonical }}"
 >
+
+{%- comment -%}
+  hreflang: Aktuell DE-only. Solange nur eine Locale publiziert ist, geben wir
+  hreflang="de" + x-default auf den Canonical aus — kein Verweis auf nicht
+  veroeffentlichte Sprachen, keine 404-Risiken. Sobald shop.published_locales
+  weitere Sprachen enthaelt, rendern wir dynamisch je Locale.
+{%- endcomment -%}
+{%- if shop.published_locales.size > 1 -%}
+  {%- for loc in shop.published_locales -%}
+    <link rel="alternate" hreflang="{{ loc.iso_code }}" href="{{ request.origin }}{% if loc.primary == false %}/{{ loc.iso_code }}{% endif %}{{ request.path }}">
+  {%- endfor -%}
+  <link rel="alternate" hreflang="x-default" href="{{ _canonical }}">
+{%- else -%}
+  <link rel="alternate" hreflang="de" href="{{ _canonical }}">
+  <link rel="alternate" hreflang="x-default" href="{{ _canonical }}">
+{%- endif -%}
 
 {% if page_description %}
   <meta
