@@ -362,11 +362,11 @@
         <div class="bz-cart-shipping-bar-fill" id="bz-cart-shipping-fill"></div>
       </div>
       <p class="bz-cart-shipping-hint" id="bz-cart-shipping-hint">
-        Noch <strong>50,00 €</strong> bis zum Mindestbestellwert.
+        Noch <strong>100,00 €</strong> bis zum kostenlosen Versand.
       </p>
       <div class="bz-cart-actions">
         <a href="{{ routes.cart_url }}" class="bz-btn-secondary">Warenkorb</a>
-        <a href="{{ routes.cart_url }}/checkout" class="bz-btn-primary" id="bz-cart-checkout-btn" data-min-order-cents="5000">Zur Kasse</a>
+        <a href="{{ routes.cart_url }}/checkout" class="bz-btn-primary" id="bz-cart-checkout-btn" data-min-order-cents="10000">Zur Kasse</a>
       </div>
     </div>
   </aside>
@@ -376,9 +376,10 @@
 (function() {
   'use strict';
 
-  // 50 EUR Mindestbestellwert DE — entspricht zugleich der einzigen Versandschwelle
-  // (Standard ab 50 EUR kostenlos; unter 50 EUR existiert keine Versandmethode mehr).
-  var MIN_ORDER_CENTS = 5000;
+  // 100 EUR Versandkostenfrei-Schwelle DE — UI-seitig durchgesetzt fuer konsistente
+  // Kundenkommunikation (Announcement Bar, USP-Cards, FAQ). Shopify-Admin-Regel
+  // ist parallel auf 100 EUR zu pflegen (siehe theme-workspace/audits/shipping-status.md).
+  var MIN_ORDER_CENTS = 10000;
   var FREE_SHIPPING_CENTS = MIN_ORDER_CENTS; // beibehalten für Bar-Berechnung
   var drawer = document.getElementById('bz-cart-drawer');
   if (!drawer) return;
@@ -447,11 +448,11 @@
 
     if (hintEl) {
       if (!hasItems) {
-        hintEl.innerHTML = 'Mindestbestellwert <strong>50,00 €</strong> · Versand kostenlos.';
+        hintEl.innerHTML = 'Versandkostenfrei ab <strong>100,00 €</strong>.';
       } else if (remaining <= 0) {
-        hintEl.innerHTML = '<strong>Mindestbestellwert erreicht · Versand kostenlos.</strong>';
+        hintEl.innerHTML = '<strong>Versandkostenfrei erreicht.</strong>';
       } else {
-        hintEl.innerHTML = 'Noch <strong>' + formatEUR(remaining) + '</strong> bis zum Mindestbestellwert.';
+        hintEl.innerHTML = 'Noch <strong>' + formatEUR(remaining) + '</strong> bis zum kostenlosen Versand.';
       }
     }
     if (fillEl) {
@@ -459,15 +460,15 @@
       fillEl.style.width = pct + '%';
     }
 
-    // Checkout-Button serverseitige Mindestbestellwert-Sperre frontend-mitteilen.
-    // Shopify-Server blockiert unter 50 EUR ohnehin (keine Versandmethode), aber UX
-    // wird hier sauberer geführt.
+    // Checkout-Button: UI-Schwelle 100 EUR fuer konsistente Versandkommunikation.
+    // Shopify-Admin-Versandregel parallel auf 100 EUR setzen (Status siehe
+    // theme-workspace/audits/shipping-status.md).
     if (checkoutBtn) {
       if (!hasItems || remaining > 0) {
         checkoutBtn.classList.add('is-disabled');
         checkoutBtn.setAttribute('aria-disabled', 'true');
         checkoutBtn.removeAttribute('href');
-        checkoutBtn.textContent = hasItems ? ('Mindestbestellwert 50 €') : 'Warenkorb leer';
+        checkoutBtn.textContent = hasItems ? ('Versandkostenfrei ab 100 €') : 'Warenkorb leer';
       } else {
         checkoutBtn.classList.remove('is-disabled');
         checkoutBtn.removeAttribute('aria-disabled');
