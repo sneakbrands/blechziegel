@@ -1738,13 +1738,33 @@
 <aside class="bz-seo-linkbox" aria-labelledby="bz-seo-linkbox-title">
   <div class="bz-seo-linkbox__inner">
     <h2 class="bz-seo-linkbox__title" id="bz-seo-linkbox-title">Passend zu diesem Produkt</h2>
+    {%- comment -%}
+      Dachform-Collection des Produkts ermitteln (nur ausgeben wenn das Produkt
+      WIRKLICH in der Collection ist — keine Raterei).
+    {%- endcomment -%}
+    {%- liquid
+      assign dachform_handles = 'biberschwanz,hohlfalzziegel,flachdachziegel,krempziegel,frankfurter-pfanne,harzer-pfanne' | split: ','
+      assign dachform_match = ''
+      assign dachform_title = ''
+      for col in product.collections
+        if dachform_handles contains col.handle
+          assign dachform_match = col.handle
+          assign dachform_title = col.title
+          break
+        endif
+      endfor
+    -%}
     <ul class="bz-seo-linkbox__list">
       {%- if brand_handle != blank -%}
         <li><a href="{{ routes.collections_url }}/{{ brand_handle }}">Alle Blechziegel von {{ brand_name }}</a></li>
       {%- endif -%}
+      {%- if dachform_match != '' -%}
+        <li><a href="{{ routes.collections_url }}/{{ dachform_match }}">PV-Blechziegel für {{ dachform_title }}</a></li>
+      {%- endif -%}
       <li><a href="{{ routes.root_url }}pages/ziegel-finder">Ziegel-Finder: passendes Modell in 3 Schritten</a></li>
       <li><a href="{{ routes.root_url }}pages/hersteller">Hersteller-Übersicht (Braas, Bramac, Creaton, Nelskamp …)</a></li>
       <li><a href="{{ routes.root_url }}pages/ratgeber">Ratgeber: PV-Dachziegel richtig planen</a></li>
+      <li><a href="{{ routes.root_url }}pages/versand">Versand & Zahlung</a></li>
       {%- unless template.suffix == 'zubehoer' -%}
         <li><a href="{{ routes.collections_url }}/dachhaken">Passende Dachhaken & PV-Schrauben</a></li>
       {%- endunless -%}

@@ -1825,6 +1825,64 @@
 </section>
 {%- endif -%}
 
+{%- comment -%}══ 5.5 SEO-Linkbox · Hub-Verbindungen je Collection-Typ ══{%- endcomment -%}
+{%- liquid
+  assign dachform_handles_list = 'biberschwanz,hohlfalzziegel,flachdachziegel,krempziegel,frankfurter-pfanne,harzer-pfanne' | split: ','
+  assign manufacturer_handles_list = 'braas,bramac,creaton,nelskamp,wienerberger,erlus,jacobi-walther,roeben,walther,meyer-holsen' | split: ','
+  assign is_dachform = false
+  assign is_hersteller_coll = false
+  if dachform_handles_list contains collection.handle
+    assign is_dachform = true
+  endif
+  if manufacturer_handles_list contains collection.handle
+    assign is_hersteller_coll = true
+  endif
+-%}
+{%- if is_dachform or is_hersteller_coll -%}
+<aside class="bz-coll-linkbox" aria-labelledby="bz-coll-linkbox-title">
+  <div class="bz-coll-linkbox__inner">
+    <h2 class="bz-coll-linkbox__title" id="bz-coll-linkbox-title">
+      {%- if is_dachform -%}Passende Hersteller & weitere Themen
+      {%- else -%}Nach Dachform & weitere Themen
+      {%- endif -%}
+    </h2>
+    <ul class="bz-coll-linkbox__list">
+      {%- if is_dachform -%}
+        <li><a href="{{ routes.root_url }}pages/hersteller">Hersteller-Übersicht</a></li>
+        <li><a href="{{ routes.collections_url }}/braas">Blechziegel für Braas-Dachziegel</a></li>
+        <li><a href="{{ routes.collections_url }}/bramac">Blechziegel für Bramac-Dachziegel</a></li>
+        <li><a href="{{ routes.collections_url }}/creaton">Blechziegel für Creaton-Dachziegel</a></li>
+        <li><a href="{{ routes.collections_url }}/nelskamp">Blechziegel für Nelskamp-Dachziegel</a></li>
+        <li><a href="{{ routes.root_url }}pages/ziegel-finder">Ziegel-Finder</a></li>
+        <li><a href="{{ routes.root_url }}pages/ratgeber">Ratgeber: PV-Dachziegel planen</a></li>
+        <li><a href="{{ routes.collections_url }}/dachhaken">Dachhaken & PV-Schrauben</a></li>
+      {%- else -%}
+        <li><a href="{{ routes.collections_url }}/frankfurter-pfanne">PV-Blechziegel für Frankfurter Pfanne</a></li>
+        <li><a href="{{ routes.collections_url }}/biberschwanz">PV-Blechziegel für Biberschwanz</a></li>
+        <li><a href="{{ routes.collections_url }}/hohlfalzziegel">PV-Blechziegel für Hohlfalzziegel</a></li>
+        <li><a href="{{ routes.collections_url }}/flachdachziegel">PV-Blechziegel für Flachdachziegel</a></li>
+        <li><a href="{{ routes.collections_url }}/krempziegel">PV-Blechziegel für Krempziegel</a></li>
+        <li><a href="{{ routes.root_url }}pages/ziegel-finder">Ziegel-Finder</a></li>
+        <li><a href="{{ routes.root_url }}pages/ratgeber">Ratgeber: PV-Dachziegel planen</a></li>
+        <li><a href="{{ routes.collections_url }}/dachhaken">Dachhaken & PV-Schrauben</a></li>
+      {%- endif -%}
+    </ul>
+  </div>
+</aside>
+<style>
+  .bz-coll-linkbox { max-width: 1280px; margin: 24px auto 40px; padding: 0 20px; }
+  .bz-coll-linkbox__inner { background: #fff; border: 1px solid #DFDFDF; border-radius: 13px; padding: 24px 28px; }
+  .bz-coll-linkbox__title { font-family: var(--font-h3--family, Inter, sans-serif); font-size: 16px; letter-spacing: 0.05em; text-transform: uppercase; margin: 0 0 14px; color: #000; }
+  .bz-coll-linkbox__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px 24px; }
+  .bz-coll-linkbox__list a { color: #000; text-decoration: underline; font-size: 14px; line-height: 1.5; }
+  .bz-coll-linkbox__list a:hover { color: #333; }
+  @media (max-width: 720px) {
+    .bz-coll-linkbox__list { grid-template-columns: 1fr; }
+    .bz-coll-linkbox__inner { padding: 18px 18px; }
+  }
+</style>
+{%- endif -%}
+
 {%- comment -%}══ 6. JSON-LD · CollectionPage + BreadcrumbList (vereinheitlicht) ══{%- endcomment -%}
 {%- liquid
   assign coll_url = shop.url | append: collection.url
