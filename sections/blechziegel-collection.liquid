@@ -1825,7 +1825,12 @@
 </section>
 {%- endif -%}
 
-{%- comment -%}══ 5.5 SEO-Linkbox · Hub-Verbindungen je Collection-Typ (sync-retrigger bc5ce4a) ══{%- endcomment -%}
+{%- comment -%}
+══ 5.5 SEO-Linkbox · Hub-Verbindungen je Collection-Typ
+   Auf Hersteller-Collections: 5 Dachform-Links + Finder/Ratgeber/Dachhaken.
+   Auf Dachform-Collections: 4 Hersteller-Links + Finder/Ratgeber/Dachhaken.
+══
+{%- endcomment -%}
 {%- liquid
   assign dachform_handles_list = 'biberschwanz,hohlfalzziegel,flachdachziegel,krempziegel,frankfurter-pfanne,harzer-pfanne' | split: ','
   assign manufacturer_handles_list = 'braas,bramac,creaton,nelskamp,wienerberger,erlus,jacobi-walther,roeben,walther,meyer-holsen' | split: ','
