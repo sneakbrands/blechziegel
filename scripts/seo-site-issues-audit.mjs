@@ -157,6 +157,15 @@ const issues = {
   linksNonDescriptive: [],
   pagesWithFewInternalLinks: [],
   status404: [],
+  // Erweiterte Checks (Phase 6 / Semrush-Mapping):
+  canonicalEmpty: [],         // leerer / fehlender Canonical
+  canonicalWithQuery: [],     // Canonical mit Query-Parameter (Filter-/UTM-Drift)
+  internal4xx: [],            // intern verlinkte URL antwortet 4xx
+  internal3xx: [],            // intern verlinkte URL antwortet 3xx (Redirect-Chain)
+  noindexPages: [],           // Seite traegt robots noindex (informativ)
+  ralLegacyMentions: [],      // 'RAL 7016' im HTML (sollte 'RAL 2021' sein)
+  shippingThresholdLegacy: [],// '50 €' / '50,00 €' Versand-Wording (sollte '100 €' sein)
+  shippingThresholdTarget: [],// '100 €' / '100,00 €' Versand-Wording (Soll-Zustand)
 };
 
 const externalLinks = new Map();   // dedupe across pages
@@ -186,7 +195,32 @@ for (const [url, r] of audited) {
 
   if (!head.hreflangs.length) issues.hreflangMissing.push({ url });
 
-  if (head.robots && /noindex/i.test(head.robots)) issues.blockedByRobots.push({ url, robots: head.robots });
+  if (head.robots && /noindex/i.test(head.robots)) {
+    issues.blockedByRobots.push({ url, robots: head.robots });
+    issues.noindexPages.push({ url, robots: head.robots });
+  }
+
+  // Canonical-Checks
+  if (!head.canonical || head.canonical.trim() === '') {
+    issues.canonicalEmpty.push({ url });
+  } else if (head.canonical.includes('?')) {
+    issues.canonicalWithQuery.push({ url, canonical: head.canonical });
+  }
+
+  // Content-Drift-Checks (RAL 7016 / Versand-Schwellenwert)
+  if (/\bRAL\s*7016\b/i.test(r.html)) {
+    issues.ralLegacyMentions.push({ url, hint: 'sollte RAL 2021 sein' });
+  }
+  // Versand-Sprache: nur Treffer, die nah an Versand-/Shipping-Begriffen liegen,
+  // damit zufaellige 50-€-Vorkommnisse (z. B. „ab 50 Stueck") nicht reinrutschen.
+  const _shipCtx = /(versand[a-z]*|kostenlos[a-z]*|kostenfrei[a-z]*|gratis|shipping|mindestbestell[a-z]*).{0,80}(50\s*€|50,00\s*€|\b50\s*Euro)/i;
+  if (_shipCtx.test(r.html)) {
+    issues.shippingThresholdLegacy.push({ url, hint: 'sollte „ab 100 €" sein' });
+  }
+  const _shipCtx100 = /(versand[a-z]*|kostenlos[a-z]*|kostenfrei[a-z]*|gratis|shipping).{0,80}(100\s*€|100,00\s*€|\b100\s*Euro)/i;
+  if (_shipCtx100.test(r.html)) {
+    issues.shippingThresholdTarget.push({ url });
+  }
 
   // Body
   if (body.h1s.length === 0) issues.missingH1.push({ url });
@@ -213,6 +247,32 @@ for (const [url, r] of audited) {
     }
   }
 }
+
+// Probe interne Links (alle intern verlinkten URLs, deduped, HEAD-Check)
+const internalLinks = new Set();
+for (const [, r] of audited) {
+  if (!r.html) continue;
+  for (const a of parseLinks(r.html, r.finalUrl || '')) {
+    if (a.isExternal) continue;
+    const key = a.href.split('#')[0];
+    if (audited.has(key)) continue; // bereits gecrawlt
+    internalLinks.add(key);
+  }
+}
+console.log(`\nProbing ${internalLinks.size} unique internal (non-seed) links...`);
+let _i = 0;
+for (const link of internalLinks) {
+  try {
+    const r = await fetch(link, { method: 'HEAD', redirect: 'manual', headers:{'User-Agent':'BZ-SEO-Audit/1.0'} });
+    if (r.status >= 300 && r.status < 400) issues.internal3xx.push({ href: link, status: r.status, location: r.headers.get('location') || '' });
+    else if (r.status >= 400) issues.internal4xx.push({ href: link, status: r.status });
+  } catch (e) {
+    issues.internal4xx.push({ href: link, error: e.message });
+  }
+  _i++;
+  if (_i % 15 === 0) process.stdout.write('.');
+}
+process.stdout.write('\n');
 
 // Probe external links (sample only)
 console.log(`\nProbing ${externalLinks.size} unique external links...`);
@@ -242,13 +302,35 @@ const summary = Object.fromEntries(Object.entries(issues).map(([k,v]) => [k, v.l
 const json = { generatedAt: new Date().toISOString(), seeds: SEEDS.length, summary, issues };
 fs.writeFileSync(path.join(outDir, 'latest-seo-issues.json'), JSON.stringify(json, null, 2), 'utf8');
 
+// Datei-Hint aus URL ableiten (best-effort, hilft beim Lokalisieren im Repo)
+function fileHint(u) {
+  try {
+    const p = new URL(u).pathname;
+    if (p === '/' || p === '') return 'templates/index.json + sections/blechziegel-home.liquid';
+    if (p.startsWith('/products/')) return 'templates/product.json + sections/blechziegel-product.liquid';
+    if (p.startsWith('/collections/')) return 'templates/collection.json + sections/blechziegel-collection.liquid';
+    if (p.startsWith('/pages/hersteller')) return 'snippets/blechziegel-hersteller.liquid';
+    if (p.startsWith('/pages/ratgeber')) return 'snippets/blechziegel-ratgeber.liquid';
+    if (p.startsWith('/pages/gewerbe')) return 'snippets/blechziegel-gewerbe.liquid';
+    if (p.startsWith('/pages/versand')) return 'snippets/blechziegel-versand.liquid';
+    if (p.startsWith('/pages/contact')) return 'sections/contact-blechziegel.liquid';
+    if (p.startsWith('/pages/')) return 'sections/blechziegel-home.liquid (Page-Renderer) bzw. templates/page.*.json';
+    if (p.startsWith('/blogs/')) return 'sections/main-blog.liquid / sections/main-article.liquid';
+    if (p === '/search' || p.startsWith('/search')) return 'sections/search-results.liquid';
+    return null;
+  } catch { return null; }
+}
+
 let md = `# SEO Site-Issues Audit\n\nGenerated: ${json.generatedAt}\nSeeds: ${SEEDS.length}\n\n## Summary\n\n`;
 for (const [k,v] of Object.entries(summary)) md += `- ${k}: **${v}**\n`;
 md += '\n';
 for (const [k, v] of Object.entries(issues)) {
   if (v.length === 0) continue;
   md += `\n## ${k} (${v.length})\n\n`;
-  for (const it of v.slice(0, 50)) md += `- ${JSON.stringify(it)}\n`;
+  for (const it of v.slice(0, 50)) {
+    const hint = it.url ? fileHint(it.url) : null;
+    md += `- ${JSON.stringify(it)}${hint ? `\n  - Datei-Hinweis: \`${hint}\`` : ''}\n`;
+  }
   if (v.length > 50) md += `- ... +${v.length-50} more\n`;
 }
 fs.writeFileSync(path.join(outDir, 'latest-seo-issues.md'), md, 'utf8');
