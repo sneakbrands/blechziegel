@@ -26,9 +26,9 @@ const SEEDS = [
   'https://blechziegel.de/pages/ziegel-anfrage',
   'https://blechziegel.de/pages/contact',
   'https://blechziegel.de/pages/agb',
-  'https://blechziegel.de/pages/datenschutzerklaerung',
+  'https://blechziegel.de/pages/datenschutz',
+  'https://blechziegel.de/policies/refund-policy',
   'https://blechziegel.de/pages/impressum',
-  'https://blechziegel.de/pages/widerrufsbelehrung',
   'https://blechziegel.de/pages/zahlung',
   'https://blechziegel.de/pages/anfrage-erfolg',
   'https://blechziegel.de/collections/all',
@@ -208,8 +208,10 @@ for (const [url, r] of audited) {
   }
 
   // Content-Drift-Checks (RAL 7016 / Versand-Schwellenwert)
-  if (/\bRAL\s*7016\b/i.test(r.html)) {
-    issues.ralLegacyMentions.push({ url, hint: 'sollte RAL 2021 sein' });
+  // Anthrazit-Projektstandard: RAL 7021 (Schwarzgrau). Sowohl RAL 7016 als auch
+  // die historisch falsche RAL-2021-Notation gelten als Legacy.
+  if (/\bRAL\s*(7016|2021)\b/i.test(r.html)) {
+    issues.ralLegacyMentions.push({ url, hint: 'sollte RAL 7021 sein' });
   }
   // Versand-Sprache: nur Treffer, die nah an Versand-/Shipping-Begriffen liegen,
   // damit zufaellige 50-€-Vorkommnisse (z. B. „ab 50 Stueck") nicht reinrutschen.
