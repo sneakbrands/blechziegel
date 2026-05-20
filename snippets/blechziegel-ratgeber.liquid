@@ -625,7 +625,33 @@
     </div>
   </section>
 
+  {%- comment -%}══ SEO-Linkbox: passende Produkte/Hubs fuer Ratgeber-Page ══{%- endcomment -%}
+  <section class="hp-section" aria-labelledby="hp-ratgeber-links-title">
+    <div class="hp-wrap">
+      <h2 class="hp-section-title" id="hp-ratgeber-links-title">Themen rund um den Blechziegel</h2>
+      <ul class="hp-link-grid">
+        <li><a href="{{ routes.collections_url }}/pv-dachziegel"><strong>PV-Dachziegel</strong><span>Alle Modelle für Solarmontage</span></a></li>
+        <li><a href="{{ routes.collections_url }}/dachhaken"><strong>Dachhaken & PV-Schrauben</strong><span>Montagezubehör für Blechziegel</span></a></li>
+        <li><a href="{{ routes.collections_url }}/zubehoer"><strong>Zubehör-Übersicht</strong><span>Schrauben, Versteifungen, Haken</span></a></li>
+        <li><a href="{{ routes.root_url }}pages/ziegel-finder"><strong>Ziegel-Finder</strong><span>Modell in 3 Schritten finden</span></a></li>
+        <li><a href="{{ routes.root_url }}pages/hersteller"><strong>Hersteller-Übersicht</strong><span>Braas, Bramac, Creaton …</span></a></li>
+        <li><a href="{{ routes.root_url }}pages/montageanleitung-mit-dachhaken"><strong>Montage mit Dachhaken</strong><span>Schritt-für-Schritt-PDF</span></a></li>
+        <li><a href="{{ routes.root_url }}pages/montageanleitung-ohne-dachhaken"><strong>Montage ohne Dachhaken</strong><span>Reine Ersatzziegel-Variante</span></a></li>
+        <li><a href="{{ routes.root_url }}pages/versand"><strong>Versand & Lieferung</strong><span>DHL, 1–3 Werktage, ab 100 € frei</span></a></li>
+      </ul>
+    </div>
+  </section>
+
 </div>
+
+<style>
+  .hp-link-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+  .hp-link-grid a { display: block; background: #fff; border: 1px solid #DFDFDF; border-radius: 13px; padding: 16px 18px; color: #000; text-decoration: none; }
+  .hp-link-grid a strong { display: block; font-size: 15px; }
+  .hp-link-grid a span { display: block; font-size: 13px; color: rgba(0,0,0,0.6); margin-top: 4px; }
+  .hp-link-grid a:hover { border-color: #000; }
+  @media (max-width: 720px) { .hp-link-grid { grid-template-columns: 1fr; } }
+</style>
 
 <script type="application/ld+json">
 {

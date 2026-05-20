@@ -1734,6 +1734,39 @@
 {%- render 'bz-product-faq', product: product -%}
 {%- endcomment -%}
 
+{%- comment -%}══ SEO-LINKBOX (interne Verlinkung — Hub-and-Spoke fuer PDPs) ══{%- endcomment -%}
+<aside class="bz-seo-linkbox" aria-labelledby="bz-seo-linkbox-title">
+  <div class="bz-seo-linkbox__inner">
+    <h2 class="bz-seo-linkbox__title" id="bz-seo-linkbox-title">Passend zu diesem Produkt</h2>
+    <ul class="bz-seo-linkbox__list">
+      {%- if brand_handle != blank -%}
+        <li><a href="{{ routes.collections_url }}/{{ brand_handle }}">Alle Blechziegel von {{ brand_name }}</a></li>
+      {%- endif -%}
+      <li><a href="{{ routes.root_url }}pages/ziegel-finder">Ziegel-Finder: passendes Modell in 3 Schritten</a></li>
+      <li><a href="{{ routes.root_url }}pages/hersteller">Hersteller-Übersicht (Braas, Bramac, Creaton, Nelskamp …)</a></li>
+      <li><a href="{{ routes.root_url }}pages/ratgeber">Ratgeber: PV-Dachziegel richtig planen</a></li>
+      {%- unless template.suffix == 'zubehoer' -%}
+        <li><a href="{{ routes.collections_url }}/dachhaken">Passende Dachhaken & PV-Schrauben</a></li>
+      {%- endunless -%}
+      <li><a href="{{ routes.collections_url }}/zubehoer">Montage-Zubehör für Blechziegel</a></li>
+      <li><a href="{{ routes.root_url }}pages/montageanleitung-mit-dachhaken">Montageanleitung mit Dachhaken</a></li>
+      <li><a href="{{ routes.root_url }}pages/montageanleitung-ohne-dachhaken">Montageanleitung ohne Dachhaken</a></li>
+    </ul>
+  </div>
+</aside>
+<style>
+  .bz-seo-linkbox { max-width: 1280px; margin: 24px auto 0; padding: 0 20px; }
+  .bz-seo-linkbox__inner { background: #fff; border: 1px solid #DFDFDF; border-radius: 13px; padding: 24px 28px; }
+  .bz-seo-linkbox__title { font-family: var(--font-h3--family, Inter, sans-serif); font-size: 16px; letter-spacing: 0.05em; text-transform: uppercase; margin: 0 0 14px; color: #000; }
+  .bz-seo-linkbox__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px 24px; }
+  .bz-seo-linkbox__list a { color: #000; text-decoration: underline; font-size: 14px; line-height: 1.5; }
+  .bz-seo-linkbox__list a:hover { color: #333; }
+  @media (max-width: 720px) {
+    .bz-seo-linkbox__list { grid-template-columns: 1fr; }
+    .bz-seo-linkbox__inner { padding: 18px 18px; }
+  }
+</style>
+
 {%- comment -%}══ FEATURE-CARDS (full-width unter dem Produkt-Layout) ══{%- endcomment -%}
 <div class="bz-feature-cards-wrap">
   <div class="bz-feature-cards">
