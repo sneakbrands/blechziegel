@@ -237,7 +237,7 @@ Jeder Marketing-Output (Instagram-Carousel, Reel-Cover, E-Mail-Template, Landing
 - **Shadows:** sparsam — nur Drawer/Modal `0 4px 20px rgba(0,0,0,0.15)`. Cards haben Border, keinen Schatten.
 - **Logo:** nur schwarz auf hell oder weiss auf dunkel. Keine farbigen Varianten.
 
-Bei visuellen Assets gilt: **minimalistisch — die Farbe kommt aus den Produktfotos (Aluminium · Anthrazit RAL 2021 · Ziegelrot RAL 8004), nicht aus dem Template.**
+Bei visuellen Assets gilt: **minimalistisch — die Farbe kommt aus den Produktfotos (Aluminium · Anthrazit RAL 7021 · Ziegelrot RAL 8004), nicht aus dem Template.**
 
 ## Deployment-Routen (verbindlich — bei jeder Änderung anwenden)
 

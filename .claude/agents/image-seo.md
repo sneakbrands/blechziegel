@@ -33,7 +33,7 @@ Du fuehrst NIE autonome Uploads/Aenderungen aus — du erzeugst Berichte + Optim
 3. **Alt-Text-Vorschlaege** drafftet:
    - Pro Produktbild auf Basis von Produkt-Titel + Vendor + Variant-Optionen
    - Duuform, technisch, ohne Marketing-Floskeln (siehe blechziegel-Tonality)
-   - Max ~125 Zeichen, Pflichtkeyword vorne (z.B. "PV-Dachziegel Frankfurter Pfanne — Aluminium Anthrazit RAL 2021")
+   - Max ~125 Zeichen, Pflichtkeyword vorne (z.B. "PV-Dachziegel Frankfurter Pfanne — Aluminium Anthrazit RAL 7021")
 
 4. **Re-Upload-Plan** schreibt:
    - Welche Bilder ersetzt/zugefuegt werden
@@ -138,7 +138,7 @@ Pattern (deutsch, Du-Form-neutral, technisch):
 ```
 
 Beispiele:
-- `PV-Dachziegel · Frankfurter Pfanne – Aluminium Anthrazit RAL 2021`
+- `PV-Dachziegel · Frankfurter Pfanne – Aluminium Anthrazit RAL 7021`
 - `Ersatz-Blechziegel · Harzer Pfanne – Aluminium blank`
 - `Dachhaken · ASSYplus Dachhakenschraube – Edelstahl 8×280 mm`
 - `Versteifungsschiene · Universal-Schiene – Aluminium 1500 mm`
