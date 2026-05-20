@@ -116,9 +116,36 @@
   {%- unless _pt_lower contains _sn_lower %} &ndash; {{ shop.name }}{% endunless -%}
 </title>
 
+{%- liquid
+  # Canonical-Fallback: nie leer rendern, nie Filter-/Query-Parameter in den
+  # Canonical schreiben. Reihenfolge:
+  #   1. Shopify-canonical_url (bereinigt, ohne Query)
+  #   2. request.origin + request.path  (sicherer Fallback ohne Query)
+  assign _canonical = canonical_url | default: ''
+  if _canonical contains '?'
+    assign _canonical = _canonical | split: '?' | first
+  endif
+  if _canonical == blank
+    assign _canonical = request.origin | append: request.path
+  endif
+
+  # Noindex fuer System-/Funktionsseiten, damit kein Index-Bloat entsteht.
+  assign _noindex_page = false
+  if request.page_type == 'search' or request.page_type == 'cart'
+    assign _noindex_page = true
+  endif
+  if request.path contains '/account' or request.path contains '/challenge' or request.path contains '/policies/'
+    assign _noindex_page = true
+  endif
+-%}
+
+{%- if _noindex_page -%}
+  <meta name="robots" content="noindex, follow">
+{%- endif -%}
+
 <link
   rel="canonical"
-  href="{{ canonical_url }}"
+  href="{{ _canonical }}"
 >
 
 {% if page_description %}
