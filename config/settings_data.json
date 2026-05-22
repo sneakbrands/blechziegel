@@ -85,6 +85,16 @@
         "type": "shopify://apps/tidio-live-chat-chatbots/blocks/app-embed/1002274d-fb18-4939-98f6-5f05a8deeadc",
         "disabled": false,
         "settings": {}
+      },
+      "5004459476573512578": {
+        "type": "shopify://apps/conversios-ga4/blocks/app-embed/a5ed6aee-249e-497f-93bc-8eb285acecca",
+        "disabled": false,
+        "settings": {}
+      },
+      "3141728750423887031": {
+        "type": "shopify://apps/conversios-ga4/blocks/app-embed-body/a5ed6aee-249e-497f-93bc-8eb285acecca",
+        "disabled": false,
+        "settings": {}
       }
     },
     "color_schemes": {
