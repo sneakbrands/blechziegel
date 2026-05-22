@@ -136,7 +136,7 @@
     "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Inkl. Zollgebühren. Steuern, Rabatte und Versand werden beim Checkout berechnet.",
     "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Steuern, Rabatte und <a href=\"{{ link }}\">Versand</a> werden beim Checkout berechnet.",
     "taxes_at_checkout_shipping_at_checkout_without_policy": "Steuern, Rabatte und Versand werden beim Checkout berechnet.",
-    "checkout": "Auschecken",
+    "checkout": "Zur Kasse",
     "cart_title": "Warenkorb",
     "price": "Preis",
     "price_regular": "Normaler Preis",

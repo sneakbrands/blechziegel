@@ -259,6 +259,14 @@
                     {%- endif -%}
                   </div>
 
+                  <p class="cart-items__trust" aria-hidden="true">
+                    <span>Made in Germany</span>
+                    <span aria-hidden="true">·</span>
+                    <span>1–3 Werktage</span>
+                    <span aria-hidden="true">·</span>
+                    <span>Versandkostenfrei ab 100&nbsp;€</span>
+                  </p>
+
                   <div class="cart-items__unit-price-wrapper">
                     <div>
                       {% if item.original_price != item.final_price %}
@@ -548,6 +556,29 @@
     text-transform: var(--product-title-case);
     display: block;
     margin-block-start: calc((var(--font-size--md) - 1lh) / 2);
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  /* BZ: Trust-Zeile unter Varianten — dezent, nur auf /cart, im Drawer ausblenden */
+  .cart-items__trust {
+    margin: var(--margin-2xs) 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--font-size--xs, 0.75rem);
+    line-height: 1.4;
+    color: rgb(var(--color-foreground-rgb) / 0.55);
+  }
+
+  .cart-drawer .cart-items__trust {
+    display: none;
+  }
+
+  .cart-items__variants dd {
+    font-size: var(--font-size--sm);
+    line-height: 1.5;
   }
 
   .cart-items__variants {

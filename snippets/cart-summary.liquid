@@ -276,6 +276,7 @@
   {% if additional_checkout_buttons and settings.show_accelerated_checkout_buttons %}
     <div
       class="
+        cart__additional-checkout-buttons
         additional-checkout-buttons
         {% if accelerated_checkout_buttons_layout == 'vertical' %}additional-checkout-buttons--vertical{% endif %}
       "
@@ -604,5 +605,39 @@
     .cart-summary--extend {
       height: 100%;
     }
+  }
+
+  /* BZ: Express-Checkout-Wrapper defensiv sichern (keine eigene Logik,
+     nur garantieren, dass Shopifys natives Markup klickbar bleibt) */
+  .cart__additional-checkout-buttons,
+  .additional-checkout-buttons {
+    position: relative;
+    z-index: 1;
+    pointer-events: auto;
+    width: 100%;
+    min-height: 1px;
+  }
+
+  .cart__additional-checkout-buttons * {
+    pointer-events: auto;
+  }
+
+  /* BZ: Rabatt-Akkordeon visuell unterordnen — Funktion bleibt unverändert */
+  .cart-actions {
+    margin-block-start: var(--margin-md);
+    opacity: 0.92;
+  }
+
+  .cart-discount__summary,
+  .cart-note__summary {
+    padding-block: var(--padding-xs);
+  }
+
+  .cart-discount__label,
+  .cart-note__label {
+    font-size: var(--font-size--2xs);
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-subdued-text, 0.7));
+    text-transform: none;
+    letter-spacing: 0;
   }
 {% endstylesheet %}

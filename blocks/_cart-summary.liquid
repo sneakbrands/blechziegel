@@ -103,6 +103,29 @@
     border-radius: var(--border-radius);
   }
 
+  /* BZ Cart polish: card-look auf der /cart-Page (Drawer bleibt unverändert) */
+  .cart-page__summary .cart-summary__inner {
+    @media screen and (min-width: 750px) {
+      background-color: var(--color-background);
+      border: 1px solid var(--color-border);
+      border-radius: 14px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      padding: var(--padding-3xl) var(--padding-3xl) var(--padding-2xl);
+    }
+  }
+
+  /* Wenn Summary extended bis Viewport-Rand — verzichten wir auf den Card-Look
+     und geben dem inneren Container nur Atemraum. */
+  .cart-page__summary .cart-summary--extend .cart-summary__inner {
+    @media screen and (min-width: 750px) {
+      background-color: transparent;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      padding: var(--padding-3xl) var(--page-margin) var(--padding-4xl);
+    }
+  }
+
   @media screen and (max-width: 749px) {
     .inherit-parent-scheme--mobile {
       --color-background: inherit;
