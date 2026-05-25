@@ -232,7 +232,7 @@
       <p class="hp-hero__sub">
         Versand erfolgt täglich werktags ab unserem Lager in Nürnberg per DHL.
         Bestellungen bis 13 Uhr gehen am gleichen Tag raus — Lieferung deutschlandweit
-        in der Regel innerhalb 1–3 Werktagen.
+        in der Regel innerhalb {% render 'bz-lieferzeit', short: true %}.
       </p>
       <div class="hp-hero__trust">
         <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>DHL-Versand</div>
@@ -273,13 +273,13 @@
                   <div class="hp-delivery-row__name">DHL Standard
                     {%- if r.max %} (Bestellung &lt; {{ r.max | round }} €){%- elsif r.min and r.min > 0 %} (Bestellung &gt; {{ r.min | round }} €){% endif -%}
                   </div>
-                  <div class="hp-delivery-row__time">1–3 Werktage</div>
+                  <div class="hp-delivery-row__time">{% render 'bz-lieferzeit', short: true %}</div>
                 </div>
               {%- endfor -%}
             {%- else -%}
               <div class="hp-delivery-row">
                 <div class="hp-delivery-row__name">DHL Standard</div>
-                <div class="hp-delivery-row__time">1–3 Werktage</div>
+                <div class="hp-delivery-row__time">{% render 'bz-lieferzeit', short: true %}</div>
               </div>
             {%- endif -%}
             {%- comment -%} Express-Versand wurde aus dem Sortiment entfernt. Block bleibt als Dynamic-Stub falls künftig wieder aktiviert. {%- endcomment -%}

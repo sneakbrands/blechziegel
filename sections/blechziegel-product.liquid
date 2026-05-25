@@ -11,7 +11,16 @@
     Eine Quelle, mehrere Ausgabestellen. Leere Felder rendern nichts.
   endcomment
   assign cf_stock_label = section.settings.cf_stock_label | default: 'Lagerware'
-  assign cf_lead_time = section.settings.cf_lead_time | default: '1–3 Werktage'
+  assign cf_lead_time = section.settings.cf_lead_time
+  if cf_lead_time == blank
+    assign cf_lead_time = product.metafields.custom.lieferzeit
+  endif
+  if cf_lead_time == blank
+    assign cf_lead_time = shop.metafields.blechziegel.lieferzeit
+  endif
+  if cf_lead_time == blank
+    assign cf_lead_time = '1–3 Werktage'
+  endif
   assign cf_cutoff_hour = section.settings.cf_cutoff_hour | default: 13
   assign cf_carrier = section.settings.cf_carrier | default: 'DHL'
   assign cf_origin = section.settings.cf_origin | default: 'Made in Germany'
