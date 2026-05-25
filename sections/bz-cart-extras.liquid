@@ -1,0 +1,255 @@
+{%- comment -%}
+  bz-cart-extras
+  Custom Cart-Page-Erweiterungen unter dem nativen main-cart:
+   - Versandkostenfrei-Bar (wenn Warenkorb < 100 EUR)
+   - Trust-Zeile (DHL · Zahlarten · Versand & Zahlung)
+   - Empty-State Quick-Links (wenn cart.empty?)
+   - "Weiter einkaufen"-Sekundär-CTA
+  CI: Navy #0d1e35 + Orange #f5a623, Inter, 14px Radius
+{%- endcomment -%}
+
+{%- liquid
+  assign threshold_cents = 10000
+  assign remaining_cents = threshold_cents | minus: cart.total_price
+  assign progress_pct = cart.total_price | times: 100 | divided_by: threshold_cents
+  if progress_pct > 100
+    assign progress_pct = 100
+  endif
+-%}
+
+<section class="bz-cart-extras" aria-label="Versand- und Zahlungs-Hinweise">
+  <div class="bz-cart-extras__wrap">
+
+    {%- if cart.empty? -%}
+      <div class="bz-cart-empty">
+        <div class="bz-cart-empty__icon" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </div>
+        <h2 class="bz-cart-empty__title">Dein Warenkorb ist leer.</h2>
+        <p class="bz-cart-empty__sub">Such dir dein Modell — wir liefern in 1–3 Werktagen, ab 100&nbsp;€ versandkostenfrei.</p>
+        <div class="bz-cart-empty__grid">
+          <a href="{{ routes.root_url }}pages/ziegel-finder">
+            <strong>Ziegel-Finder öffnen</strong>
+            <span>Modell in 3 Schritten finden</span>
+          </a>
+          <a href="{{ routes.root_url }}pages/hersteller">
+            <strong>Nach Hersteller browsen</strong>
+            <span>Braas, Bramac, Creaton, Nelskamp …</span>
+          </a>
+          <a href="{{ routes.collections_url }}/pv-dachziegel">
+            <strong>Alle PV-Dachziegel</strong>
+            <span>Komplette Übersicht</span>
+          </a>
+          <a href="{{ routes.root_url }}pages/ratgeber">
+            <strong>Ratgeber lesen</strong>
+            <span>PV-Dachziegel richtig planen</span>
+          </a>
+        </div>
+      </div>
+    {%- else -%}
+      {%- if remaining_cents > 0 -%}
+        <div class="bz-cart-shipbar" role="status" aria-live="polite">
+          <p>Noch <strong>{{ remaining_cents | money }}</strong> bis zum kostenlosen Versand.</p>
+          <div class="bz-cart-shipbar__track" aria-hidden="true">
+            <div class="bz-cart-shipbar__fill" style="width: {{ progress_pct }}%"></div>
+          </div>
+        </div>
+      {%- else -%}
+        <div class="bz-cart-shipbar bz-cart-shipbar--reached" role="status" aria-live="polite">
+          <p><strong>Versandkostenfrei erreicht.</strong> Wir versenden per DHL, 1–3 Werktage deutschlandweit.</p>
+        </div>
+      {%- endif -%}
+
+      <div class="bz-cart-trust">
+        <span class="bz-cart-trust__item">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm12 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+          DHL · 1–3 Werktage
+        </span>
+        <span class="bz-cart-trust__item">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+          Vorkasse · SEPA · PayPal · Klarna
+        </span>
+        <span class="bz-cart-trust__item">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+          14 Tage Widerruf
+        </span>
+        <a class="bz-cart-trust__link" href="{{ routes.root_url }}pages/versand">Versand &amp; Zahlung im Detail →</a>
+      </div>
+
+      <a class="bz-cart-continue" href="{{ routes.collections_url }}/pv-dachziegel">
+        ← Weiter einkaufen
+      </a>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% stylesheet %}
+  .bz-cart-extras {
+    --bz-navy: #0d1e35;
+    --bz-orange: #f5a623;
+    --bz-orange-dark: #d4891a;
+    --bz-orange-light: #fff4e0;
+    --bz-gray-50: #f8f8f6;
+    --bz-gray-100: #f0efeb;
+    --bz-gray-text: #5a5955;
+    --bz-border: #e2e0d8;
+    --bz-white: #fff;
+    padding: 0 0 64px;
+    color: var(--bz-navy);
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+  }
+  .bz-cart-extras__wrap {
+    max-width: var(--page-width, 1280px);
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+  .bz-cart-shipbar {
+    background: var(--bz-orange-light);
+    border: 1px solid rgba(245, 166, 35, 0.3);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 0 0 16px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .bz-cart-shipbar--reached {
+    background: var(--bz-gray-50);
+    border-color: rgba(13, 30, 53, 0.08);
+  }
+  .bz-cart-shipbar p {
+    margin: 0;
+    color: var(--bz-navy);
+  }
+  .bz-cart-shipbar strong { font-weight: 700; }
+  .bz-cart-shipbar__track {
+    height: 6px;
+    background: var(--bz-white);
+    border-radius: 99px;
+    margin-top: 10px;
+    overflow: hidden;
+  }
+  .bz-cart-shipbar__fill {
+    height: 100%;
+    background: var(--bz-orange);
+    border-radius: 99px;
+    transition: width 220ms ease-out;
+  }
+  .bz-cart-trust {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 0;
+    border-top: 1px dashed var(--bz-border);
+    border-bottom: 1px dashed var(--bz-border);
+    margin: 16px 0;
+    font-size: 12px;
+    color: var(--bz-gray-text);
+  }
+  .bz-cart-trust__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .bz-cart-trust__item svg { color: var(--bz-orange); flex-shrink: 0; }
+  .bz-cart-trust__link {
+    margin-left: auto;
+    color: var(--bz-navy);
+    text-decoration: underline;
+    font-size: 12px;
+  }
+  .bz-cart-trust__link:hover { color: var(--bz-orange-dark); }
+  .bz-cart-continue {
+    display: inline-flex;
+    align-items: center;
+    color: var(--bz-navy);
+    text-decoration: none;
+    font-size: 14px;
+    padding: 8px 0;
+    border: none;
+    background: transparent;
+  }
+  .bz-cart-continue:hover { color: var(--bz-orange-dark); text-decoration: underline; }
+  .bz-cart-empty {
+    text-align: center;
+    padding: 40px 20px 20px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .bz-cart-empty__icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 18px;
+    border: 2px solid var(--bz-navy);
+    border-radius: 14px;
+    background: var(--bz-orange-light);
+    color: var(--bz-navy);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .bz-cart-empty__title {
+    font-family: 'Inter', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--bz-navy);
+    margin: 0 0 6px;
+  }
+  .bz-cart-empty__sub {
+    color: var(--bz-gray-text);
+    margin: 0 0 24px;
+    font-size: 14px;
+  }
+  .bz-cart-empty__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    text-align: left;
+  }
+  .bz-cart-empty__grid a {
+    display: block;
+    padding: 14px 16px;
+    background: var(--bz-white);
+    border: 1px solid var(--bz-border);
+    border-radius: 13px;
+    text-decoration: none;
+    color: var(--bz-navy);
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+  .bz-cart-empty__grid a:hover {
+    border-color: var(--bz-orange);
+    box-shadow: 0 4px 12px rgba(245, 166, 35, 0.10);
+  }
+  .bz-cart-empty__grid a strong {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 2px;
+    color: var(--bz-navy);
+  }
+  .bz-cart-empty__grid a span {
+    display: block;
+    color: var(--bz-gray-text);
+    font-size: 12px;
+  }
+  @media screen and (max-width: 600px) {
+    .bz-cart-empty__grid { grid-template-columns: 1fr; }
+    .bz-cart-trust { gap: 10px; font-size: 11px; }
+    .bz-cart-trust__link { margin-left: 0; flex-basis: 100%; text-align: left; padding-top: 4px; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BZ Cart Extras",
+  "settings": [],
+  "presets": [
+    {
+      "name": "BZ Cart Extras"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["cart"]
+  }
+}
+{% endschema %}
