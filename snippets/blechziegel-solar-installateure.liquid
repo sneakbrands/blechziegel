@@ -296,7 +296,7 @@
         <h1 id="si-hero-title">Blechziegel mit <span>integriertem Dachhaken.</span><br>Für jede PV-Montage.</h1>
         <p class="hp-hero__sub">
           Aluminium-Ersatzziegel passgenau zum Dachprofil — mit vorinstalliertem Dachhaken für K2,
-          Schletter, IBC, Renusol, Esdec & Co. Projektmengen mit Staffelpreis, Lieferung in 1–3 Werktagen.
+          Schletter, IBC, Renusol, Esdec & Co. Projektmengen mit Staffelpreis, Lieferung in {% render 'bz-lieferzeit', short: true %}.
         </p>
         <div class="hp-hero__cta">
           <a href="{{ contact_url }}" class="hp-btn hp-btn--primary">
@@ -311,7 +311,7 @@
         <div class="hp-hero__trust">
           <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Alle gängigen PV-Systeme</div>
           <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Dachhaken integriert</div>
-          <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Lieferzeit 1–3 Werktage</div>
+          <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Lieferzeit {% render 'bz-lieferzeit', short: true %}</div>
           <div class="hp-hero__trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.5-1.5z"/></svg>Projekt-Konditionen</div>
         </div>
       </div>
@@ -324,7 +324,7 @@
         <div class="hp-hero__facts">
           <div class="hp-hero__fact"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L4 6v6c0 5 3.4 9.5 8 10 4.6-.5 8-5 8-10V6l-8-4z"/></svg><span>PV-Systeme</span><span class="hp-hero__fact-num">5+</span></div>
           <div class="hp-hero__fact"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 13l-4-4h3V7h2v6h3l-4 4z"/></svg><span>Staffelpreis</span><span class="hp-hero__fact-num">ab 25 St.</span></div>
-          <div class="hp-hero__fact"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z"/></svg><span>Lieferzeit</span><span class="hp-hero__fact-num">1–3 Tage</span></div>
+          <div class="hp-hero__fact"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z"/></svg><span>Lieferzeit</span><span class="hp-hero__fact-num">{% render 'bz-lieferzeit', short: true %}</span></div>
           <div class="hp-hero__fact"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l9 4v6c0 5-3.8 9.5-9 10-5.2-.5-9-5-9-10V6l9-4z"/></svg><span>Lebensdauer</span><span class="hp-hero__fact-num">25+ Jahre</span></div>
         </div>
       </aside>
@@ -356,7 +356,7 @@
         <article class="hp-benefit">
           <div class="hp-benefit__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z"/></svg></div>
           <h3>Baustellengerechte Lieferung</h3>
-          <p>Kommissionierung nach Modell und Menge, paletten- oder DHL-Versand. Lagerware in 1–3 Werktagen, Sonderanfertigungen 1–3 Wochen.</p>
+          <p>Kommissionierung nach Modell und Menge, paletten- oder DHL-Versand. Lagerware in {% render 'bz-lieferzeit', short: true %}, Sonderanfertigungen 1–3 Wochen.</p>
         </article>
         <article class="hp-benefit">
           <div class="hp-benefit__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l9 4v6c0 5-3.8 9.5-9 10-5.2-.5-9-5-9-10V6l9-4zm-1 14l7-7-1.4-1.4L11 13.2 7.4 9.6 6 11l5 5z"/></svg></div>
@@ -640,7 +640,7 @@
     ]},
     { "@type": "WebPage", "@id": "{{ canonical }}#webpage", "url": "{{ canonical }}",
       "name": "Blechziegel für PV-Installateure & Solarteure — Dachhaken-Integration, Projektpreise",
-      "description": "Aluminium-Blechziegel für PV-Montagen mit integriertem Dachhaken. Kompatibel mit K2, Schletter, IBC, Renusol, Esdec. Projektstaffelpreise ab 25 Stück, 1–3 Werktage Lieferzeit, Made in Germany.",
+      "description": "Aluminium-Blechziegel für PV-Montagen mit integriertem Dachhaken. Kompatibel mit K2, Schletter, IBC, Renusol, Esdec. Projektstaffelpreise ab 25 Stück, {%- render 'bz-lieferzeit', short: true -%} Lieferzeit, Made in Germany.",
       "inLanguage": "de-DE",
       "isPartOf": { "@type": "WebSite", "url": "{{ shop.url }}/", "name": "{{ shop.name | escape }}" },
       "audience": { "@type": "BusinessAudience", "audienceType": "PV-Installateure, Solarteure, Solar-Generalunternehmer, Solar-Planer" }

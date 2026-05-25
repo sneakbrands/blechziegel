@@ -1281,7 +1281,7 @@
     <ul class="bz-benefits">
       <li>Passgenau für {{ hersteller_name }}-Modelle</li>
       <li>Made in Germany</li>
-      <li>Lieferzeit 1–3 Werktage</li>
+      <li>Lieferzeit {% render 'bz-lieferzeit', short: true %}</li>
       <li>Optimiert für PV-Montage (kein Bohren, kein Ziegelbruch)</li>
     </ul>
     <div class="bz-collection-hint">
@@ -1544,7 +1544,7 @@
     </details>
     <details>
       <summary>Wie schnell erfolgt die Lieferung?</summary>
-      <p>Bestellungen sind in der Regel in 1–3 Werktagen bei dir — Lagerware, Versand ab Deutschland.</p>
+      <p>Bestellungen sind in der Regel in {% render 'bz-lieferzeit', short: true %} bei dir — Lagerware, Versand ab Deutschland.</p>
     </details>
     <details>
       <summary>In welchen Farben sind die Blechziegel erhältlich?</summary>
@@ -1572,7 +1572,7 @@
   <div class="bz-col-seo-inner">
     <h2>PV-Dachziegel aus Aluminium – für alle gängigen Dachziegeltypen</h2>
     <p>Bei blechziegel.de finden Dachdecker, PV-Installateure und Privatkunden den passenden <strong>Ersatzziegel PV</strong> für ihre Dachziegelform. Unsere Aluminium-Blechziegel sind passgenau für Frankfurter Pfanne, Biberschwanz, Hohlfalzziegel und weitere Typen gefertigt.</p>
-    <p>Der <strong>PV-Dachziegel</strong> ersetzt den vorhandenen Tonziegel an der Montagestelle vollständig – kein Bohren, kein Ziegelbruch, keine Undichtigkeiten. Einfach entnehmen, einsetzen, Dachhaken positionieren, fertig. Lieferung in 1–3 Werktagen, Made in Germany.</p>
+    <p>Der <strong>PV-Dachziegel</strong> ersetzt den vorhandenen Tonziegel an der Montagestelle vollständig – kein Bohren, kein Ziegelbruch, keine Undichtigkeiten. Einfach entnehmen, einsetzen, Dachhaken positionieren, fertig. Lieferung in {% render 'bz-lieferzeit', short: true %}, Made in Germany.</p>
     <p>Alle <strong>Dachziegel Solar</strong>-Produkte sind in drei Farben erhältlich: Aluminium blank, Anthrazit RAL 7021 und Ziegelrot RAL 8004 – für eine optisch einwandfreie Integration in Ihr Dachbild.</p>
   </div>
 </section>

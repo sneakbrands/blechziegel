@@ -70,7 +70,11 @@
         <line x1="16" y1="2" x2="16" y2="6"/>
         <line x1="8" y1="2" x2="8" y2="6"/>
       </svg>
-      {{ section.settings.item_2 | default: 'Lieferzeit 1–3 Werktage' }}
+      {%- if section.settings.item_2 != blank -%}
+        {{ section.settings.item_2 }}
+      {%- else -%}
+        Lieferzeit {% render 'bz-lieferzeit', short: true %}
+      {%- endif -%}
     </li>
     <li>
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
